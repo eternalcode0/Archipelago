@@ -39,11 +39,11 @@ class MinishCapSettings(settings.Group):
     """ Settings for the launcher """
 
     class RomFile(settings.UserFilePath):
-        """File name of the Minish Cap US rom"""
+        """File name of the Minish Cap EU rom"""
 
-        copy_to = "Legend of Zelda, The - The Minish Cap (USA).gba"
+        copy_to = "Legend of Zelda, The - The Minish Cap (Europe).gba"
         description = "Minish Cap ROM File"
-        md5s = ["a104896da0047abe8bee2a6e3f4c7290"]
+        md5s = ["2af78edbe244b5de44471368ae2b6f0b"]
 
     rom_file: RomFile = RomFile(RomFile.copy_to)
     rom_start: bool = True
@@ -63,13 +63,13 @@ class MinishCapWorld(World):
     def generate_early(self) -> None:
         self.disabled_locations = set()
 
-    def create_location(self, region_name: str, location_name: str, local: bool):
-        region = self.multiworld.get_region(region_name, self.player)
-        location_id = self.location_name_to_id[location_name]
-        location = Location(self.player, location_name, location_id, region)
-        region.locations.append(location)
-        if local:
-            location.item_rule = lambda item: item.player == self.player
+    # def create_location(self, region_name: str, location_name: str, local: bool):
+    #     region = self.multiworld.get_region(region_name, self.player)
+    #     location_id = self.location_name_to_id[location_name]
+    #     location = Location(self.player, location_name, location_id, region)
+    #     region.locations.append(location)
+    #     if local:
+    #         location.item_rule = lambda item: item.player == self.player
 
     def create_regions(self) -> None:
         create_regions(self)
@@ -106,7 +106,6 @@ class MinishCapWorld(World):
 
         # And finally take as many fillers as we need to have the same amount of items and locations.
         remaining = len(all_locations) - len(required_items) - len(self.disabled_locations)
-        print(f"remaining: {remaining}")
         if remaining > 0:
             self.multiworld.itempool += [
                 self.create_item(filler_item_name) for filler_item_name in self.random.sample(filler_items, remaining)

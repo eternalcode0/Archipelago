@@ -1,6 +1,4 @@
-import typing
-
-from worlds.generic.Rules import add_rule, forbid_item
+from worlds.generic.Rules import add_rule
 
 from . import StateLogic
 
