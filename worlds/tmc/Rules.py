@@ -1,30 +1,28 @@
 from worlds.generic.Rules import add_rule
 
 from . import StateLogic
+from .Constants import LocationName
+
 
 def set_rules(world: "MinishCapWorld", excluded):
     add_rule(
-        world.get_location("Castle Intro - Smith's Sword"), lambda state: StateLogic.canShield(state, world.player)
+        world.get_location(LocationName.MINISH_VILLAGE_BARREL_HOUSE), lambda state: StateLogic.canAttack(state, world.player)
     )
 
     add_rule(
-        world.get_location("Minish Village - Barrel"), lambda state: StateLogic.canAttack(state, world.player)
+        world.get_location(LocationName.DWS_GUST_JAR), lambda state: state.has("Jabber Nut", world.player)
     )
 
     add_rule(
-        world.get_location("DWS - Gust Jar"), lambda state: state.has("Jabber Nut", world.player)
+        world.get_location(LocationName.DWS_MADDERPILLAR_HEART_PIECE), lambda state: state.has("Gust Jar", world.player)
     )
 
     add_rule(
-        world.get_location("DWS - Heart Piece after Madderpillar"), lambda state: state.has("Gust Jar", world.player)
+        world.get_location(LocationName.DWS_2F_RED_RUPEE), lambda state: state.has("Gust Jar", world.player)
     )
 
     add_rule(
-        world.get_location("DWS - Red Rupee Chest before Boss"), lambda state: state.has("Gust Jar", world.player)
-    )
-
-    add_rule(
-        world.get_location("DWS - Boss Heart Container"), lambda state: state.has("Gust Jar", world.player)
+        world.get_location(LocationName.DWS_BOSS_HEART_CONTAINER), lambda state: state.has("Gust Jar", world.player)
     )
 
     add_rule(

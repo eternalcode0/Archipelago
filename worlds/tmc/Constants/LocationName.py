@@ -1,0 +1,10 @@
+""" A list of all the locations """
+
+SMITH_HOUSE_RUPEE = "Smith House: 20 Rupee Chest"
+SMITH_HOUSE_SWORD = "Smith House: Smith's Sword"
+SMITH_HOUSE_SHIELD = "Smith House: Small Shield"
+MINISH_VILLAGE_BARREL_HOUSE = "Minish Village - Barrel House"
+DWS_GUST_JAR = "DWS - Gust Jar"
+DWS_MADDERPILLAR_HEART_PIECE = "DWS - Heart Piece after Madderpillar"
+DWS_2F_RED_RUPEE = "DWS - Red Rupee Chest before Boss"
+DWS_BOSS_HEART_CONTAINER = "DWS - Boss Heart Container"

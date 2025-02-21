@@ -12,7 +12,7 @@ class MinishCapProcedurePatch(APProcedurePatch, APTokenMixin):
     result_file_ending = ".gba"
 
     procedure = [
-        # ("apply_bsdiff4", ["base_patch.bsdiff4"]),
+        ("apply_bsdiff4", ["base_patch.bsdiff4"]),
         ("apply_tokens", ["token_data.bin"]),
     ]
 

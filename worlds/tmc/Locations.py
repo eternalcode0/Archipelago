@@ -1,6 +1,7 @@
 import typing
 
 from BaseClasses import Location
+from .Constants import LocationName
 
 
 BASE_LOCATION_ID = 27022001000
@@ -20,26 +21,22 @@ class MinishCapLocation(Location):
 
 
 smith_house: typing.List[LocationData] = [
-    LocationData(27022001000, "Smith House Chest", 0xf25aa, (0x2CDE, 0x40), 0x1122),
+    LocationData(27022001000, LocationName.SMITH_HOUSE_RUPEE, 0xf25aa, (0x2CDE, 0x40), 0x1122),
+    LocationData(27022001001, LocationName.SMITH_HOUSE_SWORD, None, (0x2CF5, 0x01), 0x1122), # New location from base patch after intro skip
+    LocationData(27022001002, LocationName.SMITH_HOUSE_SHIELD, None, (0x2CF5, 0x02), 0x1122), # New location from base patch after intro skip
 ]
 
-intro_town: typing.List[LocationData] = [
-    LocationData(27022001002, "Town Intro - Small Shield", None, (0x2C9F, 0x10), 0x0015),
-]
-
-intro_castle: typing.List[LocationData] = [
-    LocationData(27022001001, "Castle Intro - Smith's Sword", None, (0x2B3F, 0x04), 0x0280), # Technically belongs to the given broken picori blade but you get both at the same time anyway
-]
+hyrule_town: typing.List[LocationData] = []
 
 minish_village: typing.List[LocationData] = [
-    LocationData(27022001003, "Minish Village - Barrel", None, (0x2B48, 0x40), 0x0920),
+    LocationData(27022001003, LocationName.MINISH_VILLAGE_BARREL_HOUSE, None, (0x2B48, 0x40), 0x0920),
 ]
 
 dungeon_dws: typing.List[LocationData] = [
-    LocationData(27022001004, "DWS - Gust Jar", None, (0x2D3F, 0x08), 0x0048),
-    LocationData(27022001005, "DWS - Heart Piece after Madderpillar", None, (0x2D46, 0x04), 0x0548),
-    LocationData(27022001006, "DWS - Red Rupee Chest before Boss", None, (0x2D45, 0x04), 0x1748),
-    LocationData(27022001007, "DWS - Boss Heart Container", None, (0x2D44, 0x80), 0x0049),
+    LocationData(27022001004, LocationName.DWS_GUST_JAR, None, (0x2D3F, 0x08), 0x0048),
+    LocationData(27022001005, LocationName.DWS_MADDERPILLAR_HEART_PIECE, None, (0x2D46, 0x04), 0x0548),
+    LocationData(27022001006, LocationName.DWS_2F_RED_RUPEE, None, (0x2D45, 0x04), 0x1748),
+    LocationData(27022001007, LocationName.DWS_BOSS_HEART_CONTAINER, None, (0x2D44, 0x80), 0x0049),
     # LocationData(27022001008, "DWS - Slug Torch Room - Small Key", None, None, 0x1048),
     # LocationData(27022001009, "DWS - Dungeon Map Chest", None, None, 0x0548),
     # LocationData(27022001010, "DWS - 2 Pillar Room - Small Key", None, None, 0x0448),
@@ -66,8 +63,7 @@ preSeedLocations: typing.List[MinishCapLocation] = [
 ]
 
 all_locations: typing.List[MinishCapLocation] = (smith_house
-    + intro_town
-    + intro_castle
+    + hyrule_town
     + minish_village
     + dungeon_dws
 )

@@ -2,7 +2,7 @@ import typing
 
 from . import StateLogic
 from BaseClasses import Region, Entrance
-from .Locations import (MinishCapLocation, LocationData, intro_town, intro_castle, smith_house, dungeon_dws, minish_village, goal)
+from .Locations import (MinishCapLocation, LocationData, hyrule_town, smith_house, dungeon_dws, minish_village, goal)
 
 if typing.TYPE_CHECKING:
     from . import MinishCapWorld
@@ -12,8 +12,7 @@ def create_regions(world: "MinishCapWorld"):
     world.multiworld.regions.append(menu_region)
 
     create_region(world, "Smith House", smith_house)
-    create_region(world, "Intro Town", intro_town)
-    create_region(world, "Intro Castle", intro_castle)
+    create_region(world, "Hyrule Town", hyrule_town)
     create_region(world, "Minish Village", minish_village)
     create_region(world, "Deepwood Shrine", dungeon_dws)
     create_region(world, "DWS - Boss", goal)
@@ -58,8 +57,7 @@ def connect_regions(world: "MinishCapWorld"):
     names: typing.Dict[str, int] = {}
 
     connect(world, names, "Menu", "Smith House")
-    connect(world, names, "Menu", "Intro Town")
-    connect(world, names, "Intro Town", "Intro Castle", lambda state: StateLogic.canShield(state, world.player))
-    connect(world, names, "Intro Castle", "Minish Village", lambda state: StateLogic.canAttack(state, world.player))
+    connect(world, names, "Smith House", "Hyrule Town")
+    connect(world, names, "Hyrule Town", "Minish Village", lambda state: StateLogic.canAttack(state, world.player) and StateLogic.canShield(state, world.player))
     connect(world, names, "Minish Village", "Deepwood Shrine", lambda state: state.has("Jabber Nut", world.player))
     connect(world, names, "Deepwood Shrine", "DWS - Boss", lambda state: state.has("Gust Jar", world.player))
