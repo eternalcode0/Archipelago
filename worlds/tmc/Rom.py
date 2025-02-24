@@ -2,7 +2,7 @@ from worlds.Files import APProcedurePatch, APTokenMixin, APTokenTypes
 from settings import get_settings
 from BaseClasses import Item
 
-from .Locations import location_table, all_locations
+from .Locations import location_table_by_name, all_locations
 from .Items import itemList, item_table
 
 class MinishCapProcedurePatch(APProcedurePatch, APTokenMixin):
@@ -24,9 +24,6 @@ class MinishCapProcedurePatch(APProcedurePatch, APTokenMixin):
         return base_rom_bytes
 
 def write_tokens(world: "MinishCapWorld", patch: MinishCapProcedurePatch) -> None:
-    # Intro skip
-    # patch.write_token(APTokenTypes.WRITE, 0x2002ce4, bytes([0x40]))
-
     # Test write static item into static location
     # Smith house chest - Area 0x22 - Room 0x11 - Number - 0x00
     # patch.write_token(APTokenTypes.WRITE, 0xf25aa, bytes([0x36]))
@@ -39,14 +36,15 @@ def write_tokens(world: "MinishCapWorld", patch: MinishCapProcedurePatch) -> Non
     # patch.write_token(APTokenTypes.WRITE, 0xDE176, bytes([0x36]))
 
     # Patch Items into Locations
-    # for location_name in location_table.keys():
-    #     if location_name in world.disabled_locations:
-    #         continue
-    #     location = world.get_location(location_name)
-    #     item = location.item
-    #     print(location.address)
-    #     # address = [address for address in all_locations if address.name == location.name]
-    #     item_inject(world, patch, location.address, item)
+    for location_name in location_table_by_name.keys():
+        if location_name in world.disabled_locations:
+            continue
+        location = world.get_location(location_name)
+        item = location.item
+        address = location_table_by_name[location.name].romLoc
+        # Temporary if statement until I fill in all the rom addresses for each location
+        if address is not None:
+            item_inject(world, patch, address, item)
 
     patch.write_file("token_data.bin", patch.get_token_binary())
 

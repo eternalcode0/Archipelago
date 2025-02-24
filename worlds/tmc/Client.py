@@ -5,7 +5,7 @@ import asyncio
 
 import worlds._bizhawk as bizhawk
 from worlds._bizhawk.client import BizHawkClient
-from .Locations import all_locations, LocationData
+from .Locations import all_locations, LocationData, LOC_TYPE_GROUND
 from .Items import items_by_id
 
 if TYPE_CHECKING:
@@ -41,6 +41,7 @@ RAM_ADDRS = {
     "received_index": (0x2A4A, 2, "EWRAM"),
 }
 
+
 class MinishCapClient(BizHawkClient):
     game = "The Minish Cap"
     system = "GBA"
@@ -48,12 +49,14 @@ class MinishCapClient(BizHawkClient):
     local_checked_locations: Set[int]
     location_name_to_id: Dict[str, int]
     location_by_room_area: Dict[int, [LocationData]]
+    room: int
 
     def __init__(self) -> None:
         super().__init__()
         self.location_name_to_id = {loc_data.name: loc_data.locCode for loc_data in all_locations}
         self.local_checked_locations = set()
         self.location_by_room_area = {}
+        self.room = 0x0000
 
         for loc in all_locations:
             if loc.roomArea in self.location_by_room_area:
@@ -66,7 +69,6 @@ class MinishCapClient(BizHawkClient):
             # Check ROM name/patch version
             rom_name_bytes = (await bizhawk.read(ctx.bizhawk_ctx, [ROM_ADDRS["game_identifier"]]))[0]
             rom_name = bytes([byte for byte in rom_name_bytes if byte != 0]).decode("ascii")
-            print(rom_name)
             if rom_name != "GBAZELDA":
                 return False
         except UnicodeDecodeError:
@@ -77,7 +79,7 @@ class MinishCapClient(BizHawkClient):
         ctx.game = self.game
         ctx.items_handling = 0b101
         ctx.want_slot_data = True
-        ctx.watcher_timeout = 1
+        ctx.watcher_timeout = 0.25
 
         return True
 
@@ -96,7 +98,6 @@ class MinishCapClient(BizHawkClient):
             ])
             if read_result is None:
                 return
-            # [game_state, room_area_id] = read_result
             game_state = read_result[0][0]
             room_area_id = int.from_bytes(read_result[1], "little")
             link_control = read_result[2][0]
@@ -157,8 +158,40 @@ class MinishCapClient(BizHawkClient):
                         self.local_checked_locations.add(loc.id)
 
             # Send location checks
-            if locs_to_send is not None:
+            if len(locs_to_send) > 0:
                 await ctx.send_msgs([{"cmd": "LocationChecks", "locations": list(locs_to_send)}])
+
+            # Player moved to a new room
+            if self.room != room_area_id:
+                # Location Scouting
+                if self.room in self.location_by_room_area:
+                    location_scouts = set()
+                    for loc in self.location_by_room_area[self.room]:
+                        if loc.id in self.local_checked_locations or loc.locType != LOC_TYPE_GROUND:
+                            continue
+
+                        location_scouts.add(loc.id)
+
+                    if len(location_scouts) > 0:
+                        await ctx.send_msgs(
+                            [{
+                                "cmd": "LocationScouts",
+                                "locations": list(location_scouts),
+                                "create_as_hint": 2
+                            }]
+                        )
+
+                self.room = room_area_id
+                # Room sync for poptracker tab tracking
+                await ctx.send_msgs(
+                    [{
+                        "cmd": "Set",
+                        "key": f"tmc_room_{ctx.team}_{ctx.slot}",
+                        "default": 0,
+                        "want_reply": False,
+                        "operations": [{"operation": "replace", "value": room_area_id}]
+                    }]
+                )
 
             # Send game clear
 

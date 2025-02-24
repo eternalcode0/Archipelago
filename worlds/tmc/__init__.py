@@ -5,14 +5,14 @@ Handles the Web page for yaml generation, saving rom file and high-level generat
 
 import pkgutil
 import typing
-from typing import Set
+from typing import Set, Dict
 import os
 import settings
 from BaseClasses import Tutorial, Item, Region, Location, LocationProgressType, ItemClassification
 from worlds.AutoWorld import WebWorld, World
 from .Options import MinishCapOptions
 from .Items import ItemData, itemList, item_frequencies, item_table, MinishCapItem
-from .Locations import all_locations, location_table
+from .Locations import all_locations
 from .Client import MinishCapClient
 from .Regions import create_regions, connect_regions
 from .Rom import MinishCapProcedurePatch, write_tokens
@@ -63,13 +63,11 @@ class MinishCapWorld(World):
     def generate_early(self) -> None:
         self.disabled_locations = set()
 
-    # def create_location(self, region_name: str, location_name: str, local: bool):
-    #     region = self.multiworld.get_region(region_name, self.player)
-    #     location_id = self.location_name_to_id[location_name]
-    #     location = Location(self.player, location_name, location_id, region)
-    #     region.locations.append(location)
-    #     if local:
-    #         location.item_rule = lambda item: item.player == self.player
+    def fill_slot_data(self) -> Dict[str, any]:
+        return {
+            "RupeeSpot": self.options.rupeesanity.value,
+            "SpecialPot": self.options.special_pots.value,
+        }
 
     def create_regions(self) -> None:
         create_regions(self)
@@ -114,6 +112,7 @@ class MinishCapWorld(World):
     def set_rules(self) -> None:
         set_rules(self, self.disabled_locations)
         self.multiworld.completion_condition[self.player] = lambda state: state.has("Victory", self.player)
+        # self.multiworld.completion_condition[self.player] = lambda state: state.has("Earth Element", self.player) and state.has("Water Element", self.player) and state.has("Fire Element", self.player) and state.has("Wind Element", self.player)
 
     def generate_output(self, output_directory: str) -> None:
         patch = MinishCapProcedurePatch(player = self.player, player_name = self.multiworld.player_name[self.player])
