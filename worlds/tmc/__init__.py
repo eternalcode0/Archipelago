@@ -11,7 +11,7 @@ import settings
 from BaseClasses import Tutorial, Item, Region, Location, LocationProgressType, ItemClassification
 from worlds.AutoWorld import WebWorld, World
 from .Options import MinishCapOptions
-from .Items import ItemData, itemList, item_frequencies, item_table, MinishCapItem
+from .Items import ItemData, item_frequencies, item_table, MinishCapItem, itemList
 from .Locations import all_locations
 from .Client import MinishCapClient
 from .Regions import create_regions, connect_regions
@@ -73,9 +73,6 @@ class MinishCapWorld(World):
         create_regions(self)
         connect_regions(self)
 
-        item = MinishCapItem("Victory", ItemClassification.progression, None, self.player)
-        self.get_location("DWS - Green ChuChu").place_locked_item(item)
-
     def create_item(self, name: str) -> Item:
         item = item_table[name]
         return Item(name, item.classification, self.item_name_to_id[name], self.player)
@@ -111,7 +108,7 @@ class MinishCapWorld(World):
 
     def set_rules(self) -> None:
         set_rules(self, self.disabled_locations)
-        self.multiworld.completion_condition[self.player] = lambda state: state.has("Victory", self.player)
+        self.multiworld.completion_condition[self.player] = lambda state: state.has("Earth Element", self.player)
         # self.multiworld.completion_condition[self.player] = lambda state: state.has("Earth Element", self.player) and state.has("Water Element", self.player) and state.has("Fire Element", self.player) and state.has("Wind Element", self.player)
 
     def generate_output(self, output_directory: str) -> None:

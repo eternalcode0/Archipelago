@@ -161,8 +161,8 @@ class MinishCapClient(BizHawkClient):
             if len(locs_to_send) > 0:
                 await ctx.send_msgs([{"cmd": "LocationChecks", "locations": list(locs_to_send)}])
 
-            # Player moved to a new room
-            if self.room != room_area_id:
+            # Player moved to a new room that isn't the pause menu. Pause menu `room_area_id` == 0x0000
+            if self.room != room_area_id and room_area_id != 0x0000:
                 # Location Scouting
                 if self.room in self.location_by_room_area:
                     location_scouts = set()
