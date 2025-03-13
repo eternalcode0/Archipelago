@@ -24,17 +24,6 @@ class MinishCapProcedurePatch(APProcedurePatch, APTokenMixin):
         return base_rom_bytes
 
 def write_tokens(world: "MinishCapWorld", patch: MinishCapProcedurePatch) -> None:
-    # Test write static item into static location
-    # Smith house chest - Area 0x22 - Room 0x11 - Number - 0x00
-    # patch.write_token(APTokenTypes.WRITE, 0xf25aa, bytes([0x36]))
-    # Minish barrel - Doesn't work
-    # patch.write_token(APTokenTypes.WRITE, 0xDA283, bytes([0x36]))
-    # Minish Dock - Area 01 - Room 01
-    # patch.write_token(APTokenTypes.WRITE, 0xDBCC7, bytes([0x36]))
-
-    # Deepwood Shrine - Area 48 - Room 04
-    # patch.write_token(APTokenTypes.WRITE, 0xDE176, bytes([0x36]))
-
     # Patch Items into Locations
     for location_name in location_table_by_name.keys():
         if location_name in world.disabled_locations:
@@ -43,7 +32,7 @@ def write_tokens(world: "MinishCapWorld", patch: MinishCapProcedurePatch) -> Non
         item = location.item
         loc = location_table_by_name[location.name]
         # Temporary if statement until I fill in all the rom addresses for each location
-        if loc.romLoc is not None and isinstance(loc.romLoc, int):
+        if loc.rom_addr[0] is not None:
             item_inject(world, patch, location_table_by_name[location.name], item)
 
     patch.write_file("token_data.bin", patch.get_token_binary())
@@ -51,14 +40,15 @@ def write_tokens(world: "MinishCapWorld", patch: MinishCapProcedurePatch) -> Non
 def item_inject(world: "MinishCapWorld", patch: MinishCapProcedurePatch, location: LocationData, item: Item):
     # If the item belongs to that player than just use that item id (sprite id?)
     it = item_table[item.name]
-    if it.subID != 0x00:
-        print(it)
+
     if item.player == world.player:
-        if location.romSubLoc is not None:
-            patch.write_token(APTokenTypes.WRITE, location.romLoc, bytes([it.itemID]))
-            patch.write_token(APTokenTypes.WRITE, location.romSubLoc, bytes([it.subID]))
+        # If the location has a secondary address for the sub id, write to the 2 different addresses
+        if location.rom_addr[1] is not None:
+            patch.write_token(APTokenTypes.WRITE, location.rom_addr[0], bytes([it.byte_ids[0]]))
+            patch.write_token(APTokenTypes.WRITE, location.rom_addr[1], bytes([it.byte_ids[1]]))
+        # Otherwise the sub id should be immediately after the first address
         else:
-            patch.write_token(APTokenTypes.WRITE, location.romLoc, bytes([it.itemID, it.subID]))
+            patch.write_token(APTokenTypes.WRITE, location.rom_addr[0], bytes(list(it.byte_ids)))
     # Else use a substitute item id (sprite id?)
     else:
-        patch.write_token(APTokenTypes.WRITE, location.romLoc, bytes([0x5A])) # Debug Book (Eventually use a patched in AP logo item? Prob item id 0x5A)
+        patch.write_token(APTokenTypes.WRITE, location.rom_addr[0], bytes([0x18])) # Debug Book (Eventually use a patched in AP logo item? Prob item id 0x5A)

@@ -53,7 +53,7 @@ class MinishCapClient(BizHawkClient):
 
     def __init__(self) -> None:
         super().__init__()
-        self.location_name_to_id = {loc_data.name: loc_data.locCode for loc_data in all_locations}
+        self.location_name_to_id = {loc_data.name: loc_data.ram_addr for loc_data in all_locations}
         self.local_checked_locations = set()
         self.location_by_room_area = {}
         self.room = 0x0000
@@ -151,8 +151,8 @@ class MinishCapClient(BizHawkClient):
                 for loc in self.location_by_room_area[room_area_id]:
                     if loc.id in self.local_checked_locations:
                         continue
-                    loc_bytes = await bizhawk.read(ctx.bizhawk_ctx, [(loc.locCode[0], 1, "EWRAM")])
-                    if loc_bytes[0][0] | loc.locCode[1] == loc_bytes[0][0]:
+                    loc_bytes = await bizhawk.read(ctx.bizhawk_ctx, [(loc.ram_addr[0], 1, "EWRAM")])
+                    if loc_bytes[0][0] | loc.ram_addr[1] == loc_bytes[0][0]:
                         # Add the the pending send list and the local checked locations to skip checking again
                         locs_to_send.add(loc.id)
                         self.local_checked_locations.add(loc.id)

@@ -56,7 +56,7 @@ class MinishCapWorld(World):
     options_dataclass = MinishCapOptions
     options: MinishCapOptions
     settings: typing.ClassVar[MinishCapSettings]
-    item_name_to_id = {name: data.itemID for name, data in item_table.items()}
+    item_name_to_id = {name: data.item_id for name, data in item_table.items()}
     location_name_to_id = {loc_data.name: loc_data.id for loc_data in all_locations}
     disabled_locations: Set[str]
 
@@ -83,10 +83,10 @@ class MinishCapWorld(World):
         precollected = [item for item in itemList if item in self.multiworld.precollected_items]
         for item in itemList:
             if item.classification not in (ItemClassification.filler, ItemClassification.skip_balancing):
-                freq = item_frequencies.get(item.itemName, 1)
+                freq = item_frequencies.get(item.item_name, 1)
                 if item in precollected:
                     freq = max(freq - precollected.count(item), 0)
-                required_items += [item.itemName for _ in range(freq)]
+                required_items += [item.item_name for _ in range(freq)]
 
         for item_name in required_items:
             self.multiworld.itempool.append(self.create_item(item_name))
@@ -96,8 +96,8 @@ class MinishCapWorld(World):
         for item in itemList:
             if item.classification != ItemClassification.filler:
                 continue
-            freq = item_frequencies.get(item.itemName, 1)
-            filler_items += [item.itemName for _ in range(freq)]
+            freq = item_frequencies.get(item.item_name, 1)
+            filler_items += [item.item_name for _ in range(freq)]
 
         # And finally take as many fillers as we need to have the same amount of items and locations.
         remaining = len(all_locations) - len(required_items) - len(self.disabled_locations)
@@ -108,8 +108,8 @@ class MinishCapWorld(World):
 
     def set_rules(self) -> None:
         set_rules(self, self.disabled_locations)
-        self.multiworld.completion_condition[self.player] = lambda state: state.has("Earth Element", self.player)
-        # self.multiworld.completion_condition[self.player] = lambda state: state.has("Earth Element", self.player) and state.has("Water Element", self.player) and state.has("Fire Element", self.player) and state.has("Wind Element", self.player)
+        # self.multiworld.completion_condition[self.player] = lambda state: state.has("Earth Element", self.player)
+        self.multiworld.completion_condition[self.player] = lambda state: state.has("Earth Element", self.player) and state.has("Water Element", self.player) and state.has("Fire Element", self.player) and state.has("Wind Element", self.player)
 
     def generate_output(self, output_directory: str) -> None:
         patch = MinishCapProcedurePatch(player = self.player, player_name = self.multiworld.player_name[self.player])

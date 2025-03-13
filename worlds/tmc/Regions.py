@@ -103,6 +103,14 @@ def connect_regions(world: "MinishCapWorld"):
     connect(world, names, TMCRegion.NORTH_FIELD, TMCRegion.LOWER_FALLS)
     connect(world, names, TMCRegion.NORTH_FIELD, TMCRegion.VALLEY)
 
+    connect(world, names, TMCRegion.CASTLE_EXTERIOR, TMCRegion.DUNGEON_DHC)
+
+    connect(world, names, TMCRegion.LOWER_FALLS, TMCRegion.UPPER_FALLS)
+    connect(world, names, TMCRegion.UPPER_FALLS, TMCRegion.CLOUDS)
+
+    connect(world, names, TMCRegion.CLOUDS, TMCRegion.WIND_TRIBE)
+    connect(world, names, TMCRegion.CLOUDS, TMCRegion.DUNGEON_POW)
+
     connect(world, names, TMCRegion.VALLEY, TMCRegion.DUNGEON_CRYPT)
 
     connect(world, names, TMCRegion.SWAMP, TMCRegion.RUINS)
