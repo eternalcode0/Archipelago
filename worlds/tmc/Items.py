@@ -6,8 +6,7 @@ class ItemData(typing.NamedTuple):
     item_name: str
     classification: ItemClassification
     byte_ids: typing.Tuple[int, int]
-    """The address in EWRAM to assign when the item is obtained. 1st = address, 2nd = bit flag"""
-    address: typing.Tuple[int, int] = None
+    handler: typing.Callable[[object, object], bool] = None
 
     @property
     def item_id(self): return (self.byte_ids[0] << 8) + self.byte_ids[1]
@@ -16,7 +15,21 @@ class ItemData(typing.NamedTuple):
 class MinishCapItem(Item):
     game: str = "The Minish Cap"
 
-SMITHS_SWORD          = ItemData("Smith's Sword",                ItemClassification.progression, (0x01, 0x00), (0x2B32, 0x04))
+def handler_flag(ram_address: int, bit_flag: int):
+    async def handler(bizhawk, ctx) -> bool:
+        read_result: bytes = (await bizhawk.read(ctx.bizhawk_ctx, [(ram_address, 1, "EWRAM")]))[0]
+        current = int.from_bytes(read_result, "little")
+        new: int = current | bit_flag
+
+        # Write to the address if it hasn't changed
+        return await bizhawk.guarded_write(
+            ctx.bizhawk_ctx,
+            [(ram_address, [new], "EWRAM")],
+            [(ram_address, [current], "EWRAM")]
+        )
+    return handler
+
+SMITHS_SWORD          = ItemData("Smith's Sword",                ItemClassification.progression, (0x01, 0x00), handler_flag(0x2B32, 0x04))
 WHITE_SWORD_GREEN     = ItemData("White Sword (Green)",          ItemClassification.progression, (0x02, 0x00), None)
 WHITE_SWORD_RED       = ItemData("White Sword (Red)",            ItemClassification.progression, (0x03, 0x00), None)
 WHITE_SWORD_BLUE      = ItemData("White Sword (Blue)",           ItemClassification.progression, (0x04, 0x00), None)
@@ -28,17 +41,17 @@ BOW                   = ItemData("Bow",                          ItemClassificat
 LIGHT_ARROW           = ItemData("Light Arrow",                  ItemClassification.progression, (0x0A, 0x00), None)
 BOOMERANG             = ItemData("Boomerang",                    ItemClassification.progression, (0x0B, 0x00), None)
 MAGIC_BOOMERANG       = ItemData("Magic Boomerang",              ItemClassification.progression, (0x0C, 0x00), None)
-SHIELD                = ItemData("Shield",                       ItemClassification.progression, (0x0D, 0x00), (0x2B35, 0x04))
+SHIELD                = ItemData("Shield",                       ItemClassification.progression, (0x0D, 0x00), handler_flag(0x2B35, 0x04))
 MIRROR_SHIELD         = ItemData("Mirror Shield",                ItemClassification.progression, (0x0E, 0x00), None)
 # LANTERN             = ItemData("Lantern",                      ItemClassification.progression, (0x0F, 0x00), None) Lantern has two different item ids representing on and off
-LANTERN               = ItemData("Lantern",                      ItemClassification.progression, (0x10, 0x00), None)
-GUST_JAR              = ItemData("Gust Jar",                     ItemClassification.progression, (0x11, 0x00), (0x2B36, 0x04))
-CANE_OF_PACCI         = ItemData("Cane of Pacci",                ItemClassification.progression, (0x12, 0x00), None)
-MOLE_MITTS            = ItemData("Mole Mitts",                   ItemClassification.progression, (0x13, 0x00), None)
-ROCS_CAPE             = ItemData("Roc's Cape",                   ItemClassification.progression, (0x14, 0x00), None)
-PEGASUS_BOOTS         = ItemData("Pegasus Boots",                ItemClassification.progression, (0x15, 0x00), None)
+LANTERN               = ItemData("Lantern",                      ItemClassification.progression, (0x10, 0x00), handler_flag(0x2B35, 0x40))
+GUST_JAR              = ItemData("Gust Jar",                     ItemClassification.progression, (0x11, 0x00), handler_flag(0x2B36, 0x04))
+CANE_OF_PACCI         = ItemData("Cane of Pacci",                ItemClassification.progression, (0x12, 0x00), handler_flag(0x2B36, 0x10))
+MOLE_MITTS            = ItemData("Mole Mitts",                   ItemClassification.progression, (0x13, 0x00), handler_flag(0x2B36, 0x40))
+ROCS_CAPE             = ItemData("Roc's Cape",                   ItemClassification.progression, (0x14, 0x00), handler_flag(0x2B37, 0x01))
+PEGASUS_BOOTS         = ItemData("Pegasus Boots",                ItemClassification.progression, (0x15, 0x00), handler_flag(0x2B37, 0x04))
 # FIRE_ROD            = ItemData("Fire Rod",                     ItemClassification.progression, (0x16, 0x00), None) Fire rod is a leftover item from development that wasn't used
-OCARINA               = ItemData("Ocarina",                      ItemClassification.progression, (0x17, 0x00), None)
+OCARINA               = ItemData("Ocarina",                      ItemClassification.progression, (0x17, 0x00), handler_flag(0x2B37, 0x40))
 # DEBUG_BOOK          = ItemData("Debug Book",                   ItemClassification.progression, (0x18, 0x00), None)
 # DEBUG_MUSHROOM      = ItemData("Debug Mushroom",               ItemClassification.progression, (0x19, 0x00), None)
 # DEBUG_FLIPPERS      = ItemData("Debug Flippers",               ItemClassification.progression, (0x1A, 0x00), None)
@@ -79,7 +92,7 @@ GRAVEYARD_KEY         = ItemData("Graveyard Key",                ItemClassificat
 TINGLE_TROPHY         = ItemData("Tingle Trophy",                ItemClassification.progression, (0x3D, 0x00), None)
 CARLOV_MEDAL          = ItemData("Carlov Medal",                 ItemClassification.progression, (0x3E, 0x00), None)
 # SHELLS              = ItemData("Shells",                       ItemClassification.progression, (0x3F, 0x00), None)
-EARTH_ELEMENT         = ItemData("Earth Element",                ItemClassification.progression, (0x40, 0x00), (0x2B42, 0x01))
+EARTH_ELEMENT         = ItemData("Earth Element",                ItemClassification.progression, (0x40, 0x00), handler_flag(0x2B42, 0x01))
 FIRE_ELEMENT          = ItemData("Fire Element",                 ItemClassification.progression, (0x41, 0x00), None)
 WATER_ELEMENT         = ItemData("Water Element",                ItemClassification.progression, (0x42, 0x00), None)
 WIND_ELEMENT          = ItemData("Wind Element",                 ItemClassification.progression, (0x43, 0x00), None)
@@ -102,7 +115,7 @@ RUPEES_50             = ItemData("50 Rupees",                    ItemClassificat
 RUPEES_100            = ItemData("100 Rupees",                   ItemClassification.filler, (0x58, 0x00), None)
 RUPEES_200            = ItemData("200 Rupees",                   ItemClassification.filler, (0x59, 0x00), None)
 # UNUSED              = ItemData("Unused",                       ItemClassification.progression, (0x5A, 0x00), None)
-JABBER_NUT            = ItemData("Jabber Nut",                   ItemClassification.progression, (0x5B, 0x00), (0x2B48, 0x40))
+JABBER_NUT            = ItemData("Jabber Nut",                   ItemClassification.progression, (0x5B, 0x00), handler_flag(0x2B48, 0x40))
 KINSTONE              = ItemData("Broken Kinstone (Report Me!)", ItemClassification.progression, (0x5C, 0x00), None)
 KINSTONE_GOLD_CLOUD   = ItemData("Kinstone Cloud Tops",          ItemClassification.progression, (0x5C, 0x65), None)
 KINSTONE_GOLD_SWAMP   = ItemData("Kinstone Swamps",              ItemClassification.progression, (0x5C, 0x6A), None)
@@ -329,8 +342,9 @@ itemList: typing.List[ItemData] = [
     *(pool_dungeonmaps()),
     *(pool_compass()),
     *(pool_kinstone_gold()),
-    *(pool_kinstone_red()),
-    *(pool_kinstone_blue()),
+    # *(pool_kinstone_red()),
+    # *(pool_kinstone_blue()),
+    # *(pool_kinstone_green()),
 ]
 
 item_frequencies: typing.Dict[str, int] = {

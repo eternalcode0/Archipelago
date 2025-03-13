@@ -2,7 +2,7 @@ from Options import Choice, DefaultOnToggle, Toggle, StartInventoryPool, PerGame
 from dataclasses import dataclass
 
 # Copied from A Link to the Past for usability/accessibility
-# start with not supported, use start inventory instead
+# start_with not supported, use start inventory instead
 class DungeonItem(Choice):
     value: int
     option_original_dungeon = 0
@@ -17,30 +17,21 @@ class Rupeesanity(Toggle):
     """Add all rupees locations to the pool to be randomized."""
     display_name = "Rupee-sanity"
 
-class SpecialPots(Toggle):
-    """Add all pots that drop a unique item to the pool."""
-    display_name = "Pot-sanity"
+class ObscureSpots(Toggle):
+    """Add all special pots, dig spots, etc. that drop a unique item to the pool."""
+    display_name = "Obscure Spots"
 
-class SmallKeysanity(DungeonItem):
-    display_name = "Small Key-sanity"
+class SmallKeys(DungeonItem):
+    display_name = "Small Key"
 
-class BigKeysanity(DungeonItem):
-    display_name = "Big Key-sanity"
+class BigKeys(DungeonItem):
+    display_name = "Big Key"
 
-class DungeonMapSanity(DungeonItem):
-    display_name = "Dungeon Map-sanity"
+class DungeonMaps(DungeonItem):
+    display_name = "Dungeon Maps"
 
-class DungeonCompassSanity(DungeonItem):
-    display_name = "Dungeon Compass-sanity"
-
-class ProgressiveItems(Toggle):
-    """
-    Change Bow, Bombs, Mitts, Flippers, etc into unlocking progressively
-    rather than potentially giving the upgrades before you have the base item.
-    Ex. Larger Bomb Bag will instead give Bombs if you haven't received the
-    latter first.
-    """
-    display_name = "Progressive Items"
+class DungeonCompasses(DungeonItem):
+    display_name = "Dungeon Compasses"
 
 class GoalVaati(DefaultOnToggle):
     """After completing the other goal conditions DHC will open. Kill Vaati to goal"""
@@ -71,13 +62,13 @@ class GoalSword(Choice):
     If GoalVaati is on then you need at least this sword level before DHC opens,
     otherwise you goal immediately upon having this sword level (and other goal conditions) and entering sanctuary
     """
-    default = 5
-    none = 0
-    smith_sword = 1
-    green_sword = 2
-    red_sword = 3
-    blue_sword = 4
-    four_sword = 5
+    default = 0
+    option_none = 0
+    option_smith_sword = 1
+    option_green_sword = 2
+    option_red_sword = 3
+    option_blue_sword = 4
+    option_four_sword = 5
 
 class GoalFigurines(Range):
     """
@@ -102,6 +93,15 @@ class FigurineAmount(Range):
 @dataclass
 class MinishCapOptions(PerGameCommonOptions):
     start_inventory_from_pool: StartInventoryPool
-    progressive_items: ProgressiveItems
+    goal_vaati: GoalVaati
+    goal_dungeons: GoalDungeons
+    goal_elements: GoalElements
+    goal_sword: GoalSword
+    goal_figurines: GoalFigurines
+    figurine_amount: FigurineAmount
     rupeesanity: Rupeesanity
-    special_pots: SpecialPots
+    obscure_spots: ObscureSpots
+    small_keys: SmallKeys
+    big_keys: BigKeys
+    dungeon_maps: DungeonMaps
+    dungeon_compasses: DungeonCompasses

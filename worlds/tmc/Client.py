@@ -2,7 +2,7 @@ from typing import TYPE_CHECKING, Set, Dict
 
 import asyncio
 
-
+from NetUtils import ClientStatus
 import worlds._bizhawk as bizhawk
 from worlds._bizhawk.client import BizHawkClient
 from .Locations import all_locations, LocationData, LOC_TYPE_GROUND
@@ -39,6 +39,7 @@ RAM_ADDRS = {
     # An arbitrary address that isn't used strictly by the game
     # We'll use it to store the index of the last processed remote item
     "received_index": (0x2A4A, 2, "EWRAM"),
+    "vaati_address": (0x2CA6, 1, "EWRAM"),
 }
 
 
@@ -95,6 +96,7 @@ class MinishCapClient(BizHawkClient):
                 RAM_ADDRS["link_control"],
                 RAM_ADDRS["link_priority"],
                 RAM_ADDRS["received_index"],
+                RAM_ADDRS["vaati_address"],
             ])
             if read_result is None:
                 return
@@ -103,8 +105,14 @@ class MinishCapClient(BizHawkClient):
             link_control = read_result[2][0]
             link_priority = read_result[3][0]
             received_index = (read_result[4][0] << 8) + read_result[4][1]
+            vaati_address = read_result[5][0]
 
             locs_to_send = set()
+
+            # Check for goal, since vaati's defeat triggers a cutscene this has to be checked before the next if
+            # specifically because it sets the game_state to 0x04
+            if not ctx.finished_game and vaati_address | 0x02 == vaati_address:
+                await ctx.send_msgs([{"cmd": "StatusUpdate", "status": ClientStatus.CLIENT_GOAL}])
 
             # Early return if items/locations probably shouldn't be handled yet
             if game_state != 0x02 or link_control != 0x00 or link_priority != 0x11:
@@ -115,21 +123,11 @@ class MinishCapClient(BizHawkClient):
                 for i, item in enumerate(ctx.items_received, received_index):
                     write_result = False
                     item = items_by_id[ctx.items_received[i].item]
-                    if item.address is None:
+                    if item.handler is None:
                         continue
-                    ram_address, bit_flag = item.address
                     total = 0
                     while not write_result:
-                        read_result: bytes = (await bizhawk.read(ctx.bizhawk_ctx, [(ram_address, 1, "EWRAM")]))[0]
-                        current = int.from_bytes(read_result, "little")
-                        new: int = current | bit_flag
-
-                        # Write to the address if it hasn't changed
-                        write_result: bool = await bizhawk.guarded_write(
-                            ctx.bizhawk_ctx,
-                            [(ram_address, [new], "EWRAM")],
-                            [(ram_address, [current], "EWRAM")]
-                        )
+                        write_result = await item.handler(bizhawk, ctx)
 
                         await asyncio.sleep(0.05)
                         total += 0.05

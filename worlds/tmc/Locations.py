@@ -560,21 +560,21 @@ hyrule_town: typing.List[LocationData] = [
     LocationData(6029452, TMCLocation.TOWN_INN_LEDGE_CHEST,            Items.KINSTONE,        (None,     None),     (0x2CD5, 0x01), 0x0002, None),
     LocationData(6029453, TMCLocation.TOWN_INN_POT,                    Items.KINSTONE,        (0x0D663B, 0x0D663D), (0x2CE0, 0x80), None,   None),
     LocationData(6029454, TMCLocation.TOWN_WELL_RIGHT_CHEST,           Items.KINSTONE,        (None,     None),     (0x2CFD, 0x01), 0x0041, None),
-    LocationData(6029455, TMCLocation.TOWN_GORON_MERCHANT_1_LEFT,      Items.KINSTONE,        (None,     None),     (None,   None), 0x0002, None), # Goron merchant stores the individual item *positions*
-    LocationData(6029456, TMCLocation.TOWN_GORON_MERCHANT_1_MIDDLE,    Items.KINSTONE,        (None,     None),     (None,   None), 0x0002, None), # inside 0x2CA4 from left-right in bits 0x04-0x10
-    LocationData(6029457, TMCLocation.TOWN_GORON_MERCHANT_1_RIGHT,     Items.KINSTONE,        (None,     None),     (None,   None), 0x0002, None),
-    LocationData(6029458, TMCLocation.TOWN_GORON_MERCHANT_2_LEFT,      Items.KINSTONE,        (None,     None),     (None,   None), 0x0002, None), # There is a separate bit that stores how many times
-    LocationData(6029459, TMCLocation.TOWN_GORON_MERCHANT_2_MIDDLE,    Items.KINSTONE,        (None,     None),     (None,   None), 0x0002, None), # there's been a restock across 0x2CA3 0x40 - 0x2CA4 0x02
-    LocationData(6029460, TMCLocation.TOWN_GORON_MERCHANT_2_RIGHT,     Items.KINSTONE,        (None,     None),     (None,   None), 0x0002, None),
-    LocationData(6029461, TMCLocation.TOWN_GORON_MERCHANT_3_LEFT,      Items.KINSTONE,        (None,     None),     (None,   None), 0x0002, None),
-    LocationData(6029462, TMCLocation.TOWN_GORON_MERCHANT_3_MIDDLE,    Items.KINSTONE,        (None,     None),     (None,   None), 0x0002, None),
-    LocationData(6029463, TMCLocation.TOWN_GORON_MERCHANT_3_RIGHT,     Items.KINSTONE,        (None,     None),     (None,   None), 0x0002, None),
-    LocationData(6029464, TMCLocation.TOWN_GORON_MERCHANT_4_LEFT,      Items.KINSTONE,        (None,     None),     (None,   None), 0x0002, None),
-    LocationData(6029465, TMCLocation.TOWN_GORON_MERCHANT_4_MIDDLE,    Items.KINSTONE,        (None,     None),     (None,   None), 0x0002, None),
-    LocationData(6029466, TMCLocation.TOWN_GORON_MERCHANT_4_RIGHT,     Items.KINSTONE,        (None,     None),     (None,   None), 0x0002, None),
-    LocationData(6029467, TMCLocation.TOWN_GORON_MERCHANT_5_LEFT,      Items.KINSTONE,        (None,     None),     (None,   None), 0x0002, None),
-    LocationData(6029468, TMCLocation.TOWN_GORON_MERCHANT_5_MIDDLE,    Items.KINSTONE,        (None,     None),     (None,   None), 0x0002, None),
-    LocationData(6029469, TMCLocation.TOWN_GORON_MERCHANT_5_RIGHT,     Items.KINSTONE,        (None,     None),     (None,   None), 0x0002, None),
+    LocationData(6029455, TMCLocation.TOWN_GORON_MERCHANT_1_LEFT,      Items.KINSTONE,        (None,     None),     (0x2CA4, 0x04), 0x0002, None), # Goron merchant stores the individual item *positions*
+    LocationData(6029456, TMCLocation.TOWN_GORON_MERCHANT_1_MIDDLE,    Items.KINSTONE,        (None,     None),     (0x2CA4, 0x08), 0x0002, None), # inside 0x2CA4 from left-right in bits 0x04-0x10
+    LocationData(6029457, TMCLocation.TOWN_GORON_MERCHANT_1_RIGHT,     Items.KINSTONE,        (None,     None),     (0x2CA4, 0x10), 0x0002, None),
+    # LocationData(6029458, TMCLocation.TOWN_GORON_MERCHANT_2_LEFT,      Items.KINSTONE,        (None,     None),     (None,   None), 0x0002, None), # There is a separate bit that stores how many times
+    # LocationData(6029459, TMCLocation.TOWN_GORON_MERCHANT_2_MIDDLE,    Items.KINSTONE,        (None,     None),     (None,   None), 0x0002, None), # there's been a restock across 0x2CA3 0x40 - 0x2CA4 0x02
+    # LocationData(6029460, TMCLocation.TOWN_GORON_MERCHANT_2_RIGHT,     Items.KINSTONE,        (None,     None),     (None,   None), 0x0002, None),
+    # LocationData(6029461, TMCLocation.TOWN_GORON_MERCHANT_3_LEFT,      Items.KINSTONE,        (None,     None),     (None,   None), 0x0002, None),
+    # LocationData(6029462, TMCLocation.TOWN_GORON_MERCHANT_3_MIDDLE,    Items.KINSTONE,        (None,     None),     (None,   None), 0x0002, None),
+    # LocationData(6029463, TMCLocation.TOWN_GORON_MERCHANT_3_RIGHT,     Items.KINSTONE,        (None,     None),     (None,   None), 0x0002, None),
+    # LocationData(6029464, TMCLocation.TOWN_GORON_MERCHANT_4_LEFT,      Items.KINSTONE,        (None,     None),     (None,   None), 0x0002, None),
+    # LocationData(6029465, TMCLocation.TOWN_GORON_MERCHANT_4_MIDDLE,    Items.KINSTONE,        (None,     None),     (None,   None), 0x0002, None),
+    # LocationData(6029466, TMCLocation.TOWN_GORON_MERCHANT_4_RIGHT,     Items.KINSTONE,        (None,     None),     (None,   None), 0x0002, None),
+    # LocationData(6029467, TMCLocation.TOWN_GORON_MERCHANT_5_LEFT,      Items.KINSTONE,        (None,     None),     (None,   None), 0x0002, None),
+    # LocationData(6029468, TMCLocation.TOWN_GORON_MERCHANT_5_MIDDLE,    Items.KINSTONE,        (None,     None),     (None,   None), 0x0002, None),
+    # LocationData(6029469, TMCLocation.TOWN_GORON_MERCHANT_5_RIGHT,     Items.KINSTONE,        (None,     None),     (None,   None), 0x0002, None),
     LocationData(6029470, TMCLocation.TOWN_DOJO_NPC_1,                 Items.SPIN_ATTACK,     (None,     None),     (0x2EA5, 0x10), None,   None),
     LocationData(6029471, TMCLocation.TOWN_DOJO_NPC_2,                 Items.ROCK_BREAKER,    (None,     None),     (0x2EA5, 0x20), None,   None),
     LocationData(6029472, TMCLocation.TOWN_DOJO_NPC_3,                 Items.DASH_ATTACK,     (None,     None),     (0x2EA5, 0x40), None,   None),
@@ -594,15 +594,15 @@ hyrule_town: typing.List[LocationData] = [
     LocationData(6029486, TMCLocation.TOWN_WATERFALL_FUSION_CHEST,     None,                  (None,     None),     (0x2D1D, 0x40), 0x0B32, None),
     LocationData(6029487, TMCLocation.TOWN_CARLOV_NPC,                 Items.CARLOV_MEDAL,    (None,     None),     (0x2EA5, 0x02), None,   None),
     LocationData(6029488, TMCLocation.TOWN_WELL_BOTTOM_CHEST,          Items.RUPEES_100,      (None,     None),     (0x2CFD, 0x02), 0x0041, None),
-    LocationData(6029489, TMCLocation.TOWN_CUCCOS_LV_1_NPC,            None,                  (0x1245E8, None),     (None,   None), 0x0002, None), # Cucco game uses an incremented number in 0x2CA5
-    LocationData(6029490, TMCLocation.TOWN_CUCCOS_LV_2_NPC,            None,                  (0x1245EC, None),     (None,   None), 0x0002, None), # it takes up the space of bits between 0x08-0x80
-    LocationData(6029491, TMCLocation.TOWN_CUCCOS_LV_3_NPC,            None,                  (0x1245F0, None),     (None,   None), 0x0002, None),
-    LocationData(6029492, TMCLocation.TOWN_CUCCOS_LV_4_NPC,            None,                  (0x1245F4, None),     (None,   None), 0x0002, None),
-    LocationData(6029493, TMCLocation.TOWN_CUCCOS_LV_5_NPC,            None,                  (0x1245F8, None),     (None,   None), 0x0002, None),
-    LocationData(6029494, TMCLocation.TOWN_CUCCOS_LV_6_NPC,            None,                  (0x1245FC, None),     (None,   None), 0x0002, None),
-    LocationData(6029495, TMCLocation.TOWN_CUCCOS_LV_7_NPC,            Items.KINSTONE,        (0x124600, None),     (None,   None), 0x0002, None),
-    LocationData(6029496, TMCLocation.TOWN_CUCCOS_LV_8_NPC,            Items.KINSTONE,        (0x124604, None),     (None,   None), 0x0002, None),
-    LocationData(6029497, TMCLocation.TOWN_CUCCOS_LV_9_NPC,            Items.KINSTONE,        (0x124608, None),     (None,   None), 0x0002, None),
+    # LocationData(6029489, TMCLocation.TOWN_CUCCOS_LV_1_NPC,            None,                  (0x1245E8, None),     (None,   None), 0x0002, None), # Cucco game uses an incremented number in 0x2CA5
+    # LocationData(6029490, TMCLocation.TOWN_CUCCOS_LV_2_NPC,            None,                  (0x1245EC, None),     (None,   None), 0x0002, None), # it takes up the space of bits between 0x08-0x80
+    # LocationData(6029491, TMCLocation.TOWN_CUCCOS_LV_3_NPC,            None,                  (0x1245F0, None),     (None,   None), 0x0002, None),
+    # LocationData(6029492, TMCLocation.TOWN_CUCCOS_LV_4_NPC,            None,                  (0x1245F4, None),     (None,   None), 0x0002, None),
+    # LocationData(6029493, TMCLocation.TOWN_CUCCOS_LV_5_NPC,            None,                  (0x1245F8, None),     (None,   None), 0x0002, None),
+    # LocationData(6029494, TMCLocation.TOWN_CUCCOS_LV_6_NPC,            None,                  (0x1245FC, None),     (None,   None), 0x0002, None),
+    # LocationData(6029495, TMCLocation.TOWN_CUCCOS_LV_7_NPC,            Items.KINSTONE,        (0x124600, None),     (None,   None), 0x0002, None),
+    # LocationData(6029496, TMCLocation.TOWN_CUCCOS_LV_8_NPC,            Items.KINSTONE,        (0x124604, None),     (None,   None), 0x0002, None),
+    # LocationData(6029497, TMCLocation.TOWN_CUCCOS_LV_9_NPC,            Items.KINSTONE,        (0x124608, None),     (None,   None), 0x0002, None),
     LocationData(6029498, TMCLocation.TOWN_CUCCOS_LV_10_NPC,           Items.HEART_PIECE,     (0x12460C, None),     (0x2CA5, 0x80), 0x0002, None),
     LocationData(6029499, TMCLocation.TOWN_JULLIETA_ITEM,              Items.RED_BOOK,        (None,     None),     (0x2EA4, 0x10), None,   None),
     LocationData(6029500, TMCLocation.TOWN_SIMULATION_CHEST,           Items.HEART_PIECE,     (0x0F04C2, None),     (0x2C9C, 0x02), None,   None),
@@ -633,7 +633,12 @@ north_field: typing.List[LocationData] = [
     LocationData(6029522, TMCLocation.NORTH_FIELD_WATERFALL_FUSION_DOJO_NPC,      Items.LONG_SPIN,       (None,     None), (0x2EA6, 0x20), None,   None),
 ]
 
-all_locations: typing.List[MinishCapLocation] = (south_field
+vaati: typing.List[LocationData] = [
+    LocationData(None, "Vaati", None, None, (0x2CA6, 0x02), 0x008B, None)
+]
+
+all_locations: typing.List[MinishCapLocation] = (
+    south_field
     + castle_exterior
     + eastern_hills
     + lonlon

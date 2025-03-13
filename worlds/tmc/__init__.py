@@ -3,6 +3,7 @@ Initialization module for The Legend of Zelda - The Minish Cap.
 Handles the Web page for yaml generation, saving rom file and high-level generation.
 """
 
+import logging
 import pkgutil
 import typing
 from typing import Set, Dict
@@ -11,8 +12,9 @@ import settings
 from BaseClasses import Tutorial, Item, Region, Location, LocationProgressType, ItemClassification
 from worlds.AutoWorld import WebWorld, World
 from .Options import MinishCapOptions
-from .Items import ItemData, item_frequencies, item_table, MinishCapItem, itemList
+from .Items import ItemData, item_frequencies, item_table, MinishCapItem, itemList, EARTH_ELEMENT, WIND_ELEMENT, FIRE_ELEMENT, WATER_ELEMENT
 from .Locations import all_locations
+from .Constants.LocationName import TMCLocation
 from .Client import MinishCapClient
 from .Regions import create_regions, connect_regions
 from .Rom import MinishCapProcedurePatch, write_tokens
@@ -66,16 +68,27 @@ class MinishCapWorld(World):
     def fill_slot_data(self) -> Dict[str, any]:
         return {
             "RupeeSpot": self.options.rupeesanity.value,
-            "SpecialPot": self.options.special_pots.value,
+            "ObscureSpot": self.options.obscure_spots.value,
         }
 
     def create_regions(self) -> None:
         create_regions(self)
         connect_regions(self)
 
+        # item = self.create_item(EARTH_ELEMENT.item_name)
+        # self.get_location(TMCLocation.DEEPWOOD_PRIZE).place_locked_item(item)
+        # item = self.create_item(FIRE_ELEMENT.item_name)
+        # self.get_location(TMCLocation.COF_PRIZE).place_locked_item(item)
+        # item = self.create_item(WATER_ELEMENT.item_name)
+        # self.get_location(TMCLocation.DROPLETS_PRIZE).place_locked_item(item)
+        # item = self.create_item(WIND_ELEMENT.item_name)
+        # self.get_location(TMCLocation.PALACE_PRIZE).place_locked_item(item)
+        item = MinishCapItem("Victory", ItemClassification.progression, None, self.player)
+        self.get_location(TMCLocation.BOSS_VAATI).place_locked_item(item)
+
     def create_item(self, name: str) -> Item:
         item = item_table[name]
-        return Item(name, item.classification, self.item_name_to_id[name], self.player)
+        return MinishCapItem(name, item.classification, self.item_name_to_id[name], self.player)
 
     def create_items(self):
         # First add in all progression and useful items
@@ -109,7 +122,7 @@ class MinishCapWorld(World):
     def set_rules(self) -> None:
         set_rules(self, self.disabled_locations)
         # self.multiworld.completion_condition[self.player] = lambda state: state.has("Earth Element", self.player)
-        self.multiworld.completion_condition[self.player] = lambda state: state.has("Earth Element", self.player) and state.has("Water Element", self.player) and state.has("Fire Element", self.player) and state.has("Wind Element", self.player)
+        self.multiworld.completion_condition[self.player] = lambda state: state.has("Victory", self.player)
 
     def generate_output(self, output_directory: str) -> None:
         patch = MinishCapProcedurePatch(player = self.player, player_name = self.multiworld.player_name[self.player])

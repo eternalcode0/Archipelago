@@ -2,8 +2,38 @@ import typing
 
 from . import StateLogic
 from BaseClasses import Region, Entrance
-from .Locations import (MinishCapLocation, LocationData, south_field, castle_exterior, eastern_hills, lonlon, lower_falls, lake_hylia, minish_woods, trilby_highlands, western_woods, crenel, swamp, ruins, valley, dungeon_crypt, upper_falls, clouds, wind_tribe, dungeon_dws, dungeon_cof, dungeon_fow, dungeon_tod, dungeon_pow, sanctuary, dungeon_dhc, hyrule_town, north_field)
 from .Constants.RegionName import TMCRegion
+from .Locations import (
+    MinishCapLocation,
+    LocationData,
+    south_field,
+    castle_exterior,
+    eastern_hills,
+    lonlon,
+    lower_falls,
+    lake_hylia,
+    minish_woods,
+    trilby_highlands,
+    western_woods,
+    crenel,
+    swamp,
+    ruins,
+    valley,
+    dungeon_crypt,
+    upper_falls,
+    clouds,
+    wind_tribe,
+    dungeon_dws,
+    dungeon_cof,
+    dungeon_fow,
+    dungeon_tod,
+    dungeon_pow,
+    sanctuary,
+    dungeon_dhc,
+    hyrule_town,
+    north_field,
+    vaati
+)
 
 if typing.TYPE_CHECKING:
     from . import MinishCapWorld
@@ -39,6 +69,7 @@ def create_regions(world: "MinishCapWorld"):
     create_region(world, TMCRegion.DUNGEON_DHC, dungeon_dhc)
     create_region(world, TMCRegion.HYRULE_TOWN, hyrule_town)
     create_region(world, TMCRegion.NORTH_FIELD, north_field)
+    create_region(world, "Vaati Fight", vaati)
 
 def create_region(world: "MinishCapWorld", name, locations):
     ret = Region(name, world.player, world.multiworld)
@@ -103,7 +134,9 @@ def connect_regions(world: "MinishCapWorld"):
     connect(world, names, TMCRegion.NORTH_FIELD, TMCRegion.LOWER_FALLS)
     connect(world, names, TMCRegion.NORTH_FIELD, TMCRegion.VALLEY)
 
-    connect(world, names, TMCRegion.CASTLE_EXTERIOR, TMCRegion.DUNGEON_DHC)
+    connect(world, names, TMCRegion.CASTLE_EXTERIOR, TMCRegion.SANCTUARY)
+    connect(world, names, TMCRegion.SANCTUARY, TMCRegion.DUNGEON_DHC, lambda state: state.has_all(["Earth Element", "Fire Element", "Water Element", "Wind Element"], world.player))
+    connect(world, names, TMCRegion.DUNGEON_DHC, "Vaati Fight")
 
     connect(world, names, TMCRegion.LOWER_FALLS, TMCRegion.UPPER_FALLS)
     connect(world, names, TMCRegion.UPPER_FALLS, TMCRegion.CLOUDS)
