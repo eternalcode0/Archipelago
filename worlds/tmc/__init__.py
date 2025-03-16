@@ -18,7 +18,7 @@ from .Constants.LocationName import TMCLocation
 from .Client import MinishCapClient
 from .Regions import create_regions, connect_regions
 from .Rom import MinishCapProcedurePatch, write_tokens
-from .Rules import set_rules
+from .Rules import MinishCapRules
 
 
 class MinishCapWebWorld(WebWorld):
@@ -120,9 +120,8 @@ class MinishCapWorld(World):
             ]
 
     def set_rules(self) -> None:
-        set_rules(self, self.disabled_locations)
-        # self.multiworld.completion_condition[self.player] = lambda state: state.has("Earth Element", self.player)
-        self.multiworld.completion_condition[self.player] = lambda state: state.has("Victory", self.player)
+        MinishCapRules(self).set_rules()
+        # set_rules(self, self.disabled_locations)
 
     def generate_output(self, output_directory: str) -> None:
         patch = MinishCapProcedurePatch(player = self.player, player_name = self.multiworld.player_name[self.player])

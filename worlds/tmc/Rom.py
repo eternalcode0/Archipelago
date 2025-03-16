@@ -38,10 +38,9 @@ def write_tokens(world: "MinishCapWorld", patch: MinishCapProcedurePatch) -> Non
     patch.write_file("token_data.bin", patch.get_token_binary())
 
 def item_inject(world: "MinishCapWorld", patch: MinishCapProcedurePatch, location: LocationData, item: Item):
-    # If the item belongs to that player than just use that item id (sprite id?)
-    it = item_table[item.name]
-
     if item.player == world.player:
+        # If the item belongs to that player than just use that item id (sprite id?)
+        it = item_table[item.name]
         # If the location has a secondary address for the sub id, write to the 2 different addresses
         if location.rom_addr[1] is not None:
             patch.write_token(APTokenTypes.WRITE, location.rom_addr[0], bytes([it.byte_ids[0]]))

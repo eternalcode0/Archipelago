@@ -1,6 +1,5 @@
 import typing
 
-from . import StateLogic
 from BaseClasses import Region, Entrance
 from .Constants.RegionName import TMCRegion
 from .Locations import (
@@ -112,7 +111,7 @@ def connect_regions(world: "MinishCapWorld"):
 
     connect(world, names, "Menu", TMCRegion.SOUTH_FIELD)
     connect(world, names, TMCRegion.SOUTH_FIELD, TMCRegion.HYRULE_TOWN)
-    connect(world, names, TMCRegion.SOUTH_FIELD, TMCRegion.EASTERN_HILLS, lambda state: StateLogic.canPassTrees(state, world.player))
+    connect(world, names, TMCRegion.SOUTH_FIELD, TMCRegion.EASTERN_HILLS) # lambda state: StateLogic.canPassTrees(state, world.player))
     connect(world, names, TMCRegion.SOUTH_FIELD, TMCRegion.WESTERN_WOODS)
 
     connect(world, names, TMCRegion.HYRULE_TOWN, TMCRegion.EASTERN_HILLS, lambda state: state.has("Bomb", world.player))
@@ -128,7 +127,7 @@ def connect_regions(world: "MinishCapWorld"):
     connect(world, names, TMCRegion.WESTERN_WOODS, TMCRegion.SWAMP)
     connect(world, names, TMCRegion.WESTERN_WOODS, TMCRegion.TRILBY_HIGHLANDS)
 
-    connect(world, names, TMCRegion.NORTH_FIELD, TMCRegion.LONLON, lambda state: StateLogic.canPassTrees(state, world.player))
+    connect(world, names, TMCRegion.NORTH_FIELD, TMCRegion.LONLON) #, lambda state: StateLogic.canPassTrees(state, world.player))
     connect(world, names, TMCRegion.NORTH_FIELD, TMCRegion.CASTLE_EXTERIOR)
     connect(world, names, TMCRegion.NORTH_FIELD, TMCRegion.TRILBY_HIGHLANDS)
     connect(world, names, TMCRegion.NORTH_FIELD, TMCRegion.LOWER_FALLS)

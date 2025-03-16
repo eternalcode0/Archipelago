@@ -38,7 +38,7 @@ RAM_ADDRS = {
     "link_priority": (0x1171, 1, "IWRAM"),
     # An arbitrary address that isn't used strictly by the game
     # We'll use it to store the index of the last processed remote item
-    "received_index": (0x2A4A, 2, "EWRAM"),
+    "received_index": (0x3FE0E, 2, "EWRAM"),
     "vaati_address": (0x2CA6, 1, "EWRAM"),
 }
 
@@ -119,30 +119,33 @@ class MinishCapClient(BizHawkClient):
                 return
 
             # Read all pending receive items and dump into game ram
-            if received_index <= len(ctx.items_received) - 1:
-                for i, item in enumerate(ctx.items_received, received_index):
-                    write_result = False
-                    item = items_by_id[ctx.items_received[i].item]
-                    if item.handler is None:
-                        continue
-                    total = 0
-                    while not write_result:
-                        write_result = await item.handler(bizhawk, ctx)
-
-                        await asyncio.sleep(0.05)
-                        total += 0.05
-                        if write_result:
-                            total = 1
-                        if total > 1:
-                            break
-                    if not write_result:
-                        break
-                    await bizhawk.write(
+            # if received_index <= len(ctx.items_received) - 1:
+            for i in range(len(ctx.items_received) - received_index):
+                write_result = False
+                item = items_by_id[ctx.items_received[received_index + i].item]
+                total = 0
+                while not write_result:
+                    # Write to the address if it hasn't changed
+                    write_result = await bizhawk.guarded_write(
                         ctx.bizhawk_ctx,
-                        [
-                            (0x2A4A, [(received_index + i + 1) // 0x100, (received_index + i + 1) % 0x100], "EWRAM"),
-                        ]
+                        [(0x3FA8, [item.byte_ids[0], item.byte_ids[1]], "IWRAM")],
+                        [(0x3FA8, [0x0, 0x0], "IWRAM")]
                     )
+
+                    await asyncio.sleep(0.05)
+                    total += 0.05
+                    if write_result:
+                        total = 1
+                    if total > 1:
+                        break
+                if not write_result:
+                    break
+                await bizhawk.write(
+                    ctx.bizhawk_ctx,
+                    [
+                        (0x3FE0E, [(received_index + i + 1) // 0x100, (received_index + i + 1) % 0x100], "EWRAM"),
+                    ]
+                )
 
             # Read all location flags in area and add to pending location checks if updates
             if room_area_id in self.location_by_room_area:

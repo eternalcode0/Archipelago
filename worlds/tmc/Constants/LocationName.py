@@ -249,7 +249,7 @@ class TMCLocation():
     CRENEL_VINE_TOP_GOLDEN_TEKTITE = "Crenel Vine Top Golden Tektite"
     CRENEL_BRIDGE_CAVE_CHEST = "Crenel Bridge Cave Chest"
     CRENEL_FAIRY_CAVE_HP = "Crenel Fairy Cave HP"
-    CRENEL_BELOW_CO_F_GOLDEN_TEKTITE = "Crenel Below CoF Golden Tektite"
+    CRENEL_BELOW_COF_GOLDEN_TEKTITE = "Crenel Below CoF Golden Tektite"
     CRENEL_SCRUB_NPC = "Crenel Scrub NPC"
     CRENEL_DOJO_LEFT_CHEST = "Crenel Dojo Left Chest"
     CRENEL_DOJO_RIGHT_CHEST = "Crenel Dojo Right Chest"
