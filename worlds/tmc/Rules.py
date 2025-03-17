@@ -43,12 +43,16 @@ class MinishCapRules():
                 self.has(Items.MOLE_MITTS),
             TMCLocation.CLOUDS_NORTH_KILL:
                 self.has_any([Items.ROCS_CAPE, Items.MOLE_MITTS]),
+            TMCLocation.CLOUDS_SOUTH_KILL:
+                self.has_any([Items.ROCS_CAPE, Items.MOLE_MITTS]),
             #endregion
 
             #region South Field
             # TMCLocation.SMITH_HOUSE_RUPEE: None,
             # TMCLocation.SMITH_HOUSE_SWORD: None,
             # TMCLocation.SMITH_HOUSE_SHIELD: None,
+            TMCLocation.SOUTH_FIELD_MINISH_SIZE_WATER_HOLE_HP:
+                [self.can_pass_trees, self.has_all([Items.PEGASUS_BOOTS, Items.FLIPPERS])],
             #endregion
 
             #region Wind Tribe
@@ -173,6 +177,13 @@ class MinishCapRules():
             # TMCLocation.NORTH_FIELD_TREE_FUSION_TOP_RIGHT_CHEST: None,
             # TMCLocation.NORTH_FIELD_TREE_FUSION_TOP_LEFT_CHEST: None,
             # TMCLocation.NORTH_FIELD_TREE_FUSION_CENTER_BIG_CHEST: None,
+            TMCLocation.NORTH_FIELD_DIG_SPOT:
+                self.has(Items.MOLE_MITTS),
+            TMCLocation.NORTH_FIELD_HP:
+                self.has(Items.BOMB_BAG),
+            TMCLocation.NORTH_FIELD_WATERFALL_FUSION_DOJO_NPC:
+                [self.has(Items.FLIPPERS),
+                lambda state: self.swords(state) > 0],
             #endregion
         }
 

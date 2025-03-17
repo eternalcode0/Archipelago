@@ -185,7 +185,6 @@ def pool_baseitems() -> [ItemData]:
         SHIELD,
         MIRROR_SHIELD,
 
-        JABBER_NUT,
         GUST_JAR,
         LANTERN,
         CANE_OF_PACCI,
@@ -247,6 +246,8 @@ def pool_baseitems() -> [ItemData]:
 
         TINGLE_TROPHY,
         CARLOV_MEDAL,
+        JABBER_NUT,
+        WAKEUP_MUSHROOM,
         GRIP_RING,
         POWER_BRACELETS,
         LONLON_KEY,

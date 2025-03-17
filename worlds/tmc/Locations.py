@@ -131,27 +131,27 @@ lake_hylia: typing.List[LocationData] = [
 
 minish_woods: typing.List[LocationData] = [
     # LocationData(6029079, TMCLocation.MINISH_WOODS_GOLDEN_OCTO,                        Items.RUPEES_100,      (None,     None), (0x2CA3, 0x01), None,   None),
-    LocationData(6029080, TMCLocation.MINISH_WOODS_WITCH_HUT_ITEM,                     Items.WAKEUP_MUSHROOM, (0x0F94D7, None), (0x2EA4, 0x04), None,   None),
+    LocationData(6029080, TMCLocation.MINISH_WOODS_WITCH_HUT_ITEM,                     Items.WAKEUP_MUSHROOM, (0x0F94D7, None), (0x2EA4, 0x04), 0x0024, None),
     LocationData(6029081, TMCLocation.WITCH_DIGGING_CAVE_CHEST,                        Items.KINSTONE,        (0x0F38A6, None), (0x2D02, 0x08), 0x000C, None),
-    LocationData(6029082, TMCLocation.MINISH_WOODS_NORTH_FUSION_CHEST,                 Items.KINSTONE,        (0x0FE07E, None), (0x2CD2, 0x08), None,   None),
-    LocationData(6029083, TMCLocation.MINISH_WOODS_TOP_HP,                             Items.HEART_PIECE,     (0x0F4347, None), (0x2CC3, 0x08), None,   None),
+    LocationData(6029082, TMCLocation.MINISH_WOODS_NORTH_FUSION_CHEST,                 Items.KINSTONE,        (0x0FE07E, None), (0x2CD2, 0x08), 0x0000, None),
+    LocationData(6029083, TMCLocation.MINISH_WOODS_TOP_HP,                             Items.HEART_PIECE,     (0x0F4347, None), (0x2CC3, 0x08), 0x0000, None),
     LocationData(6029084, TMCLocation.MINISH_WOODS_WEST_FUSION_CHEST,                  Items.RUPEES_200,      (0x0FE0CE, None), (0x2CD3, 0x01), 0x0000, None),
     LocationData(6029085, TMCLocation.MINISH_WOODS_LIKE_LIKE_DIGGING_CAVE_LEFT_CHEST,  Items.RUPEES_50,       (0x0F38AE, None), (0x2D02, 0x10), 0x000C, None),
     LocationData(6029086, TMCLocation.MINISH_WOODS_LIKE_LIKE_DIGGING_CAVE_RIGHT_CHEST, Items.KINSTONE,        (0x0F38B6, None), (0x2D02, 0x20), 0x000C, None),
-    LocationData(6029087, TMCLocation.MINISH_WOODS_EAST_FUSION_CHEST,                  Items.KINSTONE,        (0x0FE0B6, None), (0x2CD2, 0x20), None,   None),
-    LocationData(6029088, TMCLocation.MINISH_WOODS_SOUTH_FUSION_CHEST,                 Items.KINSTONE,        (0x0FE0C6, None), (0x2CD2, 0x80), None,   None),
-    LocationData(6029089, TMCLocation.MINISH_WOODS_BOTTOM_HP,                          Items.HEART_PIECE,     (0x0F4357, None), (0x2CC3, 0x10), None,   None),
+    LocationData(6029087, TMCLocation.MINISH_WOODS_EAST_FUSION_CHEST,                  Items.KINSTONE,        (0x0FE0B6, None), (0x2CD2, 0x20), 0x0000, None),
+    LocationData(6029088, TMCLocation.MINISH_WOODS_SOUTH_FUSION_CHEST,                 Items.KINSTONE,        (0x0FE0C6, None), (0x2CD2, 0x80), 0x0000, None),
+    LocationData(6029089, TMCLocation.MINISH_WOODS_BOTTOM_HP,                          Items.HEART_PIECE,     (0x0F4357, None), (0x2CC3, 0x10), 0x0000, None),
     LocationData(6029090, TMCLocation.MINISH_WOODS_CRACK_FUSION_CHEST,                 Items.KINSTONE,        (0x0DC42A, None), (0x2CF0, 0x08), 0x0827, None),
-    LocationData(6029091, TMCLocation.MINISH_WOODS_MINISH_PATH_FUSION_CHEST,           Items.RUPEES_200,      (0x0FE08E, None), (0x2D11, 0x04), None,   None),
-    LocationData(6029092, TMCLocation.MINISH_VILLAGE_BARREL_HOUSE_ITEM,                Items.JABBER_NUT,      (0x0DA283, None), (0x2CF5, 0x04), None,   None),
-    LocationData(6029093, TMCLocation.MINISH_VILLAGE_HP,                               Items.HEART_PIECE,     (0x0DBCC7, None), (0x2CF4, 0x04), None,   None),
-    LocationData(6029094, TMCLocation.MINISH_WOODS_BOMB_MINISH_NPC_1,                  Items.BOMB_BAG,        (0x00A00C, None), (0x2EA5, 0x01), None,   None),
-    LocationData(6029095, TMCLocation.MINISH_WOODS_BOMB_MINISH_NPC_2,                  Items.REMOTE_BOMB,     (0x00A0A0, None), (0x2CF2, 0x01), None,   None),
-    LocationData(6029096, TMCLocation.MINISH_WOODS_POST_VILLAGE_FUSION_CHEST,          Items.KINSTONE,        (0x0FE0A6, None), (0x2CDB, 0x08), None,   None),
+    LocationData(6029091, TMCLocation.MINISH_WOODS_MINISH_PATH_FUSION_CHEST,           Items.RUPEES_200,      (0x0FE08E, None), (0x2D11, 0x04), 0x0011, None),
+    LocationData(6029092, TMCLocation.MINISH_VILLAGE_BARREL_HOUSE_ITEM,                Items.JABBER_NUT,      (0x0DA283, None), (0x2CF5, 0x04), 0x0920, None),
+    LocationData(6029093, TMCLocation.MINISH_VILLAGE_HP,                               Items.HEART_PIECE,     (0x0DBCC7, None), (0x2CF4, 0x04), 0x0101, None),
+    LocationData(6029094, TMCLocation.MINISH_WOODS_BOMB_MINISH_NPC_1,                  Items.BOMB_BAG,        (0x00A00C, None), (0x2EA5, 0x01), 0x2620, None),
+    LocationData(6029095, TMCLocation.MINISH_WOODS_BOMB_MINISH_NPC_2,                  Items.REMOTE_BOMB,     (0x00A0A0, None), (0x2CF2, 0x01), 0x2620, None),
+    LocationData(6029096, TMCLocation.MINISH_WOODS_POST_VILLAGE_FUSION_CHEST,          Items.KINSTONE,        (0x0FE0A6, None), (0x2CDB, 0x08), 0x0000, None),
     LocationData(6029097, TMCLocation.MINISH_WOODS_FLIPPER_HOLE_MIDDLE_CHEST,          Items.KINSTONE,        (0x0DB97E, None), (0x2D2A, 0x08), 0x0935, None),
     LocationData(6029098, TMCLocation.MINISH_WOODS_FLIPPER_HOLE_RIGHT_CHEST,           Items.KINSTONE,        (0x0DB986, None), (0x2D2A, 0x10), 0x0935, None),
     LocationData(6029099, TMCLocation.MINISH_WOODS_FLIPPER_HOLE_LEFT_CHEST,            Items.KINSTONE,        (0x0DB98E, None), (0x2D2A, 0x20), 0x0935, None),
-    LocationData(6029100, TMCLocation.MINISH_WOODS_FLIPPER_HOLE_HP,                    Items.HEART_PIECE,     (0x0DB8BF, None), (0x2D2B, 0x04), None,   None),
+    LocationData(6029100, TMCLocation.MINISH_WOODS_FLIPPER_HOLE_HP,                    Items.HEART_PIECE,     (0x0DB8BF, None), (0x2D2B, 0x04), 0x0935, None),
 ]
 
 trilby_highlands: typing.List[LocationData] = [
@@ -350,21 +350,21 @@ upper_falls: typing.List[LocationData] = [
 
 clouds: typing.List[LocationData] = [
     LocationData(6029271, TMCLocation.CLOUDS_FREE_CHEST,                 Items.KINSTONE_GOLD_CLOUD, (0x0DCE0A, None), (0x2CD7, 0x08), 0x0108, None),
-    LocationData(6029272, TMCLocation.CLOUDS_NORTH_EAST_DIG_SPOT,        Items.KINSTONE,            (0x0DCB5B, None), (0x2CD8, 0x08), None,   None),
-    LocationData(6029273, TMCLocation.CLOUDS_NORTH_KILL,                 Items.KINSTONE_GOLD_CLOUD, (0x0DCEDF, None), (0x2CDA, 0x02), None,   None),
+    LocationData(6029272, TMCLocation.CLOUDS_NORTH_EAST_DIG_SPOT,        Items.KINSTONE,            (0x0DCB5B, None), (0x2CD8, 0x08), 0x0108, None),
+    LocationData(6029273, TMCLocation.CLOUDS_NORTH_KILL,                 Items.KINSTONE_GOLD_CLOUD, (0x0DCEDF, None), (0x2CDA, 0x02), 0x0208, None),
     LocationData(6029274, TMCLocation.CLOUDS_NORTH_WEST_LEFT_CHEST,      None,                      (0x0DCE22, None), (0x2CD7, 0x40), 0x0108, None),
     LocationData(6029275, TMCLocation.CLOUDS_NORTH_WEST_RIGHT_CHEST,     None,                      (0x0DCE2A, None), (0x2CD7, 0x80), 0x0108, None),
-    LocationData(6029276, TMCLocation.CLOUDS_NORTH_WEST_DIG_SPOT,        Items.KINSTONE,            (0x0DCB4B, None), (0x2CD8, 0x04), None,   None),
+    LocationData(6029276, TMCLocation.CLOUDS_NORTH_WEST_DIG_SPOT,        Items.KINSTONE,            (0x0DCB4B, None), (0x2CD8, 0x04), 0x0108, None),
     LocationData(6029277, TMCLocation.CLOUDS_NORTH_WEST_BOTTOM_CHEST,    Items.KINSTONE_GOLD_CLOUD, (0x0DCE1A, None), (0x2CD7, 0x20), 0x0108, None),
     LocationData(6029278, TMCLocation.CLOUDS_SOUTH_LEFT_CHEST,           None,                      (0x0DCE32, None), (0x2CD8, 0x01), 0x0108, None),
-    LocationData(6029279, TMCLocation.CLOUDS_SOUTH_DIG_SPOT,             Items.KINSTONE,            (0x0DCB8B, None), (0x2CD8, 0x40), None,   None),
-    LocationData(6029280, TMCLocation.CLOUDS_SOUTH_MIDDLE_CHEST,         Items.KINSTONE_GOLD_CLOUD, (0x0DCE12, None), (0x2CD7, 0x10), 0x0108,   None),
-    LocationData(6029281, TMCLocation.CLOUDS_SOUTH_MIDDLE_DIG_SPOT,      Items.KINSTONE,            (0x0DCB6B, None), (0x2CD8, 0x10), None,   None),
-    LocationData(6029282, TMCLocation.CLOUDS_SOUTH_KILL,                 Items.KINSTONE_GOLD_CLOUD, (0x0DCEEF, None), (0x2CDA, 0x08), None,   None),
+    LocationData(6029279, TMCLocation.CLOUDS_SOUTH_DIG_SPOT,             Items.KINSTONE,            (0x0DCB8B, None), (0x2CD8, 0x40), 0x0108, None),
+    LocationData(6029280, TMCLocation.CLOUDS_SOUTH_MIDDLE_CHEST,         Items.KINSTONE_GOLD_CLOUD, (0x0DCE12, None), (0x2CD7, 0x10), 0x0108, None),
+    LocationData(6029281, TMCLocation.CLOUDS_SOUTH_MIDDLE_DIG_SPOT,      Items.KINSTONE,            (0x0DCB6B, None), (0x2CD8, 0x10), 0x0108, None),
+    LocationData(6029282, TMCLocation.CLOUDS_SOUTH_KILL,                 Items.KINSTONE_GOLD_CLOUD, (0x0DCEEF, None), (0x2CDA, 0x08), 0x0208, None),
     LocationData(6029283, TMCLocation.CLOUDS_SOUTH_RIGHT_CHEST,          None,                      (0x0DCE3A, None), (0x2CD8, 0x02), 0x0108, None),
-    LocationData(6029284, TMCLocation.CLOUDS_SOUTH_RIGHT_DIG_SPOT,       Items.KINSTONE,            (0x0DCB9B, None), (0x2CD8, 0x80), None,   None),
-    LocationData(6029285, TMCLocation.CLOUDS_SOUTH_EAST_BOTTOM_DIG_SPOT, Items.KINSTONE,            (0x0DCBAB, None), (0x2CD9, 0x01), None,   None),
-    LocationData(6029286, TMCLocation.CLOUDS_SOUTH_EAST_TOP_DIG_SPOT,    Items.KINSTONE,            (0x0DCB7B, None), (0x2CD8, 0x20), None,   None),
+    LocationData(6029284, TMCLocation.CLOUDS_SOUTH_RIGHT_DIG_SPOT,       Items.KINSTONE,            (0x0DCB9B, None), (0x2CD8, 0x80), 0x0108, None),
+    LocationData(6029285, TMCLocation.CLOUDS_SOUTH_EAST_BOTTOM_DIG_SPOT, Items.KINSTONE,            (0x0DCBAB, None), (0x2CD9, 0x01), 0x0108, None),
+    LocationData(6029286, TMCLocation.CLOUDS_SOUTH_EAST_TOP_DIG_SPOT,    Items.KINSTONE,            (0x0DCB7B, None), (0x2CD8, 0x20), 0x0108, None),
 ]
 
 wind_tribe: typing.List[LocationData] = [
@@ -537,7 +537,7 @@ sanctuary: typing.List[LocationData] = [
 ]
 
 dungeon_dhc: typing.List[LocationData] = [
-    LocationData(6029435, TMCLocation.DHC_B2_KING,                Items.RUPEES_1,            (0x00E46A, None), (0x2DC2, 0x02), None,   None),
+    LocationData(6029435, TMCLocation.DHC_B2_KING,                Items.RUPEES_1,            (0x00E46A, None), (0x2DC2, 0x02), 0x3988, None),
     LocationData(6029436, TMCLocation.DHC_B1_BIG_CHEST,           Items.DUNGEON_MAP_DHC,     (0x0EDC12, None), (0x2DC1, 0x08), 0x3788, None),
     LocationData(6029437, TMCLocation.DHC_1F_BLADE_CHEST,         Items.SMALL_KEY_DHC,       (0x0ECE22, None), (0x2DC0, 0x20), 0x2788, None),
     LocationData(6029438, TMCLocation.DHC_1F_THRONE_BIG_CHEST,    Items.DUNGEON_COMPASS_DHC, (0x0EC94E, None), (0x2DBF, 0x80), 0x2088, None),
