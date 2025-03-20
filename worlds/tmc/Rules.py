@@ -20,6 +20,52 @@ class MinishCapRules():
         self.world = world
 
         self.location_rules = {
+            #region South Field
+            # TMCLocation.SMITH_HOUSE_RUPEE: None,
+            # TMCLocation.SMITH_HOUSE_SWORD: None,
+            # TMCLocation.SMITH_HOUSE_SHIELD: None,
+            TMCLocation.SOUTH_FIELD_MINISH_SIZE_WATER_HOLE_HP:
+                [self.can_pass_trees, self.has_all([Items.PEGASUS_BOOTS, Items.FLIPPERS])],
+            TMCLocation.SOUTH_FIELD_PUDDLE_FUSION_ITEM1:
+                self.can_pass_trees,
+            TMCLocation.SOUTH_FIELD_PUDDLE_FUSION_ITEM2:
+                self.can_pass_trees,
+            TMCLocation.SOUTH_FIELD_PUDDLE_FUSION_ITEM3:
+                self.can_pass_trees,
+            TMCLocation.SOUTH_FIELD_PUDDLE_FUSION_ITEM4:
+                self.can_pass_trees,
+            TMCLocation.SOUTH_FIELD_PUDDLE_FUSION_ITEM5:
+                self.can_pass_trees,
+            TMCLocation.SOUTH_FIELD_PUDDLE_FUSION_ITEM6:
+                self.can_pass_trees,
+            TMCLocation.SOUTH_FIELD_PUDDLE_FUSION_ITEM7:
+                self.can_pass_trees,
+            TMCLocation.SOUTH_FIELD_PUDDLE_FUSION_ITEM8:
+                self.can_pass_trees,
+            TMCLocation.SOUTH_FIELD_PUDDLE_FUSION_ITEM9:
+                self.can_pass_trees,
+            TMCLocation.SOUTH_FIELD_PUDDLE_FUSION_ITEM10:
+                self.can_pass_trees,
+            TMCLocation.SOUTH_FIELD_PUDDLE_FUSION_ITEM11:
+                self.can_pass_trees,
+            TMCLocation.SOUTH_FIELD_PUDDLE_FUSION_ITEM12:
+                self.can_pass_trees,
+            TMCLocation.SOUTH_FIELD_PUDDLE_FUSION_ITEM13:
+                self.can_pass_trees,
+            TMCLocation.SOUTH_FIELD_PUDDLE_FUSION_ITEM14:
+                self.can_pass_trees,
+            TMCLocation.SOUTH_FIELD_PUDDLE_FUSION_ITEM15:
+                self.can_pass_trees,
+            TMCLocation.SOUTH_FIELD_FUSION_CHEST:
+                self.can_pass_trees,
+            TMCLocation.SOUTH_FIELD_TREE_FUSION_HP:
+                self.can_pass_trees,
+            TMCLocation.SOUTH_FIELD_MINISH_SIZE_WATER_HOLE_HP:
+                [self.can_pass_trees, self.has_all([Items.FLIPPERS, Items.PEGASUS_BOOTS])],
+            TMCLocation.SOUTH_FIELD_TINGLE_NPC:
+                [self.can_pass_trees, self.has(Items.CANE_OF_PACCI)],
+            #endregion
+
             #region Castle Gardens
             TMCLocation.CASTLE_MOAT_LEFT_CHEST:
                 self.has(Items.FLIPPERS),
@@ -30,11 +76,29 @@ class MinishCapRules():
             # TMCLocation.CASTLE_RIGHT_FOUNTAIN_FUSION_HP: # Fusions 18
             # TMCLocation.CASTLE_DOJO_HP: None,
             TMCLocation.CASTLE_DOJO_NPC:
-                self.has(Items.LANTERN),
+                [self.has(Items.LANTERN),
+                lambda state: self.swords(state) > 0],
             TMCLocation.CASTLE_RIGHT_FOUNTAIN_FUSION_MINISH_HOLE_CHEST: # Fusions 18
                 self.has(Items.PEGASUS_BOOTS),
             TMCLocation.CASTLE_LEFT_FOUNTAIN_FUSION_MINISH_HOLE_CHEST: # Fusions 35
                 self.has(Items.PEGASUS_BOOTS),
+            #endregion
+
+            #region Eastern Hills
+            TMCLocation.HILLS_FUSION_CHEST:
+                self.can_pass_trees,
+            TMCLocation.HILLS_BEANSTALK_FUSION_LEFT_CHEST:
+                None,
+            TMCLocation.HILLS_BEANSTALK_FUSION_HP:
+                None,
+            TMCLocation.HILLS_BEANSTALK_FUSION_RIGHT_CHEST:
+                None,
+            TMCLocation.HILLS_BOMB_CAVE_CHEST:
+                None,
+            TMCLocation.MINISH_GREAT_FAIRY_NPC:
+                None,
+            TMCLocation.HILLS_FARM_DIG_CAVE_ITEM:
+                None,
             #endregion
 
             #region Cloud Tops
@@ -45,14 +109,6 @@ class MinishCapRules():
                 self.has_any([Items.ROCS_CAPE, Items.MOLE_MITTS]),
             TMCLocation.CLOUDS_SOUTH_KILL:
                 self.has_any([Items.ROCS_CAPE, Items.MOLE_MITTS]),
-            #endregion
-
-            #region South Field
-            # TMCLocation.SMITH_HOUSE_RUPEE: None,
-            # TMCLocation.SMITH_HOUSE_SWORD: None,
-            # TMCLocation.SMITH_HOUSE_SHIELD: None,
-            TMCLocation.SOUTH_FIELD_MINISH_SIZE_WATER_HOLE_HP:
-                [self.can_pass_trees, self.has_all([Items.PEGASUS_BOOTS, Items.FLIPPERS])],
             #endregion
 
             #region Wind Tribe
@@ -143,8 +199,8 @@ class MinishCapRules():
                 self.has(Items.CARLOV_MEDAL),
             TMCLocation.TOWN_MUSIC_HOUSE_RIGHT_CHEST:
                 self.has(Items.CARLOV_MEDAL),
-            TMCLocation.TOWN_MUSIC_HOUSE_HP: # TODO: Double-check
-                self.has_any([Items.CARLOV_MEDAL, Items.GUST_JAR]),
+            TMCLocation.TOWN_MUSIC_HOUSE_HP:
+                self.has(Items.CARLOV_MEDAL),
             TMCLocation.TOWN_WELL_PILLAR_CHEST:
                 self.can_reach([
                     TMCLocation.TOWN_WELL_TOP_CHEST,
@@ -154,7 +210,9 @@ class MinishCapRules():
                 ]),
             TMCLocation.TOWN_DR_LEFT_ATTIC_ITEM:
                 [self.access_town_left(),
-                self.has(Items.POWER_BRACELETS)],
+                self.has(Items.POWER_BRACELETS),
+                self.has_any([Items.GUST_JAR, Items.BOMB]),
+                self.split_rule(2)],
             TMCLocation.TOWN_FOUNTAIN_BIG_CHEST:
                 [self.can_attack, self.access_town_fountain(), self.has(Items.CANE_OF_PACCI)],
             TMCLocation.TOWN_FOUNTAIN_SMALL_CHEST:
@@ -169,6 +227,8 @@ class MinishCapRules():
                 [self.complete_book_quest(), self.can_attack, self.has(Items.FLIPPERS)],
             TMCLocation.TOWN_UNDER_LIBRARY_UNDERWATER:
                 [self.complete_book_quest(), self.has(Items.FLIPPERS)],
+            TMCLocation.TOWN_CUCCOS_LV_10_NPC:
+                self.has_any([Items.ROCS_CAPE, Items.FLIPPERS]),
             #endregion
 
             #region North Field
@@ -180,7 +240,7 @@ class MinishCapRules():
             TMCLocation.NORTH_FIELD_DIG_SPOT:
                 self.has(Items.MOLE_MITTS),
             TMCLocation.NORTH_FIELD_HP:
-                self.has(Items.BOMB_BAG),
+                self.has_any([Items.BOMB, Items.FLIPPERS, Items.ROCS_CAPE]),
             TMCLocation.NORTH_FIELD_WATERFALL_FUSION_DOJO_NPC:
                 [self.has(Items.FLIPPERS),
                 lambda state: self.swords(state) > 0],
@@ -206,7 +266,7 @@ class MinishCapRules():
 
     def bombs(self, state: CollectionState) -> int:
         return state.count_from_list((item.item_name for item in [
-            Items.BOMB_BAG,
+            Items.BOMB,
             Items.REMOTE_BOMB,
         ]), self.player)
 
@@ -222,7 +282,7 @@ class MinishCapRules():
     def can_pass_trees(self, state: CollectionState):
         return self.swords(state) > 0 or state.has_any(map(item_to_name, [
             Items.LIGHT_ARROW,
-            Items.BOMB_BAG,
+            Items.BOMB,
             Items.LANTERN
         ]), self.player)
 

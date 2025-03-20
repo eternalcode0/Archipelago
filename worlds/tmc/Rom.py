@@ -1,6 +1,7 @@
+import typing
 from worlds.Files import APProcedurePatch, APTokenMixin, APTokenTypes
 from settings import get_settings
-from BaseClasses import Item
+from BaseClasses import Item, ItemClassification
 
 from .Locations import location_table_by_name, all_locations, LocationData
 from .Items import itemList, item_table
@@ -22,6 +23,16 @@ class MinishCapProcedurePatch(APProcedurePatch, APTokenMixin):
             base_rom_bytes = bytes(infile.read())
 
         return base_rom_bytes
+
+EXTERNAL_ITEMS = [0x18, 0x19, 0x1A]
+EXTERNAL_ITEM_MAP: dict[ItemClassification, typing.Callable[[object], int]] = {
+    ItemClassification.filler: lambda random: 0x1A,
+    ItemClassification.progression: lambda random: 0x18,
+    ItemClassification.useful: lambda random: 0x19,
+    ItemClassification.trap: lambda random: random.choice(EXTERNAL_ITEMS),
+    ItemClassification.skip_balancing: lambda random: 0x19,
+    ItemClassification.progression_skip_balancing: lambda random: 0x18,
+}
 
 def write_tokens(world: "MinishCapWorld", patch: MinishCapProcedurePatch) -> None:
     # Patch Items into Locations
@@ -50,4 +61,8 @@ def item_inject(world: "MinishCapWorld", patch: MinishCapProcedurePatch, locatio
             patch.write_token(APTokenTypes.WRITE, location.rom_addr[0], bytes(list(it.byte_ids)))
     # Else use a substitute item id (sprite id?)
     else:
-        patch.write_token(APTokenTypes.WRITE, location.rom_addr[0], bytes([0x18])) # Debug Book (Eventually use a patched in AP logo item? Prob item id 0x5A)
+        if item.classification not in EXTERNAL_ITEM_MAP:
+            patch.write_token(APTokenTypes.WRITE, location.rom_addr[0], bytes([0x18]))
+        else:
+            item_id = EXTERNAL_ITEM_MAP[item.classification](world.random)
+            patch.write_token(APTokenTypes.WRITE, location.rom_addr[0], bytes([item_id]))

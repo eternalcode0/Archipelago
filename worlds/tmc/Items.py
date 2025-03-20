@@ -116,11 +116,11 @@ KINSTONE_GREEN_SQUARE = ItemData("Kinstone Green [",             ItemClassificat
 KINSTONE_GREEN_P      = ItemData("Kinstone Green P",             ItemClassification.progression, (0x5C, 0x75))
 BOMB_REFILL_5         = ItemData("5 Bomb Refill",                ItemClassification.filler, (0x5D, 0x00))
 ARROW_REFILL_5        = ItemData("5 Arrow Refill",               ItemClassification.filler, (0x5E, 0x00))
-HEART_REFILL          = ItemData("Heart Refill",                 ItemClassification.filler, (0x5F, 0x00))
+HEART_REFILL          = ItemData("Recovery Heart",               ItemClassification.filler, (0x5F, 0x00))
 # FAIRY_REFILL        = ItemData("Fairy Refill",                 ItemClassification.filler, (0x60, 0x00))
 # SHELLS_30           = ItemData("30 Shells",                    ItemClassification.progression, (0x61, 0x00))
-HEART_CONTAINER       = ItemData("Heart Container",              ItemClassification.useful, (0x62, 0x00))
-HEART_PIECE           = ItemData("Heart Piece",                  ItemClassification.useful, (0x63, 0x00))
+HEART_CONTAINER       = ItemData("Heart Container",              ItemClassification.progression, (0x62, 0x00))
+HEART_PIECE           = ItemData("Heart Piece",                  ItemClassification.progression, (0x63, 0x00))
 BIG_WALLET            = ItemData("Big Wallet",                   ItemClassification.progression, (0x64, 0x00)) # working, 2 received
 BOMB_BAG              = ItemData("Bomb Bag",                     ItemClassification.progression, (0x65, 0x00)) # working, sent after bombs, fixed 0 capacity
 QUIVER                = ItemData("Quiver",                       ItemClassification.progression, (0x66, 0x00)) # working, 1 received
@@ -198,7 +198,7 @@ def pool_baseitems() -> [ItemData]:
         MOLE_MITTS,
         DIG_BUTTERFLY,
 
-        BOMB_BAG,
+        BOMB,
         BOMB_BAG,
         BOMB_BAG,
         BOMB_BAG,
@@ -214,9 +214,10 @@ def pool_baseitems() -> [ItemData]:
         BOOMERANG,
         MAGIC_BOOMERANG,
 
-        EMPTY_BOTTLE,
-        EMPTY_BOTTLE,
-        EMPTY_BOTTLE,
+        BOTTLE_1,
+        BOTTLE_2,
+        BOTTLE_3,
+        BOTTLE_4,
         DOG_FOOD,
 
         *[*[HEART_PIECE] * 44],
@@ -231,6 +232,14 @@ def pool_baseitems() -> [ItemData]:
         BIG_WALLET,
         BIG_WALLET,
         BIG_WALLET,
+
+        HEART_REFILL,
+        BOMB_REFILL_5,
+        BOMB_REFILL_10,
+        BOMB_REFILL_30,
+        ARROW_REFILL_5,
+        ARROW_REFILL_10,
+        ARROW_REFILL_30,
 
         SPIN_ATTACK,
         ROLL_ATTACK,
@@ -338,12 +347,19 @@ itemList: typing.List[ItemData] = [
 ]
 
 item_frequencies: typing.Dict[str, int] = {
-    "1 Rupee": 72,
-    "5 Rupees": 98,
-    "20 Rupees": 106,
-    "50 Rupees": 50,
-    "100 Rupees": 36,
-    "200 Rupees": 30,
+    RUPEES_1.item_name: 36,
+    RUPEES_5.item_name: 49,
+    RUPEES_20.item_name: 53,
+    RUPEES_50.item_name: 25,
+    RUPEES_100.item_name: 18,
+    RUPEES_200.item_name: 15,
+    HEART_REFILL.item_name: 29,
+    BOMB_REFILL_5.item_name: 34,
+    BOMB_REFILL_10.item_name: 22,
+    BOMB_REFILL_30.item_name: 16,
+    ARROW_REFILL_5.item_name: 34,
+    ARROW_REFILL_10.item_name: 22,
+    ARROW_REFILL_30.item_name: 16,
 }
 
 item_table: typing.Dict[str, ItemData] = {item.item_name: item for item in itemList}

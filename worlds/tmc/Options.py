@@ -1,4 +1,4 @@
-from Options import Choice, DefaultOnToggle, Toggle, StartInventoryPool, PerGameCommonOptions, Range, Removed
+from Options import Choice, DefaultOnToggle, Toggle, StartInventoryPool, PerGameCommonOptions, Range, Removed, DeathLink
 from dataclasses import dataclass
 
 # Copied from A Link to the Past for usability/accessibility
@@ -89,19 +89,28 @@ class FigurineAmount(Range):
     range_start = 0
     range_end = 136
 
+class DeathLinkGameover(Toggle):
+    """
+    If disabled, deathlinks are sent when reaching 0 hp, fairy or not. Received deathlinks will drop you to 0 hp, using
+    a fairy if you have one.
+    If enabled, deathlinks are only sent when reaching the gameover screen. Received deathlinks will also send you straight to a gameover.
+    """
+
 
 @dataclass
 class MinishCapOptions(PerGameCommonOptions):
     start_inventory_from_pool: StartInventoryPool
-    goal_vaati: GoalVaati
-    goal_dungeons: GoalDungeons
-    goal_elements: GoalElements
-    goal_sword: GoalSword
-    goal_figurines: GoalFigurines
-    figurine_amount: FigurineAmount
+    death_link: DeathLink
+    death_link_gameover: DeathLinkGameover
+    # goal_vaati: GoalVaati
+    # goal_dungeons: GoalDungeons
+    # goal_elements: GoalElements
+    # goal_sword: GoalSword
+    # goal_figurines: GoalFigurines
+    # figurine_amount: FigurineAmount
     rupeesanity: Rupeesanity
     obscure_spots: ObscureSpots
-    small_keys: SmallKeys
-    big_keys: BigKeys
+    dungeon_small_keys: SmallKeys
+    dungeon_big_keys: BigKeys
     dungeon_maps: DungeonMaps
     dungeon_compasses: DungeonCompasses

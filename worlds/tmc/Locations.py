@@ -61,9 +61,9 @@ castle_exterior: typing.List[LocationData] = [
     LocationData(6029022, TMCLocation.CASTLE_MOAT_LEFT_CHEST,                         None,              (0x0F004E, None), (0x2CBE, 0x04), 0x0007, None),
     LocationData(6029023, TMCLocation.CASTLE_MOAT_RIGHT_CHEST,                        Items.RUPEES_200,  (0x0F0056, None), (0x2CBE, 0x08), 0x0007, None),
     # LocationData(6029024, TMCLocation.CASTLE_GOLDEN_ROPE,                             Items.RUPEES_100,  (None,     None), (0x2CA2, 0x20), 0x0007, None),
-    LocationData(6029025, TMCLocation.CASTLE_RIGHT_FOUNTAIN_FUSION_HP,                Items.HEART_PIECE, (0x0D9C2B, None), (0x2D0E, 0x10), 0x0036, None),
+    LocationData(6029025, TMCLocation.CASTLE_RIGHT_FOUNTAIN_FUSION_HP,                Items.HEART_PIECE, (0x0D9C2B, None), (0x2D0E, 0x10), 0x0042, None),
     LocationData(6029026, TMCLocation.CASTLE_DOJO_HP,                                 Items.HEART_PIECE, (0x0D79BB, None), (0x2D2C, 0x08), 0x0525, None),
-    LocationData(6029027, TMCLocation.CASTLE_DOJO_NPC,                                Items.SWORD_BEAM,  (None,     None), (0x2EA6, 0x02), 0x0525, None),
+    LocationData(6029027, TMCLocation.CASTLE_DOJO_NPC,                                Items.SWORD_BEAM,  (0xEF6494, None), (0x2EA6, 0x02), 0x0525, None),
     LocationData(6029028, TMCLocation.CASTLE_RIGHT_FOUNTAIN_FUSION_MINISH_HOLE_CHEST, None,              (0x0DBD3E, None), (0x2D28, 0x10), 0x0036, None),
     LocationData(6029029, TMCLocation.CASTLE_LEFT_FOUNTAIN_FUSION_MINISH_HOLE_CHEST,  None,              (0x0DBD8E, None), (0x2D28, 0x20), 0x0136, None),
 ]
@@ -95,7 +95,7 @@ lonlon: typing.List[LocationData] = [
 lower_falls: typing.List[LocationData] = [
     LocationData(6029048, TMCLocation.FALLS_LOWER_LON_LON_FUSION_CHEST,      Items.RUPEES_200,        (0x0FE0FE, None), (0x2CD3, 0x40), 0x0503, None),
     LocationData(6029049, TMCLocation.FALLS_LOWER_HP,                        Items.HEART_PIECE,       (0x0F87D3, None), (0x2CD1, 0x02), 0x000A, None),
-    LocationData(6029050, TMCLocation.FALLS_LOWER_WATERFALL_FUSION_DOJO_NPC, Items.FAST_SPLIT_SCROLL, (None,     None), (0x2EA6, 0x20), 0x0125, None),
+    LocationData(6029050, TMCLocation.FALLS_LOWER_WATERFALL_FUSION_DOJO_NPC, Items.FAST_SPLIT_SCROLL, (0xEF64A0, None), (0x2EA6, 0x20), 0x0125, None),
     LocationData(6029051, TMCLocation.FALLS_LOWER_ROCK_ITEM1,                Items.RUPEES_20,         (0x0F87E3, None), (0x2CD0, 0x04), 0x000A, None),
     LocationData(6029052, TMCLocation.FALLS_LOWER_ROCK_ITEM2,                Items.RUPEES_20,         (0x0F87F3, None), (0x2CD0, 0x08), 0x000A, None),
     LocationData(6029053, TMCLocation.FALLS_LOWER_ROCK_ITEM3,                Items.RUPEES_20,         (0x0F8803, None), (0x2CD0, 0x10), 0x000A, None),
@@ -106,7 +106,7 @@ lower_falls: typing.List[LocationData] = [
 lake_hylia: typing.List[LocationData] = [
     LocationData(6029056, TMCLocation.HYLIA_SUNKEN_HP,                           Items.HEART_PIECE,     (0x0F323B, None),     (0x2CBD, 0x02), 0x000B, None),
     LocationData(6029057, TMCLocation.HYLIA_DOG_NPC,                             Items.EMPTY_BOTTLE,    (0x094908, 0x09490A), (0x2B3F, 0x20), 0x1422, None),
-    LocationData(6029058, TMCLocation.HYLIA_SMALL_ISLAND_HP,                     Items.HEART_PIECE,     (0x0F322B, None),     (0x2CBD, 0x04), 0x000B, None),
+    LocationData(6029058, TMCLocation.HYLIA_SMALL_ISLAND_HP,                     Items.HEART_PIECE,     (0x0F322B, None),     (0x2CBD, 0x01), 0x000B, None),
     LocationData(6029059, TMCLocation.HYLIA_CAPE_CAVE_TOP_RIGHT,                 None,                  (0x0F3A06, None),     (0x2D02, 0x80), 0x0119, None),
     LocationData(6029060, TMCLocation.HYLIA_CAPE_CAVE_BOTTOM_LEFT,               None,                  (0x0F3A16, None),     (0x2D03, 0x02), 0x0119, None),
     LocationData(6029061, TMCLocation.HYLIA_CAPE_CAVE_TOP_LEFT,                  Items.KINSTONE,        (0x0F3A1E, None),     (0x2D03, 0x04), 0x0119, None),
@@ -119,14 +119,14 @@ lake_hylia: typing.List[LocationData] = [
     LocationData(6029068, TMCLocation.HYLIA_BEANSTALK_FUSION_HP,                 Items.HEART_PIECE,     (0x0F5EDB, None),     (0x2D0C, 0x10), 0x010D, None),
     LocationData(6029069, TMCLocation.HYLIA_BEANSTALK_FUSION_RIGHT_CHEST,        None,                  (0x0F5F72, None),     (0x2D0C, 0x40), 0x010D, None),
     LocationData(6029070, TMCLocation.HYLIA_MIDDLE_ISLAND_FUSION_DIG_CAVE_CHEST, Items.RUPEES_50,       (0x0F3916, None),     (0x2D02, 0x40), 0x0019, None),
-    LocationData(6029071, TMCLocation.HYLIA_BOTTOM_HP,                           Items.HEART_PIECE,     (0x0F324B, None),     (0x2CBD, 0x02), 0x000B, None),
+    LocationData(6029071, TMCLocation.HYLIA_BOTTOM_HP,                           Items.HEART_PIECE,     (0x0F324B, None),     (0x2CBD, 0x04), 0x000B, None),
     LocationData(6029072, TMCLocation.HYLIA_DOJO_HP,                             Items.HEART_PIECE,     (0x0D7B03, None),     (0x2D2C, 0x04), 0x0625, None),
-    LocationData(6029073, TMCLocation.HYLIA_DOJO_NPC,                            Items.PERIL_BEAM,      (None,     None),     (0x2EA6, 0x04), 0x0625, None),
+    LocationData(6029073, TMCLocation.HYLIA_DOJO_NPC,                            Items.PERIL_BEAM,      (0xEF6497, None),     (0x2EA6, 0x04), 0x0625, None),
     LocationData(6029074, TMCLocation.HYLIA_CRACK_FUSION_LIBRARI_NPC,            Items.HEART_CONTAINER, (0x0124EC, None),     (0x2CF2, 0x08), 0x2320, None),
     LocationData(6029075, TMCLocation.HYLIA_NORTH_MINISH_HOLE_CHEST,             Items.KINSTONE,        (0x0DB7CE, None),     (0x2D2A, 0x04), 0x0735, None),
     LocationData(6029076, TMCLocation.HYLIA_SOUTH_MINISH_HOLE_CHEST,             Items.KINSTONE,        (0x0DB616, None),     (0x2D28, 0x04), 0x0535, None),
     LocationData(6029077, TMCLocation.HYLIA_CABIN_PATH_FUSION_CHEST,             Items.KINSTONE,        (0x0FE09E, None),     (0x2D11, 0x10), 0x0411, None),
-    LocationData(6029078, TMCLocation.HYLIA_MAYOR_CABIN_ITEM,                    Items.BLUE_BOOK,       (None,     None),     (0x2EA4, 0x40), 0x0528, None),
+    LocationData(6029078, TMCLocation.HYLIA_MAYOR_CABIN_ITEM,                    Items.BLUE_BOOK,       (0x0F306F, None),     (0x2EA4, 0x40), 0x0528, None),
 ]
 
 minish_woods: typing.List[LocationData] = [
@@ -160,7 +160,7 @@ trilby_highlands: typing.List[LocationData] = [
     LocationData(6029103, TMCLocation.TRILBY_DIG_CAVE_LEFT_CHEST,         Items.KINSTONE,     (0x0F3D86, None), (0x2D04, 0x80), 0x0313, None),
     LocationData(6029104, TMCLocation.TRILBY_DIG_CAVE_RIGHT_CHEST,        Items.KINSTONE,     (0x0F3D96, None), (0x2D05, 0x02), 0x0313, None),
     LocationData(6029105, TMCLocation.TRILBY_DIG_CAVE_WATER_FUSION_CHEST, Items.KINSTONE,     (0x0F3D8E, None), (0x2D05, 0x01), 0x0313, None),
-    LocationData(6029106, TMCLocation.TRILBY_SCRUB_NPC,                   Items.EMPTY_BOTTLE, (None,     None), (0x2CA7, 0x04), 0x1432, None),
+    LocationData(6029106, TMCLocation.TRILBY_SCRUB_NPC,                   Items.EMPTY_BOTTLE, (0xEF50EC, None), (0x2CA7, 0x04), 0x1432, None),
     LocationData(6029107, TMCLocation.TRILBY_BOMB_CAVE_CHEST,             Items.KINSTONE,     (0x0F7EEA, None), (0x2D1D, 0x20), 0x0732, None),
     LocationData(6029108, TMCLocation.TRILBY_PUDDLE_FUSION_ITEM1,         Items.RUPEES_5,     (0x0F83BB, None), (0x2D20, 0x10), 0x1132, None),
     LocationData(6029109, TMCLocation.TRILBY_PUDDLE_FUSION_ITEM2,         Items.RUPEES_5,     (0x0F83CB, None), (0x2D20, 0x20), 0x1132, None),
@@ -228,11 +228,11 @@ crenel: typing.List[LocationData] = [
     LocationData(6029165, TMCLocation.CRENEL_BRIDGE_CAVE_CHEST,              Items.KINSTONE,          (0x0FB2FA, None), (0x2D23, 0x80), 0x0726, None),
     LocationData(6029166, TMCLocation.CRENEL_FAIRY_CAVE_HP,                  Items.HEART_PIECE,       (0x0FB0BB, None), (0x2D2B, 0x20), 0x0525, None),
     # LocationData(6029167, TMCLocation.CRENEL_BELOW_COF_GOLDEN_TEKTITE,       Items.RUPEES_100,        (None,     None), (0x2CA2, 0x04), None,   None),
-    LocationData(6029168, TMCLocation.CRENEL_SCRUB_NPC,                      Items.GRIP_RING,         (None,     None), (0x2EA5, 0x04), 0x0426, None),
+    LocationData(6029168, TMCLocation.CRENEL_SCRUB_NPC,                      Items.GRIP_RING,         (0xEF50F4, None), (0x2EA5, 0x04), 0x0426, None),
     LocationData(6029169, TMCLocation.CRENEL_DOJO_LEFT_CHEST,                Items.RUPEES_50,         (0x0D75DA, None), (0x2D1C, 0x02), 0x0025, None),
     LocationData(6029170, TMCLocation.CRENEL_DOJO_RIGHT_CHEST,               Items.RUPEES_50,         (0x0D75E2, None), (0x2D1C, 0x04), 0x0025, None),
     LocationData(6029171, TMCLocation.CRENEL_DOJO_HP,                        Items.HEART_PIECE,       (0x0D752B, None), (0x2D2C, 0x01), 0x0025, None),
-    LocationData(6029172, TMCLocation.CRENEL_DOJO_NPC,                       Items.ROLL_ATTACK,       (None,     None), (0x2EA6, 0x01), 0x0025, None),
+    LocationData(6029172, TMCLocation.CRENEL_DOJO_NPC,                       Items.ROLL_ATTACK,       (0xEF6491, None), (0x2EA6, 0x01), 0x0025, None),
     LocationData(6029173, TMCLocation.CRENEL_GREAT_FAIRY_NPC,                Items.BOMB_BAG,          (0x00B828, None), (0x2CF0, 0x01), 0x0229, None),
     LocationData(6029174, TMCLocation.CRENEL_CLIMB_FUSION_CHEST,             Items.KINSTONE,          (0x0FE10E, None), (0x2CD4, 0x01), 0x0106, None),
     LocationData(6029175, TMCLocation.CRENEL_DIG_CAVE_HP,                    Items.HEART_PIECE,       (0x0F3BA7, None), (0x2D04, 0x20), 0x0014, None),
@@ -265,7 +265,7 @@ swamp: typing.List[LocationData] = [
     LocationData(6029199, TMCLocation.SWAMP_CENTER_CHEST,                         Items.KINSTONE,            (0x0D95A6, None), (0x2CBD, 0x10), 0x0004, None),
     # LocationData(6029200, TMCLocation.SWAMP_GOLDEN_ROPE,                          Items.RUPEES_100,          (None,     None), (0x2CA2, 0x08), 0x0004, None),
     LocationData(6029201, TMCLocation.SWAMP_NEAR_WATERFALL_CAVE_HP,               Items.HEART_PIECE,         (0x0D9907, None), (0x2D23, 0x01), 0x042A, None),
-    LocationData(6029202, TMCLocation.SWAMP_WATERFALL_FUSION_DOJO_NPC,            Items.FAST_SPIN_SCROLL,    (None,     None), (0x2EA6, 0x10), 0x0325, None),
+    LocationData(6029202, TMCLocation.SWAMP_WATERFALL_FUSION_DOJO_NPC,            Items.FAST_SPIN_SCROLL,    (0xEF649D, None), (0x2EA6, 0x10), 0x0325, None),
     LocationData(6029203, TMCLocation.SWAMP_NORTH_CAVE_CHEST,                     Items.KINSTONE_GOLD_SWAMP, (0x0D97B6, None), (0x2D22, 0x40), 0x012A, None),
     LocationData(6029204, TMCLocation.SWAMP_DIGGING_CAVE_LEFT_CHEST,              None,                      (0x0F3AAE, None), (0x2D04, 0x01), 0x0017, None),
     LocationData(6029205, TMCLocation.SWAMP_DIGGING_CAVE_RIGHT_CHEST,             Items.KINSTONE,            (0x0F3AB6, None), (0x2D04, 0x02), 0x0017, None),
@@ -274,7 +274,7 @@ swamp: typing.List[LocationData] = [
     LocationData(6029208, TMCLocation.SWAMP_UNDERWATER_BOTTOM,                    Items.KINSTONE,            (0x0D9367, None), (0x2CC0, 0x10), 0x0004, None),
     LocationData(6029209, TMCLocation.SWAMP_SOUTH_CAVE_CHEST,                     Items.KINSTONE_GOLD_SWAMP, (0x0D9746, None), (0x2D22, 0x10), 0x002A, None),
     LocationData(6029210, TMCLocation.SWAMP_DOJO_HP,                              Items.HEART_PIECE,         (0x0D78CB, None), (0x2D2B, 0x80), 0x0425, None),
-    LocationData(6029211, TMCLocation.SWAMP_DOJO_NPC,                             Items.GREATSPIN,           (None,     None), (0x2EA6, 0x08), 0x0425, None),
+    LocationData(6029211, TMCLocation.SWAMP_DOJO_NPC,                             Items.GREATSPIN,           (0xEF649A, None), (0x2EA6, 0x08), 0x0425, None),
     LocationData(6029212, TMCLocation.SWAMP_MINISH_FUSION_NORTH_CRACK_CHEST,      Items.KINSTONE,            (0x0DC49A, None), (0x2CDE, 0x08), 0x0927, None),
     LocationData(6029213, TMCLocation.SWAMP_MINISH_MULLDOZER_BIG_CHEST,           Items.BOW,                 (0x0DC2FE, None), (0x2CDE, 0x01), 0x0627, None),
     LocationData(6029214, TMCLocation.SWAMP_MINISH_FUSION_NORTH_WEST_CRACK_CHEST, Items.KINSTONE,            (0x0DC67A, None), (0x2CF0, 0x20), 0x0D27, None),
@@ -394,7 +394,7 @@ dungeon_dws: typing.List[LocationData] = [
     LocationData(6029307, TMCLocation.DEEPWOOD_1F_BLUE_WARP_LEFT_CHEST,      None,                      (0x0DDEDA, None), (0x2D40, 0x04), 0x0148, None),
     LocationData(6029308, TMCLocation.DEEPWOOD_1F_BLUE_WARP_RIGHT_CHEST,     None,                      (0x0DDEE2, None), (0x2D40, 0x08), 0x0148, None),
     LocationData(6029309, TMCLocation.DEEPWOOD_1F_MADDERPILLAR_BIG_CHEST,    Items.GUST_JAR,            (0x0DDC7E, None), (0x2D3F, 0x08), 0x0048, None),
-    LocationData(6029310, TMCLocation.DEEPWOOD_1F_MADDERPILLAR_HP,           Items.HEART_PIECE,         (0x0DE1F7, None), (0x2D46, 0x04), 0x0548, None),
+    LocationData(6029310, TMCLocation.DEEPWOOD_1F_MADDERPILLAR_HP,           Items.HEART_PIECE,         (0x0DE1F7, None), (0x2D46, 0x04), 0x0548, LOC_TYPE_GROUND),
     LocationData(6029311, TMCLocation.DEEPWOOD_B1_WEST_BIG_CHEST,            Items.BIG_KEY_DWS,         (0x0DEB9A, None), (0x2D43, 0x80), 0x1148, None),
     LocationData(6029312, TMCLocation.DEEPWOOD_BOSS_ITEM,                    Items.HEART_CONTAINER,     (0x0DF07B, None), (0x2D44, 0x80), 0x0049, None),
     LocationData(6029313, TMCLocation.DEEPWOOD_PRIZE,                        Items.EARTH_ELEMENT,       (0x0DF03B, None), (0x2C9C, 0x04), 0x0049, None),
@@ -459,8 +459,8 @@ dungeon_fow: typing.List[LocationData] = [
 ]
 
 dungeon_tod: typing.List[LocationData] = [
-    LocationData(6029366, TMCLocation.DROPLETS_ENTRANCE_B2_EAST_ICEBLOCK,                Items.SMALL_KEY_TOD,       (0x098C1A, 0x098C1C), (0x2D8E, 0x04), None,   None),
-    LocationData(6029367, TMCLocation.DROPLETS_ENTRANCE_B2_WEST_ICEBLOCK,                Items.BIG_KEY_TOD,         (0x098C3C, 0x098C3E), (0x2D8D, 0x80), None,   None),
+    LocationData(6029366, TMCLocation.DROPLETS_ENTRANCE_B2_EAST_ICEBLOCK,                Items.SMALL_KEY_TOD,       (0x098C1A, 0x098C1C), (0x2D8E, 0x04), 0x1260, None),
+    LocationData(6029367, TMCLocation.DROPLETS_ENTRANCE_B2_WEST_ICEBLOCK,                Items.BIG_KEY_TOD,         (0x098C3C, 0x098C3E), (0x2D8D, 0x80), 0x2060,   None),
     LocationData(6029368, TMCLocation.DROPLETS_LEFT_PATH_B1_UNDERPASS_ITEM1,             Items.RUPEES_1,            (0x0E3F8B, None),     (0x2D94, 0x20), None,   None),
     LocationData(6029369, TMCLocation.DROPLETS_LEFT_PATH_B1_UNDERPASS_ITEM2,             Items.RUPEES_1,            (0x0E3F9B, None),     (0x2D94, 0x40), None,   None),
     LocationData(6029370, TMCLocation.DROPLETS_LEFT_PATH_B1_UNDERPASS_ITEM3,             Items.RUPEES_1,            (0x0E3FAB, None),     (0x2D94, 0x80), None,   None),
@@ -549,20 +549,20 @@ dungeon_dhc: typing.List[LocationData] = [
 ]
 
 hyrule_town: typing.List[LocationData] = [
-    LocationData(6029444, TMCLocation.TOWN_CAFE_LADY_NPC,              Items.KINSTONE,        (0x00EDDA, None),     (0x2CD6, 0x10), 0x0002, None),
-    LocationData(6029445, TMCLocation.TOWN_SHOP_80_ITEM,               Items.BIG_WALLET,      (None,     None),     (0x2CE6, 0x20), 0x0023, None),
-    LocationData(6029446, TMCLocation.TOWN_SHOP_300_ITEM,              Items.BOOMERANG,       (None,     None),     (0x2B34, 0x40), 0x0023, None),
-    LocationData(6029447, TMCLocation.TOWN_SHOP_600_ITEM,              Items.QUIVER,          (None,     None),     (0x2CE6, 0x40), 0x0023, None),
-    LocationData(6029448, TMCLocation.TOWN_SHOP_BEHIND_COUNTER_ITEM,   Items.DOG_FOOD,        (None,     None),     (0x2B3F, 0x10), 0x0023, None),
+    LocationData(6029444, TMCLocation.TOWN_CAFE_LADY_NPC,              Items.KINSTONE,        (0x00EDDA, None),     (0x2CD6, 0x40), 0x0002, None),
+    LocationData(6029445, TMCLocation.TOWN_SHOP_80_ITEM,               Items.BIG_WALLET,      (0xEF6710, 0xEF6714), (0x2CE6, 0x20), 0x0023, LOC_TYPE_GROUND),
+    LocationData(6029446, TMCLocation.TOWN_SHOP_300_ITEM,              Items.BOOMERANG,       (0xEF6718, 0xEF671C), (0x2B34, 0x40), 0x0023, LOC_TYPE_GROUND),
+    LocationData(6029447, TMCLocation.TOWN_SHOP_600_ITEM,              Items.QUIVER,          (0xEF6720, 0xEF6724), (0x2CE6, 0x40), 0x0023, LOC_TYPE_GROUND),
+    LocationData(6029448, TMCLocation.TOWN_SHOP_BEHIND_COUNTER_ITEM,   Items.DOG_FOOD,        (0xEF6A2F, None),     (0x2CE6, 0x08), 0x0023, None),
     LocationData(6029449, TMCLocation.TOWN_SHOP_ATTIC_CHEST,           None,                  (0x0D8EE6, None),     (0x2D0A, 0x80), 0x012E, None),
     LocationData(6029450, TMCLocation.TOWN_BAKERY_ATTIC_CHEST,         Items.RUPEES_100,      (0x0D9206, None),     (0x2D13, 0x20), 0x032E, None),
     LocationData(6029451, TMCLocation.TOWN_INN_BACKDOOR_HP,            Items.HEART_PIECE,     (0x0D66D7, None),     (0x2CF3, 0x01), 0x0A21, None),
     LocationData(6029452, TMCLocation.TOWN_INN_LEDGE_CHEST,            Items.KINSTONE,        (0x0EE35A, None),     (0x2CD5, 0x01), 0x0002, None),
     LocationData(6029453, TMCLocation.TOWN_INN_POT,                    Items.KINSTONE,        (0x0D663B, 0x0D663D), (0x2CE0, 0x80), 0x0921, None),
     LocationData(6029454, TMCLocation.TOWN_WELL_RIGHT_CHEST,           Items.KINSTONE,        (0x0EFBDE, None),     (0x2CFD, 0x01), 0x0041, None),
-    LocationData(6029455, TMCLocation.TOWN_GORON_MERCHANT_1_LEFT,      Items.KINSTONE,        (None,     None),     (0x2CA4, 0x04), 0x0002, None), # Goron merchant stores the individual item *positions*
-    LocationData(6029456, TMCLocation.TOWN_GORON_MERCHANT_1_MIDDLE,    Items.KINSTONE,        (None,     None),     (0x2CA4, 0x08), 0x0002, None), # inside 0x2CA4 from left-right in bits 0x04-0x10
-    LocationData(6029457, TMCLocation.TOWN_GORON_MERCHANT_1_RIGHT,     Items.KINSTONE,        (None,     None),     (0x2CA4, 0x10), 0x0002, None),
+    # LocationData(6029455, TMCLocation.TOWN_GORON_MERCHANT_1_LEFT,      Items.KINSTONE,        (None,     None),     (0x2CA4, 0x04), 0x0002, None), # Goron merchant stores the individual item *positions*
+    # LocationData(6029456, TMCLocation.TOWN_GORON_MERCHANT_1_MIDDLE,    Items.KINSTONE,        (None,     None),     (0x2CA4, 0x08), 0x0002, None), # inside 0x2CA4 from left-right in bits 0x04-0x10
+    # LocationData(6029457, TMCLocation.TOWN_GORON_MERCHANT_1_RIGHT,     Items.KINSTONE,        (None,     None),     (0x2CA4, 0x10), 0x0002, None),
     # LocationData(6029458, TMCLocation.TOWN_GORON_MERCHANT_2_LEFT,      Items.KINSTONE,        (None,     None),     (None,   None), 0x0002, None), # There is a separate bit that stores how many times
     # LocationData(6029459, TMCLocation.TOWN_GORON_MERCHANT_2_MIDDLE,    Items.KINSTONE,        (None,     None),     (None,   None), 0x0002, None), # there's been a restock across 0x2CA3 0x40 - 0x2CA4 0x02
     # LocationData(6029460, TMCLocation.TOWN_GORON_MERCHANT_2_RIGHT,     Items.KINSTONE,        (None,     None),     (None,   None), 0x0002, None),
@@ -575,11 +575,11 @@ hyrule_town: typing.List[LocationData] = [
     # LocationData(6029467, TMCLocation.TOWN_GORON_MERCHANT_5_LEFT,      Items.KINSTONE,        (None,     None),     (None,   None), 0x0002, None),
     # LocationData(6029468, TMCLocation.TOWN_GORON_MERCHANT_5_MIDDLE,    Items.KINSTONE,        (None,     None),     (None,   None), 0x0002, None),
     # LocationData(6029469, TMCLocation.TOWN_GORON_MERCHANT_5_RIGHT,     Items.KINSTONE,        (None,     None),     (None,   None), 0x0002, None),
-    LocationData(6029470, TMCLocation.TOWN_DOJO_NPC_1,                 Items.SPIN_ATTACK,     (None,     None),     (0x2EA5, 0x10), 0x0128, None),
-    LocationData(6029471, TMCLocation.TOWN_DOJO_NPC_2,                 Items.ROCK_BREAKER,    (None,     None),     (0x2EA5, 0x20), 0x0128, None),
-    LocationData(6029472, TMCLocation.TOWN_DOJO_NPC_3,                 Items.DASH_ATTACK,     (None,     None),     (0x2EA5, 0x40), 0x0128, None),
-    LocationData(6029473, TMCLocation.TOWN_DOJO_NPC_4,                 Items.DOWNTHRUST,      (None,     None),     (0x2EA5, 0x80), 0x0128, None),
-    LocationData(6029474, TMCLocation.TOWN_WELL_TOP_CHEST,             Items.RUPEES_100,      (0x0EFBBE, None),     (0x2CFD, 0x04), 0x0041, None),
+    LocationData(6029470, TMCLocation.TOWN_DOJO_NPC_1,                 Items.SPIN_ATTACK,     (0xEF6485, None),     (0x2EA5, 0x10), 0x0128, None),
+    LocationData(6029471, TMCLocation.TOWN_DOJO_NPC_2,                 Items.ROCK_BREAKER,    (0xEF6488, None),     (0x2EA5, 0x20), 0x0128, None),
+    LocationData(6029472, TMCLocation.TOWN_DOJO_NPC_3,                 Items.DASH_ATTACK,     (0xEF648B, None),     (0x2EA5, 0x40), 0x0128, None),
+    LocationData(6029473, TMCLocation.TOWN_DOJO_NPC_4,                 Items.DOWNTHRUST,      (0xEF648E, None),     (0x2EA5, 0x80), 0x0128, None),
+    LocationData(6029474, TMCLocation.TOWN_WELL_TOP_CHEST,             Items.RUPEES_100,      (0x0EFBBE, None),     (0x2CFC, 0x40), 0x0041, None),
     LocationData(6029475, TMCLocation.TOWN_SCHOOL_ROOF_CHEST,          Items.KINSTONE,        (0x0EE362, None),     (0x2CD5, 0x02), 0x0002, None),
     LocationData(6029476, TMCLocation.TOWN_SCHOOL_PATH_FUSION_CHEST,   Items.KINSTONE,        (0x0FE076, None),     (0x2D11, 0x01), 0x0211, None),
     LocationData(6029477, TMCLocation.TOWN_SCHOOL_PATH_LEFT_CHEST,     Items.KINSTONE,        (0x0D56A6, None),     (0x2D0B, 0x80), 0x0211, None),
@@ -592,7 +592,7 @@ hyrule_town: typing.List[LocationData] = [
     LocationData(6029484, TMCLocation.TOWN_WELL_LEFT_CHEST,            Items.RUPEES_100,      (0x0EFBC6, None),     (0x2CFC, 0x80), 0x0041, None),
     LocationData(6029485, TMCLocation.TOWN_BELL_HP,                    Items.HEART_PIECE,     (0x05D602, 0x05D604), (0x2CD5, 0x20), 0x0002, None),
     LocationData(6029486, TMCLocation.TOWN_WATERFALL_FUSION_CHEST,     None,                  (0x0F8082, None),     (0x2D1D, 0x40), 0x0B32, None),
-    LocationData(6029487, TMCLocation.TOWN_CARLOV_NPC,                 Items.CARLOV_MEDAL,    (None,     None),     (0x2EA5, 0x02), 0x0723, None),
+    LocationData(6029487, TMCLocation.TOWN_CARLOV_NPC,                 Items.CARLOV_MEDAL,    (0xEF613C, 0xEF6140), (0x2EA5, 0x02), 0x0723, None),
     LocationData(6029488, TMCLocation.TOWN_WELL_BOTTOM_CHEST,          Items.RUPEES_100,      (0x0EFBCE, None),     (0x2CFD, 0x02), 0x0041, None),
     # LocationData(6029489, TMCLocation.TOWN_CUCCOS_LV_1_NPC,            None,                  (0x1245E8, None),     (None,   None), 0x0002, None), # Cucco game uses an incremented number in 0x2CA5
     # LocationData(6029490, TMCLocation.TOWN_CUCCOS_LV_2_NPC,            None,                  (0x1245EC, None),     (None,   None), 0x0002, None), # it takes up the space of bits between 0x08-0x80
@@ -604,15 +604,15 @@ hyrule_town: typing.List[LocationData] = [
     # LocationData(6029496, TMCLocation.TOWN_CUCCOS_LV_8_NPC,            Items.KINSTONE,        (0x124604, None),     (None,   None), 0x0002, None),
     # LocationData(6029497, TMCLocation.TOWN_CUCCOS_LV_9_NPC,            Items.KINSTONE,        (0x124608, None),     (None,   None), 0x0002, None),
     LocationData(6029498, TMCLocation.TOWN_CUCCOS_LV_10_NPC,           Items.HEART_PIECE,     (0x12460C, None),     (0x2CA5, 0x80), 0x0002, None),
-    LocationData(6029499, TMCLocation.TOWN_JULLIETA_ITEM,              Items.RED_BOOK,        (None,     None),     (0x2EA4, 0x10), 0x0722, None),
+    LocationData(6029499, TMCLocation.TOWN_JULLIETA_ITEM,              Items.RED_BOOK,        (0x0F1BF7, None),     (0x2EA4, 0x10), 0x0722, LOC_TYPE_GROUND),
     LocationData(6029500, TMCLocation.TOWN_SIMULATION_CHEST,           Items.HEART_PIECE,     (0x0F04C2, None),     (0x2C9C, 0x02), 0x0044, None),
     LocationData(6029501, TMCLocation.TOWN_SHOE_SHOP_NPC,              Items.PEGASUS_BOOTS,   (0x0130EE, None),     (0x2EA4, 0x08), 0x0223, None),
     LocationData(6029502, TMCLocation.TOWN_MUSIC_HOUSE_LEFT_CHEST,     Items.RUPEES_200,      (0x0F5496, None),     (0x2CF2, 0x20), 0x0523, None),
     LocationData(6029503, TMCLocation.TOWN_MUSIC_HOUSE_MIDDLE_CHEST,   Items.RUPEES_200,      (0x0F549E, None),     (0x2CF2, 0x40), 0x0523, None),
     LocationData(6029504, TMCLocation.TOWN_MUSIC_HOUSE_RIGHT_CHEST,    Items.RUPEES_200,      (0x0F54A6, None),     (0x2CF2, 0x80), 0x0523, None),
     LocationData(6029505, TMCLocation.TOWN_MUSIC_HOUSE_HP,             Items.HEART_PIECE,     (0x0F5407, None),     (0x2CF2, 0x10), 0x0523, None),
-    LocationData(6029506, TMCLocation.TOWN_WELL_PILLAR_CHEST,          Items.RUPEES_200,      (0x0EFBD6, None),     (0x2CFD, 0x02), 0x0041, None),
-    LocationData(6029507, TMCLocation.TOWN_DR_LEFT_ATTIC_ITEM,         Items.GREEN_BOOK,      (None,     None),     (0x2EA4, 0x20), 0x022E, None),
+    LocationData(6029506, TMCLocation.TOWN_WELL_PILLAR_CHEST,          Items.RUPEES_200,      (0x0EFBD6, None),     (0x2CFD, 0x04), 0x0041, None),
+    LocationData(6029507, TMCLocation.TOWN_DR_LEFT_ATTIC_ITEM,         Items.GREEN_BOOK,      (0x0F17CB, None),     (0x2EA4, 0x20), 0x022E, None),
     LocationData(6029508, TMCLocation.TOWN_FOUNTAIN_BIG_CHEST,         Items.POWER_BRACELETS, (0x0EF686, None),     (0x2CFD, 0x80), 0x0362, None),
     LocationData(6029509, TMCLocation.TOWN_FOUNTAIN_SMALL_CHEST,       Items.RUPEES_100,      (0x0EF72A, None),     (0x2CFE, 0x01), 0x0462, None),
     LocationData(6029510, TMCLocation.TOWN_FOUNTAIN_HP,                Items.HEART_PIECE,     (0x0EF3B7, None),     (0x2D14, 0x08), 0x0062, None),
@@ -630,7 +630,7 @@ north_field: typing.List[LocationData] = [
     LocationData(6029519, TMCLocation.NORTH_FIELD_TREE_FUSION_BOTTOM_LEFT_CHEST,  Items.KINSTONE,        (0x0F7BF6, None), (0x2D1C, 0x40), 0x0032, None),
     LocationData(6029520, TMCLocation.NORTH_FIELD_TREE_FUSION_BOTTOM_RIGHT_CHEST, None,                  (0x0F7BFE, None), (0x2D1C, 0x80), 0x0032, None),
     LocationData(6029521, TMCLocation.NORTH_FIELD_TREE_FUSION_CENTER_BIG_CHEST,   Items.MAGIC_BOOMERANG, (0x0F7C06, None), (0x2D1D, 0x01), 0x0032, None),
-    LocationData(6029522, TMCLocation.NORTH_FIELD_WATERFALL_FUSION_DOJO_NPC,      Items.LONG_SPIN,       (None,     None), (0x2EA6, 0x20), 0x0225, None),
+    LocationData(6029522, TMCLocation.NORTH_FIELD_WATERFALL_FUSION_DOJO_NPC,      Items.LONG_SPIN,       (0xEF64A3, None), (0x2EA6, 0x40), 0x0225, None),
 ]
 
 vaati: typing.List[LocationData] = [

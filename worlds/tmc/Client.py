@@ -26,6 +26,15 @@ RAM_ADDRS = {
     # 0x06: File delete
     # 0x07: File load
     "game_state": (0x1002, 1, "IWRAM"),
+    # 0x00 = Initialise Room
+    # 0x01 = Change Room
+    # 0x02 = Update
+    # 0x03 = Change Area
+    # 0x04 = Minish Portal
+    # 0x05 = Barrel Update
+    # 0x06 = Reserved
+    # 0x07 = Subtask
+    "game_substate": (0x1004, 1, "IWRAM"),
     # The room id in the 1st byte, area id in the 2nd
     "room_area_id": (0x0BF4, 2, "IWRAM"),
     # 0x00 Denotes whether the player can input, 0x01 cannot input. Not to be confused with can move/interact.
@@ -38,7 +47,7 @@ RAM_ADDRS = {
     "link_priority": (0x1171, 1, "IWRAM"),
     # An arbitrary address that isn't used strictly by the game
     # We'll use it to store the index of the last processed remote item
-    "received_index": (0x3FE0E, 2, "EWRAM"),
+    "received_index": (0x3FE10, 2, "EWRAM"),
     "vaati_address": (0x2CA6, 1, "EWRAM"),
 }
 
@@ -92,6 +101,7 @@ class MinishCapClient(BizHawkClient):
             # Handle giving the player items
             read_result = await bizhawk.read(ctx.bizhawk_ctx, [
                 RAM_ADDRS["game_state"], # Current state of game (is the player actually in-game?)
+                RAM_ADDRS["game_substate"], # Is there any room transitions or anything similar
                 RAM_ADDRS["room_area_id"],
                 RAM_ADDRS["link_control"],
                 RAM_ADDRS["link_priority"],
@@ -101,11 +111,12 @@ class MinishCapClient(BizHawkClient):
             if read_result is None:
                 return
             game_state = read_result[0][0]
-            room_area_id = int.from_bytes(read_result[1], "little")
-            link_control = read_result[2][0]
-            link_priority = read_result[3][0]
-            received_index = (read_result[4][0] << 8) + read_result[4][1]
-            vaati_address = read_result[5][0]
+            game_substate = read_result[1][0]
+            room_area_id = int.from_bytes(read_result[2], "little")
+            link_control = read_result[3][0]
+            link_priority = read_result[4][0]
+            received_index = (read_result[5][0] << 8) + read_result[5][1]
+            vaati_address = read_result[6][0]
 
             locs_to_send = set()
 
@@ -115,7 +126,7 @@ class MinishCapClient(BizHawkClient):
                 await ctx.send_msgs([{"cmd": "StatusUpdate", "status": ClientStatus.CLIENT_GOAL}])
 
             # Early return if items/locations probably shouldn't be handled yet
-            if game_state != 0x02 or link_control != 0x00 or link_priority != 0x11:
+            if game_state != 0x02 or game_substate != 0x02 or link_control != 0x00 or link_priority != 0x11:
                 return
 
             # Read all pending receive items and dump into game ram
@@ -143,7 +154,7 @@ class MinishCapClient(BizHawkClient):
                 await bizhawk.write(
                     ctx.bizhawk_ctx,
                     [
-                        (0x3FE0E, [(received_index + i + 1) // 0x100, (received_index + i + 1) % 0x100], "EWRAM"),
+                        (0x3FE10, [(received_index + i + 1) // 0x100, (received_index + i + 1) % 0x100], "EWRAM"),
                     ]
                 )
 
@@ -163,7 +174,7 @@ class MinishCapClient(BizHawkClient):
                 await ctx.send_msgs([{"cmd": "LocationChecks", "locations": list(locs_to_send)}])
 
             # Player moved to a new room that isn't the pause menu. Pause menu `room_area_id` == 0x0000
-            if self.room != room_area_id and room_area_id != 0x0000:
+            if self.room != room_area_id:
                 # Location Scouting
                 if self.room in self.location_by_room_area:
                     location_scouts = set()
