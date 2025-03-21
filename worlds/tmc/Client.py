@@ -128,8 +128,6 @@ class MinishCapClient(BizHawkClient):
             link_health = int.from_bytes(read_result[7], "little")
             gameover = bool.from_bytes(read_result[8])
 
-            locs_to_send = set()
-
             # Check for goal, since vaati's defeat triggers a cutscene this has to be checked before the next if
             # specifically because it sets the game_task to 0x04
             if not ctx.finished_game and vaati_address | 0x02 == vaati_address:
@@ -145,36 +143,8 @@ class MinishCapClient(BizHawkClient):
                 await self.handle_death_link(ctx, link_health, gameover)
 
             # Player moved to a new room that isn't the pause menu. Pause menu `room_area_id` == 0x0000
-            if self.room != room_area_id:
-                # Location Scouting
-                if self.room in self.location_by_room_area:
-                    location_scouts = set()
-                    for loc in self.location_by_room_area[self.room]:
-                        if loc.id in self.local_checked_locations or not loc.scoutable:
-                            continue
-
-                        location_scouts.add(loc.id)
-
-                    if len(location_scouts) > 0:
-                        await ctx.send_msgs(
-                            [{
-                                "cmd": "LocationScouts",
-                                "locations": list(location_scouts),
-                                "create_as_hint": 2
-                            }]
-                        )
-
-                self.room = room_area_id
-                # Room sync for poptracker tab tracking
-                await ctx.send_msgs(
-                    [{
-                        "cmd": "Set",
-                        "key": f"tmc_room_{ctx.team}_{ctx.slot}",
-                        "default": 0,
-                        "want_reply": False,
-                        "operations": [{"operation": "replace", "value": room_area_id}]
-                    }]
-                )
+            if task_substate == 0x02 and self.room != room_area_id:
+                await self.handle_room_change(ctx, room_area_id)
 
         except bizhawk.RequestFailedError:
             # The connector didn't respond. Exit handler and return to main loop to reconnect
@@ -271,3 +241,34 @@ class MinishCapClient(BizHawkClient):
                 await ctx.send_death(f"{ctx.player_names[ctx.slot]} ran out of hearts!")
                 self.death_link_ready = False
                 self.ignore_next_death_link = True
+
+    async def handle_room_change(self, ctx: "BizHawkClientContext", room_area_id) -> None:
+        # Location Scouting
+        if self.room in self.location_by_room_area:
+            location_scouts = set()
+            for loc in self.location_by_room_area[self.room]:
+                if loc.id in self.local_checked_locations or not loc.scoutable:
+                    continue
+
+                location_scouts.add(loc.id)
+
+            if len(location_scouts) > 0:
+                await ctx.send_msgs(
+                    [{
+                        "cmd": "LocationScouts",
+                        "locations": list(location_scouts),
+                        "create_as_hint": 2
+                    }]
+                )
+
+        self.room = room_area_id
+        # Room sync for poptracker tab tracking
+        await ctx.send_msgs(
+            [{
+                "cmd": "Set",
+                "key": f"tmc_room_{ctx.team}_{ctx.slot}",
+                "default": 0,
+                "want_reply": False,
+                "operations": [{"operation": "replace", "value": room_area_id}]
+            }]
+        )
