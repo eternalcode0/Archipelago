@@ -5,7 +5,7 @@ import asyncio
 from NetUtils import ClientStatus
 import worlds._bizhawk as bizhawk
 from worlds._bizhawk.client import BizHawkClient
-from .Locations import all_locations, LocationData, LOC_TYPE_GROUND
+from .Locations import all_locations, LocationData
 from .Items import items_by_id
 
 if TYPE_CHECKING:
@@ -49,6 +49,8 @@ RAM_ADDRS = {
     # We'll use it to store the index of the last processed remote item
     "received_index": (0x3FE10, 2, "EWRAM"),
     "vaati_address": (0x2CA6, 1, "EWRAM"),
+    "link_health": (0x11A5, 1, "IWRAM"),
+    "gameover": (0x10A5, 1, "IWRAM"),
 }
 
 
@@ -60,6 +62,10 @@ class MinishCapClient(BizHawkClient):
     location_name_to_id: Dict[str, int]
     location_by_room_area: Dict[int, [LocationData]]
     room: int
+    death_handling: bool = False
+    # 0 = disabled, 1 = enabled_health, 2 = enabled_gameover
+    death_link_mode: int = 0
+
 
     def __init__(self) -> None:
         super().__init__()
@@ -69,10 +75,10 @@ class MinishCapClient(BizHawkClient):
         self.room = 0x0000
 
         for loc in all_locations:
-            if loc.roomArea in self.location_by_room_area:
-                self.location_by_room_area[loc.roomArea].append(loc)
+            if loc.room_area in self.location_by_room_area:
+                self.location_by_room_area[loc.room_area].append(loc)
             else:
-                self.location_by_room_area[loc.roomArea] = [loc]
+                self.location_by_room_area[loc.room_area] = [loc]
 
     async def validate_rom(self, ctx: "BizHawkClientContext") -> bool:
         try:
@@ -89,7 +95,7 @@ class MinishCapClient(BizHawkClient):
         ctx.game = self.game
         ctx.items_handling = 0b101
         ctx.want_slot_data = True
-        ctx.watcher_timeout = 0.25
+        ctx.watcher_timeout = 0.5
 
         return True
 
@@ -161,7 +167,7 @@ class MinishCapClient(BizHawkClient):
             # Read all location flags in area and add to pending location checks if updates
             if room_area_id in self.location_by_room_area:
                 for loc in self.location_by_room_area[room_area_id]:
-                    if loc.id in self.local_checked_locations:
+                    if loc.id in self.local_checked_locations or loc.id not in ctx.server_locations:
                         continue
                     loc_bytes = await bizhawk.read(ctx.bizhawk_ctx, [(loc.ram_addr[0], 1, "EWRAM")])
                     if loc_bytes[0][0] | loc.ram_addr[1] == loc_bytes[0][0]:
@@ -179,7 +185,7 @@ class MinishCapClient(BizHawkClient):
                 if self.room in self.location_by_room_area:
                     location_scouts = set()
                     for loc in self.location_by_room_area[self.room]:
-                        if loc.id in self.local_checked_locations or loc.locType != LOC_TYPE_GROUND:
+                        if loc.id in self.local_checked_locations or not loc.scoutable:
                             continue
 
                         location_scouts.add(loc.id)

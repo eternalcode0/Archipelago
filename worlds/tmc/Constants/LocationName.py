@@ -526,4 +526,4 @@ class TMCLocation():
     DHC_3F_SOUTH_WEST_CHEST = "DHC 3F South West Chest"
     DHC_3F_SOUTH_EAST_CHEST = "DHC 3F South East Chest"
     DHC_2F_BLUE_WARP_BIG_CHEST = "DHC 2F Blue Warp Big Chest"
-    BOSS_VAATI = "Vaati"
+    BOSS_VAATI = "Defeat Vaati"

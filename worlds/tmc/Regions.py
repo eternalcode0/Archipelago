@@ -1,74 +1,23 @@
 import typing
 
 from BaseClasses import Region, Entrance
-from .Constants.RegionName import TMCRegion
-from .Locations import (
-    MinishCapLocation,
-    LocationData,
-    south_field,
-    castle_exterior,
-    eastern_hills,
-    lonlon,
-    lower_falls,
-    lake_hylia,
-    minish_woods,
-    trilby_highlands,
-    western_woods,
-    crenel,
-    swamp,
-    ruins,
-    valley,
-    dungeon_crypt,
-    upper_falls,
-    clouds,
-    wind_tribe,
-    dungeon_dws,
-    dungeon_cof,
-    dungeon_fow,
-    dungeon_tod,
-    dungeon_pow,
-    sanctuary,
-    dungeon_dhc,
-    hyrule_town,
-    north_field,
-    vaati
-)
+from .Constants.RegionName import TMCRegion, all_regions
+from .Locations import MinishCapLocation, LocationData, all_locations
 
 if typing.TYPE_CHECKING:
     from . import MinishCapWorld
 
-def create_regions(world: "MinishCapWorld"):
+def excluded_locations_by_region(region: str, disabled_locations: set[int]):
+    return (loc for loc in all_locations if loc.region == region and loc.id not in disabled_locations)
+
+def create_regions(world: "MinishCapWorld", disabled_locations: set[int]):
     menu_region = Region("Menu", world.player, world.multiworld)
     world.multiworld.regions.append(menu_region)
-    regions = {}
 
-    create_region(world, TMCRegion.SOUTH_FIELD, south_field)
-    create_region(world, TMCRegion.CASTLE_EXTERIOR, castle_exterior)
-    create_region(world, TMCRegion.EASTERN_HILLS, eastern_hills)
-    create_region(world, TMCRegion.LONLON, lonlon)
-    create_region(world, TMCRegion.LOWER_FALLS, lower_falls)
-    create_region(world, TMCRegion.LAKE_HYLIA, lake_hylia)
-    create_region(world, TMCRegion.MINISH_WOODS, minish_woods)
-    create_region(world, TMCRegion.TRILBY_HIGHLANDS, trilby_highlands)
-    create_region(world, TMCRegion.WESTERN_WOODS, western_woods)
-    create_region(world, TMCRegion.CRENEL, crenel)
-    create_region(world, TMCRegion.SWAMP, swamp)
-    create_region(world, TMCRegion.RUINS, ruins)
-    create_region(world, TMCRegion.VALLEY, valley)
-    create_region(world, TMCRegion.DUNGEON_CRYPT, dungeon_crypt)
-    create_region(world, TMCRegion.UPPER_FALLS, upper_falls)
-    create_region(world, TMCRegion.CLOUDS, clouds)
-    create_region(world, TMCRegion.WIND_TRIBE, wind_tribe)
-    create_region(world, TMCRegion.DUNGEON_DWS, dungeon_dws)
-    create_region(world, TMCRegion.DUNGEON_COF, dungeon_cof)
-    create_region(world, TMCRegion.DUNGEON_FOW, dungeon_fow)
-    create_region(world, TMCRegion.DUNGEON_TOD, dungeon_tod)
-    create_region(world, TMCRegion.DUNGEON_POW, dungeon_pow)
-    create_region(world, TMCRegion.SANCTUARY, sanctuary)
-    create_region(world, TMCRegion.DUNGEON_DHC, dungeon_dhc)
-    create_region(world, TMCRegion.HYRULE_TOWN, hyrule_town)
-    create_region(world, TMCRegion.NORTH_FIELD, north_field)
-    create_region(world, "Vaati Fight", vaati)
+    for region_key in all_regions:
+        create_region(world, region_key, excluded_locations_by_region(region_key, disabled_locations))
+
+    create_region(world, "Vaati Fight", [LocationData(None, "Defeat Vaati", "Vaati Fight", None, None, (0x2CA6, 0x02), 0x008B)])
 
 def create_region(world: "MinishCapWorld", name, locations):
     ret = Region(name, world.player, world.multiworld)
@@ -124,7 +73,7 @@ def connect_regions(world: "MinishCapWorld"):
     connect(world, names, TMCRegion.EASTERN_HILLS, TMCRegion.MINISH_WOODS, lambda state: state.has("Bomb", world.player))
     connect(world, names, TMCRegion.EASTERN_HILLS, TMCRegion.LONLON)
 
-    connect(world, names, TMCRegion.WESTERN_WOODS, TMCRegion.SWAMP)
+    connect(world, names, TMCRegion.WESTERN_WOODS, TMCRegion.CASTOR_WILDS)
     connect(world, names, TMCRegion.WESTERN_WOODS, TMCRegion.TRILBY_HIGHLANDS)
 
     connect(world, names, TMCRegion.NORTH_FIELD, TMCRegion.LONLON) #, lambda state: StateLogic.canPassTrees(state, world.player))
@@ -143,9 +92,9 @@ def connect_regions(world: "MinishCapWorld"):
     connect(world, names, TMCRegion.CLOUDS, TMCRegion.WIND_TRIBE)
     connect(world, names, TMCRegion.CLOUDS, TMCRegion.DUNGEON_POW)
 
-    connect(world, names, TMCRegion.VALLEY, TMCRegion.DUNGEON_CRYPT)
+    connect(world, names, TMCRegion.VALLEY, TMCRegion.DUNGEON_RC)
 
-    connect(world, names, TMCRegion.SWAMP, TMCRegion.RUINS)
+    connect(world, names, TMCRegion.CASTOR_WILDS, TMCRegion.RUINS)
     connect(world, names, TMCRegion.RUINS, TMCRegion.DUNGEON_FOW)
 
     connect(world, names, TMCRegion.LONLON, TMCRegion.MINISH_WOODS) # There isn't a direct connection but there's no checks going through Eastern Hills

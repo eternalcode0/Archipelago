@@ -36,12 +36,11 @@ EXTERNAL_ITEM_MAP: dict[ItemClassification, typing.Callable[[object], int]] = {
 
 def write_tokens(world: "MinishCapWorld", patch: MinishCapProcedurePatch) -> None:
     # Patch Items into Locations
-    for location_name in location_table_by_name.keys():
-        if location_name in world.disabled_locations:
+    for location_name, loc in location_table_by_name.items():
+        if loc.id in world.disabled_locations:
             continue
         location = world.get_location(location_name)
         item = location.item
-        loc = location_table_by_name[location.name]
         # Temporary if statement until I fill in all the rom addresses for each location
         if loc.rom_addr[0] is not None:
             item_inject(world, patch, location_table_by_name[location.name], item)

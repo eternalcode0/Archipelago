@@ -13,12 +13,14 @@ from BaseClasses import Tutorial, Item, Region, Location, LocationProgressType, 
 from worlds.AutoWorld import WebWorld, World
 from .Options import MinishCapOptions
 from .Items import ItemData, item_frequencies, item_table, MinishCapItem, itemList, EARTH_ELEMENT, WIND_ELEMENT, FIRE_ELEMENT, WATER_ELEMENT
-from .Locations import all_locations
+from .Locations import all_locations, DEFAULT_SET, OBSCURE_SET, POOL_RUPEE
 from .Constants.LocationName import TMCLocation
 from .Client import MinishCapClient
 from .Regions import create_regions, connect_regions
 from .Rom import MinishCapProcedurePatch, write_tokens
 from .Rules import MinishCapRules
+
+tmc_logger = logging.getLogger("The Minish Cap")
 
 
 class MinishCapWebWorld(WebWorld):
@@ -63,26 +65,30 @@ class MinishCapWorld(World):
     disabled_locations: Set[str]
 
     def generate_early(self) -> None:
-        self.disabled_locations = set()
+        tmc_logger.warning("INCOMPLETE WORLD! Slot '%s' is using an unfinished alpha world that doesn't have all logic yet!", self.player_name)
+        tmc_logger.warning("INCOMPLETE WORLD! Slot '%s' will require send_location/send_item for completion!", self.player_name)
+
+        enabled_pools = DEFAULT_SET
+        if self.options.rupeesanity.value:
+            enabled_pools.add(POOL_RUPEE)
+        if self.options.obscure_spots.value:
+            enabled_pools |= OBSCURE_SET
+
+        self.disabled_locations = set(loc.id for loc in all_locations if not loc.pools.issubset(enabled_pools))
+
 
     def fill_slot_data(self) -> Dict[str, any]:
         return {
+            "DeathLink": self.options.death_link.value,
+            "DeathLinkGameover": self.options.death_link_gameover.value,
             "RupeeSpot": self.options.rupeesanity.value,
             "ObscureSpot": self.options.obscure_spots.value,
         }
 
     def create_regions(self) -> None:
-        create_regions(self)
+        create_regions(self, self.disabled_locations)
         connect_regions(self)
 
-        # item = self.create_item(EARTH_ELEMENT.item_name)
-        # self.get_location(TMCLocation.DEEPWOOD_PRIZE).place_locked_item(item)
-        # item = self.create_item(FIRE_ELEMENT.item_name)
-        # self.get_location(TMCLocation.COF_PRIZE).place_locked_item(item)
-        # item = self.create_item(WATER_ELEMENT.item_name)
-        # self.get_location(TMCLocation.DROPLETS_PRIZE).place_locked_item(item)
-        # item = self.create_item(WIND_ELEMENT.item_name)
-        # self.get_location(TMCLocation.PALACE_PRIZE).place_locked_item(item)
         item = MinishCapItem("Victory", ItemClassification.progression, None, self.player)
         self.get_location(TMCLocation.BOSS_VAATI).place_locked_item(item)
 
@@ -120,7 +126,7 @@ class MinishCapWorld(World):
             ]
 
     def set_rules(self) -> None:
-        MinishCapRules(self).set_rules()
+        MinishCapRules(self).set_rules(self.disabled_locations, self.location_name_to_id)
         # set_rules(self, self.disabled_locations)
 
     def generate_output(self, output_directory: str) -> None:

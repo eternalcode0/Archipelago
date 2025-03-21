@@ -316,10 +316,13 @@ class MinishCapRules():
     def can_reach(self, locations: [str]) -> CollectionRule:
         return lambda state: not any(state.can_reach(loc, "Location", self.player) for loc in locations)
 
-    def set_rules(self) -> None:
+    def set_rules(self, disabled_locations: set[int], location_name_to_id: dict[str, id]) -> None:
         multiworld = self.world.multiworld
 
         for loc in multiworld.get_locations(self.player):
+            if loc.name not in location_name_to_id or location_name_to_id[loc.name] in disabled_locations:
+                continue
+
             if loc.name in self.location_rules and self.location_rules[loc.name] is not None:
                 if hasattr(self.location_rules[loc.name], '__iter__'):
                     for rule in self.location_rules[loc.name]:
