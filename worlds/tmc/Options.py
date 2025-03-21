@@ -110,7 +110,7 @@ class MinishCapOptions(PerGameCommonOptions):
     # figurine_amount: FigurineAmount
     rupeesanity: Rupeesanity
     obscure_spots: ObscureSpots
-    dungeon_small_keys: SmallKeys
-    dungeon_big_keys: BigKeys
-    dungeon_maps: DungeonMaps
-    dungeon_compasses: DungeonCompasses
+    # dungeon_small_keys: SmallKeys
+    # dungeon_big_keys: BigKeys
+    # dungeon_maps: DungeonMaps
+    # dungeon_compasses: DungeonCompasses
