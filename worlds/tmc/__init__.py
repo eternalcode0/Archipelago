@@ -36,6 +36,14 @@ class MinishCapWebWorld(WebWorld):
             file_name="setup_en.md",
             link="setup/en",
             authors=["eternalcode"],
+        ),
+        Tutorial(
+            tutorial_name="Setup Guide",
+            description="A guide to setting up The Legend of Zelda: The Minish Cap for Archipelago.",
+            language="Français",
+            file_name="setup_fr.md",
+            link="setup/fr",
+            authors=["Deoxis9001"],
         )
     ]
 
