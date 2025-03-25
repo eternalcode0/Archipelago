@@ -39,7 +39,7 @@ RAM_ADDRS = {
     "room_area_id": (0x0BF4, 2, "IWRAM"),
     # 0x00 Denotes whether the player can input, 0x01 cannot input. Not to be confused with can move/interact.
     # Can still be set to 0x00 when the player is in confusing situations such as reading textboxes
-    "link_control": (0x3F9A, 1, "IWRAM"),
+    "action_state": (0x116C, 1, "IWRAM"),
     # 0x11: Standard gameplay
     # 0x12: Reading dialog?
     # 0x13: Growing (yes, there's a separate state for growing from minish and none for shrinking)
@@ -99,7 +99,7 @@ class MinishCapClient(BizHawkClient):
         return True
 
     async def game_watcher(self, ctx: "BizHawkClientContext") -> None:
-        if ctx.server is None or ctx.server.socket.closed:
+        if ctx.server is None or ctx.server.socket.closed or ctx.slot_data is None:
             return
 
         try:
@@ -108,7 +108,7 @@ class MinishCapClient(BizHawkClient):
                 RAM_ADDRS["game_task"], # Current state of game (is the player actually in-game?)
                 RAM_ADDRS["task_substate"], # Is there any room transitions or anything similar
                 RAM_ADDRS["room_area_id"],
-                RAM_ADDRS["link_control"],
+                RAM_ADDRS["action_state"],
                 RAM_ADDRS["link_priority"],
                 RAM_ADDRS["received_index"],
                 RAM_ADDRS["vaati_address"],
@@ -121,7 +121,7 @@ class MinishCapClient(BizHawkClient):
             game_task = read_result[0][0]
             task_substate = read_result[1][0]
             room_area_id = int.from_bytes(read_result[2], "little")
-            link_control = read_result[3][0]
+            action_state = read_result[3][0]
             link_priority = read_result[4][0]
             received_index = (read_result[5][0] << 8) + read_result[5][1]
             vaati_address = read_result[6][0]
@@ -140,7 +140,7 @@ class MinishCapClient(BizHawkClient):
 
             # Death link handling only if in normal gameplay (0x02) or gamemover (0x03)
             if game_task in range(0x02, 0x04) and ctx.slot_data.get("DeathLink", 0) == 1:
-                await self.handle_death_link(ctx, link_health, gameover)
+                await self.handle_death_link(ctx, link_health, gameover, action_state)
 
             # Player moved to a new room that isn't the pause menu. Pause menu `room_area_id` == 0x0000
             if task_substate == 0x02 and self.room != room_area_id:
@@ -161,8 +161,8 @@ class MinishCapClient(BizHawkClient):
                 # Write to the address if it hasn't changed
                 write_result = await bizhawk.guarded_write(
                     ctx.bizhawk_ctx,
-                    [(0x3FA8, [item.byte_ids[0], item.byte_ids[1]], "IWRAM")],
-                    [(0x3FA8, [0x0, 0x0], "IWRAM")]
+                    [(0x3FE20, [item.byte_ids[0], item.byte_ids[1]], "EWRAM")],
+                    [(0x3FE20, [0x0, 0x0], "EWRAM")]
                 )
 
                 await asyncio.sleep(0.05)
@@ -196,7 +196,7 @@ class MinishCapClient(BizHawkClient):
         if len(locs_to_send) > 0:
             await ctx.send_msgs([{"cmd": "LocationChecks", "locations": list(locs_to_send)}])
 
-    async def handle_death_link(self, ctx: "BizHawkClientContext", link_health: int, game_over: bool) -> None:
+    async def handle_death_link(self, ctx: "BizHawkClientContext", link_health: int, game_over: bool, action_state: int) -> None:
         if "DeathLink" not in ctx.tags:
             await ctx.update_death_link(True)
             self.previous_death_link = ctx.last_death_link
@@ -231,12 +231,12 @@ class MinishCapClient(BizHawkClient):
                     )
                     self.death_link_ready = False
         # Not receiving death, decide if we send death
-        if gameover_mode:
+        if gameover_mode and action_state == 0x0A:
             if game_over:
                 await ctx.send_death(f"{ctx.player_names[ctx.slot]} ran out of fairies!")
                 self.death_link_ready = False
                 self.ignore_next_death_link = True
-        else:
+        elif action_state == 0x0A:
             if link_health == 0:
                 await ctx.send_death(f"{ctx.player_names[ctx.slot]} ran out of hearts!")
                 self.death_link_ready = False

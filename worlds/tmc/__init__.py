@@ -87,7 +87,7 @@ class MinishCapWorld(World):
 
     def create_regions(self) -> None:
         create_regions(self, self.disabled_locations)
-        connect_regions(self)
+        # connect_regions(self)
 
         item = MinishCapItem("Victory", ItemClassification.progression, None, self.player)
         self.get_location(TMCLocation.BOSS_VAATI).place_locked_item(item)
@@ -127,7 +127,8 @@ class MinishCapWorld(World):
 
     def set_rules(self) -> None:
         MinishCapRules(self).set_rules(self.disabled_locations, self.location_name_to_id)
-        # set_rules(self, self.disabled_locations)
+        # from Utils import visualize_regions
+        # visualize_regions(self.multiworld.get_region("Menu", self.player), "tmc_world.puml")
 
     def generate_output(self, output_directory: str) -> None:
         patch = MinishCapProcedurePatch(player = self.player, player_name = self.multiworld.player_name[self.player])

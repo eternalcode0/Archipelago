@@ -15,20 +15,25 @@ class ItemData(typing.NamedTuple):
 class MinishCapItem(Item):
     game: str = "The Minish Cap"
 
-SMITHS_SWORD          = ItemData("Smith's Sword",                ItemClassification.progression, (0x01, 0x00))
-WHITE_SWORD_GREEN     = ItemData("White Sword (Green)",          ItemClassification.progression, (0x02, 0x00))
-WHITE_SWORD_RED       = ItemData("White Sword (Red)",            ItemClassification.progression, (0x03, 0x00)) # works but isn't progressive
-WHITE_SWORD_BLUE      = ItemData("White Sword (Blue)",           ItemClassification.progression, (0x04, 0x00))
-# UNUSED_SWORD        = ItemData("Unused Sword",                 ItemClassification.progression, (0x05, 0x00))
-FOUR_SWORD            = ItemData("Four Sword",                   ItemClassification.progression, (0x06, 0x00))
-BOMB                  = ItemData("Bomb",                         ItemClassification.progression, (0x07, 0x00)) # gives bomb but 0 capacity
-REMOTE_BOMB           = ItemData("Remote Bomb",                  ItemClassification.progression, (0x08, 0x00))
-BOW                   = ItemData("Bow",                          ItemClassification.progression, (0x09, 0x00)) # working, received before quiver
-LIGHT_ARROW           = ItemData("Light Arrow",                  ItemClassification.progression, (0x0A, 0x00))
-BOOMERANG             = ItemData("Boomerang",                    ItemClassification.progression, (0x0B, 0x00)) # working, received before mboom
-MAGIC_BOOMERANG       = ItemData("Magic Boomerang",              ItemClassification.progression, (0x0C, 0x00))
-SHIELD                = ItemData("Shield",                       ItemClassification.progression, (0x0D, 0x00))
-MIRROR_SHIELD         = ItemData("Mirror Shield",                ItemClassification.progression, (0x0E, 0x00))
+# SMITHS_SWORD          = ItemData("Smith's Sword",                ItemClassification.progression, (0x01, 0x00))
+# WHITE_SWORD_GREEN     = ItemData("White Sword (Green)",          ItemClassification.progression, (0x02, 0x00))
+# WHITE_SWORD_RED       = ItemData("White Sword (Red)",            ItemClassification.progression, (0x03, 0x00)) # works but isn't progressive
+# WHITE_SWORD_BLUE      = ItemData("White Sword (Blue)",           ItemClassification.progression, (0x04, 0x00))
+# # UNUSED_SWORD        = ItemData("Unused Sword",                 ItemClassification.progression, (0x05, 0x00))
+# FOUR_SWORD            = ItemData("Four Sword",                   ItemClassification.progression, (0x06, 0x00))
+PROGRESSIVE_SWORD     = ItemData("Progressive Sword",            ItemClassification.progression, (0x01, 0x00))
+# BOMB                  = ItemData("Bomb",                         ItemClassification.progression, (0x07, 0x00)) # gives bomb but 0 capacity
+# REMOTE_BOMB           = ItemData("Remote Bomb",                  ItemClassification.progression, (0x08, 0x00))
+PROGRESSIVE_BOMB      = ItemData("Progressive Bomb",             ItemClassification.progression, (0x07, 0x00))
+# BOW                   = ItemData("Bow",                          ItemClassification.progression, (0x09, 0x00)) # working, received before quiver
+# LIGHT_ARROW           = ItemData("Light Arrow",                  ItemClassification.progression, (0x0A, 0x00))
+PROGRESSIVE_BOW       = ItemData("Progressive Bow",              ItemClassification.progression, (0x09, 0x00))
+# BOOMERANG             = ItemData("Boomerang",                    ItemClassification.progression, (0x0B, 0x00)) # working, received before mboom
+# MAGIC_BOOMERANG       = ItemData("Magic Boomerang",              ItemClassification.progression, (0x0C, 0x00))
+PROGRESSIVE_BOOMERANG = ItemData("Progressive Boomerang",        ItemClassification.progression, (0x0B, 0x00))
+# SHIELD                = ItemData("Shield",                       ItemClassification.progression, (0x0D, 0x00))
+# MIRROR_SHIELD         = ItemData("Mirror Shield",                ItemClassification.progression, (0x0E, 0x00))
+PROGRESSIVE_SHIELD    = ItemData("Progressive Shield",           ItemClassification.progression, (0x0D, 0x00))
 LANTERN               = ItemData("Lantern",                      ItemClassification.progression, (0x0F, 0x00))
 # LANTERN             = ItemData("Lantern",                      ItemClassification.progression, (0x10, 0x00)) # works but is given in the on state
 GUST_JAR              = ItemData("Gust Jar",                     ItemClassification.progression, (0x11, 0x00))
@@ -122,8 +127,8 @@ HEART_REFILL          = ItemData("Recovery Heart",               ItemClassificat
 HEART_CONTAINER       = ItemData("Heart Container",              ItemClassification.progression, (0x62, 0x00))
 HEART_PIECE           = ItemData("Heart Piece",                  ItemClassification.progression, (0x63, 0x00))
 BIG_WALLET            = ItemData("Big Wallet",                   ItemClassification.progression, (0x64, 0x00)) # working, 2 received
-BOMB_BAG              = ItemData("Bomb Bag",                     ItemClassification.progression, (0x65, 0x00)) # working, sent after bombs, fixed 0 capacity
-QUIVER                = ItemData("Quiver",                       ItemClassification.progression, (0x66, 0x00)) # working, 1 received
+BOMB_BAG              = ItemData("Bomb Bag",                     ItemClassification.useful, (0x65, 0x00)) # working, sent after bombs, fixed 0 capacity
+QUIVER                = ItemData("Quiver",                       ItemClassification.useful, (0x66, 0x00)) # working, 1 received
 # KINSTONE_BAG        = ItemData("Kinstone Bag",                 ItemClassification.progression, (0x67, 0x00))
 # BRIOCHE             = ItemData("Brioche",                      ItemClassification.filler, (0x68, 0x00))
 # CROISSANT           = ItemData("Croissant",                    ItemClassification.filler, (0x69, 0x00))
@@ -176,14 +181,14 @@ def pool_baseitems() -> [ItemData]:
         WATER_ELEMENT,
         WIND_ELEMENT,
 
-        SMITHS_SWORD,
-        WHITE_SWORD_GREEN,
-        WHITE_SWORD_RED,
-        WHITE_SWORD_BLUE,
-        FOUR_SWORD,
-
-        SHIELD,
-        MIRROR_SHIELD,
+        *[PROGRESSIVE_SWORD] * 6,
+        *[PROGRESSIVE_SHIELD] * 2,
+        *[PROGRESSIVE_BOW] * 2,
+        *[PROGRESSIVE_BOMB] * 2,
+        *[PROGRESSIVE_BOOMERANG] * 2,
+        *[BOMB_BAG] * 3,
+        *[QUIVER] * 3,
+        BOW_BUTTERFLY,
 
         GUST_JAR,
         LANTERN,
@@ -198,30 +203,14 @@ def pool_baseitems() -> [ItemData]:
         MOLE_MITTS,
         DIG_BUTTERFLY,
 
-        BOMB,
-        BOMB_BAG,
-        BOMB_BAG,
-        BOMB_BAG,
-        REMOTE_BOMB,
-
-        BOW,
-        LIGHT_ARROW,
-        BOW_BUTTERFLY,
-        QUIVER,
-        QUIVER,
-        QUIVER,
-
-        BOOMERANG,
-        MAGIC_BOOMERANG,
-
         BOTTLE_1,
         BOTTLE_2,
         BOTTLE_3,
         BOTTLE_4,
         DOG_FOOD,
 
-        *[*[HEART_PIECE] * 44],
-        *[*[HEART_CONTAINER] * 6],
+        *[HEART_PIECE] * 44,
+        *[HEART_CONTAINER] * 6,
 
         RUPEES_1,
         RUPEES_5,
