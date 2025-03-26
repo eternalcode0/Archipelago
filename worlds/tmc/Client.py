@@ -5,7 +5,7 @@ import asyncio
 from NetUtils import ClientStatus
 import worlds._bizhawk as bizhawk
 from worlds._bizhawk.client import BizHawkClient
-from .Locations import all_locations, LocationData
+from .Locations import all_locations, LocationData, events
 from .Items import items_by_id
 
 if TYPE_CHECKING:
@@ -65,6 +65,8 @@ class MinishCapClient(BizHawkClient):
     previous_death_link = 0
     death_link_ready = False
     ignore_next_death_link = False
+    event_data = []
+    events_sent = set()
 
     def __init__(self) -> None:
         super().__init__()
@@ -72,6 +74,7 @@ class MinishCapClient(BizHawkClient):
         self.local_checked_locations = set()
         self.location_by_room_area = {}
         self.room = 0x0000
+        self.event_data = map(lambda e: (e[0], 1, "EWRAM"), events.keys())
 
         for loc in all_locations:
             if loc.room_area in self.location_by_room_area:
@@ -137,6 +140,7 @@ class MinishCapClient(BizHawkClient):
             if game_task == 0x02 or task_substate == 0x02:
                 await self.handle_item_receiving(ctx, received_index)
                 await self.handle_location_sending(ctx, room_area_id)
+                await self.handle_event_setting(ctx)
 
             # Death link handling only if in normal gameplay (0x02) or gamemover (0x03)
             if game_task in range(0x02, 0x04) and ctx.slot_data.get("DeathLink", 0) == 1:
@@ -272,3 +276,24 @@ class MinishCapClient(BizHawkClient):
                 "operations": [{"operation": "replace", "value": room_area_id}]
             }]
         )
+
+    async def handle_event_setting(self, ctx: "BizHawkClientContext") -> None:
+        # Batch all events together into one read
+        read_events = await bizhawk.read(ctx.bizhawk_ctx, self.event_data)
+
+        if read_events is None:
+            return
+
+        for i, (address_pair, event_name) in enumerate(events.items()):
+            if event_name in self.events_sent or read_events[i][0] | address_pair[1] != read_events[i][0]:
+                continue
+            self.events_sent.add(event_name)
+            await ctx.send_msgs(
+                [{
+                    "cmd": "Set",
+                    "key": f"tmc_{event_name}_{ctx.team}_{ctx.slot}",
+                    "default": 0,
+                    "want_reply": False,
+                    "operations": [{"operation": "replace", "value": 1}]
+                }]
+            )

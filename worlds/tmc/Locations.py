@@ -1674,4 +1674,18 @@ all_locations: typing.List[LocationData] = [
     #endregion
 ]
 
+events: typing.Dict[str, typing.Tuple[int, int]] = {
+    (0x2B44, 0x01): "scroll_spin",
+    (0x2B4E, 0x40): "scroll_fast_spin",
+    (0x2B4F, 0x01): "scroll_fast_split",
+    (0x2B45, 0x04): "scroll_great_spin",
+    (0x2B4F, 0x04): "scroll_long_spin",
+    (0x2C9C, 0x04): "dungeon_dws",
+    (0x2C9C, 0x08): "dungeon_cof",
+    (0x2D72, 0x02): "dungeon_fow",
+    (0x2C9C, 0x20): "dungeon_tod",
+    (0x2C9C, 0x40): "dungeon_pow",
+    (0x2D02, 0x04): "dungeon_rc",
+}
+
 location_table_by_name: typing.Dict[str, LocationData] = {location.name: location for location in all_locations}

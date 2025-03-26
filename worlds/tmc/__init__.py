@@ -100,9 +100,12 @@ class MinishCapWorld(World):
         item = MinishCapItem("Victory", ItemClassification.progression, None, self.player)
         self.get_location(TMCLocation.BOSS_VAATI).place_locked_item(item)
 
-    def create_item(self, name: str) -> Item:
+    def create_item(self, name: str) -> MinishCapItem:
         item = item_table[name]
         return MinishCapItem(name, item.classification, self.item_name_to_id[name], self.player)
+
+    def create_event(self, name: str) -> MinishCapItem:
+        return MinishCapItem(name, ItemClassification.progression, None, self.player)
 
     def create_items(self):
         # First add in all progression and useful items
