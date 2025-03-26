@@ -1056,10 +1056,10 @@ all_locations: typing.List[LocationData] = [
         (0x0E0282, None), (0x2D59, 0x04), 0x0950),
     LocationData(
         6029322, TMCLocation.COF_B1_ROLLOBITE_CHEST, TMCRegion.DUNGEON_COF, Items.RUPEES_50,
-        (0x0E00E2, None), (0x2D58, 0x40), 0x0850),
+        (0x0E00E2, None), (0x2D58, 0x80), 0x0850),
     LocationData(
         6029323, TMCLocation.COF_B1_ROLLOBITE_PILLAR_CHEST, TMCRegion.DUNGEON_COF, Items.SMALL_KEY_COF,
-        (0x0E00DA, None), (0x2D58, 0x80), 0x0850),
+        (0x0E00DA, None), (0x2D58, 0x40), 0x0850),
     LocationData(
         6029324, TMCLocation.COF_B1_SPIKEY_CHUS_PILLAR_CHEST, TMCRegion.DUNGEON_COF, Items.SMALL_KEY_COF,
         (0x0DF50A, None), (0x2D57, 0x01), 0x0150),
@@ -1103,31 +1103,31 @@ all_locations: typing.List[LocationData] = [
         (0x0E2D4A, None), (0x2D74, 0x08), 0x2358),
     LocationData(
         6029337, TMCLocation.FORTRESS_ENTRANCE_1F_RIGHT_ITEM, TMCRegion.DUNGEON_FOW, Items.RUPEES_50,
-        (0x0F3E67, None), (0x2D05, 0x40), None),
+        (0x0F3E67, None), (0x2D05, 0x40), 0x0018),
     LocationData(
         6029338, TMCLocation.FORTRESS_LEFT_2F_DIG_CHEST, TMCRegion.DUNGEON_FOW, Items.KINSTONE,
         (0x0F4086, None), (0x2D06, 0x01), 0x0118),
     LocationData(
         6029339, TMCLocation.FORTRESS_LEFT_2F_ITEM1, TMCRegion.DUNGEON_FOW, Items.RUPEES_1,
-        (0x0F3F37, None), (0x2D06, 0x20), None),
+        (0x0F3F37, None), (0x2D06, 0x20), 0x0118),
     LocationData(
         6029340, TMCLocation.FORTRESS_LEFT_2F_ITEM2, TMCRegion.DUNGEON_FOW, Items.RUPEES_1,
-        (0x0F3F47, None), (0x2D06, 0x40), None),
+        (0x0F3F47, None), (0x2D06, 0x40), 0x0118),
     LocationData(
         6029341, TMCLocation.FORTRESS_LEFT_2F_ITEM3, TMCRegion.DUNGEON_FOW, Items.RUPEES_1,
-        (0x0F3F57, None), (0x2D06, 0x80), None),
+        (0x0F3F57, None), (0x2D06, 0x80), 0x0118),
     LocationData(
         6029342, TMCLocation.FORTRESS_LEFT_2F_ITEM4, TMCRegion.DUNGEON_FOW, Items.RUPEES_1,
-        (0x0F3F67, None), (0x2D07, 0x01), None),
+        (0x0F3F67, None), (0x2D07, 0x01), 0x0118),
     LocationData(
         6029343, TMCLocation.FORTRESS_LEFT_2F_ITEM5, TMCRegion.DUNGEON_FOW, Items.RUPEES_1,
-        (0x0F3F77, None), (0x2D07, 0x04), None),
+        (0x0F3F97, None), (0x2D07, 0x08), 0x0118),
     LocationData(
         6029344, TMCLocation.FORTRESS_LEFT_2F_ITEM6, TMCRegion.DUNGEON_FOW, Items.RUPEES_5,
-        (0x0F3F87, None), (0x2D07, 0x08), None),
+        (0x0F3F87, None), (0x2D07, 0x04), 0x0118),
     LocationData(
         6029345, TMCLocation.FORTRESS_LEFT_2F_ITEM7, TMCRegion.DUNGEON_FOW, Items.RUPEES_5,
-        (0x0F3F97, None), (0x2D07, 0x02), None),
+        (0x0F3F77, None), (0x2D07, 0x02), 0x0118),
     LocationData(
         6029346, TMCLocation.FORTRESS_LEFT_3F_SWITCH_CHEST, TMCRegion.DUNGEON_FOW, Items.KINSTONE,
         (0x0F4146, None), (0x2D07, 0x20), 0x0218),
@@ -1136,7 +1136,7 @@ all_locations: typing.List[LocationData] = [
         (0x0E105E, None), (0x2D6F, 0x10), 0x0058),
     LocationData(
         6029348, TMCLocation.FORTRESS_LEFT_3F_ITEM_DROP, TMCRegion.DUNGEON_FOW, Items.SMALL_KEY_FOW,
-        (None,     None), (0x2D73, 0x80), 0x0458), # room_area is a complete guess
+        ([0x0E2B0B, 0x0FC46B, 0x0FC48B], [None, None, None]), (0x2D73, 0x80), 0x2058),
     LocationData(
         6029349, TMCLocation.FORTRESS_MIDDLE_2F_BIG_CHEST, TMCRegion.DUNGEON_FOW, Items.DUNGEON_COMPASS_FOW,
         (0x0E26FA, None), (0x2D73, 0x02), 0x1958),
@@ -1145,22 +1145,22 @@ all_locations: typing.List[LocationData] = [
         (0x0F408E, None), (0x2D06, 0x02), 0x0118),
     LocationData(
         6029351, TMCLocation.FORTRESS_RIGHT_2F_LEFT_CHEST, TMCRegion.DUNGEON_FOW, Items.KINSTONE,
-        (None,     None), (0x2D73, 0x20), 0x1D58),
+        (0x0E2ABA, None), (0x2D73, 0x20), 0x1D58),
     LocationData(
         6029352, TMCLocation.FORTRESS_RIGHT_2F_RIGHT_CHEST, TMCRegion.DUNGEON_FOW, Items.KINSTONE,
-        (None,     None), (0x2D73, 0x40), 0x1D58),
+        (0x0E2AC2, None), (0x2D73, 0x40), 0x1D58),
     LocationData(
         6029353, TMCLocation.FORTRESS_RIGHT_2F_DIG_CHEST, TMCRegion.DUNGEON_FOW, Items.KINSTONE,
         (0x0F4096, None), (0x2D06, 0x04), 0x0118),
     LocationData(
         6029354, TMCLocation.FORTRESS_RIGHT_3F_DIG_CHEST, TMCRegion.DUNGEON_FOW, Items.KINSTONE,
-        (0x0F4146, None), (0x2D07, 0x40), 0x0218),
+        (0x0F414E, None), (0x2D07, 0x40), 0x0218),
     LocationData(
         6029355, TMCLocation.FORTRESS_RIGHT_3F_ITEM_DROP, TMCRegion.DUNGEON_FOW, Items.SMALL_KEY_FOW,
-        (None,     None), (0x2D74, 0x02), None),
+        ([0x0E2C4B, 0x0FC4AB, 0x0FC4CB], [None, None, None]), (0x2D74, 0x02), 0x2258),
     LocationData(
         6029356, TMCLocation.FORTRESS_ENTRANCE_1F_RIGHT_HP, TMCRegion.DUNGEON_FOW, Items.HEART_PIECE,
-        (0x0E2DD7, None), (0x2D74, 0x80), None, pools={POOL_HP}),
+        (0x0E2DD7, None), (0x2D74, 0x80), 0x2458, pools={POOL_HP}),
     LocationData(
         6029357, TMCLocation.FORTRESS_BACK_LEFT_BIG_CHEST, TMCRegion.DUNGEON_FOW, Items.MOLE_MITTS,
         (0x0F41DE, None), (0x2D08, 0x01), 0x0318),
@@ -1169,25 +1169,25 @@ all_locations: typing.List[LocationData] = [
         (0x0F41E6, None), (0x2D08, 0x02), 0x0318),
     LocationData(
         6029359, TMCLocation.FORTRESS_BACK_RIGHT_STATUE_ITEM_DROP, TMCRegion.DUNGEON_FOW, Items.SMALL_KEY_FOW,
-        (0x0E1E8B, None), (0x2D71, 0x40), None),
+        (0x0E1E8B, None), (0x2D71, 0x40), 0x1458),
     LocationData(
         6029360, TMCLocation.FORTRESS_BACK_RIGHT_MINISH_ITEM_DROP, TMCRegion.DUNGEON_FOW, Items.SMALL_KEY_FOW,
-        (0x0F424F, None), (0x2D08, 0x10), None),
+        (0x0F424F, None), (0x2D08, 0x10), 0x0418),
     LocationData(
         6029361, TMCLocation.FORTRESS_BACK_RIGHT_DIG_ROOM_TOP_POT, TMCRegion.DUNGEON_FOW, Items.RUPEES_50,
-        (0x0F3FC7, 0x0F3FC9), (0x2D06, 0x08), None, pools={POOL_POT}),
+        (0x0F3FC7, 0x0F3FC9), (0x2D06, 0x08), 0x0118, pools={POOL_POT}),
     LocationData(
         6029362, TMCLocation.FORTRESS_BACK_RIGHT_DIG_ROOM_BOTTOM_POT, TMCRegion.DUNGEON_FOW, None,
-        (0x0F3FD7, 0x0F3FD9), (0x2D06, 0x10), None, pools={POOL_POT}),
+        (0x0F3FD7, 0x0F3FD9), (0x2D06, 0x10), 0x0118, pools={POOL_POT}),
     LocationData(
         6029363, TMCLocation.FORTRESS_BACK_RIGHT_BIG_CHEST, TMCRegion.DUNGEON_FOW, Items.BIG_KEY_FOW,
-        (None,     None), (0x2D73, 0x04), 0x1B58),
+        (0x0E28A2, None), (0x2D73, 0x04), 0x1B58),
     LocationData(
         6029364, TMCLocation.FORTRESS_BOSS_ITEM, TMCRegion.DUNGEON_FOW, Items.HEART_CONTAINER,
-        (0x0E22E7, None), (0x2D72, 0x04), None, pools={POOL_HP}),
+        (0x0E22E7, None), (0x2D72, 0x04), 0x1658, pools={POOL_HP}),
     LocationData(
         6029365, TMCLocation.FORTRESS_PRIZE, TMCRegion.DUNGEON_FOW, Items.OCARINA,
-        (0x09C9E6, 0x09C9E8), (0x2D74, 0x20), None, pools={POOL_ELEMENT}),
+        (0x09C9E6, 0x09C9E8), (0x2D74, 0x20), 0x0059, pools={POOL_ELEMENT}),
     #endregion
     #region Dungeon ToD
     LocationData(

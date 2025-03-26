@@ -48,20 +48,33 @@ def write_tokens(world: "MinishCapWorld", patch: MinishCapProcedurePatch) -> Non
     patch.write_file("token_data.bin", patch.get_token_binary())
 
 def item_inject(world: "MinishCapWorld", patch: MinishCapProcedurePatch, location: LocationData, item: Item):
+    item_byte_first  = 0x00
+    item_byte_second = 0x00
+
     if item.player == world.player:
-        # If the item belongs to that player than just use that item id (sprite id?)
-        it = item_table[item.name]
-        # If the location has a secondary address for the sub id, write to the 2 different addresses
-        if location.rom_addr[1] is not None:
-            patch.write_token(APTokenTypes.WRITE, location.rom_addr[0], bytes([it.byte_ids[0]]))
-            patch.write_token(APTokenTypes.WRITE, location.rom_addr[1], bytes([it.byte_ids[1]]))
-        # Otherwise the sub id should be immediately after the first address
-        else:
-            patch.write_token(APTokenTypes.WRITE, location.rom_addr[0], bytes(list(it.byte_ids)))
-    # Else use a substitute item id (sprite id?)
+        # The item belongs to this player's world, it should use local item ids
+        item_byte_first = item_table[item.name].byte_ids[0]
+        item_byte_second = item_table[item.name].byte_ids[1]
+    elif item.classification not in EXTERNAL_ITEM_MAP:
+        # The item belongs to an external player's world but we don't recognize the classification
+        # default to green clock sprite, also used for progression item
+        item_byte_first = 0x18
     else:
-        if item.classification not in EXTERNAL_ITEM_MAP:
-            patch.write_token(APTokenTypes.WRITE, location.rom_addr[0], bytes([0x18]))
-        else:
-            item_id = EXTERNAL_ITEM_MAP[item.classification](world.random)
-            patch.write_token(APTokenTypes.WRITE, location.rom_addr[0], bytes([item_id]))
+        # The item belongs to an external player's world, use the given classification to choose the item sprite
+        item_byte_first = EXTERNAL_ITEM_MAP[item.classification](world.random)
+
+    if hasattr(location.rom_addr[0], "__iter__") and hasattr(location.rom_addr[1], "__iter__"):
+        for loc1, loc2 in zip(location.rom_addr[0], location.rom_addr[1]):
+            write_single_byte(patch, loc1, item_byte_first)
+            write_single_byte(patch, loc2, item_byte_second)
+    else:
+        loc2 = location.rom_addr[1] or location.rom_addr[0] + 1
+        write_single_byte(patch, location.rom_addr[0], item_byte_first)
+        write_single_byte(patch, loc2, item_byte_second)
+
+def write_single_byte(patch: MinishCapProcedurePatch, address: int, byte: int):
+    if address is None:
+        return
+    if byte is None:
+        byte == 0x00
+    patch.write_token(APTokenTypes.WRITE, address, bytes([byte]))

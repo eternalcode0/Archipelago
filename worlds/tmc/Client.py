@@ -47,7 +47,7 @@ RAM_ADDRS = {
     "link_priority": (0x1171, 1, "IWRAM"),
     # An arbitrary address that isn't used strictly by the game
     # We'll use it to store the index of the last processed remote item
-    "received_index": (0x3FE10, 2, "EWRAM"),
+    "received_index": (0x3FF00, 2, "EWRAM"),
     "vaati_address": (0x2CA6, 1, "EWRAM"),
     "link_health": (0x11A5, 1, "IWRAM"),
     "gameover": (0x10A5, 1, "IWRAM"),
@@ -65,7 +65,7 @@ class MinishCapClient(BizHawkClient):
     previous_death_link = 0
     death_link_ready = False
     ignore_next_death_link = False
-    event_data = []
+    event_data = list(map(lambda e: (e[0], 1, "EWRAM"), events.keys()))
     events_sent = set()
 
     def __init__(self) -> None:
@@ -74,7 +74,6 @@ class MinishCapClient(BizHawkClient):
         self.local_checked_locations = set()
         self.location_by_room_area = {}
         self.room = 0x0000
-        self.event_data = map(lambda e: (e[0], 1, "EWRAM"), events.keys())
 
         for loc in all_locations:
             if loc.room_area in self.location_by_room_area:
@@ -156,7 +155,6 @@ class MinishCapClient(BizHawkClient):
 
     async def handle_item_receiving(self, ctx: "BizHawkClientContext", received_index: int) -> None:
         # Read all pending receive items and dump into game ram
-        # if received_index <= len(ctx.items_received) - 1:
         for i in range(len(ctx.items_received) - received_index):
             write_result = False
             item = items_by_id[ctx.items_received[received_index + i].item]
@@ -165,8 +163,8 @@ class MinishCapClient(BizHawkClient):
                 # Write to the address if it hasn't changed
                 write_result = await bizhawk.guarded_write(
                     ctx.bizhawk_ctx,
-                    [(0x3FE20, [item.byte_ids[0], item.byte_ids[1]], "EWRAM")],
-                    [(0x3FE20, [0x0, 0x0], "EWRAM")]
+                    [(0x3FF10, [item.byte_ids[0], item.byte_ids[1]], "EWRAM")],
+                    [(0x3FF10, [0x0, 0x0], "EWRAM")]
                 )
 
                 await asyncio.sleep(0.05)
@@ -180,7 +178,7 @@ class MinishCapClient(BizHawkClient):
             await bizhawk.write(
                 ctx.bizhawk_ctx,
                 [
-                    (0x3FE10, [(received_index + i + 1) // 0x100, (received_index + i + 1) % 0x100], "EWRAM"),
+                    (0x3FF00, [(received_index + i + 1) // 0x100, (received_index + i + 1) % 0x100], "EWRAM"),
                 ]
             )
 
