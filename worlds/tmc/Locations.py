@@ -1686,6 +1686,16 @@ events: typing.Dict[str, typing.Tuple[int, int]] = {
     (0x2C9C, 0x20): "dungeon_tod",
     (0x2C9C, 0x40): "dungeon_pow",
     (0x2D02, 0x04): "dungeon_rc",
+    (0x2CA6, 0x02): "dungeon_dhc",
+    (0x2C81, 0x02): "fuse_01", # Cloud Tops Top Right cloud
+    (0x2C81, 0x04): "fuse_02", # Cloud Tops Bottom Left cloud
+    (0x2C81, 0x08): "fuse_03", # Cloud Tops Top Left cloud
+    (0x2C81, 0x10): "fuse_04", # Cloud Tops Middle cloud
+    (0x2C81, 0x20): "fuse_05", # Cloud Tops Bottom Right cloud
+    (0x2C81, 0x40): "fuse_06", # Castor Wilds Left Statue
+    (0x2C81, 0x80): "fuse_07", # Castor Wilds Middle Statue
+    (0x2C82, 0x01): "fuse_08", # Castor Wilds Right Status
+    (0x2C82, 0x02): "fuse_09", # Veil Falls Door
 }
 
 location_table_by_name: typing.Dict[str, LocationData] = {location.name: location for location in all_locations}
