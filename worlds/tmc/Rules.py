@@ -31,7 +31,10 @@ class MinishCapRules():
             (TMCRegion.HYRULE_TOWN, TMCRegion.LONLON):
                 self.has(Items.PROGRESSIVE_BOMB),
             (TMCRegion.HYRULE_TOWN, TMCRegion.TRILBY_HIGHLANDS):
-                lambda state: self.has_any([Items.ROCS_CAPE, Items.FLIPPERS])(state) or self.can_spin()(state),
+                self.logic_or([
+                    self.has_any([Items.ROCS_CAPE, Items.FLIPPERS]),
+                    self.can_spin(),
+                ]),
 
             (TMCRegion.NORTH_FIELD, TMCRegion.CASTLE_EXTERIOR): None,
             # (TMCRegion.NORTH_FIELD, TMCRegion.HYRULE_TOWN): Already connected
@@ -42,19 +45,23 @@ class MinishCapRules():
             (TMCRegion.NORTH_FIELD, TMCRegion.UPPER_FALLS): # TODO double-check
                 self.has_all([Items.PROGRESSIVE_BOMB, Items.KINSTONE_GOLD_FALLS, Items.LANTERN]),
             (TMCRegion.NORTH_FIELD, TMCRegion.VALLEY):
-                lambda state: self.split_rule(3)(state) and \
-                    self.has_any([Items.FLIPPERS, Items.PROGRESSIVE_BOMB])(state),
+                self.logic_and([
+                    self.split_rule(3),
+                    self.has_any([Items.FLIPPERS, Items.PROGRESSIVE_BOMB]),
+                ]),
 
             # (TMCRegion.CASTLE_EXTERIOR, TMCRegion.NORTH_FIELD): Already connected
             (TMCRegion.CASTLE_EXTERIOR, TMCRegion.SANCTUARY): None,
 
             # (TMCRegion.SANCTUARY, TMCRegion.CASTLE_EXTERIOR): Already connected
             (TMCRegion.SANCTUARY, TMCRegion.DUNGEON_DHC):
-                lambda state: self.elements(state) >= 4,
+                self.has_4_elements(),
 
             (TMCRegion.DUNGEON_DHC, "Vaati Fight"): # TODO placeholder
-                lambda state: self.has_all([Items.BIG_KEY_DHC, Items.SMALL_KEY_DHC, Items.GUST_JAR, Items.PROGRESSIVE_BOW, Items.CANE_OF_PACCI])(state) \
-                    and self.has(Items.PROGRESSIVE_SWORD, 5)(state),
+                self.logic_and([
+                    self.has_all([Items.BIG_KEY_DHC, Items.SMALL_KEY_DHC, Items.GUST_JAR, Items.PROGRESSIVE_BOW, Items.CANE_OF_PACCI]),
+                    self.has(Items.PROGRESSIVE_SWORD, 5),
+                ]),
 
             # (TMCRegion.LONLON, TMCRegion.HYRULE_TOWN): Already connected
             #     self.has(Items.PROGRESSIVE_BOMB),
@@ -90,7 +97,7 @@ class MinishCapRules():
                     self.has_all([Items.PROGRESSIVE_BOMB, Items.CANE_OF_PACCI, Items.GUST_JAR]),
                     self.logic_and([
                         self.has_all([Items.GRIP_RING, Items.PROGRESSIVE_BOMB]),
-                        self.has_any([Items.GUST_JAR, Items.CANE_OF_PACCI, Items.ROCS_CAPE])
+                        self.has_any([Items.GUST_JAR, Items.CANE_OF_PACCI, Items.ROCS_CAPE]),
                     ])
                 ]),
 
@@ -99,12 +106,12 @@ class MinishCapRules():
             (TMCRegion.CLOUDS, TMCRegion.WIND_TRIBE): # TODO double-check
                 self.logic_and([
                     self.has(Items.KINSTONE_GOLD_CLOUD, 5),
-                    self.has_any([Items.MOLE_MITTS, Items.ROCS_CAPE])
+                    self.has_any([Items.MOLE_MITTS, Items.ROCS_CAPE]),
                 ]),
             (TMCRegion.CLOUDS, TMCRegion.DUNGEON_POW): # TODO double-check
                 self.logic_and([
                     self.has_any([Items.ROCS_CAPE, Items.PROGRESSIVE_BOOMERANG, Items.PROGRESSIVE_BOW]),
-                    self.split_rule(3)
+                    self.split_rule(3),
                 ]),
 
             # (TMCRegion.VALLEY, TMCRegion.NORTH_FIELD): # Already connected
@@ -127,90 +134,99 @@ class MinishCapRules():
             # TMCLocation.SMITH_HOUSE_SWORD: None,
             # TMCLocation.SMITH_HOUSE_SHIELD: None,
             TMCLocation.SOUTH_FIELD_MINISH_SIZE_WATER_HOLE_HP:
-                [self.can_pass_trees(), self.has_all([Items.PEGASUS_BOOTS, Items.FLIPPERS])],
+                self.logic_and([
+                    self.can_pass_trees(),
+                    self.has_all([Items.PEGASUS_BOOTS, Items.FLIPPERS]),
+                ]),
             TMCLocation.SOUTH_FIELD_PUDDLE_FUSION_ITEM1:
                 self.logic_or([
                     self.can_pass_trees(),
-                    self.has_any([Items.FLIPPERS, Items.ROCS_CAPE])
+                    self.has_any([Items.FLIPPERS, Items.ROCS_CAPE]),
                 ]),
             TMCLocation.SOUTH_FIELD_PUDDLE_FUSION_ITEM2:
                 self.logic_or([
                     self.can_pass_trees(),
-                    self.has_any([Items.FLIPPERS, Items.ROCS_CAPE])
+                    self.has_any([Items.FLIPPERS, Items.ROCS_CAPE]),
                 ]),
             TMCLocation.SOUTH_FIELD_PUDDLE_FUSION_ITEM3:
                 self.logic_or([
                     self.can_pass_trees(),
-                    self.has_any([Items.FLIPPERS, Items.ROCS_CAPE])
+                    self.has_any([Items.FLIPPERS, Items.ROCS_CAPE]),
                 ]),
             TMCLocation.SOUTH_FIELD_PUDDLE_FUSION_ITEM4:
                 self.logic_or([
                     self.can_pass_trees(),
-                    self.has_any([Items.FLIPPERS, Items.ROCS_CAPE])
+                    self.has_any([Items.FLIPPERS, Items.ROCS_CAPE]),
                 ]),
             TMCLocation.SOUTH_FIELD_PUDDLE_FUSION_ITEM5:
                 self.logic_or([
                     self.can_pass_trees(),
-                    self.has_any([Items.FLIPPERS, Items.ROCS_CAPE])
+                    self.has_any([Items.FLIPPERS, Items.ROCS_CAPE]),
                 ]),
             TMCLocation.SOUTH_FIELD_PUDDLE_FUSION_ITEM6:
                 self.logic_or([
                     self.can_pass_trees(),
-                    self.has_any([Items.FLIPPERS, Items.ROCS_CAPE])
+                    self.has_any([Items.FLIPPERS, Items.ROCS_CAPE]),
                 ]),
             TMCLocation.SOUTH_FIELD_PUDDLE_FUSION_ITEM7:
                 self.logic_or([
                     self.can_pass_trees(),
-                    self.has_any([Items.FLIPPERS, Items.ROCS_CAPE])
+                    self.has_any([Items.FLIPPERS, Items.ROCS_CAPE]),
                 ]),
             TMCLocation.SOUTH_FIELD_PUDDLE_FUSION_ITEM8:
                 self.logic_or([
                     self.can_pass_trees(),
-                    self.has_any([Items.FLIPPERS, Items.ROCS_CAPE])
+                    self.has_any([Items.FLIPPERS, Items.ROCS_CAPE]),
                 ]),
             TMCLocation.SOUTH_FIELD_PUDDLE_FUSION_ITEM9:
                 self.logic_or([
                     self.can_pass_trees(),
-                    self.has_any([Items.FLIPPERS, Items.ROCS_CAPE])
+                    self.has_any([Items.FLIPPERS, Items.ROCS_CAPE]),
                 ]),
             TMCLocation.SOUTH_FIELD_PUDDLE_FUSION_ITEM10:
                 self.logic_or([
                     self.can_pass_trees(),
-                    self.has_any([Items.FLIPPERS, Items.ROCS_CAPE])
+                    self.has_any([Items.FLIPPERS, Items.ROCS_CAPE]),
                 ]),
             TMCLocation.SOUTH_FIELD_PUDDLE_FUSION_ITEM11:
                 self.logic_or([
                     self.can_pass_trees(),
-                    self.has_any([Items.FLIPPERS, Items.ROCS_CAPE])
+                    self.has_any([Items.FLIPPERS, Items.ROCS_CAPE]),
                 ]),
             TMCLocation.SOUTH_FIELD_PUDDLE_FUSION_ITEM12:
                 self.logic_or([
                     self.can_pass_trees(),
-                    self.has_any([Items.FLIPPERS, Items.ROCS_CAPE])
+                    self.has_any([Items.FLIPPERS, Items.ROCS_CAPE]),
                 ]),
             TMCLocation.SOUTH_FIELD_PUDDLE_FUSION_ITEM13:
                 self.logic_or([
                     self.can_pass_trees(),
-                    self.has_any([Items.FLIPPERS, Items.ROCS_CAPE])
+                    self.has_any([Items.FLIPPERS, Items.ROCS_CAPE]),
                 ]),
             TMCLocation.SOUTH_FIELD_PUDDLE_FUSION_ITEM14:
                 self.logic_or([
                     self.can_pass_trees(),
-                    self.has_any([Items.FLIPPERS, Items.ROCS_CAPE])
+                    self.has_any([Items.FLIPPERS, Items.ROCS_CAPE]),
                 ]),
             TMCLocation.SOUTH_FIELD_PUDDLE_FUSION_ITEM15:
                 self.logic_or([
                     self.can_pass_trees(),
-                    self.has_any([Items.FLIPPERS, Items.ROCS_CAPE])
+                    self.has_any([Items.FLIPPERS, Items.ROCS_CAPE]),
                 ]),
             TMCLocation.SOUTH_FIELD_FUSION_CHEST:
                 self.can_pass_trees(),
             TMCLocation.SOUTH_FIELD_TREE_FUSION_HP:
                 self.can_pass_trees(),
             TMCLocation.SOUTH_FIELD_MINISH_SIZE_WATER_HOLE_HP:
-                [self.can_pass_trees(), self.has_all([Items.FLIPPERS, Items.PEGASUS_BOOTS])],
+                self.logic_and([
+                    self.can_pass_trees(),
+                    self.has_all([Items.FLIPPERS, Items.PEGASUS_BOOTS]),
+                ]),
             TMCLocation.SOUTH_FIELD_TINGLE_NPC:
-                [self.can_pass_trees(), self.has(Items.CANE_OF_PACCI)],
+                self.logic_and([
+                    self.can_pass_trees(),
+                    self.has(Items.CANE_OF_PACCI),
+                ]),
             #endregion
 
             #region Castle Gardens
@@ -310,17 +326,25 @@ class MinishCapRules():
             TMCLocation.TOWN_SCHOOL_PATH_FUSION_CHEST:
                 self.has(Items.CANE_OF_PACCI),
             TMCLocation.TOWN_SCHOOL_PATH_LEFT_CHEST:
-                [self.has(Items.CANE_OF_PACCI),
-                self.split_rule(4)],
+                self.logic_and([
+                    self.has(Items.CANE_OF_PACCI),
+                    self.split_rule(4),
+                ]),
             TMCLocation.TOWN_SCHOOL_PATH_MIDDLE_CHEST:
-                [self.has(Items.CANE_OF_PACCI),
-                self.split_rule(4)],
+                self.logic_and([
+                    self.has(Items.CANE_OF_PACCI),
+                    self.split_rule(4),
+                ]),
             TMCLocation.TOWN_SCHOOL_PATH_RIGHT_CHEST:
-                [self.has(Items.CANE_OF_PACCI),
-                self.split_rule(4)],
+                self.logic_and([
+                    self.has(Items.CANE_OF_PACCI),
+                    self.split_rule(4),
+                ]),
             TMCLocation.TOWN_SCHOOL_PATH_HP:
-                [self.has(Items.CANE_OF_PACCI),
-                self.split_rule(4)],
+                self.logic_and([
+                    self.has(Items.CANE_OF_PACCI),
+                    self.split_rule(4),
+                ]),
             TMCLocation.TOWN_DIGGING_LEFT_CHEST:
                 self.has(Items.MOLE_MITTS),
             TMCLocation.TOWN_DIGGING_TOP_CHEST:
@@ -340,8 +364,10 @@ class MinishCapRules():
             TMCLocation.TOWN_CUCCOS_LV_1_NPC:
                 self.has_any([Items.ROCS_CAPE, Items.FLIPPERS]),
             TMCLocation.TOWN_JULLIETA_ITEM:
-                [self.access_town_left(),
-                self.has_bottle()],
+                self.logic_and([
+                    self.access_town_left(),
+                    self.has_bottle(),
+                ]),
             TMCLocation.TOWN_SIMULATION_CHEST:
                 self.has(Items.PROGRESSIVE_SWORD),
             TMCLocation.TOWN_SHOE_SHOP_NPC:
@@ -362,24 +388,46 @@ class MinishCapRules():
                     TMCLocation.TOWN_WELL_BOTTOM_CHEST,
                 ]),
             TMCLocation.TOWN_DR_LEFT_ATTIC_ITEM:
-                [self.access_town_left(),
-                self.has(Items.POWER_BRACELETS),
-                self.has_any([Items.GUST_JAR, Items.PROGRESSIVE_BOMB]),
-                self.split_rule(2)],
+                self.logic_and([
+                    self.access_town_left(),
+                    self.has(Items.POWER_BRACELETS),
+                    self.has_any([Items.GUST_JAR, Items.PROGRESSIVE_BOMB]),
+                    self.split_rule(2),
+                ]),
             TMCLocation.TOWN_FOUNTAIN_BIG_CHEST:
-                [self.can_attack(), self.access_town_fountain(), self.has(Items.CANE_OF_PACCI)],
+                self.logic_and([
+                    self.can_attack(),
+                    self.access_town_fountain(),
+                    self.has(Items.CANE_OF_PACCI),
+                ]),
             TMCLocation.TOWN_FOUNTAIN_SMALL_CHEST:
-                [self.access_town_fountain(), self.has_any([Items.FLIPPERS, Items.ROCS_CAPE])],
+                self.logic_and([
+                    self.access_town_fountain(),
+                    self.has_any([Items.FLIPPERS, Items.ROCS_CAPE]),
+                ]),
             TMCLocation.TOWN_FOUNTAIN_HP:
-                [self.access_town_fountain(), self.has(Items.ROCS_CAPE)],
+                self.logic_and([
+                    self.access_town_fountain(),
+                    self.has(Items.ROCS_CAPE),
+                ]),
             TMCLocation.TOWN_LIBRARY_YELLOW_MINISH_NPC:
                 self.complete_book_quest(),
             TMCLocation.TOWN_UNDER_LIBRARY_FROZEN_CHEST:
-                [self.complete_book_quest(), self.has_all([Items.FLIPPERS, Items.LANTERN])],
+                self.logic_and([
+                    self.complete_book_quest(),
+                    self.has_all([Items.FLIPPERS, Items.LANTERN]),
+                ]),
             TMCLocation.TOWN_UNDER_LIBRARY_BIG_CHEST:
-                [self.complete_book_quest(), self.can_attack(), self.has(Items.FLIPPERS)],
+                self.logic_and([
+                    self.complete_book_quest(),
+                    self.can_attack(),
+                    self.has(Items.FLIPPERS),
+                ]),
             TMCLocation.TOWN_UNDER_LIBRARY_UNDERWATER:
-                [self.complete_book_quest(), self.has(Items.FLIPPERS)],
+                self.logic_and([
+                    self.complete_book_quest(),
+                    self.has(Items.FLIPPERS),
+                ]),
             TMCLocation.TOWN_CUCCOS_LV_10_NPC:
                 self.has_any([Items.ROCS_CAPE, Items.FLIPPERS]),
             #endregion
@@ -405,19 +453,20 @@ class MinishCapRules():
     def logic_and(self, rules: [CollectionRule]) -> CollectionRule:
         return lambda state: all(rule(state) for rule in rules)
 
-    def elements(self, state: CollectionState) -> int:
-        return state.count_from_list_unique(map(item_to_name, [
-            Items.EARTH_ELEMENT,
-            Items.FIRE_ELEMENT,
-            Items.WATER_ELEMENT,
-            Items.WIND_ELEMENT,
-        ]), self.player)
+    def has_4_elements(self) -> CollectionRule:
+        return self.has_all([Items.EARTH_ELEMENT, Items.WATER_ELEMENT, Items.FIRE_ELEMENT, Items.WIND_ELEMENT])
 
     def can_spin(self) -> CollectionRule:
-        return lambda state: self.has(Items.PROGRESSIVE_SWORD)(state) and self.has_any([Items.SPIN_ATTACK, Items.FAST_SPIN_SCROLL])(state)
+        return self.logic_and([
+            self.has(Items.PROGRESSIVE_SWORD),
+            self.has_any([Items.SPIN_ATTACK, Items.FAST_SPIN_SCROLL])
+        ])
 
     def split_rule(self, link_count: int = 2) -> CollectionRule:
-        return lambda state: self.has(Items.PROGRESSIVE_SWORD, link_count + 1)(state) and self.can_spin()(state)
+        return self.logic_and([
+            self.has(Items.PROGRESSIVE_SWORD, link_count + 1),
+            self.can_spin()
+        ])
 
     def can_shield(self) -> CollectionRule:
         return self.has_any([Items.SHIELD, Items.MIRROR_SHIELD])
@@ -426,11 +475,10 @@ class MinishCapRules():
         return self.has(Items.PROGRESSIVE_SWORD)
 
     def can_pass_trees(self) -> CollectionRule:
-        return lambda state: self.has_any([
-            Items.PROGRESSIVE_SWORD,
-            Items.PROGRESSIVE_BOMB,
-            Items.LANTERN,
-        ])(state) or self.has(Items.PROGRESSIVE_BOW, 2)(state)
+        return self.logic_or([
+            self.has_any([Items.PROGRESSIVE_SWORD, Items.PROGRESSIVE_BOMB, Items.LANTERN]),
+            self.has(Items.PROGRESSIVE_BOW, 2)
+        ])
 
     def access_town_left(self) -> CollectionRule:
         return self.has_any([Items.ROCS_CAPE, Items.FLIPPERS, Items.CANE_OF_PACCI])
@@ -439,7 +487,10 @@ class MinishCapRules():
         return self.has_any([Items.BOTTLE_1, Items.BOTTLE_2, Items.BOTTLE_3, Items.BOTTLE_4])
 
     def access_town_fountain(self) -> CollectionRule:
-        return lambda state: self.access_town_left()(state) and self.has_bottle()(state)
+        return self.logic_and([
+            self.access_town_left(),
+            self.has_bottle(),
+        ])
 
     def complete_book_quest(self) -> CollectionRule:
         return self.has_all([
@@ -470,15 +521,12 @@ class MinishCapRules():
             region_one = multiworld.get_region(region_pair[0], self.player)
             region_two = multiworld.get_region(region_pair[1], self.player)
             region_one.connect(region_two, rule=rule)
+
         for loc in multiworld.get_locations(self.player):
             if loc.name not in location_name_to_id or location_name_to_id[loc.name] in disabled_locations:
                 continue
 
             if loc.name in self.location_rules and self.location_rules[loc.name] is not None:
-                if hasattr(self.location_rules[loc.name], '__iter__'):
-                    for rule in self.location_rules[loc.name]:
-                        add_rule(loc, rule)
-                else:
-                    add_rule(loc, self.location_rules[loc.name])
+                add_rule(loc, self.location_rules[loc.name])
 
         multiworld.completion_condition[self.player] = lambda state: state.has("Victory", self.player)
