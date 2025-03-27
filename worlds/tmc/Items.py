@@ -181,7 +181,7 @@ def pool_baseitems() -> [ItemData]:
         WATER_ELEMENT,
         WIND_ELEMENT,
 
-        *[PROGRESSIVE_SWORD] * 6,
+        *[PROGRESSIVE_SWORD] * 5,
         *[PROGRESSIVE_SHIELD] * 2,
         *[PROGRESSIVE_BOW] * 2,
         *[PROGRESSIVE_BOMB] * 2,
