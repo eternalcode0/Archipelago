@@ -260,6 +260,64 @@ class MinishCapRules():
                 self.has(Items.MOLE_MITTS),
             #endregion
 
+            #region LonLon
+            # Can Pass Trees
+            # TMCLocation.LON_LON_RANCH_POT: None,
+            TMCLocation.LON_LON_PUDDLE_FUSION_BIG_CHEST:
+                self.access_lonlon_right(),
+            TMCLocation.LON_LON_CAVE_CHEST:
+                self.logic_and([
+                    # Fusion 1E
+                    self.access_lonlon_right(),
+                    self.split_rule(2),
+                ]),
+            TMCLocation.LON_LON_CAVE_SECRET_CHEST:
+                self.logic_and([
+                    self.can_reach([TMCLocation.LON_LON_CAVE_CHEST]),
+                    self.has_all([Items.PROGRESSIVE_BOMB, Items.LANTERN]),
+                ]),
+            TMCLocation.LON_LON_PATH_FUSION_CHEST:
+                self.logic_and([
+                    # Fusion 50
+                    self.access_lonlon_right(),
+                    self.has(Items.PEGASUS_BOOTS),
+                ]),
+            TMCLocation.LON_LON_PATH_HP:
+                self.logic_and([
+                    self.access_lonlon_right(),
+                    self.has(Items.PEGASUS_BOOTS),
+                ]),
+            TMCLocation.LON_LON_DIG_SPOT:
+                self.logic_and([
+                    self.access_lonlon_right(),
+                    self.has_any([Items.CANE_OF_PACCI, Items.ROCS_CAPE]),
+                    self.has(Items.MOLE_MITTS),
+                ]),
+            TMCLocation.LON_LON_NORTH_MINISH_CRACK_CHEST:
+                self.logic_and([
+                    self.access_lonlon_right(),
+                    self.has_any([Items.CANE_OF_PACCI, Items.ROCS_CAPE]),
+                ]),
+            TMCLocation.LON_LON_GORON_CAVE_FUSION_SMALL_CHEST:
+                # 4 of Fusions 25, 26, 29, 2A, 2B, 2F
+                self.logic_or([
+                    self.has_any([Items.FLIPPERS, Items.ROCS_CAPE]),
+                    self.logic_and([
+                        self.has(Items.CANE_OF_PACCI),
+                        self.access_lonlon_right(),
+                    ]),
+                ]),
+            TMCLocation.LON_LON_GORON_CAVE_FUSION_BIG_CHEST:
+                # 6 of Fusions 25, 26, 29, 2A, 2B, 2F
+                self.logic_or([
+                    self.has_any([Items.FLIPPERS, Items.ROCS_CAPE]),
+                    self.logic_and([
+                        self.has(Items.CANE_OF_PACCI),
+                        self.access_lonlon_right(),
+                    ]),
+                ]),
+            #endreigon
+
             #region Cloud Tops TODO
             # TMCLocation.CLOUDS_FREE_CHEST: None,
             TMCLocation.CLOUDS_NORTH_EAST_DIG_SPOT:
@@ -499,6 +557,13 @@ class MinishCapRules():
             Items.RED_BOOK,
             Items.BLUE_BOOK,
             Items.GREEN_BOOK,
+        ])
+
+    def access_lonlon_right(self) -> CollectionRule:
+        """ Assumes can_pass_trees is already used somewhere in the chain """
+        return self.logic_or([
+            self.has_any([Items.LONLON_KEY, Items.ROCS_CAPE]),
+            self.has_all([Items.FLIPPERS, Items.MOLE_MITTS]),
         ])
 
     def has(self, item: ItemData, count: int = 1) -> CollectionRule:
