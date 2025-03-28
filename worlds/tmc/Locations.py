@@ -391,49 +391,49 @@ all_locations: typing.List[LocationData] = [
         6029107, TMCLocation.TRILBY_BOMB_CAVE_CHEST, TMCRegion.TRILBY_HIGHLANDS, Items.KINSTONE,
         (0x0F7EEA, None), (0x2D1D, 0x20), 0x0732),
     LocationData(
-        6029108, TMCLocation.TRILBY_PUDDLE_FUSION_ITEM1, TMCRegion.TRILBY_HIGHLANDS, Items.RUPEES_5,
+        6029108, TMCLocation.TRILBY_PUDDLE_FUSION_ITEM1, TMCRegion.WESTERN_WOODS, Items.RUPEES_5,
         (0x0F83BB, None), (0x2D20, 0x10), 0x1132, pools={POOL_RUPEE}),
     LocationData(
-        6029109, TMCLocation.TRILBY_PUDDLE_FUSION_ITEM2, TMCRegion.TRILBY_HIGHLANDS, Items.RUPEES_5,
+        6029109, TMCLocation.TRILBY_PUDDLE_FUSION_ITEM2, TMCRegion.WESTERN_WOODS, Items.RUPEES_5,
         (0x0F83CB, None), (0x2D20, 0x20), 0x1132, pools={POOL_RUPEE}),
     LocationData(
-        6029110, TMCLocation.TRILBY_PUDDLE_FUSION_ITEM3, TMCRegion.TRILBY_HIGHLANDS, Items.RUPEES_5,
+        6029110, TMCLocation.TRILBY_PUDDLE_FUSION_ITEM3, TMCRegion.WESTERN_WOODS, Items.RUPEES_5,
         (0x0F83DB, None), (0x2D20, 0x40), 0x1132, pools={POOL_RUPEE}),
     LocationData(
-        6029111, TMCLocation.TRILBY_PUDDLE_FUSION_ITEM4, TMCRegion.TRILBY_HIGHLANDS, Items.RUPEES_5,
+        6029111, TMCLocation.TRILBY_PUDDLE_FUSION_ITEM4, TMCRegion.WESTERN_WOODS, Items.RUPEES_5,
         (0x0F83EB, None), (0x2D20, 0x80), 0x1132, pools={POOL_RUPEE}),
     LocationData(
-        6029112, TMCLocation.TRILBY_PUDDLE_FUSION_ITEM5, TMCRegion.TRILBY_HIGHLANDS, Items.RUPEES_5,
+        6029112, TMCLocation.TRILBY_PUDDLE_FUSION_ITEM5, TMCRegion.WESTERN_WOODS, Items.RUPEES_5,
         (0x0F83FB, None), (0x2D21, 0x01), 0x1132, pools={POOL_RUPEE}),
     LocationData(
-        6029113, TMCLocation.TRILBY_PUDDLE_FUSION_ITEM6, TMCRegion.TRILBY_HIGHLANDS, Items.RUPEES_5,
+        6029113, TMCLocation.TRILBY_PUDDLE_FUSION_ITEM6, TMCRegion.WESTERN_WOODS, Items.RUPEES_5,
         (0x0F840B, None), (0x2D21, 0x02), 0x1132, pools={POOL_RUPEE}),
     LocationData(
-        6029114, TMCLocation.TRILBY_PUDDLE_FUSION_ITEM7, TMCRegion.TRILBY_HIGHLANDS, Items.RUPEES_5,
+        6029114, TMCLocation.TRILBY_PUDDLE_FUSION_ITEM7, TMCRegion.WESTERN_WOODS, Items.RUPEES_5,
         (0x0F841B, None), (0x2D21, 0x04), 0x1132, pools={POOL_RUPEE}),
     LocationData(
-        6029115, TMCLocation.TRILBY_PUDDLE_FUSION_ITEM8, TMCRegion.TRILBY_HIGHLANDS, Items.RUPEES_5,
+        6029115, TMCLocation.TRILBY_PUDDLE_FUSION_ITEM8, TMCRegion.WESTERN_WOODS, Items.RUPEES_5,
         (0x0F842B, None), (0x2D21, 0x08), 0x1132, pools={POOL_RUPEE}),
     LocationData(
-        6029116, TMCLocation.TRILBY_PUDDLE_FUSION_ITEM9, TMCRegion.TRILBY_HIGHLANDS, Items.RUPEES_5,
+        6029116, TMCLocation.TRILBY_PUDDLE_FUSION_ITEM9, TMCRegion.WESTERN_WOODS, Items.RUPEES_5,
         (0x0F843B, None), (0x2D21, 0x10), 0x1132, pools={POOL_RUPEE}),
     LocationData(
-        6029117, TMCLocation.TRILBY_PUDDLE_FUSION_ITEM10, TMCRegion.TRILBY_HIGHLANDS, Items.RUPEES_5,
+        6029117, TMCLocation.TRILBY_PUDDLE_FUSION_ITEM10, TMCRegion.WESTERN_WOODS, Items.RUPEES_5,
         (0x0F844B, None), (0x2D21, 0x20), 0x1132, pools={POOL_RUPEE}),
     LocationData(
-        6029118, TMCLocation.TRILBY_PUDDLE_FUSION_ITEM11, TMCRegion.TRILBY_HIGHLANDS, Items.RUPEES_5,
+        6029118, TMCLocation.TRILBY_PUDDLE_FUSION_ITEM11, TMCRegion.WESTERN_WOODS, Items.RUPEES_5,
         (0x0F845B, None), (0x2D21, 0x40), 0x1132, pools={POOL_RUPEE}),
     LocationData(
-        6029119, TMCLocation.TRILBY_PUDDLE_FUSION_ITEM12, TMCRegion.TRILBY_HIGHLANDS, Items.RUPEES_5,
+        6029119, TMCLocation.TRILBY_PUDDLE_FUSION_ITEM12, TMCRegion.WESTERN_WOODS, Items.RUPEES_5,
         (0x0F846B, None), (0x2D21, 0x80), 0x1132, pools={POOL_RUPEE}),
     LocationData(
-        6029120, TMCLocation.TRILBY_PUDDLE_FUSION_ITEM13, TMCRegion.TRILBY_HIGHLANDS, Items.RUPEES_5,
+        6029120, TMCLocation.TRILBY_PUDDLE_FUSION_ITEM13, TMCRegion.WESTERN_WOODS, Items.RUPEES_5,
         (0x0F847B, None), (0x2D22, 0x01), 0x1132, pools={POOL_RUPEE}),
     LocationData(
-        6029121, TMCLocation.TRILBY_PUDDLE_FUSION_ITEM14, TMCRegion.TRILBY_HIGHLANDS, Items.RUPEES_5,
+        6029121, TMCLocation.TRILBY_PUDDLE_FUSION_ITEM14, TMCRegion.WESTERN_WOODS, Items.RUPEES_5,
         (0x0F848B, None), (0x2D22, 0x02), 0x1132, pools={POOL_RUPEE}),
     LocationData(
-        6029122, TMCLocation.TRILBY_PUDDLE_FUSION_ITEM15, TMCRegion.TRILBY_HIGHLANDS, Items.RUPEES_5,
+        6029122, TMCLocation.TRILBY_PUDDLE_FUSION_ITEM15, TMCRegion.WESTERN_WOODS, Items.RUPEES_5,
         (0x0F849B, None), (0x2D22, 0x04), 0x1132, pools={POOL_RUPEE}),
     #endregion
     #region Western Woods
@@ -1476,40 +1476,40 @@ all_locations: typing.List[LocationData] = [
         (None, None), (0x2CA4, 0x10), 0x0002, pools={f"{POOL_GORON}1"}),
     LocationData(
         6029458, TMCLocation.TOWN_GORON_MERCHANT_2_LEFT, TMCRegion.HYRULE_TOWN, Items.KINSTONE,
-        (None, None), (None,   None), 0x0002, pools={f"{POOL_GORON}2"}), # There is a separate bit that stores how many times
+        (None, None), (None, None), 0x0002, pools={f"{POOL_GORON}2"}), # There is a separate bit that stores how many times
     LocationData(
         6029459, TMCLocation.TOWN_GORON_MERCHANT_2_MIDDLE, TMCRegion.HYRULE_TOWN, Items.KINSTONE,
-        (None, None), (None,   None), 0x0002, pools={f"{POOL_GORON}2"}), # there's been a restock across 0x2CA3 0x40 - 0x2CA4 0x02
+        (None, None), (None, None), 0x0002, pools={f"{POOL_GORON}2"}), # there's been a restock across 0x2CA3 0x40 - 0x2CA4 0x02
     LocationData(
         6029460, TMCLocation.TOWN_GORON_MERCHANT_2_RIGHT, TMCRegion.HYRULE_TOWN, Items.KINSTONE,
-        (None, None), (None,   None), 0x0002, pools={f"{POOL_GORON}2"}),
+        (None, None), (None, None), 0x0002, pools={f"{POOL_GORON}2"}),
     LocationData(
         6029461, TMCLocation.TOWN_GORON_MERCHANT_3_LEFT, TMCRegion.HYRULE_TOWN, Items.KINSTONE,
-        (None, None), (None,   None), 0x0002, pools={f"{POOL_GORON}3"}),
+        (None, None), (None, None), 0x0002, pools={f"{POOL_GORON}3"}),
     LocationData(
         6029462, TMCLocation.TOWN_GORON_MERCHANT_3_MIDDLE, TMCRegion.HYRULE_TOWN, Items.KINSTONE,
-        (None, None), (None,   None), 0x0002, pools={f"{POOL_GORON}3"}),
+        (None, None), (None, None), 0x0002, pools={f"{POOL_GORON}3"}),
     LocationData(
         6029463, TMCLocation.TOWN_GORON_MERCHANT_3_RIGHT, TMCRegion.HYRULE_TOWN, Items.KINSTONE,
-        (None, None), (None,   None), 0x0002, pools={f"{POOL_GORON}3"}),
+        (None, None), (None, None), 0x0002, pools={f"{POOL_GORON}3"}),
     LocationData(
         6029464, TMCLocation.TOWN_GORON_MERCHANT_4_LEFT, TMCRegion.HYRULE_TOWN, Items.KINSTONE,
-        (None, None), (None,   None), 0x0002, pools={f"{POOL_GORON}4"}),
+        (None, None), (None, None), 0x0002, pools={f"{POOL_GORON}4"}),
     LocationData(
         6029465, TMCLocation.TOWN_GORON_MERCHANT_4_MIDDLE, TMCRegion.HYRULE_TOWN, Items.KINSTONE,
-        (None, None), (None,   None), 0x0002, pools={f"{POOL_GORON}4"}),
+        (None, None), (None, None), 0x0002, pools={f"{POOL_GORON}4"}),
     LocationData(
         6029466, TMCLocation.TOWN_GORON_MERCHANT_4_RIGHT, TMCRegion.HYRULE_TOWN, Items.KINSTONE,
-        (None, None), (None,   None), 0x0002, pools={f"{POOL_GORON}4"}),
+        (None, None), (None, None), 0x0002, pools={f"{POOL_GORON}4"}),
     LocationData(
         6029467, TMCLocation.TOWN_GORON_MERCHANT_5_LEFT, TMCRegion.HYRULE_TOWN, Items.KINSTONE,
-        (None, None), (None,   None), 0x0002, pools={f"{POOL_GORON}5"}),
+        (None, None), (None, None), 0x0002, pools={f"{POOL_GORON}5"}),
     LocationData(
         6029468, TMCLocation.TOWN_GORON_MERCHANT_5_MIDDLE, TMCRegion.HYRULE_TOWN, Items.KINSTONE,
-        (None, None), (None,   None), 0x0002, pools={f"{POOL_GORON}5"}),
+        (None, None), (None, None), 0x0002, pools={f"{POOL_GORON}5"}),
     LocationData(
         6029469, TMCLocation.TOWN_GORON_MERCHANT_5_RIGHT, TMCRegion.HYRULE_TOWN, Items.KINSTONE,
-        (None, None), (None,   None), 0x0002, pools={f"{POOL_GORON}5"}),
+        (None, None), (None, None), 0x0002, pools={f"{POOL_GORON}5"}),
     LocationData(
         6029470, TMCLocation.TOWN_DOJO_NPC_1, TMCRegion.HYRULE_TOWN, Items.SPIN_ATTACK,
         (0xEF6495, None), (0x2EA5, 0x10), 0x0128, pools={POOL_SCROLL}),

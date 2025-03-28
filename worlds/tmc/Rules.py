@@ -387,6 +387,25 @@ class MinishCapRules():
                 self.has_all([Items.PROGRESSIVE_BOMB, Items.FLIPPERS]),
             #endregion
 
+            #region Trilby Highlands
+            # Can Spin / Flippers / Roc's Cape
+            # TMCLocation.TRILBY_MIDDLE_FUSION_CHEST: None, # fusion 5E
+            # TMCLocation.TRILBY_TOP_FUSION_CHEST: None, # fusion 52
+            TMCLocation.TRILBY_DIG_CAVE_LEFT_CHEST:
+                self.has(Items.MOLE_MITTS),
+            TMCLocation.TRILBY_DIG_CAVE_RIGHT_CHEST:
+                self.has(Items.MOLE_MITTS),
+            TMCLocation.TRILBY_DIG_CAVE_WATER_FUSION_CHEST: # fusion 22
+                self.logic_and([
+                    self.has(Items.MOLE_MITTS),
+                    self.has_any([Items.ROCS_CAPE, Items.FLIPPERS]),
+                ]),
+            TMCLocation.TRILBY_SCRUB_NPC:
+                self.has_all([Items.PROGRESSIVE_BOMB, Items.PROGRESSIVE_SHIELD]),
+            TMCLocation.TRILBY_BOMB_CAVE_CHEST:
+                self.has(Items.PROGRESSIVE_BOMB),
+            #endregion
+
             #region Hyrule Town
             # TMCLocation.TOWN_CAFE_LADY_NPC: None,
             # TMCLocation.TOWN_SHOP_80_ITEM: None,
