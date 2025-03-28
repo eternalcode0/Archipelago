@@ -335,14 +335,56 @@ class MinishCapRules():
 
             #region Minish Woods TODO
             # Can Pass Trees
-            TMCLocation.MINISH_WOODS_TOP_HP:
-                self.has_any([Items.ROCS_CAPE, Items.FLIPPERS]),
-            TMCLocation.MINISH_WOODS_NORTH_FUSION_CHEST:
-                self.has_any([Items.ROCS_CAPE, Items.FLIPPERS]),
+            TMCLocation.MINISH_WOODS_GOLDEN_OCTO:
+                # fusion 56
+                self.logic_and([
+                    self.access_minish_woods_top_left(),
+                    self.can_attack()
+                ]),
             TMCLocation.MINISH_WOODS_WITCH_HUT_ITEM:
-                self.has_any([Items.ROCS_CAPE, Items.FLIPPERS]),
+                self.access_minish_woods_top_left(),
             TMCLocation.WITCH_DIGGING_CAVE_CHEST:
-                self.has_any([Items.ROCS_CAPE, Items.FLIPPERS]),
+                self.logic_and([
+                    self.access_minish_woods_top_left(),
+                    self.has(Items.MOLE_MITTS),
+                ]),
+            TMCLocation.MINISH_WOODS_NORTH_FUSION_CHEST:
+                # fusion 44
+                self.access_minish_woods_top_left(),
+            TMCLocation.MINISH_WOODS_TOP_HP:
+                self.access_minish_woods_top_left(),
+            # TMCLocation.MINISH_WOODS_WEST_FUSION_CHEST: None, # fusion 47
+            TMCLocation.MINISH_WOODS_LIKE_LIKE_DIGGING_CAVE_LEFT_CHEST:
+                self.logic_and([
+                    self.has(Items.MOLE_MITTS),
+                    self.can_attack(),
+                ]),
+            TMCLocation.MINISH_WOODS_LIKE_LIKE_DIGGING_CAVE_RIGHT_CHEST:
+                self.logic_and([
+                    self.has(Items.MOLE_MITTS),
+                    self.can_attack(),
+                ]),
+            # TMCLocation.MINISH_WOODS_EAST_FUSION_CHEST: None, # fusion 46
+            # TMCLocation.MINISH_WOODS_SOUTH_FUSION_CHEST: None, # fusion 39
+            # TMCLocation.MINISH_WOODS_BOTTOM_HP: None,
+            # TMCLocation.MINISH_WOODS_CRACK_FUSION_CHEST: None, # fusion 4E
+            # TMCLocation.MINISH_WOODS_MINISH_PATH_FUSION_CHEST: None, # fusion 37
+            # TMCLocation.MINISH_VILLAGE_BARREL_HOUSE_ITEM: None,
+            # TMCLocation.MINISH_VILLAGE_HP: None,
+            TMCLocation.MINISH_WOODS_BOMB_MINISH_NPC_1:
+                self.has(Items.PROGRESSIVE_BOMB),
+            TMCLocation.MINISH_WOODS_BOMB_MINISH_NPC_2: # fusion 1C
+                self.has(Items.PROGRESSIVE_BOMB),
+            TMCLocation.MINISH_WOODS_POST_VILLAGE_FUSION_CHEST:
+                self.has(Items.PROGRESSIVE_BOMB),
+            TMCLocation.MINISH_WOODS_FLIPPER_HOLE_MIDDLE_CHEST:
+                self.has_all([Items.PROGRESSIVE_BOMB, Items.FLIPPERS]),
+            TMCLocation.MINISH_WOODS_FLIPPER_HOLE_RIGHT_CHEST:
+                self.has_all([Items.PROGRESSIVE_BOMB, Items.FLIPPERS]),
+            TMCLocation.MINISH_WOODS_FLIPPER_HOLE_LEFT_CHEST:
+                self.has_all([Items.PROGRESSIVE_BOMB, Items.FLIPPERS]),
+            TMCLocation.MINISH_WOODS_FLIPPER_HOLE_HP:
+                self.has_all([Items.PROGRESSIVE_BOMB, Items.FLIPPERS]),
             #endregion
 
             #region Hyrule Town
@@ -548,6 +590,15 @@ class MinishCapRules():
         return self.logic_and([
             self.access_town_left(),
             self.has_bottle(),
+        ])
+
+    def access_minish_woods_top_left(self) -> CollectionRule:
+        return self.logic_or([
+            self.has_any([Items.FLIPPERS, Items.ROCS_CAPE]),
+            self.logic_and([
+                self.access_lonlon_right(),
+                self.has(Items.CANE_OF_PACCI),
+            ])
         ])
 
     def complete_book_quest(self) -> CollectionRule:
