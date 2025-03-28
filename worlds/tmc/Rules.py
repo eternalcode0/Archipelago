@@ -406,6 +406,69 @@ class MinishCapRules():
                 self.has(Items.PROGRESSIVE_BOMB),
             #endregion
 
+            #region Western Woods
+            # All of the below require Fusion 3F
+            # They also are part of the western wood region
+            # TMCLocation.TRILBY_PUDDLE_FUSION_ITEM1: None,
+            # TMCLocation.TRILBY_PUDDLE_FUSION_ITEM2: None,
+            # TMCLocation.TRILBY_PUDDLE_FUSION_ITEM3: None,
+            # TMCLocation.TRILBY_PUDDLE_FUSION_ITEM4: None,
+            # TMCLocation.TRILBY_PUDDLE_FUSION_ITEM5: None,
+            # TMCLocation.TRILBY_PUDDLE_FUSION_ITEM6: None,
+            # TMCLocation.TRILBY_PUDDLE_FUSION_ITEM7: None,
+            # TMCLocation.TRILBY_PUDDLE_FUSION_ITEM8: None,
+            # TMCLocation.TRILBY_PUDDLE_FUSION_ITEM9: None,
+            # TMCLocation.TRILBY_PUDDLE_FUSION_ITEM10: None,
+            # TMCLocation.TRILBY_PUDDLE_FUSION_ITEM11: None,
+            # TMCLocation.TRILBY_PUDDLE_FUSION_ITEM12: None,
+            # TMCLocation.TRILBY_PUDDLE_FUSION_ITEM13: None,
+            # TMCLocation.TRILBY_PUDDLE_FUSION_ITEM14: None,
+            # TMCLocation.TRILBY_PUDDLE_FUSION_ITEM15: None,
+
+            # TMCLocation.WESTERN_WOODS_FUSION_CHEST: None, # fusion 3A
+            # TMCLocation.WESTERN_WOODS_TREE_FUSION_HP: None, # fusion 11
+            TMCLocation.WESTERN_WOODS_TOP_DIG1:
+                self.has(Items.MOLE_MITTS), # fusion 48
+            TMCLocation.WESTERN_WOODS_TOP_DIG2:
+                self.has(Items.MOLE_MITTS), # fusion 48
+            TMCLocation.WESTERN_WOODS_TOP_DIG3:
+                self.has(Items.MOLE_MITTS), # fusion 48
+            TMCLocation.WESTERN_WOODS_TOP_DIG4:
+                self.has(Items.MOLE_MITTS), # fusion 48
+            TMCLocation.WESTERN_WOODS_TOP_DIG5:
+                self.has(Items.MOLE_MITTS), # fusion 48
+            TMCLocation.WESTERN_WOODS_TOP_DIG6:
+                self.has(Items.MOLE_MITTS), # fusion 48
+            TMCLocation.WESTERN_WOODS_PERCY_FUSION_MOBLIN:
+                self.has(Items.LANTERN),
+            TMCLocation.WESTERN_WOODS_PERCY_FUSION_PERCY:
+                self.has(Items.LANTERN),
+            TMCLocation.WESTERN_WOODS_BOTTOM_DIG1:
+                self.has(Items.MOLE_MITTS), # fusion 4C
+            TMCLocation.WESTERN_WOODS_BOTTOM_DIG2:
+                self.has(Items.MOLE_MITTS), # fusion 4C
+            TMCLocation.WESTERN_WOODS_GOLDEN_OCTO:
+                self.can_attack(), # fusion 3D
+            # All of the following require Fusion 24
+            # TMCLocation.WESTERN_WOODS_BEANSTALK_FUSION_CHEST: None,
+            # TMCLocation.WESTERN_WOODS_BEANSTALK_FUSION_ITEM1: None,
+            # TMCLocation.WESTERN_WOODS_BEANSTALK_FUSION_ITEM2: None,
+            # TMCLocation.WESTERN_WOODS_BEANSTALK_FUSION_ITEM3: None,
+            # TMCLocation.WESTERN_WOODS_BEANSTALK_FUSION_ITEM4: None,
+            # TMCLocation.WESTERN_WOODS_BEANSTALK_FUSION_ITEM5: None,
+            # TMCLocation.WESTERN_WOODS_BEANSTALK_FUSION_ITEM6: None,
+            # TMCLocation.WESTERN_WOODS_BEANSTALK_FUSION_ITEM7: None,
+            # TMCLocation.WESTERN_WOODS_BEANSTALK_FUSION_ITEM8: None,
+            # TMCLocation.WESTERN_WOODS_BEANSTALK_FUSION_ITEM9: None,
+            # TMCLocation.WESTERN_WOODS_BEANSTALK_FUSION_ITEM10: None,
+            # TMCLocation.WESTERN_WOODS_BEANSTALK_FUSION_ITEM11: None,
+            # TMCLocation.WESTERN_WOODS_BEANSTALK_FUSION_ITEM12: None,
+            # TMCLocation.WESTERN_WOODS_BEANSTALK_FUSION_ITEM13: None,
+            # TMCLocation.WESTERN_WOODS_BEANSTALK_FUSION_ITEM14: None,
+            # TMCLocation.WESTERN_WOODS_BEANSTALK_FUSION_ITEM15: None,
+            # TMCLocation.WESTERN_WOODS_BEANSTALK_FUSION_ITEM16: None,
+            #endregion
+
             #region Hyrule Town
             # TMCLocation.TOWN_CAFE_LADY_NPC: None,
             # TMCLocation.TOWN_SHOP_80_ITEM: None,
