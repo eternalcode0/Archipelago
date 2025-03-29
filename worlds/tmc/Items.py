@@ -366,5 +366,6 @@ item_groups: dict[str, set[str]] = {
         FAST_SPIN_SCROLL.item_name,
         FAST_SPLIT_SCROLL.item_name,
         LONG_SPIN.item_name },
-    "Elements": { EARTH_ELEMENT.item_name, FIRE_ELEMENT.item_name, WATER_ELEMENT.item_name, WIND_ELEMENT.item_name }
+    "Elements": { EARTH_ELEMENT.item_name, FIRE_ELEMENT.item_name, WATER_ELEMENT.item_name, WIND_ELEMENT.item_name },
+    "Health": { HEART_CONTAINER.item_name, HEART_PIECE.item_name },
 }

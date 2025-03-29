@@ -1703,8 +1703,9 @@ location_groups: dict[str, set[str]] = {
     "DWS": set(loc.name for loc in all_locations if loc.region == TMCRegion.DUNGEON_DWS),
     "Cof": set(loc.name for loc in all_locations if loc.region == TMCRegion.DUNGEON_COF),
     "FoW": set(loc.name for loc in all_locations if loc.region == TMCRegion.DUNGEON_FOW),
-    "ToD": set(loc.name for loc in all_locations if loc.region == TMCRegion.DUNGEON_TOD),
+    "ToD": set(loc.name for loc in all_locations if loc.region in { TMCRegion.DUNGEON_TOD, TMCRegion.DUNGEON_TOD_MAIN }),
     "PoW": set(loc.name for loc in all_locations if loc.region == TMCRegion.DUNGEON_POW),
     "RC": set(loc.name for loc in all_locations if loc.region == TMCRegion.DUNGEON_RC),
     "DHC": set(loc.name for loc in all_locations if loc.region == TMCRegion.DUNGEON_DHC),
+    "Graveyard": set(loc.name for loc in all_locations if loc.region == TMCRegion.GRAVEYARD),
 }

@@ -1035,7 +1035,6 @@ class MinishCapRules():
                 self.has(Items.CARLOV_MEDAL),
             TMCLocation.TOWN_WELL_PILLAR_CHEST:
                 self.can_reach([
-                    TMCLocation.TOWN_WELL_TOP_CHEST,
                     TMCLocation.TOWN_WELL_LEFT_CHEST,
                     TMCLocation.TOWN_WELL_RIGHT_CHEST,
                     TMCLocation.TOWN_WELL_BOTTOM_CHEST,
@@ -1066,21 +1065,21 @@ class MinishCapRules():
             TMCLocation.TOWN_LIBRARY_YELLOW_MINISH_NPC:
                 self.complete_book_quest(),
             TMCLocation.TOWN_UNDER_LIBRARY_FROZEN_CHEST:
-                self.logic_and([
-                    self.complete_book_quest(),
-                    self.has_all([Items.FLIPPERS, Items.LANTERN]),
-                ]),
+                self.has_all([Items.FLIPPERS, Items.LANTERN, Items.OCARINA, Items.CANE_OF_PACCI]),
             TMCLocation.TOWN_UNDER_LIBRARY_BIG_CHEST:
                 self.logic_and([
-                    self.complete_book_quest(),
                     self.can_attack(),
-                    self.has(Items.FLIPPERS),
+                    self.logic_or([
+                        self.logic_and([
+                            self.complete_book_quest(),
+                            self.has(Items.GRIP_RING),
+                            self.has_any([Items.GUST_JAR,Items.ROCS_CAPE]),
+                        ]),
+                        self.has_all([Items.FLIPPERS, Items.OCARINA, Items.CANE_OF_PACCI]),
+                    ]),
                 ]),
             TMCLocation.TOWN_UNDER_LIBRARY_UNDERWATER:
-                self.logic_and([
-                    self.complete_book_quest(),
-                    self.has(Items.FLIPPERS),
-                ]),
+                self.has_all([Items.FLIPPERS, Items.OCARINA, Items.CANE_OF_PACCI]),
             TMCLocation.TOWN_CUCCOS_LV_10_NPC:
                 self.has_any([Items.ROCS_CAPE, Items.FLIPPERS]),
             #endregion
@@ -1094,7 +1093,7 @@ class MinishCapRules():
             TMCLocation.NORTH_FIELD_DIG_SPOT:
                 self.has(Items.MOLE_MITTS),
             TMCLocation.NORTH_FIELD_HP:
-                self.has_any([Items.PROGRESSIVE_BOMB, Items.FLIPPERS, Items.ROCS_CAPE]),
+                self.has_any([Items.PROGRESSIVE_BOMB, Items.FLIPPERS]),
             TMCLocation.NORTH_FIELD_WATERFALL_FUSION_DOJO_NPC:
                 self.has_all([Items.FLIPPERS, Items.PROGRESSIVE_SWORD]),
             #endregion
