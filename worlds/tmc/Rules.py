@@ -99,6 +99,10 @@ class MinishCapRules():
                             Items.CANE_OF_PACCI,
                             Items.GRIP_RING
                         ]),
+                        self.has_all([
+                            Items.CANE_OF_PACCI,
+                            Items.PROGRESSIVE_BOMB
+                        ]),
                         self.logic_and([
                             self.has(Items.GRIP_RING),
                             self.logic_or([
