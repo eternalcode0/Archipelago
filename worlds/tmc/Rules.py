@@ -95,7 +95,7 @@ class MinishCapRules():
             (TMCRegion.CRENEL, TMCRegion.DUNGEON_COF): # TODO double-check
                 self.logic_and([
                     self.logic_or([
-                        self.has_any([
+                        self.has_all([
                             Items.CANE_OF_PACCI,
                             Items.GRIP_RING
                         ]),
