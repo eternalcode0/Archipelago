@@ -102,6 +102,7 @@ def connect_regions(world: "MinishCapWorld"):
     connect(world, names, TMCRegion.LONLON, TMCRegion.LOWER_FALLS)
 
     connect(world, names, TMCRegion.LAKE_HYLIA, TMCRegion.DUNGEON_TOD)
+    connect(world, names, TMCRegion.DUNGEON_TOD, TMCRegion.DUNGEON_TOD_MAIN)
     connect(world, names, TMCRegion.LAKE_HYLIA, TMCRegion.MINISH_WOODS)
 
     connect(world, names, TMCRegion.MINISH_WOODS, TMCRegion.DUNGEON_DWS, lambda state: state.has("Jabber Nut", world.player))
