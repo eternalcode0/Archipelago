@@ -28,6 +28,7 @@ class TMCRegion:
     DUNGEON_COF = "Cave of Flames"
     DUNGEON_FOW = "Fortress of Winds"
     DUNGEON_TOD = "Temple of Droplets"
+    DUNGEON_TOD_MAIN = "Temple of Droplets After Big key"
     DUNGEON_POW = "Palace of Winds"
     SANCTUARY = "Sanctuary"
     DUNGEON_DHC = "Dark Hyrule Castle"
@@ -57,6 +58,7 @@ all_regions = [
     TMCRegion.DUNGEON_COF,
     TMCRegion.DUNGEON_FOW,
     TMCRegion.DUNGEON_TOD,
+    TMCRegion.DUNGEON_TOD_MAIN,
     TMCRegion.DUNGEON_POW,
     TMCRegion.SANCTUARY,
     TMCRegion.DUNGEON_DHC,
