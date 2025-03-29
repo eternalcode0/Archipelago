@@ -231,7 +231,7 @@ class MinishCapRules():
             TMCLocation.SOUTH_FIELD_TINGLE_NPC:
                 self.logic_and([
                     self.can_pass_trees(),
-                    self.has(Items.CANE_OF_PACCI),
+                    self.has_all([Items.CANE_OF_PACCI, Items.TINGLE_TROPHY]),
                 ]),
             #endregion
 
@@ -323,6 +323,88 @@ class MinishCapRules():
                     ]),
                 ]),
             #endreigon
+
+            #region Lower Falls
+            # TMCLocation.FALLS_LOWER_LON_LON_FUSION_CHEST: None, # Fusion 60
+            # TMCLocation.FALLS_LOWER_HP: None,
+            TMCLocation.FALLS_LOWER_WATERFALL_FUSION_DOJO_NPC: # Fusion 1D
+                self.has_all([Items.FLIPPERS, Items.PROGRESSIVE_SWORD]),
+            TMCLocation.FALLS_LOWER_ROCK_ITEM1:
+                self.has_any([Items.FLIPPERS, Items.ROCS_CAPE]),
+            TMCLocation.FALLS_LOWER_ROCK_ITEM2:
+                self.has_any([Items.FLIPPERS, Items.ROCS_CAPE]),
+            TMCLocation.FALLS_LOWER_ROCK_ITEM3:
+                self.has_any([Items.FLIPPERS, Items.ROCS_CAPE]),
+            TMCLocation.FALLS_LOWER_DIG_CAVE_LEFT_CHEST:
+                self.logic_and([
+                    self.has_any([Items.FLIPPERS, Items.ROCS_CAPE]),
+                    self.has(Items.MOLE_MITTS),
+                ]),
+            TMCLocation.FALLS_LOWER_DIG_CAVE_RIGHT_CHEST:
+                self.logic_and([
+                    self.has_any([Items.FLIPPERS, Items.ROCS_CAPE]),
+                    self.has(Items.MOLE_MITTS),
+                ]),
+            #endregion
+
+            #region Upper Falls
+            TMCLocation.FALLS_ENTRANCE_HP: # The first 3 are part of North Field logic, doesn't require falls fusion stone or lantern
+                self.has_all([Items.FLIPPERS, Items.PROGRESSIVE_BOMB]),
+            TMCLocation.FALLS_WATER_DIG_CAVE_FUSION_HP: # Fusion 1F
+                self.has_all([Items.FLIPPERS, Items.PROGRESSIVE_BOMB, Items.MOLE_MITTS]),
+            TMCLocation.FALLS_WATER_DIG_CAVE_FUSION_CHEST: # Fusion 1F
+                self.has_all([Items.FLIPPERS, Items.PROGRESSIVE_BOMB, Items.MOLE_MITTS]),
+            # TMCLocation.FALLS_1ST_CAVE_CHEST: None,
+            TMCLocation.FALLS_CLIFF_CHEST:
+                self.split_rule(3),
+            TMCLocation.FALLS_SOUTH_DIG_SPOT:
+                self.has(Items.MOLE_MITTS),
+            TMCLocation.FALLS_GOLDEN_TEKTITE: # Fusion 4A
+                self.logic_and([
+                    self.can_attack(),
+                    self.has(Items.GRIP_RING),
+                ]),
+            TMCLocation.FALLS_NORTH_DIG_SPOT:
+                self.has_all([Items.GRIP_RING, Items.MOLE_MITTS]),
+            TMCLocation.FALLS_ROCK_FUSION_CHEST: # Fusion 61
+                self.has(Items.GRIP_RING),
+            TMCLocation.FALLS_WATERFALL_FUSION_HP:
+                self.has_all([Items.GRIP_RING, Items.FLIPPERS]),
+            TMCLocation.FALLS_RUPEE_CAVE_TOP_TOP:
+                self.has(Items.GRIP_RING),
+            TMCLocation.FALLS_RUPEE_CAVE_TOP_LEFT:
+                self.has(Items.GRIP_RING),
+            TMCLocation.FALLS_RUPEE_CAVE_TOP_MIDDLE:
+                self.has(Items.GRIP_RING),
+            TMCLocation.FALLS_RUPEE_CAVE_TOP_RIGHT:
+                self.has(Items.GRIP_RING),
+            TMCLocation.FALLS_RUPEE_CAVE_TOP_BOTTOM:
+                self.has(Items.GRIP_RING),
+            TMCLocation.FALLS_RUPEE_CAVE_SIDE_TOP:
+                self.has(Items.GRIP_RING),
+            TMCLocation.FALLS_RUPEE_CAVE_SIDE_LEFT:
+                self.has(Items.GRIP_RING),
+            TMCLocation.FALLS_RUPEE_CAVE_SIDE_RIGHT:
+                self.has(Items.GRIP_RING),
+            TMCLocation.FALLS_RUPEE_CAVE_SIDE_BOTTOM:
+                self.has(Items.GRIP_RING),
+            TMCLocation.FALLS_RUPEE_CAVE_UNDERWATER_TOP_LEFT:
+                self.has_all([Items.GRIP_RING, Items.FLIPPERS]),
+            TMCLocation.FALLS_RUPEE_CAVE_UNDERWATER_TOP_RIGHT:
+                self.has_all([Items.GRIP_RING, Items.FLIPPERS]),
+            TMCLocation.FALLS_RUPEE_CAVE_UNDERWATER_MIDDLE_LEFT:
+                self.has_all([Items.GRIP_RING, Items.FLIPPERS]),
+            TMCLocation.FALLS_RUPEE_CAVE_UNDERWATER_MIDDLE_RIGHT:
+                self.has_all([Items.GRIP_RING, Items.FLIPPERS]),
+            TMCLocation.FALLS_RUPEE_CAVE_UNDERWATER_BOTTOM_LEFT:
+                self.has_all([Items.GRIP_RING, Items.FLIPPERS]),
+            TMCLocation.FALLS_RUPEE_CAVE_UNDERWATER_BOTTOM_RIGHT:
+                self.has_all([Items.GRIP_RING, Items.FLIPPERS]),
+            TMCLocation.FALLS_TOP_CAVE_BOMB_WALL_CHEST:
+                self.has_all([Items.GRIP_RING, Items.PROGRESSIVE_BOMB]),
+            TMCLocation.FALLS_TOP_CAVE_CHEST:
+                self.has(Items.GRIP_RING),
+            #endregion
 
             #region Cloud Tops TODO
             # TMCLocation.CLOUDS_FREE_CHEST: None,

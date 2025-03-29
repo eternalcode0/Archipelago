@@ -813,13 +813,13 @@ all_locations: typing.List[LocationData] = [
     #endregion
     #region Upper Falls
     LocationData(
-        6029244, TMCLocation.FALLS_ENTRANCE_HP, TMCRegion.UPPER_FALLS, Items.HEART_PIECE,
+        6029244, TMCLocation.FALLS_ENTRANCE_HP, TMCRegion.NORTH_FIELD, Items.HEART_PIECE,
         (0x0F87C3, None), (0x2CD0, 0x01), 0x000A, pools={POOL_HP}),
     LocationData(
-        6029245, TMCLocation.FALLS_WATER_DIG_CAVE_FUSION_HP, TMCRegion.UPPER_FALLS, Items.HEART_PIECE,
+        6029245, TMCLocation.FALLS_WATER_DIG_CAVE_FUSION_HP, TMCRegion.NORTH_FIELD, Items.HEART_PIECE,
         (0x0F3DD7, None), (0x2D05, 0x20), 0x0016, pools={POOL_HP}),
     LocationData(
-        6029246, TMCLocation.FALLS_WATER_DIG_CAVE_FUSION_CHEST, TMCRegion.UPPER_FALLS, None,
+        6029246, TMCLocation.FALLS_WATER_DIG_CAVE_FUSION_CHEST, TMCRegion.NORTH_FIELD, None,
         (0x0F3E26, None), (0x2D05, 0x04), 0x0016),
     LocationData(
         6029247, TMCLocation.FALLS_1ST_CAVE_CHEST, TMCRegion.UPPER_FALLS, None,
