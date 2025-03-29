@@ -116,7 +116,7 @@ class MinishCapRules():
                             ])
                         ])
                     ]),
-                    self.can_attack,
+                    self.can_attack(),
                     self.logic_or([
                         self.has_all([
                             Items.DOWNTHRUST,
@@ -693,9 +693,9 @@ class MinishCapRules():
                 self.has(Items.MOLE_MITTS),
             TMCLocation.FORTRESS_LEFT_2F_DIG_CHEST:
                 self.has_any([
-                    Items.MOLE_MITTS,
+                   Items.MOLE_MITTS,
                     Items.PROGRESSIVE_BOW
-                ])
+                ]),
             TMCLocation.FORTRESS_LEFT_2F_ITEM1:
                 self.has(Items.PROGRESSIVE_BOW),
             TMCLocation.FORTRESS_LEFT_2F_ITEM2:
@@ -745,7 +745,7 @@ class MinishCapRules():
                 ]),
             TMCLocation.FORTRESS_BACK_RIGHT_STATUE_ITEM_DROP:
                 self.logic_and([
-                    self.has(Items.PROGRESSIVE_BOW]),
+                    self.has(Items.PROGRESSIVE_BOW),
                     self.has(Items.SMALL_KEY_FOW,2)
                 ]),
             TMCLocation.FORTRESS_BACK_RIGHT_MINISH_ITEM_DROP:
@@ -938,7 +938,7 @@ class MinishCapRules():
                         Items.BIG_KEY_POW,
                         Items.LANTERN
                     ]),
-                    self.has(Items.SMALL_KEY_POW,4)
+                    self.has(Items.SMALL_KEY_POW,4),
                 ]),
             TMCLocation.PALACE_2ND_HALF_1F_DARK_ROOM_SMALL_CHEST:
                 self.logic_and([
@@ -948,7 +948,7 @@ class MinishCapRules():
                         Items.BIG_KEY_POW,
                         Items.LANTERN
                     ]),
-                    self.has(Items.SMALL_KEY_POW,4)
+                    self.has(Items.SMALL_KEY_POW,4),
                 ]),
             TMCLocation.PALACE_2ND_HALF_2F_MANY_ROLLERS_CHEST:
                 self.logic_and([
@@ -968,7 +968,7 @@ class MinishCapRules():
                         Items.BIG_KEY_POW,
                         Items.LANTERN
                     ]),
-                    self.has(Items.SMALL_KEY_POW,4)
+                    self.has(Items.SMALL_KEY_POW,4),
                 ]),
             TMCLocation.PALACE_2ND_HALF_3F_FIRE_WIZROBES_BIG_CHEST:
                 self.logic_and([
@@ -978,7 +978,7 @@ class MinishCapRules():
                         Items.BIG_KEY_POW,
                         Items.LANTERN
                     ]),
-                    self.has(Items.SMALL_KEY_POW,4)
+                    self.has(Items.SMALL_KEY_POW,4),
                 ]),
             TMCLocation.PALACE_2ND_HALF_4F_HP:
                 self.logic_and([
@@ -988,7 +988,7 @@ class MinishCapRules():
                         Items.BIG_KEY_POW,
                         Items.LANTERN
                     ]),
-                    self.has(Items.SMALL_KEY_POW,4)
+                    self.has(Items.SMALL_KEY_POW,4),
                 ]),
             TMCLocation.PALACE_2ND_HALF_4F_SWITCH_HIT_CHEST:
                 self.logic_and([
@@ -998,7 +998,7 @@ class MinishCapRules():
                         Items.BIG_KEY_POW,
                         Items.LANTERN
                     ]),
-                    self.has(Items.SMALL_KEY_POW,4)
+                    self.has(Items.SMALL_KEY_POW,4),
                 ]),
             TMCLocation.PALACE_2ND_HALF_5F_BOMBAROSSA_CHEST:
                 self.logic_and([
@@ -1008,7 +1008,7 @@ class MinishCapRules():
                         Items.BIG_KEY_POW,
                         Items.LANTERN
                     ]),
-                    self.has(Items.SMALL_KEY_POW,5)
+                    self.has(Items.SMALL_KEY_POW,5),
                 ]),
             TMCLocation.PALACE_2ND_HALF_4F_BLOCK_MAZE_CHEST:
                 self.logic_and([
@@ -1018,7 +1018,7 @@ class MinishCapRules():
                         Items.BIG_KEY_POW,
                         Items.LANTERN
                     ]),
-                    self.has(Items.SMALL_KEY_POW,6)
+                    self.has(Items.SMALL_KEY_POW,6),
                 ]),
             TMCLocation.PALACE_2ND_HALF_5F_RIGHT_SIDE_CHEST:
                 self.logic_and([
@@ -1028,7 +1028,7 @@ class MinishCapRules():
                         Items.BIG_KEY_POW,
                         Items.LANTERN
                     ]),
-                    self.has(Items.SMALL_KEY_POW,6)
+                    self.has(Items.SMALL_KEY_POW,6),
                 ]),
             TMCLocation.PALACE_BOSS_ITEM:
                 self.logic_and([
@@ -1038,7 +1038,7 @@ class MinishCapRules():
                         Items.BIG_KEY_POW,
                         Items.LANTERN
                     ]),
-                    self.has(Items.SMALL_KEY_POW,6)
+                    self.has(Items.SMALL_KEY_POW,6),
                 ]),
             TMCLocation.PALACE_PRIZE:
                 self.logic_and([
@@ -1048,7 +1048,7 @@ class MinishCapRules():
                         Items.BIG_KEY_POW,
                         Items.LANTERN
                     ]),
-                    self.has(Items.SMALL_KEY_POW,6)
+                    self.has(Items.SMALL_KEY_POW,6),
                 ]),
             #endregion
             #region Sanctuary
@@ -1074,7 +1074,7 @@ class MinishCapRules():
                         Items.PROGRESSIVE_BOMB,
                         Items.PROGRESSIVE_BOW,
                         Items.ROCS_CAPE
-                    ])
+                    ]),
                 ]),
             TMCLocation.DHC_3F_NORTH_EAST_CHEST:
                 self.logic_and([
@@ -1086,12 +1086,12 @@ class MinishCapRules():
                         Items.LANTERN
                     ]),
                     self.logic_or([
-                        self.has(Items.PROGRESSIVE_BOOMERANG,2)
+                        self.has(Items.PROGRESSIVE_BOOMERANG,2),
                         self.has_any([
                             Items.PERIL_BEAM,
                             Items.SWORD_BEAM,
                             Items.PROGRESSIVE_BOW
-                        ])
+                        ]),
                     ]),
                 ]),
             TMCLocation.DHC_3F_SOUTH_WEST_CHEST:
@@ -1103,12 +1103,12 @@ class MinishCapRules():
                         Items.ROCS_CAPE,
                     ]),
                     self.logic_or([
-                        self.has(Items.PROGRESSIVE_BOOMERANG,2)
+                        self.has(Items.PROGRESSIVE_BOOMERANG,2),
                         self.has_any([
                             Items.PERIL_BEAM,
                             Items.SWORD_BEAM,
                             Items.PROGRESSIVE_BOW
-                        ])
+                        ]),
                     ]),
                 ]),
             TMCLocation.DHC_3F_SOUTH_EAST_CHEST:
@@ -1120,12 +1120,12 @@ class MinishCapRules():
                         Items.ROCS_CAPE,
                     ]),
                     self.logic_or([
-                        self.has(Items.PROGRESSIVE_BOOMERANG,2)
+                        self.has(Items.PROGRESSIVE_BOOMERANG,2),
                         self.has_any([
                             Items.PERIL_BEAM,
                             Items.SWORD_BEAM,
                             Items.PROGRESSIVE_BOW
-                        ])
+                        ]),
                     ]),
                 ]),
             TMCLocation.DHC_2F_BLUE_WARP_BIG_CHEST:
@@ -1137,12 +1137,12 @@ class MinishCapRules():
                         Items.ROCS_CAPE,
                     ]),
                     self.logic_or([
-                        self.has(Items.PROGRESSIVE_BOOMERANG,2)
+                        self.has(Items.PROGRESSIVE_BOOMERANG,2),
                         self.has_any([
                             Items.PERIL_BEAM,
                             Items.SWORD_BEAM,
                             Items.PROGRESSIVE_BOW
-                        ])
+                        ]),
                     ]),
                 ]),
             #endregion
