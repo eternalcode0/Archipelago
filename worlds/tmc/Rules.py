@@ -160,6 +160,8 @@ class MinishCapRules():
 
             (TMCRegion.LAKE_HYLIA, TMCRegion.DUNGEON_TOD): # TODO double-check
                 self.has_any([Items.FLIPPERS, Items.ROCS_CAPE]),
+            (TMCRegion.DUNGEON_TOD, TMCRegion.DUNGEON_TOD_MAIN): # TODO double-check
+                self.has(Items.BIG_KEY_TOD),
             (TMCRegion.LAKE_HYLIA, TMCRegion.MINISH_WOODS): # TODO double-check
                 self.has(Items.FLIPPERS),
         }
@@ -688,6 +690,7 @@ class MinishCapRules():
                     self.has(Items.SMALL_KEY_COF,2),
                 ]),
             #endregion
+            
             #region Dungeon FOW
             TMCLocation.FORTRESS_ENTRANCE_1F_LEFT_CHEST:
                 self.has(Items.MOLE_MITTS),
@@ -801,50 +804,233 @@ class MinishCapRules():
                     self.has(Items.BIG_KEY_FOW)
                 ]),
             #endregion
+            
             #region Dungeon TOD
-            #TMCLocation.DROPLETS_ENTRANCE_B2_EAST_ICEBLOCK:
-            #TMCLocation.DROPLETS_ENTRANCE_B2_WEST_ICEBLOCK:
+            #TMCLocation.DROPLETS_ENTRANCE_B2_EAST_ICEBLOCK: none
+            TMCLocation.DROPLETS_ENTRANCE_B2_WEST_ICEBLOCK:
+                self.has(Items.SMALL_KEY_TOD,4),
+            #endregion
+            
+            #region Dungeon TOD after Big Key
             #TMCLocation.DROPLETS_LEFT_PATH_B1_UNDERPASS_ITEM1:
             #TMCLocation.DROPLETS_LEFT_PATH_B1_UNDERPASS_ITEM2:
             #TMCLocation.DROPLETS_LEFT_PATH_B1_UNDERPASS_ITEM3:
             #TMCLocation.DROPLETS_LEFT_PATH_B1_UNDERPASS_ITEM4:
             #TMCLocation.DROPLETS_LEFT_PATH_B1_UNDERPASS_ITEM5:
             #TMCLocation.DROPLETS_LEFT_PATH_B1_WATERFALL_BIG_CHEST:
-            #TMCLocation.DROPLETS_LEFT_PATH_B1_WATERFALL_UNDERWATER1:
-            #TMCLocation.DROPLETS_LEFT_PATH_B1_WATERFALL_UNDERWATER2:
-            #TMCLocation.DROPLETS_LEFT_PATH_B1_WATERFALL_UNDERWATER3:
-            #TMCLocation.DROPLETS_LEFT_PATH_B1_WATERFALL_UNDERWATER4:
-            #TMCLocation.DROPLETS_LEFT_PATH_B1_WATERFALL_UNDERWATER5:
-            #TMCLocation.DROPLETS_LEFT_PATH_B1_WATERFALL_UNDERWATER6:
-            #TMCLocation.DROPLETS_LEFT_PATH_B2_WATERFALL_UNDERWATER1:
-            #TMCLocation.DROPLETS_LEFT_PATH_B2_WATERFALL_UNDERWATER2:
-            #TMCLocation.DROPLETS_LEFT_PATH_B2_WATERFALL_UNDERWATER3:
-            #TMCLocation.DROPLETS_LEFT_PATH_B2_WATERFALL_UNDERWATER4:
-            #TMCLocation.DROPLETS_LEFT_PATH_B2_WATERFALL_UNDERWATER5:
-            #TMCLocation.DROPLETS_LEFT_PATH_B2_WATERFALL_UNDERWATER6:
-            #TMCLocation.DROPLETS_LEFT_PATH_B2_UNDERWATER_POT:
-            #TMCLocation.DROPLETS_LEFT_PATH_B2_ICE_MADDERPILLAR_BIG_CHEST:
-            #TMCLocation.DROPLETS_LEFT_PATH_B2_ICE_PLAIN_FROZEN_CHEST:
-            #TMCLocation.DROPLETS_LEFT_PATH_B2_ICE_PLAIN_CHEST:
-            #TMCLocation.DROPLETS_LEFT_PATH_B2_LILYPAD_CORNER_FROZEN_CHEST:
-            #TMCLocation.DROPLETS_RIGHT_PATH_B1_1ST_CHEST:
-            #TMCLocation.DROPLETS_RIGHT_PATH_B1_2ND_CHEST:
-            #TMCLocation.DROPLETS_RIGHT_PATH_B1_POT:
-            #TMCLocation.DROPLETS_RIGHT_PATH_B3_FROZEN_CHEST:
-            #TMCLocation.DROPLETS_RIGHT_PATH_B1_BLU_CHU_BIG_CHEST:
-            #TMCLocation.DROPLETS_RIGHT_PATH_B2_FROZEN_CHEST:
-            #TMCLocation.DROPLETS_RIGHT_PATH_B2_DARK_MAZE_BOTTOM_CHEST:
-            #TMCLocation.DROPLETS_RIGHT_PATH_B2_MULLDOZERS_ITEM_DROP:
-            #TMCLocation.DROPLETS_RIGHT_PATH_B2_DARK_MAZE_TOP_RIGHT_CHEST:
-            #TMCLocation.DROPLETS_RIGHT_PATH_B2_DARK_MAZE_TOP_LEFT_CHEST:
-            #TMCLocation.DROPLETS_RIGHT_PATH_B2_UNDERPASS_ITEM1:
-            #TMCLocation.DROPLETS_RIGHT_PATH_B2_UNDERPASS_ITEM2:
-            #TMCLocation.DROPLETS_RIGHT_PATH_B2_UNDERPASS_ITEM3:
-            #TMCLocation.DROPLETS_RIGHT_PATH_B2_UNDERPASS_ITEM4:
-            #TMCLocation.DROPLETS_RIGHT_PATH_B2_UNDERPASS_ITEM5:
-            #TMCLocation.DROPLETS_BOSS_ITEM:
-            #TMCLocation.DROPLETS_PRIZE:
+            TMCLocation.DROPLETS_LEFT_PATH_B1_WATERFALL_UNDERWATER1:
+                self.has(Items.FLIPPERS),
+            TMCLocation.DROPLETS_LEFT_PATH_B1_WATERFALL_UNDERWATER2:
+                self.has(Items.FLIPPERS),
+            TMCLocation.DROPLETS_LEFT_PATH_B1_WATERFALL_UNDERWATER3:
+                self.has(Items.FLIPPERS),
+            TMCLocation.DROPLETS_LEFT_PATH_B1_WATERFALL_UNDERWATER4:
+                self.has(Items.FLIPPERS),
+            TMCLocation.DROPLETS_LEFT_PATH_B1_WATERFALL_UNDERWATER5:
+                self.has(Items.FLIPPERS),
+            TMCLocation.DROPLETS_LEFT_PATH_B1_WATERFALL_UNDERWATER6:
+                self.has(Items.FLIPPERS),
+            TMCLocation.DROPLETS_LEFT_PATH_B2_WATERFALL_UNDERWATER1:
+                self.logic_and([
+                    self.has(Items.FLIPPERS),
+                    self.has_any([
+                        Items.GUST_JAR,
+                        Items.ROCS_CAPE
+                    ])
+                ]),
+            TMCLocation.DROPLETS_LEFT_PATH_B2_WATERFALL_UNDERWATER2:
+                self.logic_and([
+                    self.has(Items.FLIPPERS),
+                    self.has_any([
+                        Items.GUST_JAR,
+                        Items.ROCS_CAPE
+                    ])
+                ]),
+            TMCLocation.DROPLETS_LEFT_PATH_B2_WATERFALL_UNDERWATER3:
+                self.logic_and([
+                    self.has(Items.FLIPPERS),
+                    self.has_any([
+                        Items.GUST_JAR,
+                        Items.ROCS_CAPE
+                    ])
+                ]),
+            TMCLocation.DROPLETS_LEFT_PATH_B2_WATERFALL_UNDERWATER4:
+                self.logic_and([
+                    self.has(Items.FLIPPERS),
+                    self.has_any([
+                        Items.GUST_JAR,
+                        Items.ROCS_CAPE
+                    ])
+                ]),
+            TMCLocation.DROPLETS_LEFT_PATH_B2_WATERFALL_UNDERWATER5:
+                self.logic_and([
+                    self.has(Items.FLIPPERS),
+                    self.has_any([
+                        Items.GUST_JAR,
+                        Items.ROCS_CAPE
+                    ])
+                ]),
+            TMCLocation.DROPLETS_LEFT_PATH_B2_WATERFALL_UNDERWATER6:
+                self.logic_and([
+                    self.has(Items.FLIPPERS),
+                    self.has_any([
+                        Items.GUST_JAR,
+                        Items.ROCS_CAPE
+                    ])
+                ]),
+            TMCLocation.DROPLETS_LEFT_PATH_B2_UNDERWATER_POT:
+                self.logic_and([
+                    self.has(Items.FLIPPERS),
+                    self.has_any([
+                        Items.GUST_JAR,
+                        Items.ROCS_CAPE
+                    ])
+                ]),
+            TMCLocation.DROPLETS_LEFT_PATH_B2_ICE_MADDERPILLAR_BIG_CHEST:
+                self.logic_and([
+                    self.has(Items.SMALL_KEY_TOD,4),
+                    self.can_attack(),
+                    self.has_all([
+                        Items.FLIPPERS,
+                        Items.GUST_JAR
+                    ])
+                ]),
+            TMCLocation.DROPLETS_LEFT_PATH_B2_ICE_PLAIN_FROZEN_CHEST:
+                self.logic_and([
+                    self.has(Items.SMALL_KEY_TOD,4),
+                    self.has(Items.LANTERN),
+                    self.logic_or([
+                        self.has_all([
+                            Items.FLIPPERS,
+                            Items.GUST_JAR
+                        ]),
+                        self.logic_and([
+                            self.can_attack(),
+                            self.has(Items.ROCS_CAPE)
+                        ]),
+                    ]),
+                ]),
+            TMCLocation.DROPLETS_LEFT_PATH_B2_ICE_PLAIN_CHEST:
+                self.logic_and([
+                    self.has(Items.SMALL_KEY_TOD,4),
+                    self.logic_or([
+                        self.has_all([
+                            Items.FLIPPERS,
+                            Items.GUST_JAR
+                        ]),
+                        self.logic_and([
+                            self.can_attack(),
+                            self.has(Items.LANTERN),
+                            self.has(Items.ROCS_CAPE)
+                        ]),
+                    ]),
+                ]),
+            TMCLocation.DROPLETS_LEFT_PATH_B2_LILYPAD_CORNER_FROZEN_CHEST:
+                self.logic_and([
+                    self.has(Items.SMALL_KEY_TOD,4),
+                    self.has_all([
+                        Items.FLIPPERS,
+                        Items.GUST_JAR,
+                        Items.LANTERN
+                    ])
+                ]),
+            TMCLocation.DROPLETS_RIGHT_PATH_B1_1ST_CHEST:
+                self.logic_or([
+                    self.droplet_right_lever(),
+                    self.has(Items.LANTERN)
+                ]),
+            TMCLocation.DROPLETS_RIGHT_PATH_B1_2ND_CHEST:
+                self.logic_or([
+                    self.droplet_right_lever(),
+                    self.has(Items.LANTERN)
+                ]),
+            TMCLocation.DROPLETS_RIGHT_PATH_B1_POT:
+                self.logic_or([
+                    self.droplet_right_lever(),
+                    self.has(Items.LANTERN)
+                ]),
+            TMCLocation.DROPLETS_RIGHT_PATH_B3_FROZEN_CHEST:
+                self.logic_or([
+                    self.droplet_right_lever(),
+                    self.has(Items.LANTERN)
+                ]),
+            TMCLocation.DROPLETS_RIGHT_PATH_B1_BLU_CHU_BIG_CHEST:
+                self.logic_and([
+                    self.logic_or([
+                        self.droplet_right_lever(),
+                        self.has(Items.LANTERN)
+                    ]),
+                    self.has(Items.SMALL_KEY_TOD,4),
+                    self.has(Items.GUST_JAR),
+                    self.can_attack()
+                ]),
+            TMCLocation.DROPLETS_RIGHT_PATH_B2_FROZEN_CHEST:
+                    self.has(Items.LANTERN),
+            TMCLocation.DROPLETS_RIGHT_PATH_B2_DARK_MAZE_BOTTOM_CHEST:
+                self.logic_and([
+                    self.can_attack(),
+                    self.has(Items.LANTERN),
+                ]),
+            TMCLocation.DROPLETS_RIGHT_PATH_B2_MULLDOZERS_ITEM_DROP:
+                self.logic_and([
+                    self.can_attack(),
+                    self.has_all([
+                        Items.LANTERN,
+                        Items.PROGRESSIVE_BOMB
+                    ]),
+                ]),
+            TMCLocation.DROPLETS_RIGHT_PATH_B2_DARK_MAZE_TOP_RIGHT_CHEST:
+                self.logic_and([
+                    self.can_attack(),
+                    self.has(Items.LANTERN),
+                ]),
+            TMCLocation.DROPLETS_RIGHT_PATH_B2_DARK_MAZE_TOP_LEFT_CHEST:
+                self.logic_and([
+                    self.can_attack(),
+                    self.has(Items.LANTERN),
+                ]),
+            TMCLocation.DROPLETS_RIGHT_PATH_B2_UNDERPASS_ITEM1:
+                self.logic_and([
+                    self.can_attack(),
+                    self.has(Items.LANTERN),
+                    self.has(Items.SMALL_KEY_TOD,4)
+                ]),
+            TMCLocation.DROPLETS_RIGHT_PATH_B2_UNDERPASS_ITEM2:
+                self.logic_and([
+                    self.can_attack(),
+                    self.has(Items.LANTERN),
+                    self.has(Items.SMALL_KEY_TOD,4)
+                ]),
+            TMCLocation.DROPLETS_RIGHT_PATH_B2_UNDERPASS_ITEM3:
+                self.logic_and([
+                    self.can_attack(),
+                    self.has(Items.LANTERN),
+                    self.has(Items.SMALL_KEY_TOD,4)
+                ]),
+            TMCLocation.DROPLETS_RIGHT_PATH_B2_UNDERPASS_ITEM4:
+                self.logic_and([
+                    self.can_attack(),
+                    self.has(Items.LANTERN),
+                    self.has(Items.SMALL_KEY_TOD,4)
+                ]),
+            TMCLocation.DROPLETS_RIGHT_PATH_B2_UNDERPASS_ITEM5:
+                self.logic_and([
+                    self.can_attack(),
+                    self.has(Items.LANTERN),
+                    self.has(Items.SMALL_KEY_TOD,4)
+                ]),
+            TMCLocation.DROPLETS_BOSS_ITEM:
+                self.logic_and([
+                    self.droplet_right_lever(),
+                    self.droplet_left_lever()
+                ]),
+            TMCLocation.DROPLETS_PRIZE:
+                self.logic_and([
+                    self.droplet_right_lever(),
+                    self.droplet_left_lever()
+                ]),
             #endregion
+            
             #region Dungeon RC
             TMCLocation.CRYPT_GIBDO_LEFT_ITEM:
                 self.can_attack(),
@@ -867,6 +1053,7 @@ class MinishCapRules():
                     self.has(Items.LANTERN)
                 ]),
             #endregion
+            
             #region Dungeon POW
             TMCLocation.PALACE_1ST_HALF_1F_GRATE_CHEST: 
                 self.has(Items.ROCS_CAPE),
@@ -1055,10 +1242,13 @@ class MinishCapRules():
                     self.has(Items.SMALL_KEY_POW,6),
                 ]),
             #endregion
+            
             #region Sanctuary
             #TMCLocation.SANCTUARY_PEDESTAL_ITEM1:
             #TMCLocation.SANCTUARY_PEDESTAL_ITEM2:
             #TMCLocation.SANCTUARY_PEDESTAL_ITEM3:
+            #endregion
+            
             #region Dungeon DHC
             TMCLocation.DHC_B2_KING:
                  self.has(Items.PROGRESSIVE_SWORD,5),
@@ -1159,6 +1349,12 @@ class MinishCapRules():
     def logic_and(self, rules: [CollectionRule]) -> CollectionRule:
         return lambda state: all(rule(state) for rule in rules)
 
+    def droplet_right_lever(self) -> CollectionRule:
+        return self.logic_and([self.can_attack(), self.split_rule(2), self.has(Items.SMALL_KEY_TOD,4), self.has_all([Items.LANTERN,Items.PROGRESSIVE_BOMB,Items.FLIPPERS])])
+    
+    def droplet_left_lever(self) -> CollectionRule:
+        return  self.logic_and([ self.has(Items.SMALL_KEY_TOD,4),self.logic_or([self.has_all([Items.FLIPPERS,Items.GUST_JAR]),self.logic_and([self.can_attack(),self.has(Items.LANTERN),self.has(Items.ROCS_CAPE),]),]),])
+    
     def has_4_elements(self) -> CollectionRule:
         return self.has_all([Items.EARTH_ELEMENT, Items.WATER_ELEMENT, Items.FIRE_ELEMENT, Items.WIND_ELEMENT])
 
