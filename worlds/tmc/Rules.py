@@ -71,7 +71,7 @@ class MinishCapRules():
             (TMCRegion.LONLON, TMCRegion.MINISH_WOODS): None, # Doesn't directly connect but it does through eastern hills with no logic in between
             (TMCRegion.LONLON, TMCRegion.LOWER_FALLS):
                 self.has(Items.CANE_OF_PACCI),
-            (TMCRegion.LONLON, TMCRegion.LAKE_HYLIA): # TODO double-check
+            (TMCRegion.LONLON, TMCRegion.LAKE_HYLIA_NORTH): # TODO double-check
                 self.has(Items.LONLON_KEY),
 
             # (TMCRegion.EASTERN_HILLS, TMCRegion.LONLON): Already connected
@@ -81,6 +81,11 @@ class MinishCapRules():
             # (TMCRegion.MINISH_WOODS, TMCRegion.EASTERN_HILLS): Already connected
             (TMCRegion.MINISH_WOODS, TMCRegion.DUNGEON_DWS):
                 self.has_any([Items.FLIPPERS, Items.JABBER_NUT]),
+            (TMCRegion.MINISH_WOODS, TMCRegion.LAKE_HYLIA_SOUTH):
+                self.logic_and([
+                    self.access_minish_woods_top_left(),
+                    self.has(Items.MOLE_MITTS),
+                ]),
 
             (TMCRegion.WESTERN_WOODS, TMCRegion.SOUTH_FIELD): None,
             (TMCRegion.WESTERN_WOODS, TMCRegion.CASTOR_WILDS): # TODO double-check
@@ -122,10 +127,11 @@ class MinishCapRules():
                 self.has(Items.KINSTONE_GOLD_SWAMP, 3),
             (TMCRegion.RUINS, TMCRegion.DUNGEON_FOW): None, # TODO double-check
 
-            (TMCRegion.LAKE_HYLIA, TMCRegion.DUNGEON_TOD): # TODO double-check
+            (TMCRegion.LAKE_HYLIA_NORTH, TMCRegion.LAKE_HYLIA_SOUTH):
                 self.has_any([Items.FLIPPERS, Items.ROCS_CAPE]),
-            (TMCRegion.LAKE_HYLIA, TMCRegion.MINISH_WOODS): # TODO double-check
-                self.has(Items.FLIPPERS),
+            (TMCRegion.LAKE_HYLIA_NORTH, TMCRegion.DUNGEON_TOD): # TODO double-check
+                self.has_any([Items.FLIPPERS, Items.ROCS_CAPE]),
+            # (TMCRegion.LAKE_HYLIA_SOUTH, TMCRegion.MINISH_WOODS): # Already connected
         }
 
         self.location_rules = {
@@ -469,6 +475,63 @@ class MinishCapRules():
             # TMCLocation.WESTERN_WOODS_BEANSTALK_FUSION_ITEM16: None,
             #endregion
 
+            #region Lake Hylia
+            TMCLocation.HYLIA_SUNKEN_HP:
+                self.has(Items.FLIPPERS),
+            TMCLocation.HYLIA_DOG_NPC:
+                self.has(Items.DOG_FOOD),
+            TMCLocation.HYLIA_SMALL_ISLAND_HP:
+                self.has_any([Items.FLIPPERS, Items.ROCS_CAPE]),
+            TMCLocation.HYLIA_CAPE_CAVE_TOP_RIGHT:
+                self.has_all([Items.MOLE_MITTS, Items.ROCS_CAPE]),
+            TMCLocation.HYLIA_CAPE_CAVE_BOTTOM_LEFT:
+                self.has_all([Items.MOLE_MITTS, Items.ROCS_CAPE]),
+            TMCLocation.HYLIA_CAPE_CAVE_TOP_LEFT:
+                self.has_all([Items.MOLE_MITTS, Items.ROCS_CAPE]),
+            TMCLocation.HYLIA_CAPE_CAVE_TOP_MIDDLE:
+                self.has_all([Items.MOLE_MITTS, Items.ROCS_CAPE]),
+            TMCLocation.HYLIA_CAPE_CAVE_RIGHT:
+                self.has_all([Items.MOLE_MITTS, Items.ROCS_CAPE]),
+            TMCLocation.HYLIA_CAPE_CAVE_BOTTOM_RIGHT:
+                self.has_all([Items.MOLE_MITTS, Items.ROCS_CAPE]),
+            TMCLocation.HYLIA_CAPE_CAVE_BOTTOM_MIDDLE:
+                self.has_all([Items.MOLE_MITTS, Items.ROCS_CAPE]),
+            TMCLocation.HYLIA_CAPE_CAVE_LON_LON_HP:
+                self.has_all([Items.MOLE_MITTS, Items.ROCS_CAPE]),
+            TMCLocation.HYLIA_BEANSTALK_FUSION_LEFT_CHEST:
+                # Fusion 23
+                self.has_all([Items.MOLE_MITTS, Items.ROCS_CAPE]),
+            TMCLocation.HYLIA_BEANSTALK_FUSION_HP:
+                # Fusion 23
+                self.has_all([Items.MOLE_MITTS, Items.ROCS_CAPE]),
+            TMCLocation.HYLIA_BEANSTALK_FUSION_RIGHT_CHEST:
+                # Fusion 23
+                self.has_all([Items.MOLE_MITTS, Items.ROCS_CAPE]),
+            TMCLocation.HYLIA_MIDDLE_ISLAND_FUSION_DIG_CAVE_CHEST:
+                # Fusion 34
+                self.has(Items.MOLE_MITTS),
+            TMCLocation.HYLIA_BOTTOM_HP:
+                self.has_any([Items.FLIPPERS, Items.ROCS_CAPE]),
+            TMCLocation.HYLIA_DOJO_HP:
+                self.has_any([Items.FLIPPERS, Items.ROCS_CAPE]),
+            TMCLocation.HYLIA_DOJO_NPC:
+                self.logic_and([
+                    self.has_any([Items.FLIPPERS, Items.ROCS_CAPE]),
+                    self.has_max_health(10),
+                    self.has(Items.PROGRESSIVE_SWORD),
+                ]),
+            TMCLocation.HYLIA_CRACK_FUSION_LIBRARI_NPC:
+                self.has_any([Items.FLIPPERS, Items.ROCS_CAPE]),
+            TMCLocation.HYLIA_NORTH_MINISH_HOLE_CHEST:
+                self.has_all([Items.FLIPPERS, Items.PEGASUS_BOOTS]),
+            TMCLocation.HYLIA_SOUTH_MINISH_HOLE_CHEST:
+                self.has_all([Items.FLIPPERS, Items.PEGASUS_BOOTS]),
+            TMCLocation.HYLIA_CABIN_PATH_FUSION_CHEST:
+                self.has_all([Items.PEGASUS_BOOTS, Items.GUST_JAR]), # fusion 51
+            TMCLocation.HYLIA_MAYOR_CABIN_ITEM:
+                self.has_all([Items.PEGASUS_BOOTS, Items.GUST_JAR, Items.POWER_BRACELETS]),
+            #endregion
+
             #region Hyrule Town
             # TMCLocation.TOWN_CAFE_LADY_NPC: None,
             # TMCLocation.TOWN_SHOP_80_ITEM: None,
@@ -638,6 +701,16 @@ class MinishCapRules():
     def has_4_elements(self) -> CollectionRule:
         return self.has_all([Items.EARTH_ELEMENT, Items.WATER_ELEMENT, Items.FIRE_ELEMENT, Items.WIND_ELEMENT])
 
+    def has_max_health(self, hearts = 3) -> CollectionRule:
+        def heart_count(state: CollectionState) -> bool:
+            heart_containers = state.count(Items.HEART_CONTAINER.item_name, self.player)
+            heart_pieces = state.count(Items.HEART_PIECE.item_name, self.player)
+
+            max_health = heart_containers + (heart_pieces // 4) + 3
+            return max_health >= hearts
+
+        return heart_count
+
     def can_spin(self) -> CollectionRule:
         return self.logic_and([
             self.has(Items.PROGRESSIVE_SWORD),
@@ -709,7 +782,7 @@ class MinishCapRules():
         return lambda state: state.has_any(map(item_to_name, items), self.player)
 
     def can_reach(self, locations: [str]) -> CollectionRule:
-        return lambda state: not any(state.can_reach(loc, "Location", self.player) for loc in locations)
+        return lambda state: all(state.can_reach(loc, "Location", self.player) for loc in locations)
 
     def set_rules(self, disabled_locations: set[int], location_name_to_id: dict[str, id]) -> None:
         multiworld = self.world.multiworld

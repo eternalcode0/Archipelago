@@ -231,73 +231,73 @@ all_locations: typing.List[LocationData] = [
     #endregion
     #region Lake Hylia
     LocationData(
-        6029056, TMCLocation.HYLIA_SUNKEN_HP, TMCRegion.LAKE_HYLIA, Items.HEART_PIECE,
+        6029056, TMCLocation.HYLIA_SUNKEN_HP, TMCRegion.LAKE_HYLIA_NORTH, Items.HEART_PIECE,
         (0x0F323B, None), (0x2CBD, 0x02), 0x000B, pools={POOL_HP}),
     LocationData(
-        6029057, TMCLocation.HYLIA_DOG_NPC, TMCRegion.LAKE_HYLIA, Items.EMPTY_BOTTLE,
+        6029057, TMCLocation.HYLIA_DOG_NPC, TMCRegion.LAKE_HYLIA_NORTH, Items.EMPTY_BOTTLE,
         (0x094908, 0x09490A), (0x2B3F, 0x20), 0x1422),
     LocationData(
-        6029058, TMCLocation.HYLIA_SMALL_ISLAND_HP, TMCRegion.LAKE_HYLIA, Items.HEART_PIECE,
+        6029058, TMCLocation.HYLIA_SMALL_ISLAND_HP, TMCRegion.LAKE_HYLIA_NORTH, Items.HEART_PIECE,
         (0x0F322B, None), (0x2CBD, 0x01), 0x000B, pools={POOL_HP}),
     LocationData(
-        6029059, TMCLocation.HYLIA_CAPE_CAVE_TOP_RIGHT, TMCRegion.LAKE_HYLIA, None,
+        6029059, TMCLocation.HYLIA_CAPE_CAVE_TOP_RIGHT, TMCRegion.LAKE_HYLIA_NORTH, None,
         (0x0F3A06, None), (0x2D02, 0x80), 0x0119),
     LocationData(
-        6029060, TMCLocation.HYLIA_CAPE_CAVE_BOTTOM_LEFT, TMCRegion.LAKE_HYLIA, None,
+        6029060, TMCLocation.HYLIA_CAPE_CAVE_BOTTOM_LEFT, TMCRegion.LAKE_HYLIA_NORTH, None,
         (0x0F3A16, None), (0x2D03, 0x02), 0x0119),
     LocationData(
-        6029061, TMCLocation.HYLIA_CAPE_CAVE_TOP_LEFT, TMCRegion.LAKE_HYLIA, Items.KINSTONE,
+        6029061, TMCLocation.HYLIA_CAPE_CAVE_TOP_LEFT, TMCRegion.LAKE_HYLIA_NORTH, Items.KINSTONE,
         (0x0F3A1E, None), (0x2D03, 0x04), 0x0119),
     LocationData(
-        6029062, TMCLocation.HYLIA_CAPE_CAVE_TOP_MIDDLE, TMCRegion.LAKE_HYLIA, Items.KINSTONE,
+        6029062, TMCLocation.HYLIA_CAPE_CAVE_TOP_MIDDLE, TMCRegion.LAKE_HYLIA_NORTH, Items.KINSTONE,
         (0x0F3A26, None), (0x2D03, 0x08), 0x0119),
     LocationData(
-        6029063, TMCLocation.HYLIA_CAPE_CAVE_RIGHT, TMCRegion.LAKE_HYLIA, Items.KINSTONE,
+        6029063, TMCLocation.HYLIA_CAPE_CAVE_RIGHT, TMCRegion.LAKE_HYLIA_NORTH, Items.KINSTONE,
         (0x0F3A2E, None), (0x2D03, 0x10), 0x0119),
     LocationData(
-        6029064, TMCLocation.HYLIA_CAPE_CAVE_BOTTOM_RIGHT, TMCRegion.LAKE_HYLIA, Items.KINSTONE,
+        6029064, TMCLocation.HYLIA_CAPE_CAVE_BOTTOM_RIGHT, TMCRegion.LAKE_HYLIA_NORTH, Items.KINSTONE,
         (0x0F3A36, None), (0x2D03, 0x20), 0x0119),
     LocationData(
-        6029065, TMCLocation.HYLIA_CAPE_CAVE_BOTTOM_MIDDLE, TMCRegion.LAKE_HYLIA, Items.KINSTONE,
+        6029065, TMCLocation.HYLIA_CAPE_CAVE_BOTTOM_MIDDLE, TMCRegion.LAKE_HYLIA_NORTH, Items.KINSTONE,
         (0x0F3A3E, None), (0x2D03, 0x40), 0x0119),
     LocationData(
-        6029066, TMCLocation.HYLIA_CAPE_CAVE_LON_LON_HP, TMCRegion.LAKE_HYLIA, Items.HEART_PIECE,
+        6029066, TMCLocation.HYLIA_CAPE_CAVE_LON_LON_HP, TMCRegion.LAKE_HYLIA_NORTH, Items.HEART_PIECE,
         (0x0F6CEF, None), (0x2CCB, 0x10), 0x0503, pools={POOL_HP}),
     LocationData(
-        6029067, TMCLocation.HYLIA_BEANSTALK_FUSION_LEFT_CHEST, TMCRegion.LAKE_HYLIA, Items.RUPEES_200,
+        6029067, TMCLocation.HYLIA_BEANSTALK_FUSION_LEFT_CHEST, TMCRegion.LAKE_HYLIA_NORTH, Items.RUPEES_200,
         (0x0F5F6A, None), (0x2D0C, 0x20), 0x010D),
     LocationData(
-        6029068, TMCLocation.HYLIA_BEANSTALK_FUSION_HP, TMCRegion.LAKE_HYLIA, Items.HEART_PIECE,
+        6029068, TMCLocation.HYLIA_BEANSTALK_FUSION_HP, TMCRegion.LAKE_HYLIA_NORTH, Items.HEART_PIECE,
         (0x0F5EDB, None), (0x2D0C, 0x10), 0x010D, pools={POOL_HP}),
     LocationData(
-        6029069, TMCLocation.HYLIA_BEANSTALK_FUSION_RIGHT_CHEST, TMCRegion.LAKE_HYLIA, None,
+        6029069, TMCLocation.HYLIA_BEANSTALK_FUSION_RIGHT_CHEST, TMCRegion.LAKE_HYLIA_NORTH, None,
         (0x0F5F72, None), (0x2D0C, 0x40), 0x010D),
     LocationData(
-        6029070, TMCLocation.HYLIA_MIDDLE_ISLAND_FUSION_DIG_CAVE_CHEST, TMCRegion.LAKE_HYLIA, Items.RUPEES_50,
+        6029070, TMCLocation.HYLIA_MIDDLE_ISLAND_FUSION_DIG_CAVE_CHEST, TMCRegion.LAKE_HYLIA_NORTH, Items.RUPEES_50,
         (0x0F3916, None), (0x2D02, 0x40), 0x0019),
     LocationData(
-        6029071, TMCLocation.HYLIA_BOTTOM_HP, TMCRegion.LAKE_HYLIA, Items.HEART_PIECE,
+        6029071, TMCLocation.HYLIA_BOTTOM_HP, TMCRegion.LAKE_HYLIA_NORTH, Items.HEART_PIECE,
         (0x0F324B, None), (0x2CBD, 0x04), 0x000B, pools={POOL_HP}),
     LocationData(
-        6029072, TMCLocation.HYLIA_DOJO_HP, TMCRegion.LAKE_HYLIA, Items.HEART_PIECE,
+        6029072, TMCLocation.HYLIA_DOJO_HP, TMCRegion.LAKE_HYLIA_NORTH, Items.HEART_PIECE,
         (0x0D7B03, None), (0x2D2C, 0x04), 0x0625, pools={POOL_HP}),
     LocationData(
-        6029073, TMCLocation.HYLIA_DOJO_NPC, TMCRegion.LAKE_HYLIA, Items.PERIL_BEAM,
+        6029073, TMCLocation.HYLIA_DOJO_NPC, TMCRegion.LAKE_HYLIA_NORTH, Items.PERIL_BEAM,
         (0xEF64A7, None), (0x2EA6, 0x04), 0x0625, pools={POOL_SCROLL}),
     LocationData(
-        6029074, TMCLocation.HYLIA_CRACK_FUSION_LIBRARI_NPC, TMCRegion.LAKE_HYLIA, Items.HEART_CONTAINER,
+        6029074, TMCLocation.HYLIA_CRACK_FUSION_LIBRARI_NPC, TMCRegion.LAKE_HYLIA_NORTH, Items.HEART_CONTAINER,
         (0x0124EC, None), (0x2CF2, 0x08), 0x2320),
     LocationData(
-        6029075, TMCLocation.HYLIA_NORTH_MINISH_HOLE_CHEST, TMCRegion.LAKE_HYLIA, Items.KINSTONE,
+        6029075, TMCLocation.HYLIA_NORTH_MINISH_HOLE_CHEST, TMCRegion.LAKE_HYLIA_SOUTH, Items.KINSTONE,
         (0x0DB7CE, None), (0x2D2A, 0x04), 0x0735),
     LocationData(
-        6029076, TMCLocation.HYLIA_SOUTH_MINISH_HOLE_CHEST, TMCRegion.LAKE_HYLIA, Items.KINSTONE,
+        6029076, TMCLocation.HYLIA_SOUTH_MINISH_HOLE_CHEST, TMCRegion.LAKE_HYLIA_SOUTH, Items.KINSTONE,
         (0x0DB616, None), (0x2D28, 0x04), 0x0535),
     LocationData(
-        6029077, TMCLocation.HYLIA_CABIN_PATH_FUSION_CHEST, TMCRegion.LAKE_HYLIA, Items.KINSTONE,
+        6029077, TMCLocation.HYLIA_CABIN_PATH_FUSION_CHEST, TMCRegion.LAKE_HYLIA_SOUTH, Items.KINSTONE,
         (0x0FE09E, None), (0x2D11, 0x10), 0x0411),
     LocationData(
-        6029078, TMCLocation.HYLIA_MAYOR_CABIN_ITEM, TMCRegion.LAKE_HYLIA, Items.BLUE_BOOK,
+        6029078, TMCLocation.HYLIA_MAYOR_CABIN_ITEM, TMCRegion.LAKE_HYLIA_SOUTH, Items.BLUE_BOOK,
         (0x0F306F, None), (0x2EA4, 0x40), 0x0528),
     #endregion
     #region Minish Woods

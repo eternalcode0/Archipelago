@@ -11,7 +11,8 @@ class TMCRegion:
     EASTERN_HILLS = "Eastern Hills"
     LONLON = "LonLon"
     LOWER_FALLS = "Lower Falls"
-    LAKE_HYLIA = "Lake Hylia"
+    LAKE_HYLIA_NORTH = "Lake Hylia North"
+    LAKE_HYLIA_SOUTH = "Lake Hylia South"
     MINISH_WOODS = "Minish Woods"
     TRILBY_HIGHLANDS = "Trilby Highlands"
     WESTERN_WOODS = "Western Woods"
@@ -39,7 +40,8 @@ all_regions = [
     TMCRegion.EASTERN_HILLS,
     TMCRegion.LONLON,
     TMCRegion.LOWER_FALLS,
-    TMCRegion.LAKE_HYLIA,
+    TMCRegion.LAKE_HYLIA_NORTH,
+    TMCRegion.LAKE_HYLIA_SOUTH,
     TMCRegion.MINISH_WOODS,
     TMCRegion.TRILBY_HIGHLANDS,
     TMCRegion.WESTERN_WOODS,
