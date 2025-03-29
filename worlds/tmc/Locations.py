@@ -946,16 +946,16 @@ all_locations: typing.List[LocationData] = [
     #endregion
     #region Wind Tribe
     LocationData(
-        6029287, TMCLocation.WIND_TRIBE_1F_LEFT_CHEST, TMCRegion.WIND_TRIBE, Items.KINSTONE,
+        6029287, TMCLocation.WIND_TRIBE_1F_LEFT_CHEST, TMCRegion.SOUTH_FIELD, Items.KINSTONE,
         (0x0F582A, None), (0x2CDC, 0x20), 0x0030),
     LocationData(
-        6029288, TMCLocation.WIND_TRIBE_1F_RIGHT_CHEST, TMCRegion.WIND_TRIBE, Items.KINSTONE,
+        6029288, TMCLocation.WIND_TRIBE_1F_RIGHT_CHEST, TMCRegion.SOUTH_FIELD, Items.KINSTONE,
         (0x0F5832, None), (0x2CDC, 0x40), 0x0030),
     LocationData(
-        6029289, TMCLocation.WIND_TRIBE_2F_CHEST, TMCRegion.WIND_TRIBE, Items.KINSTONE,
+        6029289, TMCLocation.WIND_TRIBE_2F_CHEST, TMCRegion.SOUTH_FIELD, Items.KINSTONE,
         (0x0F5972, None), (0x2CDC, 0x80), 0x0130),
     LocationData(
-        6029290, TMCLocation.WIND_TRIBE_2F_GREGAL_NPC_1, TMCRegion.WIND_TRIBE, None,
+        6029290, TMCLocation.WIND_TRIBE_2F_GREGAL_NPC_1, TMCRegion.SOUTH_FIELD, None,
         (0x014C5C, None), (0x2CE8, 0x20), 0x0130),
     LocationData(
         6029291, TMCLocation.WIND_TRIBE_2F_GREGAL_NPC_2, TMCRegion.WIND_TRIBE, Items.PROGRESSIVE_BOW,

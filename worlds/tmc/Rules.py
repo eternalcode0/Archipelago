@@ -406,19 +406,62 @@ class MinishCapRules():
                 self.has(Items.GRIP_RING),
             #endregion
 
-            #region Cloud Tops TODO
+            #region Cloud Tops
             # TMCLocation.CLOUDS_FREE_CHEST: None,
             TMCLocation.CLOUDS_NORTH_EAST_DIG_SPOT:
                 self.has(Items.MOLE_MITTS),
             TMCLocation.CLOUDS_NORTH_KILL:
-                self.has_any([Items.ROCS_CAPE, Items.MOLE_MITTS]),
+                self.logic_and([
+                    self.has_any([Items.ROCS_CAPE, Items.MOLE_MITTS]),
+                    self.can_attack(),
+                ]),
+            TMCLocation.CLOUDS_NORTH_WEST_LEFT_CHEST:
+                self.has(Items.MOLE_MITTS),
+            TMCLocation.CLOUDS_NORTH_WEST_RIGHT_CHEST:
+                self.has(Items.MOLE_MITTS),
+            TMCLocation.CLOUDS_NORTH_WEST_DIG_SPOT:
+                self.has(Items.MOLE_MITTS),
+            TMCLocation.CLOUDS_NORTH_WEST_BOTTOM_CHEST:
+                self.has_any([Items.MOLE_MITTS, Items.ROCS_CAPE]),
+            TMCLocation.CLOUDS_SOUTH_LEFT_CHEST:
+                self.has(Items.MOLE_MITTS),
+            TMCLocation.CLOUDS_SOUTH_DIG_SPOT:
+                self.has(Items.MOLE_MITTS),
+            TMCLocation.CLOUDS_SOUTH_MIDDLE_CHEST:
+                self.has_any([Items.MOLE_MITTS, Items.ROCS_CAPE]),
+            TMCLocation.CLOUDS_SOUTH_MIDDLE_DIG_SPOT:
+                self.has(Items.MOLE_MITTS),
             TMCLocation.CLOUDS_SOUTH_KILL:
-                self.has_any([Items.ROCS_CAPE, Items.MOLE_MITTS]),
+                self.logic_and([
+                    self.has_any([Items.ROCS_CAPE, Items.MOLE_MITTS]),
+                    self.can_attack(),
+                ]),
+            TMCLocation.CLOUDS_SOUTH_RIGHT_CHEST:
+                self.has_any([Items.MOLE_MITTS, Items.ROCS_CAPE]),
+            TMCLocation.CLOUDS_SOUTH_RIGHT_DIG_SPOT:
+                self.has(Items.MOLE_MITTS),
+            TMCLocation.CLOUDS_SOUTH_EAST_BOTTOM_DIG_SPOT:
+                self.has(Items.MOLE_MITTS),
+            TMCLocation.CLOUDS_SOUTH_EAST_TOP_DIG_SPOT:
+                self.has(Items.MOLE_MITTS),
             #endregion
 
-            #region Wind Tribe TODO
+            #region Wind Tribe
+            # Doesn't require many special access rules *yet*
+            # 1F-2F is accessible due to open fusions
             # TMCLocation.WIND_TRIBE_1F_LEFT_CHEST: None,
             # TMCLocation.WIND_TRIBE_1F_RIGHT_CHEST: None,
+            # TMCLocation.WIND_TRIBE_2F_CHEST: None,
+            TMCLocation.WIND_TRIBE_2F_GREGAL_NPC_1:
+                self.has(Items.GUST_JAR),
+            # Here starts the rules that require access to Cloudtops/Wind Tribe
+            TMCLocation.WIND_TRIBE_2F_GREGAL_NPC_2:
+                self.has(Items.GUST_JAR),
+            # TMCLocation.WIND_TRIBE_3F_LEFT_CHEST: None,
+            # TMCLocation.WIND_TRIBE_3F_CENTER_CHEST: None,
+            # TMCLocation.WIND_TRIBE_3F_RIGHT_CHEST: None,
+            # TMCLocation.WIND_TRIBE_4F_LEFT_CHEST: None,
+            # TMCLocation.WIND_TRIBE_4F_RIGHT_CHEST: None,
             #endregion
 
             #region Minish Woods TODO
