@@ -12,8 +12,8 @@ import settings
 from BaseClasses import Tutorial, Item, Region, Location, LocationProgressType, ItemClassification
 from worlds.AutoWorld import WebWorld, World
 from .Options import MinishCapOptions
-from .Items import ItemData, item_frequencies, item_table, MinishCapItem, itemList, EARTH_ELEMENT, WIND_ELEMENT, FIRE_ELEMENT, WATER_ELEMENT
-from .Locations import all_locations, DEFAULT_SET, OBSCURE_SET, POOL_RUPEE
+from .Items import ItemData, item_frequencies, item_table, MinishCapItem, itemList, EARTH_ELEMENT, WIND_ELEMENT, FIRE_ELEMENT, WATER_ELEMENT, item_groups
+from .Locations import all_locations, DEFAULT_SET, OBSCURE_SET, POOL_RUPEE, location_groups
 from .Constants.LocationName import TMCLocation
 from .Client import MinishCapClient
 from .Regions import create_regions, connect_regions
@@ -70,6 +70,8 @@ class MinishCapWorld(World):
     settings: typing.ClassVar[MinishCapSettings]
     item_name_to_id = {name: data.item_id for name, data in item_table.items()}
     location_name_to_id = {loc_data.name: loc_data.id for loc_data in all_locations}
+    item_name_groups = item_groups
+    location_name_groups = location_groups
     disabled_locations: Set[str]
 
     def generate_early(self) -> None:

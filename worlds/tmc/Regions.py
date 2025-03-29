@@ -80,7 +80,7 @@ def connect_regions(world: "MinishCapWorld"):
     connect(world, names, TMCRegion.NORTH_FIELD, TMCRegion.CASTLE_EXTERIOR)
     connect(world, names, TMCRegion.NORTH_FIELD, TMCRegion.TRILBY_HIGHLANDS)
     connect(world, names, TMCRegion.NORTH_FIELD, TMCRegion.LOWER_FALLS)
-    connect(world, names, TMCRegion.NORTH_FIELD, TMCRegion.VALLEY)
+    connect(world, names, TMCRegion.NORTH_FIELD, TMCRegion.ROYAL_VALLEY)
 
     connect(world, names, TMCRegion.CASTLE_EXTERIOR, TMCRegion.SANCTUARY)
     connect(world, names, TMCRegion.SANCTUARY, TMCRegion.DUNGEON_DHC, lambda state: state.has_all(["Earth Element", "Fire Element", "Water Element", "Wind Element"], world.player))
@@ -92,10 +92,10 @@ def connect_regions(world: "MinishCapWorld"):
     connect(world, names, TMCRegion.CLOUDS, TMCRegion.WIND_TRIBE)
     connect(world, names, TMCRegion.CLOUDS, TMCRegion.DUNGEON_POW)
 
-    connect(world, names, TMCRegion.VALLEY, TMCRegion.DUNGEON_RC)
+    connect(world, names, TMCRegion.ROYAL_VALLEY, TMCRegion.DUNGEON_RC)
 
-    connect(world, names, TMCRegion.CASTOR_WILDS, TMCRegion.RUINS)
-    connect(world, names, TMCRegion.RUINS, TMCRegion.DUNGEON_FOW)
+    connect(world, names, TMCRegion.CASTOR_WILDS, TMCRegion.WIND_RUINS)
+    connect(world, names, TMCRegion.WIND_RUINS, TMCRegion.DUNGEON_FOW)
 
     connect(world, names, TMCRegion.LONLON, TMCRegion.MINISH_WOODS) # There isn't a direct connection but there's no checks going through Eastern Hills
     connect(world, names, TMCRegion.LONLON, TMCRegion.LAKE_HYLIA)

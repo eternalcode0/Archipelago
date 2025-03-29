@@ -353,3 +353,18 @@ item_frequencies: typing.Dict[str, int] = {
 
 item_table: typing.Dict[str, ItemData] = {item.item_name: item for item in itemList}
 items_by_id: typing.Dict[int, ItemData] = {item.item_id: item for item in itemList}
+item_groups: dict[str, set[str]] = {
+    "Scrolls": {
+        SPIN_ATTACK.item_name,
+        ROLL_ATTACK.item_name,
+        DASH_ATTACK.item_name,
+        ROCK_BREAKER.item_name,
+        SWORD_BEAM.item_name,
+        GREATSPIN.item_name,
+        DOWNTHRUST.item_name,
+        PERIL_BEAM.item_name,
+        FAST_SPIN_SCROLL.item_name,
+        FAST_SPLIT_SCROLL.item_name,
+        LONG_SPIN.item_name },
+    "Elements": { EARTH_ELEMENT.item_name, FIRE_ELEMENT.item_name, WATER_ELEMENT.item_name, WIND_ELEMENT.item_name }
+}

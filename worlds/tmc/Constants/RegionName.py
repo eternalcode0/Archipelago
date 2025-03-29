@@ -16,10 +16,13 @@ class TMCRegion:
     MINISH_WOODS = "Minish Woods"
     TRILBY_HIGHLANDS = "Trilby Highlands"
     WESTERN_WOODS = "Western Woods"
+    CRENEL_BASE = "Crenel Base"
     CRENEL = "Crenel"
+    MELARI = "Melari"
     CASTOR_WILDS = "Castor Wilds"
-    RUINS = "Ruins"
-    VALLEY = "Valley"
+    WIND_RUINS = "Ruins"
+    ROYAL_VALLEY = "Royal Valley"
+    GRAVEYARD = "Graveyard"
     DUNGEON_RC = "Dungeon RC"
     UPPER_FALLS = "Upper Falls"
     CLOUDS = "Clouds"
@@ -46,10 +49,13 @@ all_regions = [
     TMCRegion.MINISH_WOODS,
     TMCRegion.TRILBY_HIGHLANDS,
     TMCRegion.WESTERN_WOODS,
+    TMCRegion.CRENEL_BASE,
     TMCRegion.CRENEL,
+    TMCRegion.MELARI,
     TMCRegion.CASTOR_WILDS,
-    TMCRegion.RUINS,
-    TMCRegion.VALLEY,
+    TMCRegion.WIND_RUINS,
+    TMCRegion.ROYAL_VALLEY,
+    TMCRegion.GRAVEYARD,
     TMCRegion.DUNGEON_RC,
     TMCRegion.UPPER_FALLS,
     TMCRegion.CLOUDS,
