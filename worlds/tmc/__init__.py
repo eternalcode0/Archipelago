@@ -12,7 +12,7 @@ import settings
 from BaseClasses import Tutorial, Item, Region, Location, LocationProgressType, ItemClassification
 from worlds.AutoWorld import WebWorld, World
 from .Options import MinishCapOptions
-from .Items import ItemData, item_frequencies, item_table, MinishCapItem, itemList, EARTH_ELEMENT, WIND_ELEMENT, FIRE_ELEMENT, WATER_ELEMENT, item_groups
+from .Items import ItemData, item_frequencies, item_table, MinishCapItem, itemList, EARTH_ELEMENT, WIND_ELEMENT, FIRE_ELEMENT, WATER_ELEMENT, item_groups, filler_item_selection
 from .Locations import all_locations, DEFAULT_SET, OBSCURE_SET, POOL_RUPEE, location_groups
 from .Constants.LocationName import TMCLocation
 from .Client import MinishCapClient
@@ -84,7 +84,7 @@ class MinishCapWorld(World):
         if self.options.obscure_spots.value:
             enabled_pools |= OBSCURE_SET
 
-        self.disabled_locations = set(loc.id for loc in all_locations if not loc.pools.issubset(enabled_pools))
+        self.disabled_locations = set(loc.name for loc in all_locations if not loc.pools.issubset(enabled_pools))
 
 
     def fill_slot_data(self) -> Dict[str, any]:
@@ -97,7 +97,6 @@ class MinishCapWorld(World):
 
     def create_regions(self) -> None:
         create_regions(self, self.disabled_locations)
-        # connect_regions(self)
 
         item = MinishCapItem("Victory", ItemClassification.progression, None, self.player)
         self.get_location(TMCLocation.BOSS_VAATI).place_locked_item(item)
@@ -109,8 +108,12 @@ class MinishCapWorld(World):
     def create_event(self, name: str) -> MinishCapItem:
         return MinishCapItem(name, ItemClassification.progression, None, self.player)
 
+    def get_filler_item_name(self) -> str:
+        return self.random.choice(filler_item_selection)
+
     def create_items(self):
         # First add in all progression and useful items
+        total_locations = len(self.multiworld.get_unfilled_locations(self.player))
         required_items = []
         precollected = [item for item in itemList if item in self.multiworld.precollected_items]
         for item in itemList:
@@ -123,20 +126,8 @@ class MinishCapWorld(World):
         for item_name in required_items:
             self.multiworld.itempool.append(self.create_item(item_name))
 
-        # Then compile a list of filler items based off their frequencies
-        filler_items = []
-        for item in itemList:
-            if item.classification != ItemClassification.filler:
-                continue
-            freq = item_frequencies.get(item.item_name, 1)
-            filler_items += [item.item_name for _ in range(freq)]
-
-        # And finally take as many fillers as we need to have the same amount of items and locations.
-        remaining = len(all_locations) - len(required_items) - len(self.disabled_locations)
-        if remaining > 0:
-            self.multiworld.itempool += [
-                self.create_item(filler_item_name) for filler_item_name in self.random.sample(filler_items, remaining)
-            ]
+        for _ in range(total_locations - len(required_items)):
+            self.multiworld.itempool.append(self.create_filler())
 
     def set_rules(self) -> None:
         MinishCapRules(self).set_rules(self.disabled_locations, self.location_name_to_id)

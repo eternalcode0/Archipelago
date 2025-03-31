@@ -929,8 +929,10 @@ class MinishCapRules():
             # TMCLocation.VALLEY_PRE_VALLEY_FUSION_CHEST: None, # Fusion 5F
             TMCLocation.VALLEY_GREAT_FAIRY_NPC:
                 self.has(Items.PROGRESSIVE_BOMB),
-            # TMCLocation.VALLEY_LOST_WOODS_CHEST: None,
-            # TMCLocation.VALLEY_DAMPE_NPC: None,
+            TMCLocation.VALLEY_LOST_WOODS_CHEST:
+                self.has(Items.LANTERN),
+            TMCLocation.VALLEY_DAMPE_NPC:
+                self.has(Items.LANTERN),
             # Graveyard locations, require graveyard key and pegasus boots
             # TMCLocation.VALLEY_GRAVEYARD_BUTTERFLY_FUSION_ITEM: None, # Fusion 19
             # TMCLocation.VALLEY_GRAVEYARD_LEFT_FUSION_CHEST: None, # Fusion 5C
@@ -1314,7 +1316,7 @@ class MinishCapRules():
                 self.has(Items.MOLE_MITTS),
             TMCLocation.FORTRESS_LEFT_2F_DIG_CHEST:
                 self.has_any([
-                   Items.MOLE_MITTS,
+                    Items.MOLE_MITTS,
                     Items.PROGRESSIVE_BOW
                 ]),
             TMCLocation.FORTRESS_LEFT_2F_ITEM1:
@@ -2074,7 +2076,7 @@ class MinishCapRules():
             region_one.connect(region_two, rule=rule)
 
         for loc in multiworld.get_locations(self.player):
-            if loc.name not in location_name_to_id or location_name_to_id[loc.name] in disabled_locations:
+            if loc.name not in location_name_to_id or loc.name in disabled_locations:
                 continue
 
             if loc.name in self.location_rules and self.location_rules[loc.name] is not None:

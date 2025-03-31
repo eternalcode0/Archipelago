@@ -20,11 +20,12 @@ POOL_SCRUB       = "scrub"
 POOL_BUTTERFLY   = "butterfly"
 POOL_POT         = "pot"
 POOL_ELEMENT     = "element"
+POOL_SHOP        = "shop"
 POOL_GORON       = "goron:" # Meant to be used as an fstring with the set number following it
 POOL_CUCCO       = "cucco:" # Meant to be used as an fstring with the round number following it
 
-DEFAULT_SET      = { POOL_HP, POOL_SCROLL, POOL_FAIRY, POOL_SCRUB, POOL_BUTTERFLY, POOL_ELEMENT, "cucco:10" }
 OBSCURE_SET      = { POOL_DIG, POOL_WATER, POOL_POT }
+DEFAULT_SET      = { POOL_HP, POOL_SCROLL, POOL_FAIRY, POOL_SCRUB, POOL_BUTTERFLY, POOL_ELEMENT, "cucco:10", POOL_SHOP }
 
 class LocationData(typing.NamedTuple):
     id: int
@@ -192,7 +193,7 @@ all_locations: typing.List[LocationData] = [
         (0x0D56EF, None), (0x2D13, 0x04), 0x0311, pools={POOL_HP}),
     LocationData(
         6029044, TMCLocation.LON_LON_DIG_SPOT, TMCRegion.LONLON, Items.RUPEES_50,
-        (0x0F6CFF, None), (0x2CCB, 0x20), 0x0503),
+        (0x0F6CFF, None), (0x2CCB, 0x20), 0x0503, pools={POOL_DIG}),
     LocationData(
         6029045, TMCLocation.LON_LON_NORTH_MINISH_CRACK_CHEST, TMCRegion.LONLON, Items.KINSTONE,
         (0x0DBEBE, None), (0x2CF2, 0x04), 0x0027),
@@ -306,7 +307,7 @@ all_locations: typing.List[LocationData] = [
         (None, None), (0x2CA3, 0x01), None, pools={POOL_ENEMY}),
     LocationData(
         6029080, TMCLocation.MINISH_WOODS_WITCH_HUT_ITEM, TMCRegion.MINISH_WOODS, Items.WAKEUP_MUSHROOM,
-        (0x0F94D7, None), (0x2EA4, 0x04), 0x0024),
+        (0x0F94D7, None), (0x2EA4, 0x04), 0x0024, pools={POOL_SHOP}),
     LocationData(
         6029081, TMCLocation.WITCH_DIGGING_CAVE_CHEST, TMCRegion.MINISH_WOODS, Items.KINSTONE,
         (0x0F38A6, None), (0x2D02, 0x08), 0x000C),
@@ -1160,7 +1161,7 @@ all_locations: typing.List[LocationData] = [
         ([0x0E2C4B, 0x0FC4AB, 0x0FC4CB], [None, None, None]), (0x2D74, 0x02), 0x2258),
     LocationData(
         6029356, TMCLocation.FORTRESS_ENTRANCE_1F_RIGHT_HP, TMCRegion.DUNGEON_FOW, Items.HEART_PIECE,
-        (0x0E2DD7, None), (0x2D74, 0x80), 0x2458, pools={POOL_HP}),
+        (0x0E2DD7, None), (0x2D74, 0x80), 0x2458, pools={POOL_HP}, scoutable=True),
     LocationData(
         6029357, TMCLocation.FORTRESS_BACK_LEFT_BIG_CHEST, TMCRegion.DUNGEON_FOW, Items.MOLE_MITTS,
         (0x0F41DE, None), (0x2D08, 0x01), 0x0318),
@@ -1437,16 +1438,16 @@ all_locations: typing.List[LocationData] = [
         (0x00EDDA, None), (0x2CD6, 0x40), 0x0002),
     LocationData(
         6029445, TMCLocation.TOWN_SHOP_80_ITEM, TMCRegion.HYRULE_TOWN, Items.BIG_WALLET,
-        (0xEF6720, 0xEF6724), (0x2EA7, 0x01), 0x0023, scoutable=True),
+        (0xEF6720, 0xEF6724), (0x2EA7, 0x01), 0x0023, scoutable=True, pools={POOL_SHOP}),
     LocationData(
         6029446, TMCLocation.TOWN_SHOP_300_ITEM, TMCRegion.HYRULE_TOWN, Items.PROGRESSIVE_BOOMERANG,
-        (0xEF6728, 0xEF672C), (0x2EA7, 0x02), 0x0023, scoutable=True),
+        (0xEF6728, 0xEF672C), (0x2EA7, 0x02), 0x0023, scoutable=True, pools={POOL_SHOP}),
     LocationData(
         6029447, TMCLocation.TOWN_SHOP_600_ITEM, TMCRegion.HYRULE_TOWN, Items.QUIVER,
-        (0xEF6730, 0xEF6734), (0x2EA7, 0x04), 0x0023, scoutable=True),
+        (0xEF6730, 0xEF6734), (0x2EA7, 0x04), 0x0023, scoutable=True, pools={POOL_SHOP}),
     LocationData(
         6029448, TMCLocation.TOWN_SHOP_BEHIND_COUNTER_ITEM, TMCRegion.HYRULE_TOWN, Items.DOG_FOOD,
-        (0xEF6A3F, None), (0x2CE6, 0x08), 0x0023),
+        (0xEF6A3F, None), (0x2CE6, 0x08), 0x0023, scoutable=True),
     LocationData(
         6029449, TMCLocation.TOWN_SHOP_ATTIC_CHEST, TMCRegion.HYRULE_TOWN, None,
         (0x0D8EE6, None), (0x2D0A, 0x80), 0x012E),
@@ -1708,4 +1709,6 @@ location_groups: dict[str, set[str]] = {
     "RC": set(loc.name for loc in all_locations if loc.region == TMCRegion.DUNGEON_RC),
     "DHC": set(loc.name for loc in all_locations if loc.region == TMCRegion.DUNGEON_DHC),
     "Graveyard": set(loc.name for loc in all_locations if loc.region == TMCRegion.GRAVEYARD),
+    "Obscure": set(loc.name for loc in all_locations if loc.pools in OBSCURE_SET),
+    "Shop": set(loc.name for loc in all_locations if loc.pools in { POOL_SHOP, POOL_SCRUB }),
 }

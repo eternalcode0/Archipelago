@@ -351,6 +351,7 @@ item_frequencies: typing.Dict[str, int] = {
     ARROW_REFILL_30.item_name: 16,
 }
 
+filler_item_selection: [str] = [name for name, count in item_frequencies.items() for _ in range(count)]
 item_table: typing.Dict[str, ItemData] = {item.item_name: item for item in itemList}
 items_by_id: typing.Dict[int, ItemData] = {item.item_id: item for item in itemList}
 item_groups: dict[str, set[str]] = {
