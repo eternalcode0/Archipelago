@@ -1036,10 +1036,12 @@ class MinishCapRules():
             TMCLocation.TOWN_MUSIC_HOUSE_HP:
                 self.has(Items.CARLOV_MEDAL),
             TMCLocation.TOWN_WELL_PILLAR_CHEST:
-                self.can_reach([
-                    TMCLocation.TOWN_WELL_LEFT_CHEST,
-                    TMCLocation.TOWN_WELL_RIGHT_CHEST,
-                    TMCLocation.TOWN_WELL_BOTTOM_CHEST,
+                self.logic_and([
+                    self.can_reach([
+                        TMCLocation.TOWN_WELL_LEFT_CHEST,
+                        TMCLocation.TOWN_WELL_BOTTOM_CHEST,
+                    ]),
+                    self.split_rule(3),
                 ]),
             TMCLocation.TOWN_DR_LEFT_ATTIC_ITEM:
                 self.logic_and([
