@@ -1215,7 +1215,7 @@ class MinishCapRules():
                         ])
                     ]),
             TMCLocation.DEEPWOOD_B1_WEST_BIG_CHEST:
-                self.logic_or([
+                self.logic_and([
                     self.has(Items.SMALL_KEY_DWS,4),
                     self.has(Items.GUST_JAR),
                 ]),
