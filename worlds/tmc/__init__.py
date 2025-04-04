@@ -114,9 +114,9 @@ class MinishCapWorld(World):
 
     def create_items(self):
         # First add in all progression and useful items
+        item_pool = get_item_pool(self)
         total_locations = len(self.multiworld.get_unfilled_locations(self.player))
         required_items = []
-        item_pool = get_item_pool(self)
         precollected = [item for item in item_pool if item in self.multiworld.precollected_items]
         for item in item_pool:
             if item.classification not in (ItemClassification.filler, ItemClassification.skip_balancing):

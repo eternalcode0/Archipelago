@@ -341,11 +341,8 @@ def get_item_pool(world: "MinishCapWorld") -> [ItemData]:
         *(pool_kinstone_gold()),
     ]
 
-    print("itempool")
     if world.options.shuffle_elements.value is not ShuffleElements.option_anywhere:
-        print("not anywhere")
         if world.options.shuffle_elements.value is ShuffleElements.option_original_dungeon:
-            print("original_dungeon")
             element = world.create_item(EARTH_ELEMENT.item_name)
             multiworld.get_location(TMCLocation.DEEPWOOD_PRIZE, player).place_locked_item(element)
             element = world.create_item(FIRE_ELEMENT.item_name)
@@ -355,13 +352,11 @@ def get_item_pool(world: "MinishCapWorld") -> [ItemData]:
             element = world.create_item(WIND_ELEMENT.item_name)
             multiworld.get_location(TMCLocation.PALACE_PRIZE, player).place_locked_item(element)
         elif world.options.shuffle_elements.value is ShuffleElements.option_own_dungeon:
-            print("own dungoen")
             dungeons = [TMCLocation.DEEPWOOD_PRIZE, TMCLocation.COF_PRIZE, TMCLocation.DROPLETS_PRIZE, TMCLocation.PALACE_PRIZE, TMCLocation.FORTRESS_PRIZE, TMCLocation.CRYPT_PRIZE]
             elements = [EARTH_ELEMENT, FIRE_ELEMENT, WATER_ELEMENT, WIND_ELEMENT]
             world.random.shuffle(dungeons)
 
             for i, element in enumerate(elements):
-                print(f"{dungeons[i]}: {element.item_name}")
                 multiworld.get_location(dungeons[i], player).place_locked_item(world.create_item(element.item_name))
     else:
         item_pool.extend(pool_elements())
