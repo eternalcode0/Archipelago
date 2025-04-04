@@ -29,7 +29,7 @@ class MinishCapRules():
             (TMCRegion.HYRULE_TOWN, TMCRegion.NORTH_FIELD): None,
             # (TMCRegion.HYRULE_TOWN, TMCRegion.SOUTH_FIELD): Already connected
             (TMCRegion.HYRULE_TOWN, TMCRegion.LONLON):
-                self.has(Items.PROGRESSIVE_BOMB),
+                self.has(Items.BOMB_BAG),
             (TMCRegion.HYRULE_TOWN, TMCRegion.TRILBY_HIGHLANDS):
                 self.logic_or([
                     self.has_any([Items.ROCS_CAPE, Items.FLIPPERS]),
@@ -43,11 +43,11 @@ class MinishCapRules():
             (TMCRegion.NORTH_FIELD, TMCRegion.TRILBY_HIGHLANDS):
                 self.has_any([Items.FLIPPERS, Items.ROCS_CAPE]),
             (TMCRegion.NORTH_FIELD, TMCRegion.UPPER_FALLS): # TODO double-check
-                self.has_all([Items.PROGRESSIVE_BOMB, Items.KINSTONE_GOLD_FALLS, Items.LANTERN]),
+                self.has_all([Items.BOMB_BAG, Items.KINSTONE_GOLD_FALLS, Items.LANTERN]),
             (TMCRegion.NORTH_FIELD, TMCRegion.ROYAL_VALLEY):
                 self.logic_and([
                     self.split_rule(3),
-                    self.has_any([Items.FLIPPERS, Items.PROGRESSIVE_BOMB]),
+                    self.has_any([Items.FLIPPERS, Items.BOMB_BAG]),
                 ]),
 
             # (TMCRegion.CASTLE_EXTERIOR, TMCRegion.NORTH_FIELD): Already connected
@@ -64,7 +64,7 @@ class MinishCapRules():
                 ]),
 
             # (TMCRegion.LONLON, TMCRegion.HYRULE_TOWN): Already connected
-            #     self.has(Items.PROGRESSIVE_BOMB),
+            #     self.has(Items.BOMB_BAG),
             # (TMCRegion.LONLON, TMCRegion.NORTH_FIELD): Already connected
             #     self.can_pass_trees(),
             (TMCRegion.LONLON, TMCRegion.EASTERN_HILLS): None,
@@ -99,7 +99,7 @@ class MinishCapRules():
                 self.has_bottle(),
             (TMCRegion.CRENEL_BASE, TMCRegion.CRENEL):
                 self.logic_or([
-                    self.has_any([Items.GRIP_RING, Items.PROGRESSIVE_BOMB]),
+                    self.has_any([Items.GRIP_RING, Items.BOMB_BAG]),
                 ]),
             (TMCRegion.CRENEL, TMCRegion.MELARI):
                 self.logic_or([
@@ -109,7 +109,7 @@ class MinishCapRules():
                     ]),
                     self.has_all([
                         Items.CANE_OF_PACCI,
-                        Items.PROGRESSIVE_BOMB,
+                        Items.BOMB_BAG,
                     ]),
                     self.logic_and([
                         self.has(Items.GRIP_RING),
@@ -121,7 +121,7 @@ class MinishCapRules():
                             self.has(Items.PROGRESSIVE_BOW,2),
                         ]),
                         self.has_any([
-                            Items.PROGRESSIVE_BOMB,
+                            Items.BOMB_BAG,
                             Items.PROGRESSIVE_BOW,
                             Items.PROGRESSIVE_BOOMERANG,
                             Items.ROCS_CAPE,
@@ -139,7 +139,7 @@ class MinishCapRules():
                         self.has_any([
                             Items.CANE_OF_PACCI,
                             Items.PROGRESSIVE_SHIELD,
-                            Items.PROGRESSIVE_BOMB
+                            Items.BOMB_BAG
                         ])
                     ])
                 ]),
@@ -150,7 +150,7 @@ class MinishCapRules():
                     self.has(Items.KINSTONE_GOLD_CLOUD, 5),
                     self.has_any([Items.MOLE_MITTS, Items.ROCS_CAPE]),
                 ]),
-            (TMCRegion.CLOUDS, TMCRegion.DUNGEON_POW): # TODO double-check
+            (TMCRegion.WIND_TRIBE, TMCRegion.DUNGEON_POW): # TODO double-check
                 self.logic_and([
                     self.has_any([Items.ROCS_CAPE, Items.PROGRESSIVE_BOOMERANG, Items.PROGRESSIVE_BOW]),
                     self.split_rule(3),
@@ -303,7 +303,7 @@ class MinishCapRules():
             TMCLocation.HILLS_BEANSTALK_FUSION_HP: None,
             TMCLocation.HILLS_BEANSTALK_FUSION_RIGHT_CHEST: None,
             TMCLocation.HILLS_BOMB_CAVE_CHEST:
-                self.has(Items.PROGRESSIVE_BOMB),
+                self.has(Items.BOMB_BAG),
             TMCLocation.MINISH_GREAT_FAIRY_NPC:
                 self.has(Items.CANE_OF_PACCI),
             TMCLocation.HILLS_FARM_DIG_CAVE_ITEM:
@@ -324,7 +324,7 @@ class MinishCapRules():
             TMCLocation.LON_LON_CAVE_SECRET_CHEST:
                 self.logic_and([
                     self.can_reach([TMCLocation.LON_LON_CAVE_CHEST]),
-                    self.has_all([Items.PROGRESSIVE_BOMB, Items.LANTERN]),
+                    self.has_all([Items.BOMB_BAG, Items.LANTERN]),
                 ]),
             TMCLocation.LON_LON_PATH_FUSION_CHEST:
                 self.logic_and([
@@ -393,11 +393,11 @@ class MinishCapRules():
 
             #region Upper Falls
             TMCLocation.FALLS_ENTRANCE_HP: # The first 3 are part of North Field logic, doesn't require falls fusion stone or lantern
-                self.has_all([Items.FLIPPERS, Items.PROGRESSIVE_BOMB]),
+                self.has_all([Items.FLIPPERS, Items.BOMB_BAG]),
             TMCLocation.FALLS_WATER_DIG_CAVE_FUSION_HP: # Fusion 1F
-                self.has_all([Items.FLIPPERS, Items.PROGRESSIVE_BOMB, Items.MOLE_MITTS]),
+                self.has_all([Items.FLIPPERS, Items.BOMB_BAG, Items.MOLE_MITTS]),
             TMCLocation.FALLS_WATER_DIG_CAVE_FUSION_CHEST: # Fusion 1F
-                self.has_all([Items.FLIPPERS, Items.PROGRESSIVE_BOMB, Items.MOLE_MITTS]),
+                self.has_all([Items.FLIPPERS, Items.BOMB_BAG, Items.MOLE_MITTS]),
             # TMCLocation.FALLS_1ST_CAVE_CHEST: None,
             TMCLocation.FALLS_CLIFF_CHEST:
                 self.split_rule(3),
@@ -445,7 +445,7 @@ class MinishCapRules():
             TMCLocation.FALLS_RUPEE_CAVE_UNDERWATER_BOTTOM_RIGHT:
                 self.has_all([Items.GRIP_RING, Items.FLIPPERS]),
             TMCLocation.FALLS_TOP_CAVE_BOMB_WALL_CHEST:
-                self.has_all([Items.GRIP_RING, Items.PROGRESSIVE_BOMB]),
+                self.has_all([Items.GRIP_RING, Items.BOMB_BAG]),
             TMCLocation.FALLS_TOP_CAVE_CHEST:
                 self.has(Items.GRIP_RING),
             #endregion
@@ -547,19 +547,19 @@ class MinishCapRules():
             # TMCLocation.MINISH_VILLAGE_BARREL_HOUSE_ITEM: None,
             # TMCLocation.MINISH_VILLAGE_HP: None,
             TMCLocation.MINISH_WOODS_BOMB_MINISH_NPC_1:
-                self.has(Items.PROGRESSIVE_BOMB),
+                self.has(Items.BOMB_BAG),
             TMCLocation.MINISH_WOODS_BOMB_MINISH_NPC_2: # fusion 1C
-                self.has(Items.PROGRESSIVE_BOMB),
+                self.has(Items.BOMB_BAG),
             TMCLocation.MINISH_WOODS_POST_VILLAGE_FUSION_CHEST:
-                self.has(Items.PROGRESSIVE_BOMB),
+                self.has(Items.BOMB_BAG),
             TMCLocation.MINISH_WOODS_FLIPPER_HOLE_MIDDLE_CHEST:
-                self.has_all([Items.PROGRESSIVE_BOMB, Items.FLIPPERS]),
+                self.has_all([Items.BOMB_BAG, Items.FLIPPERS]),
             TMCLocation.MINISH_WOODS_FLIPPER_HOLE_RIGHT_CHEST:
-                self.has_all([Items.PROGRESSIVE_BOMB, Items.FLIPPERS]),
+                self.has_all([Items.BOMB_BAG, Items.FLIPPERS]),
             TMCLocation.MINISH_WOODS_FLIPPER_HOLE_LEFT_CHEST:
-                self.has_all([Items.PROGRESSIVE_BOMB, Items.FLIPPERS]),
+                self.has_all([Items.BOMB_BAG, Items.FLIPPERS]),
             TMCLocation.MINISH_WOODS_FLIPPER_HOLE_HP:
-                self.has_all([Items.PROGRESSIVE_BOMB, Items.FLIPPERS]),
+                self.has_all([Items.BOMB_BAG, Items.FLIPPERS]),
             #endregion
 
             #region Trilby Highlands
@@ -576,57 +576,57 @@ class MinishCapRules():
                     self.has_any([Items.ROCS_CAPE, Items.FLIPPERS]),
                 ]),
             TMCLocation.TRILBY_SCRUB_NPC:
-                self.has_all([Items.PROGRESSIVE_BOMB, Items.PROGRESSIVE_SHIELD]),
+                self.has_all([Items.BOMB_BAG, Items.PROGRESSIVE_SHIELD]),
             TMCLocation.TRILBY_BOMB_CAVE_CHEST:
-                self.has(Items.PROGRESSIVE_BOMB),
+                self.has(Items.BOMB_BAG),
             #endregion
 
             #region Crenel
             # Crenel Base = bottle
             # TMCLocation.CRENEL_BASE_ENTRANCE_VINE: None, # Assigned to Trilby so it doesn't require bottle
             TMCLocation.CRENEL_BASE_FAIRY_CAVE_ITEM1:
-                self.has(Items.PROGRESSIVE_BOMB),
+                self.has(Items.BOMB_BAG),
             TMCLocation.CRENEL_BASE_FAIRY_CAVE_ITEM2:
-                self.has(Items.PROGRESSIVE_BOMB),
+                self.has(Items.BOMB_BAG),
             TMCLocation.CRENEL_BASE_FAIRY_CAVE_ITEM3:
-                self.has(Items.PROGRESSIVE_BOMB),
+                self.has(Items.BOMB_BAG),
             TMCLocation.CRENEL_BASE_GREEN_WATER_FUSION_CHEST: # Fusion 4F
-                self.has(Items.PROGRESSIVE_BOMB),
+                self.has(Items.BOMB_BAG),
             TMCLocation.CRENEL_BASE_WEST_FUSION_CHEST: # Fusion 63
-                self.has_any([Items.PROGRESSIVE_BOMB, Items.ROCS_CAPE]),
+                self.has_any([Items.BOMB_BAG, Items.ROCS_CAPE]),
             TMCLocation.CRENEL_BASE_WATER_CAVE_LEFT_CHEST:
-                self.has(Items.PROGRESSIVE_BOMB), # can alternatively require cape if the bomb wall is broken
+                self.has(Items.BOMB_BAG), # can alternatively require cape if the bomb wall is broken
             TMCLocation.CRENEL_BASE_WATER_CAVE_RIGHT_CHEST:
-                self.has(Items.PROGRESSIVE_BOMB), # can alternatively require cape if the bomb wall is broken
+                self.has(Items.BOMB_BAG), # can alternatively require cape if the bomb wall is broken
             TMCLocation.CRENEL_BASE_WATER_CAVE_HP:
-                self.has(Items.PROGRESSIVE_BOMB), # can alternatively require cape/flippers if the bomb wall is broken
+                self.has(Items.BOMB_BAG), # can alternatively require cape/flippers if the bomb wall is broken
             TMCLocation.CRENEL_BASE_MINISH_VINE_HOLE_CHEST:
                 self.logic_and([
-                    self.has_any([Items.PROGRESSIVE_BOMB, Items.ROCS_CAPE]),
-                    self.has_any([Items.PROGRESSIVE_BOMB, Items.GUST_JAR]),
+                    self.has_any([Items.BOMB_BAG, Items.ROCS_CAPE]),
+                    self.has_any([Items.BOMB_BAG, Items.GUST_JAR]),
                 ]),
             TMCLocation.CRENEL_BASE_MINISH_CRACK_CHEST:
                 self.logic_and([
-                    self.has_any([Items.PROGRESSIVE_BOMB, Items.ROCS_CAPE]),
-                    self.has_any([Items.PROGRESSIVE_BOMB, Items.GUST_JAR]),
+                    self.has_any([Items.BOMB_BAG, Items.ROCS_CAPE]),
+                    self.has_any([Items.BOMB_BAG, Items.GUST_JAR]),
                 ]),
             TMCLocation.CRENEL_VINE_TOP_GOLDEN_TEKTITE: # Fusion 3B
                 self.can_attack(),
             TMCLocation.CRENEL_BRIDGE_CAVE_CHEST:
-                self.has(Items.PROGRESSIVE_BOMB),
+                self.has(Items.BOMB_BAG),
             TMCLocation.CRENEL_FAIRY_CAVE_HP:
-                self.has(Items.PROGRESSIVE_BOMB),
+                self.has(Items.BOMB_BAG),
             TMCLocation.CRENEL_BELOW_COF_GOLDEN_TEKTITE: # Fusion 0D
                 self.logic_and([
                     self.has(Items.PROGRESSIVE_SWORD),
                     self.logic_or([
-                        self.has_any([Items.GRIP_RING, Items.PROGRESSIVE_BOMB]),
+                        self.has_any([Items.GRIP_RING, Items.BOMB_BAG]),
                         self.has_any([Items.GUST_JAR, Items.ROCS_CAPE]),
                     ])
                 ]),
             TMCLocation.CRENEL_SCRUB_NPC:
                 self.logic_and([
-                    self.has_all([Items.PROGRESSIVE_BOMB, Items.PROGRESSIVE_SHIELD]),
+                    self.has_all([Items.BOMB_BAG, Items.PROGRESSIVE_SHIELD]),
                     self.logic_or([
                         self.has(Items.GRIP_RING),
                         self.has_any([Items.GUST_JAR, Items.ROCS_CAPE]),
@@ -653,9 +653,9 @@ class MinishCapRules():
                     self.split_rule(2),
                 ]),
             TMCLocation.CRENEL_GREAT_FAIRY_NPC:
-                self.has_all([Items.GRIP_RING, Items.PROGRESSIVE_BOMB]),
+                self.has_all([Items.GRIP_RING, Items.BOMB_BAG]),
             TMCLocation.CRENEL_CLIMB_FUSION_CHEST: # Fustion 62
-                self.has_all([Items.GRIP_RING, Items.PROGRESSIVE_BOMB]),
+                self.has_all([Items.GRIP_RING, Items.BOMB_BAG]),
             TMCLocation.CRENEL_DIG_CAVE_HP:
                 self.has_all([Items.GRIP_RING, Items.MOLE_MITTS]),
             TMCLocation.CRENEL_BEANSTALK_FUSION_HP: # Fusion 1A
@@ -904,7 +904,7 @@ class MinishCapRules():
             #region Wind Ruins
             # TMCLocation.RUINS_BUTTERFLY_FUSION_ITEM: None, # Fusion 20
             TMCLocation.RUINS_BOMB_CAVE_CHEST:
-                self.has(Items.PROGRESSIVE_BOMB),
+                self.has(Items.BOMB_BAG),
             # TMCLocation.RUINS_MINISH_HOME_CHEST: None,
             # Everything beyond here requires at least 1 sword to pass the first armos
             TMCLocation.RUINS_PILLARS_FUSION_CHEST: # Fusion 64
@@ -928,7 +928,7 @@ class MinishCapRules():
             #region Royal Valley
             # TMCLocation.VALLEY_PRE_VALLEY_FUSION_CHEST: None, # Fusion 5F
             TMCLocation.VALLEY_GREAT_FAIRY_NPC:
-                self.has(Items.PROGRESSIVE_BOMB),
+                self.has(Items.BOMB_BAG),
             TMCLocation.VALLEY_LOST_WOODS_CHEST:
                 self.has(Items.LANTERN),
             TMCLocation.VALLEY_DAMPE_NPC:
@@ -975,7 +975,7 @@ class MinishCapRules():
             TMCLocation.TOWN_DOJO_NPC_4:
                 self.has_all([Items.PROGRESSIVE_SWORD, Items.ROCS_CAPE]),
             TMCLocation.TOWN_WELL_TOP_CHEST:
-                self.has(Items.PROGRESSIVE_BOMB),
+                self.has(Items.BOMB_BAG),
             TMCLocation.TOWN_SCHOOL_ROOF_CHEST:
                 self.has(Items.CANE_OF_PACCI),
             TMCLocation.TOWN_SCHOOL_PATH_FUSION_CHEST:
@@ -1047,7 +1047,7 @@ class MinishCapRules():
                 self.logic_and([
                     self.access_town_left(),
                     self.has(Items.POWER_BRACELETS),
-                    self.has_any([Items.GUST_JAR, Items.PROGRESSIVE_BOMB]),
+                    self.has_any([Items.GUST_JAR, Items.BOMB_BAG]),
                     self.split_rule(2),
                 ]),
             TMCLocation.TOWN_FOUNTAIN_BIG_CHEST:
@@ -1097,7 +1097,7 @@ class MinishCapRules():
             TMCLocation.NORTH_FIELD_DIG_SPOT:
                 self.has(Items.MOLE_MITTS),
             TMCLocation.NORTH_FIELD_HP:
-                self.has_any([Items.PROGRESSIVE_BOMB, Items.FLIPPERS]),
+                self.has_any([Items.BOMB_BAG, Items.FLIPPERS]),
             TMCLocation.NORTH_FIELD_WATERFALL_FUSION_DOJO_NPC:
                 self.has_all([Items.FLIPPERS, Items.PROGRESSIVE_SWORD]),
             #endregion
@@ -1109,7 +1109,7 @@ class MinishCapRules():
             TMCLocation.DEEPWOOD_1F_BARREL_ROOM_CHEST:
                 self.logic_and([
                     self.has(Items.SMALL_KEY_DWS,1),
-                    self.has_any([Items.PROGRESSIVE_BOMB,Items.GUST_JAR])
+                    self.has_any([Items.BOMB_BAG,Items.GUST_JAR])
                 ]),
             TMCLocation.DEEPWOOD_1F_WEST_BIG_CHEST:
                 self.has(Items.SMALL_KEY_DWS,1),
@@ -1124,7 +1124,7 @@ class MinishCapRules():
                 self.logic_or([
                     self.logic_and([
                         self.has(Items.SMALL_KEY_DWS,2),
-                        self.has(Items.PROGRESSIVE_BOMB)
+                        self.has(Items.BOMB_BAG)
                     ]),
                     self.logic_and([
                         self.has(Items.GUST_JAR),
@@ -1155,7 +1155,7 @@ class MinishCapRules():
                 self.logic_or([
                     self.logic_and([
                         self.has(Items.SMALL_KEY_DWS,2),
-                        self.has(Items.PROGRESSIVE_BOMB)
+                        self.has(Items.BOMB_BAG)
                     ]),
                     self.logic_and([
                         self.has(Items.GUST_JAR),
@@ -1166,7 +1166,7 @@ class MinishCapRules():
                 self.logic_or([
                     self.logic_and([
                         self.has(Items.SMALL_KEY_DWS,2),
-                        self.has(Items.PROGRESSIVE_BOMB)
+                        self.has(Items.BOMB_BAG)
                     ]),
                     self.logic_and([
                         self.has(Items.GUST_JAR),
@@ -1177,7 +1177,7 @@ class MinishCapRules():
                 self.logic_or([
                     self.logic_and([
                         self.has(Items.SMALL_KEY_DWS,2),
-                        self.has(Items.PROGRESSIVE_BOMB)
+                        self.has(Items.BOMB_BAG)
                     ]),
                     self.logic_and([
                         self.has(Items.GUST_JAR),
@@ -1251,7 +1251,7 @@ class MinishCapRules():
                 ]),
             TMCLocation.COF_B1_HP:
                 self.logic_and([
-                    self.has(Items.PROGRESSIVE_BOMB),
+                    self.has(Items.BOMB_BAG),
                     self.has(Items.SMALL_KEY_COF,1)
                 ]),
             TMCLocation.COF_B1_SPIKEY_CHUS_BIG_CHEST:
@@ -1317,7 +1317,7 @@ class MinishCapRules():
             TMCLocation.FORTRESS_ENTRANCE_1F_RIGHT_ITEM:
                 self.has(Items.MOLE_MITTS),
             TMCLocation.FORTRESS_LEFT_2F_DIG_CHEST:
-                self.has_any([
+                self.has_all([
                     Items.MOLE_MITTS,
                     Items.PROGRESSIVE_BOW
                 ]),
@@ -1336,9 +1336,17 @@ class MinishCapRules():
             TMCLocation.FORTRESS_LEFT_2F_ITEM7:
                 self.has(Items.PROGRESSIVE_BOW),
             TMCLocation.FORTRESS_LEFT_3F_SWITCH_CHEST:
-                self.has(Items.MOLE_MITTS),
-            #TMCLocation.FORTRESS_LEFT_3F_EYEGORE_BIG_CHEST: none
-            #TMCLocation.FORTRESS_LEFT_3F_ITEM_DROP: none
+                self.has_all([Items.MOLE_MITTS,Items.PROGRESSIVE_BOW]),
+            TMCLocation.FORTRESS_LEFT_3F_EYEGORE_BIG_CHEST:
+                self.has(Items.PROGRESSIVE_BOW),
+            TMCLocation.FORTRESS_LEFT_3F_ITEM_DROP:
+                self.logic_and([
+                    self.has(Items.PROGRESSIVE_BOW),
+                    self.logic_or([
+                        self.has(Items.ROCS_CAPE),
+                        self.split_rule(2),
+                    ]),
+                ]),
             TMCLocation.FORTRESS_MIDDLE_2F_BIG_CHEST:
                 self.has(Items.PROGRESSIVE_BOW),
             TMCLocation.FORTRESS_MIDDLE_2F_STATUE_CHEST:
@@ -1355,7 +1363,7 @@ class MinishCapRules():
                 self.logic_and([
                     self.has_all([
                         Items.PROGRESSIVE_BOW,
-                        Items.PROGRESSIVE_BOMB
+                        Items.BOMB_BAG
                     ]),
                     self.has(Items.SMALL_KEY_FOW,2)
                 ]),
@@ -1363,7 +1371,7 @@ class MinishCapRules():
                 self.logic_and([
                     self.has_all([
                         Items.PROGRESSIVE_BOW,
-                        Items.PROGRESSIVE_BOMB,
+                        Items.BOMB_BAG,
                         Items.MOLE_MITTS,
                     ]),
                     self.has(Items.SMALL_KEY_FOW,2)
@@ -1594,7 +1602,7 @@ class MinishCapRules():
                     self.can_attack(),
                     self.has_all([
                         Items.LANTERN,
-                        Items.PROGRESSIVE_BOMB
+                        Items.BOMB_BAG
                     ]),
                 ]),
             TMCLocation.DROPLETS_RIGHT_PATH_B2_DARK_MAZE_TOP_RIGHT_CHEST:
@@ -1886,7 +1894,7 @@ class MinishCapRules():
                     self.split_rule(4),
                     self.has(Items.SMALL_KEY_DHC,1),
                     self.has_all([
-                        Items.PROGRESSIVE_BOMB,
+                        Items.BOMB_BAG,
                         Items.PROGRESSIVE_BOW,
                         Items.ROCS_CAPE
                     ]),
@@ -1896,7 +1904,7 @@ class MinishCapRules():
                     self.split_rule(4),
                     self.has(Items.SMALL_KEY_DHC,1),
                     self.has_all([
-                        Items.PROGRESSIVE_BOMB,
+                        Items.BOMB_BAG,
                         Items.ROCS_CAPE,
                         Items.LANTERN
                     ]),
@@ -1914,7 +1922,7 @@ class MinishCapRules():
                     self.split_rule(4),
                     self.has(Items.SMALL_KEY_DHC,1),
                     self.has_all([
-                        Items.PROGRESSIVE_BOMB,
+                        Items.BOMB_BAG,
                         Items.ROCS_CAPE,
                     ]),
                     self.logic_or([
@@ -1931,7 +1939,7 @@ class MinishCapRules():
                     self.split_rule(4),
                     self.has(Items.SMALL_KEY_DHC,1),
                     self.has_all([
-                        Items.PROGRESSIVE_BOMB,
+                        Items.BOMB_BAG,
                         Items.ROCS_CAPE,
                     ]),
                     self.logic_or([
@@ -1948,7 +1956,7 @@ class MinishCapRules():
                     self.split_rule(4),
                     self.has(Items.SMALL_KEY_DHC,5),
                     self.has_all([
-                        Items.PROGRESSIVE_BOMB,
+                        Items.BOMB_BAG,
                         Items.ROCS_CAPE,
                     ]),
                     self.logic_or([
@@ -1961,9 +1969,9 @@ class MinishCapRules():
                     ]),
                 ]),
             #endregion
-
-
         }
+
+
     def logic_or(self, rules: [CollectionRule]) -> CollectionRule:
         return lambda state: any(rule(state) for rule in rules)
 
@@ -1971,7 +1979,7 @@ class MinishCapRules():
         return lambda state: all(rule(state) for rule in rules)
 
     def droplet_right_lever(self) -> CollectionRule:
-        return self.logic_and([self.can_attack(), self.split_rule(2), self.has(Items.SMALL_KEY_TOD,4), self.has_all([Items.LANTERN,Items.PROGRESSIVE_BOMB,Items.FLIPPERS])])
+        return self.logic_and([self.can_attack(), self.split_rule(2), self.has(Items.SMALL_KEY_TOD,4), self.has_all([Items.LANTERN,Items.BOMB_BAG,Items.FLIPPERS])])
 
     def droplet_left_lever(self) -> CollectionRule:
         return self.logic_and([self.has(Items.SMALL_KEY_TOD,4),self.logic_or([self.has_all([Items.FLIPPERS,Items.GUST_JAR]),self.logic_and([self.can_attack(),self.has(Items.LANTERN),self.has(Items.ROCS_CAPE),]),]),])
@@ -2012,7 +2020,7 @@ class MinishCapRules():
 
     def can_pass_trees(self) -> CollectionRule:
         return self.logic_or([
-            self.has_any([Items.PROGRESSIVE_SWORD, Items.PROGRESSIVE_BOMB, Items.LANTERN]),
+            self.has_any([Items.PROGRESSIVE_SWORD, Items.BOMB_BAG, Items.LANTERN]),
             self.has(Items.PROGRESSIVE_BOW, 2)
         ])
 

@@ -23,8 +23,8 @@ class MinishCapItem(Item):
 # FOUR_SWORD            = ItemData("Four Sword",                   ItemClassification.progression, (0x06, 0x00))
 PROGRESSIVE_SWORD     = ItemData("Progressive Sword",            ItemClassification.progression, (0x01, 0x00))
 # BOMB                  = ItemData("Bomb",                         ItemClassification.progression, (0x07, 0x00)) # gives bomb but 0 capacity
-# REMOTE_BOMB           = ItemData("Remote Bomb",                  ItemClassification.progression, (0x08, 0x00))
-PROGRESSIVE_BOMB      = ItemData("Progressive Bomb",             ItemClassification.progression, (0x07, 0x00))
+REMOTE_BOMB           = ItemData("Remote Bomb",                  ItemClassification.useful, (0x08, 0x00))
+# PROGRESSIVE_BOMB      = ItemData("Progressive Bomb",             ItemClassification.progression, (0x07, 0x00))
 # BOW                   = ItemData("Bow",                          ItemClassification.progression, (0x09, 0x00)) # working, received before quiver
 # LIGHT_ARROW           = ItemData("Light Arrow",                  ItemClassification.progression, (0x0A, 0x00))
 PROGRESSIVE_BOW       = ItemData("Progressive Bow",              ItemClassification.progression, (0x09, 0x00))
@@ -127,7 +127,7 @@ HEART_REFILL          = ItemData("Recovery Heart",               ItemClassificat
 HEART_CONTAINER       = ItemData("Heart Container",              ItemClassification.progression, (0x62, 0x00))
 HEART_PIECE           = ItemData("Heart Piece",                  ItemClassification.progression, (0x63, 0x00))
 BIG_WALLET            = ItemData("Big Wallet",                   ItemClassification.progression, (0x64, 0x00)) # working, 2 received
-BOMB_BAG              = ItemData("Bomb Bag",                     ItemClassification.useful, (0x65, 0x00)) # working, sent after bombs, fixed 0 capacity
+BOMB_BAG              = ItemData("Bomb Bag",                     ItemClassification.progression, (0x65, 0x00)) # working, sent after bombs, fixed 0 capacity
 QUIVER                = ItemData("Quiver",                       ItemClassification.useful, (0x66, 0x00)) # working, 1 received
 # KINSTONE_BAG        = ItemData("Kinstone Bag",                 ItemClassification.progression, (0x67, 0x00))
 # BRIOCHE             = ItemData("Brioche",                      ItemClassification.filler, (0x68, 0x00))
@@ -184,9 +184,10 @@ def pool_baseitems() -> [ItemData]:
         *[PROGRESSIVE_SWORD] * 5,
         *[PROGRESSIVE_SHIELD] * 2,
         *[PROGRESSIVE_BOW] * 2,
-        *[PROGRESSIVE_BOMB] * 2,
+        # *[PROGRESSIVE_BOMB] * 2,
         *[PROGRESSIVE_BOOMERANG] * 2,
-        *[BOMB_BAG] * 3,
+        *[BOMB_BAG] * 4,
+        REMOTE_BOMB,
         *[QUIVER] * 3,
         BOW_BUTTERFLY,
 

@@ -138,7 +138,7 @@ all_locations: typing.List[LocationData] = [
         (0x0D79BB, None), (0x2D2C, 0x08), 0x0525, pools={POOL_HP}),
     LocationData(
         6029027, TMCLocation.CASTLE_DOJO_NPC, TMCRegion.CASTLE_EXTERIOR, Items.SWORD_BEAM,
-        (0xEF64A4, None), (0x2EA6, 0x02), 0x0525, pools={POOL_SCROLL}),
+        (0xFF0000, None), (0x2EA6, 0x02), 0x0525, pools={POOL_SCROLL}),
     LocationData(
         6029028, TMCLocation.CASTLE_RIGHT_FOUNTAIN_FUSION_MINISH_HOLE_CHEST, TMCRegion.CASTLE_EXTERIOR, None,
         (0x0DBD3E, None), (0x2D28, 0x10), 0x0036),
@@ -170,7 +170,7 @@ all_locations: typing.List[LocationData] = [
         (0x00B7B4, None), (0x2CEF, 0x80), 0x0129, pools={POOL_FAIRY}),
     LocationData(
         6029037, TMCLocation.HILLS_FARM_DIG_CAVE_ITEM, TMCRegion.EASTERN_HILLS, Items.RUPEES_20,
-        (0x0F3C9F, None), (0x2CD2, 0x04), 0x0013),
+        (0x0F3C9F, None), (0x2D04, 0x40), 0x0013),
     #endregion
     #region Lonlon
     LocationData(
@@ -213,7 +213,7 @@ all_locations: typing.List[LocationData] = [
         (0x0F87D3, None), (0x2CD1, 0x02), 0x000A, pools={POOL_HP}),
     LocationData(
         6029050, TMCLocation.FALLS_LOWER_WATERFALL_FUSION_DOJO_NPC, TMCRegion.LOWER_FALLS, Items.FAST_SPLIT_SCROLL,
-        (0xEF64BC, None), (0x2EA6, 0x20), 0x0125, pools={POOL_SCROLL}),
+        (0xFF0004, None), (0x2EA6, 0x20), 0x0125, pools={POOL_SCROLL}),
     LocationData(
         6029051, TMCLocation.FALLS_LOWER_ROCK_ITEM1, TMCRegion.LOWER_FALLS, Items.RUPEES_20,
         (0x0F87E3, None), (0x2CD0, 0x04), 0x000A, pools={POOL_RUPEE}),
@@ -225,7 +225,7 @@ all_locations: typing.List[LocationData] = [
         (0x0F8803, None), (0x2CD0, 0x10), 0x000A, pools={POOL_RUPEE}),
     LocationData(
         6029054, TMCLocation.FALLS_LOWER_DIG_CAVE_LEFT_CHEST, TMCRegion.LOWER_FALLS, None,
-        (0x0F3E2, None), (0x2D05, 0x08), 0x0016),
+        (0x0F3E2E, None), (0x2D05, 0x08), 0x0016),
     LocationData(
         6029055, TMCLocation.FALLS_LOWER_DIG_CAVE_RIGHT_CHEST, TMCRegion.LOWER_FALLS, Items.RUPEES_50,
         (0x0F3E36, None), (0x2D05, 0x10), 0x0016),
@@ -284,7 +284,7 @@ all_locations: typing.List[LocationData] = [
         (0x0D7B03, None), (0x2D2C, 0x04), 0x0625, pools={POOL_HP}),
     LocationData(
         6029073, TMCLocation.HYLIA_DOJO_NPC, TMCRegion.LAKE_HYLIA_NORTH, Items.PERIL_BEAM,
-        (0xEF64B3, None), (0x2EA6, 0x04), 0x0625, pools={POOL_SCROLL}),
+        (0xFF0008, None), (0x2EA6, 0x04), 0x0625, pools={POOL_SCROLL}),
     LocationData(
         6029074, TMCLocation.HYLIA_CRACK_FUSION_LIBRARI_NPC, TMCRegion.LAKE_HYLIA_NORTH, Items.HEART_CONTAINER,
         (0x0124EC, None), (0x2CF2, 0x08), 0x2320),
@@ -348,10 +348,10 @@ all_locations: typing.List[LocationData] = [
         6029093, TMCLocation.MINISH_VILLAGE_HP, TMCRegion.MINISH_WOODS, Items.HEART_PIECE,
         (0x0DBCC7, None), (0x2CF4, 0x04), 0x0101, pools={POOL_HP}),
     LocationData(
-        6029094, TMCLocation.MINISH_WOODS_BOMB_MINISH_NPC_1, TMCRegion.MINISH_WOODS, Items.PROGRESSIVE_BOMB,
+        6029094, TMCLocation.MINISH_WOODS_BOMB_MINISH_NPC_1, TMCRegion.MINISH_WOODS, Items.BOMB_BAG,
         (0x00A00C, None), (0x2EA5, 0x01), 0x2620),
     LocationData(
-        6029095, TMCLocation.MINISH_WOODS_BOMB_MINISH_NPC_2, TMCRegion.MINISH_WOODS, Items.PROGRESSIVE_BOMB,
+        6029095, TMCLocation.MINISH_WOODS_BOMB_MINISH_NPC_2, TMCRegion.MINISH_WOODS, Items.REMOTE_BOMB,
         (0x00A0A0, None), (0x2CF2, 0x01), 0x2620),
     LocationData(
         6029096, TMCLocation.MINISH_WOODS_POST_VILLAGE_FUSION_CHEST, TMCRegion.MINISH_WOODS, Items.KINSTONE,
@@ -387,7 +387,7 @@ all_locations: typing.List[LocationData] = [
         (0x0F3D8E, None), (0x2D05, 0x01), 0x0313),
     LocationData(
         6029106, TMCLocation.TRILBY_SCRUB_NPC, TMCRegion.TRILBY_HIGHLANDS, Items.EMPTY_BOTTLE,
-        (0xEF5108, None), (0x2CA7, 0x04), 0x1432, pools={POOL_SCRUB}),
+        (0xFF000C, None), (0x2CA7, 0x04), 0x1432, pools={POOL_SCRUB}),
     LocationData(
         6029107, TMCLocation.TRILBY_BOMB_CAVE_CHEST, TMCRegion.WESTERN_WOODS, Items.KINSTONE,
         (0x0F7EEA, None), (0x2D1D, 0x20), 0x0732),
@@ -577,7 +577,7 @@ all_locations: typing.List[LocationData] = [
         (None, None), (0x2CA2, 0x04), None, pools={POOL_ENEMY}),
     LocationData(
         6029168, TMCLocation.CRENEL_SCRUB_NPC, TMCRegion.CRENEL, Items.GRIP_RING,
-        (0xEF5110, None), (0x2EA5, 0x04), 0x0426, pools={POOL_SCRUB}),
+        (0xFF0010, None), (0x2EA5, 0x04), 0x0426, pools={POOL_SCRUB}),
     LocationData(
         6029169, TMCLocation.CRENEL_DOJO_LEFT_CHEST, TMCRegion.CRENEL, Items.RUPEES_50,
         (0x0D75DA, None), (0x2D1C, 0x02), 0x0025),
@@ -589,7 +589,7 @@ all_locations: typing.List[LocationData] = [
         (0x0D752B, None), (0x2D2C, 0x01), 0x0025, pools={POOL_HP}),
     LocationData(
         6029172, TMCLocation.CRENEL_DOJO_NPC, TMCRegion.CRENEL, Items.ROLL_ATTACK,
-        (0xEF64AD, None), (0x2EA6, 0x01), 0x0025, pools={POOL_SCROLL}),
+        (0xFF0014, None), (0x2EA6, 0x01), 0x0025, pools={POOL_SCROLL}),
     LocationData(
         6029173, TMCLocation.CRENEL_GREAT_FAIRY_NPC, TMCRegion.CRENEL, Items.BOMB_BAG,
         (0x00B828, None), (0x2CF0, 0x01), 0x0229, pools={POOL_FAIRY}),
@@ -681,7 +681,7 @@ all_locations: typing.List[LocationData] = [
         (0x0D9907, None), (0x2D23, 0x01), 0x042A, pools={POOL_HP}),
     LocationData(
         6029202, TMCLocation.SWAMP_WATERFALL_FUSION_DOJO_NPC, TMCRegion.CASTOR_WILDS, Items.FAST_SPIN_SCROLL,
-        (0xEF64B9, None), (0x2EA6, 0x10), 0x0325, pools={POOL_SCROLL}),
+        (0xFF0018, None), (0x2EA6, 0x10), 0x0325, pools={POOL_SCROLL}),
     LocationData(
         6029203, TMCLocation.SWAMP_NORTH_CAVE_CHEST, TMCRegion.CASTOR_WILDS, Items.KINSTONE_GOLD_SWAMP,
         (0x0D97B6, None), (0x2D22, 0x40), 0x012A),
@@ -708,7 +708,7 @@ all_locations: typing.List[LocationData] = [
         (0x0D78CB, None), (0x2D2B, 0x80), 0x0425, pools={POOL_HP}),
     LocationData(
         6029211, TMCLocation.SWAMP_DOJO_NPC, TMCRegion.CASTOR_WILDS, Items.GREATSPIN,
-        (0xEF64B6, None), (0x2EA6, 0x08), 0x0425, pools={POOL_SCROLL}),
+        (0xFF001C, None), (0x2EA6, 0x08), 0x0425, pools={POOL_SCROLL}),
     LocationData(
         6029212, TMCLocation.SWAMP_MINISH_FUSION_NORTH_CRACK_CHEST, TMCRegion.CASTOR_WILDS, Items.KINSTONE,
         (0x0DC49A, None), (0x2CDE, 0x08), 0x0927),
@@ -963,13 +963,13 @@ all_locations: typing.List[LocationData] = [
         (0x014CBC, None), (0x2CE8, 0x40), 0x0130),
     LocationData(
         6029292, TMCLocation.WIND_TRIBE_3F_LEFT_CHEST, TMCRegion.WIND_TRIBE, Items.KINSTONE,
-        (0x0F5A92, None), (0x2CDD, 0x01), 0x0230),
+        (0x0F5A92, None), (0x2CDD, 0x04), 0x0230),
     LocationData(
         6029293, TMCLocation.WIND_TRIBE_3F_CENTER_CHEST, TMCRegion.WIND_TRIBE, Items.KINSTONE,
         (0x0F5A8A, None), (0x2CDD, 0x02), 0x0230),
     LocationData(
         6029294, TMCLocation.WIND_TRIBE_3F_RIGHT_CHEST, TMCRegion.WIND_TRIBE, Items.KINSTONE,
-        (0x0F5A82, None), (0x2CDD, 0x04), 0x0230),
+        (0x0F5A82, None), (0x2CDD, 0x01), 0x0230),
     LocationData(
         6029295, TMCLocation.WIND_TRIBE_4F_LEFT_CHEST, TMCRegion.WIND_TRIBE, Items.KINSTONE,
         (0x0F5BD2, None), (0x2CDD, 0x40), 0x0330),
@@ -1051,10 +1051,10 @@ all_locations: typing.List[LocationData] = [
         (0x0DFB2B, None), (0x2D5C, 0x04), 0x0550, pools={POOL_RUPEE}),
     LocationData(
         6029320, TMCLocation.COF_B1_HAZY_ROOM_BIG_CHEST, TMCRegion.DUNGEON_COF, Items.DUNGEON_COMPASS_COF,
-        (0x0E028A, None), (0x2D59, 0x02), 0x0950),
+        (0x0E028A, None), (0x2D59, 0x04), 0x0950),
     LocationData(
         6029321, TMCLocation.COF_B1_HAZY_ROOM_SMALL_CHEST, TMCRegion.DUNGEON_COF, Items.KINSTONE,
-        (0x0E0282, None), (0x2D59, 0x04), 0x0950),
+        (0x0E0282, None), (0x2D59, 0x02), 0x0950),
     LocationData(
         6029322, TMCLocation.COF_B1_ROLLOBITE_CHEST, TMCRegion.DUNGEON_COF, Items.RUPEES_50,
         (0x0E00E2, None), (0x2D58, 0x80), 0x0850),
@@ -1298,19 +1298,19 @@ all_locations: typing.List[LocationData] = [
         (0x0E520E, None), (0x2D8F, 0x40), 0x2B60),
     LocationData(
         6029401, TMCLocation.DROPLETS_RIGHT_PATH_B2_UNDERPASS_ITEM1, TMCRegion.DUNGEON_TOD_MAIN, Items.RUPEES_1,
-        (0x0E483F, None), (0x2D95, 0x10), 0x0D60, pools={POOL_WATER}),
+        (0x0E483F, None), (0x2D95, 0x10), 0x2560, pools={POOL_WATER}),
     LocationData(
         6029402, TMCLocation.DROPLETS_RIGHT_PATH_B2_UNDERPASS_ITEM2, TMCRegion.DUNGEON_TOD_MAIN, Items.RUPEES_1,
-        (0x0E484F, None), (0x2D95, 0x20), 0x0D60, pools={POOL_WATER}),
+        (0x0E484F, None), (0x2D95, 0x20), 0x2560, pools={POOL_WATER}),
     LocationData(
         6029403, TMCLocation.DROPLETS_RIGHT_PATH_B2_UNDERPASS_ITEM3, TMCRegion.DUNGEON_TOD_MAIN, Items.RUPEES_1,
-        (0x0E485F, None), (0x2D95, 0x40), 0x0D60, pools={POOL_WATER}),
+        (0x0E485F, None), (0x2D95, 0x40), 0x2560, pools={POOL_WATER}),
     LocationData(
         6029404, TMCLocation.DROPLETS_RIGHT_PATH_B2_UNDERPASS_ITEM4, TMCRegion.DUNGEON_TOD_MAIN, Items.RUPEES_1,
-        (0x0E486F, None), (0x2D95, 0x04), 0x0D60, pools={POOL_WATER}),
+        (0x0E486F, None), (0x2D95, 0x04), 0x2560, pools={POOL_WATER}),
     LocationData(
         6029405, TMCLocation.DROPLETS_RIGHT_PATH_B2_UNDERPASS_ITEM5, TMCRegion.DUNGEON_TOD_MAIN, Items.RUPEES_1,
-        (0x0E487F, None), (0x2D95, 0x08), 0x0D60, pools={POOL_WATER}),
+        (0x0E487F, None), (0x2D95, 0x08), 0x2560, pools={POOL_WATER}),
     LocationData(
         6029406, TMCLocation.DROPLETS_BOSS_ITEM, TMCRegion.DUNGEON_TOD_MAIN, Items.HEART_CONTAINER,
         (0x0E4103, None), (0x2D8C, 0x01), 0x0E60),
@@ -1327,22 +1327,22 @@ all_locations: typing.List[LocationData] = [
         (0x0E980A, None), (0x2DAA, 0x10), 0x2C70),
     LocationData(
         6029410, TMCLocation.PALACE_1ST_HALF_2F_ITEM1, TMCRegion.DUNGEON_POW, Items.RUPEES_1,
-        (0x0E8B1F, None), (0x2DA7, 0x04), None, pools={POOL_RUPEE}),
+        (0x0E8B1F, None), (0x2DA7, 0x04), 0x2170, pools={POOL_RUPEE}),
     LocationData(
         6029411, TMCLocation.PALACE_1ST_HALF_2F_ITEM2, TMCRegion.DUNGEON_POW, Items.RUPEES_1,
-        (0x0E8B2F, None), (0x2DA7, 0x08), None, pools={POOL_RUPEE}),
+        (0x0E8B2F, None), (0x2DA7, 0x08), 0x2170, pools={POOL_RUPEE}),
     LocationData(
         6029412, TMCLocation.PALACE_1ST_HALF_2F_ITEM3, TMCRegion.DUNGEON_POW, Items.RUPEES_1,
-        (0x0E8B3F, None), (0x2DA7, 0x10), None, pools={POOL_RUPEE}),
+        (0x0E8B3F, None), (0x2DA7, 0x10), 0x2170, pools={POOL_RUPEE}),
     LocationData(
         6029413, TMCLocation.PALACE_1ST_HALF_2F_ITEM4, TMCRegion.DUNGEON_POW, Items.RUPEES_1,
-        (0x0E8B4F, None), (0x2DA7, 0x20), None, pools={POOL_RUPEE}),
+        (0x0E8B4F, None), (0x2DA7, 0x20), 0x2170, pools={POOL_RUPEE}),
     LocationData(
         6029414, TMCLocation.PALACE_1ST_HALF_2F_ITEM5, TMCRegion.DUNGEON_POW, Items.RUPEES_1,
-        (0x0E8B5F, None), (0x2DA7, 0x40), None, pools={POOL_RUPEE}),
+        (0x0E8B5F, None), (0x2DA7, 0x40), 0x2170, pools={POOL_RUPEE}),
     LocationData(
         6029415, TMCLocation.PALACE_1ST_HALF_3F_POT_PUZZLE_ITEM_DROP, TMCRegion.DUNGEON_POW, Items.SMALL_KEY_POW,
-        (0x0E896F, None), (0x2DA7, 0x02), None),
+        (0x0E896F, None), (0x2DA7, 0x02), 0x2070),
     LocationData(
         6029416, TMCLocation.PALACE_1ST_HALF_4F_BOW_MOBLINS_CHEST, TMCRegion.DUNGEON_POW, Items.KINSTONE,
         (0x0E77F6, None), (0x2DA4, 0x80), 0x0F70),
@@ -1372,7 +1372,7 @@ all_locations: typing.List[LocationData] = [
         (0x0E86F2, None), (0x2DA6, 0x80), 0x1C70),
     LocationData(
         6029425, TMCLocation.PALACE_2ND_HALF_4F_HP, TMCRegion.DUNGEON_POW, Items.HEART_PIECE,
-        (0x0E77A7, None), (0x2DAC, 0x01), None, pools={POOL_HP}),
+        (0x0E77A7, None), (0x2DAC, 0x01), 0x0F70, pools={POOL_HP}),
     LocationData(
         6029426, TMCLocation.PALACE_2ND_HALF_4F_SWITCH_HIT_CHEST, TMCRegion.DUNGEON_POW, Items.RUPEES_200,
         (0x0E7ED6, None), (0x2DA5, 0x80), 0x1570),
@@ -1387,10 +1387,10 @@ all_locations: typing.List[LocationData] = [
         (0x0E6D8A, None), (0x2DA2, 0x80), 0x0470),
     LocationData(
         6029430, TMCLocation.PALACE_BOSS_ITEM, TMCRegion.DUNGEON_POW, Items.HEART_CONTAINER,
-        (0x0E6A23, None), (0x2DAB, 0x20), None, pools={POOL_HP}),
+        (0x0E6A23, None), (0x2DAB, 0x20), 0x0070, pools={POOL_HP}),
     LocationData(
         6029431, TMCLocation.PALACE_PRIZE, TMCRegion.DUNGEON_POW, Items.WIND_ELEMENT,
-        (0x0E69E3, None), (0x2C9C, 0x40), None, pools={POOL_ELEMENT}),
+        (0x0E69E3, None), (0x2C9C, 0x40), 0x0070, pools={POOL_ELEMENT}),
     #endregion
     #region Sanctuary
     LocationData(
@@ -1438,16 +1438,16 @@ all_locations: typing.List[LocationData] = [
         (0x00EDDA, None), (0x2CD6, 0x40), 0x0002),
     LocationData(
         6029445, TMCLocation.TOWN_SHOP_80_ITEM, TMCRegion.HYRULE_TOWN, Items.BIG_WALLET,
-        ([0xEF672C, 0xEF6ADB], [0xEF6730, 0xEF6ADC]), (0x2EA7, 0x01), 0x0023, scoutable=True, pools={POOL_SHOP}),
+        (0xFF0053, None), (0x2EA7, 0x01), 0x0023, scoutable=True, pools={POOL_SHOP}),
     LocationData(
         6029446, TMCLocation.TOWN_SHOP_300_ITEM, TMCRegion.HYRULE_TOWN, Items.PROGRESSIVE_BOOMERANG,
-        ([0xEF6734, 0xEF6AFB], [0xEF6738, 0xEF6AFC]), (0x2EA7, 0x02), 0x0023, scoutable=True, pools={POOL_SHOP}),
+        (0xFF0073, None), (0x2EA7, 0x02), 0x0023, scoutable=True, pools={POOL_SHOP}),
     LocationData(
         6029447, TMCLocation.TOWN_SHOP_600_ITEM, TMCRegion.HYRULE_TOWN, Items.QUIVER,
-        ([0xEF673C, 0xEF6B1B], [0xEF6740, 0xEF6B1C]), (0x2EA7, 0x04), 0x0023, scoutable=True, pools={POOL_SHOP}),
+        (0xFF0093, None), (0x2EA7, 0x04), 0x0023, scoutable=True, pools={POOL_SHOP}),
     LocationData(
         6029448, TMCLocation.TOWN_SHOP_BEHIND_COUNTER_ITEM, TMCRegion.HYRULE_TOWN, Items.DOG_FOOD,
-        (0xEF6A4B, None), (0x2CE6, 0x08), 0x0023, scoutable=True),
+        (0xFF00B3, None), (0x2CE6, 0x08), 0x0023, scoutable=True),
     LocationData(
         6029449, TMCLocation.TOWN_SHOP_ATTIC_CHEST, TMCRegion.HYRULE_TOWN, None,
         (0x0D8EE6, None), (0x2D0A, 0x80), 0x012E),
@@ -1462,7 +1462,7 @@ all_locations: typing.List[LocationData] = [
         (0x0EE35A, None), (0x2CD5, 0x01), 0x0002),
     LocationData(
         6029453, TMCLocation.TOWN_INN_POT, TMCRegion.HYRULE_TOWN, Items.KINSTONE,
-        (0x0D663B, 0x0D663D), (0x2CE0, 0x80), 0x0921),
+        (0x0D663B, 0x0D663D), (0x2CE0, 0x80), 0x0921, pools={POOL_POT}),
     LocationData(
         6029454, TMCLocation.TOWN_WELL_RIGHT_CHEST, TMCRegion.HYRULE_TOWN, Items.KINSTONE,
         (0x0EFBDE, None), (0x2CFD, 0x01), 0x0041),
@@ -1513,16 +1513,16 @@ all_locations: typing.List[LocationData] = [
         (None, None), (None, None), 0x0002, pools={f"{POOL_GORON}5"}),
     LocationData(
         6029470, TMCLocation.TOWN_DOJO_NPC_1, TMCRegion.HYRULE_TOWN, Items.SPIN_ATTACK,
-        (0xEF64A1, None), (0x2EA5, 0x10), 0x0128, pools={POOL_SCROLL}),
+        (0xFF0030, None), (0x2EA5, 0x10), 0x0128, pools={POOL_SCROLL}),
     LocationData(
         6029471, TMCLocation.TOWN_DOJO_NPC_2, TMCRegion.HYRULE_TOWN, Items.ROCK_BREAKER,
-        (0xEF64A4, None), (0x2EA5, 0x20), 0x0128, pools={POOL_SCROLL}),
+        (0xFF0034, None), (0x2EA5, 0x20), 0x0128, pools={POOL_SCROLL}),
     LocationData(
         6029472, TMCLocation.TOWN_DOJO_NPC_3, TMCRegion.HYRULE_TOWN, Items.DASH_ATTACK,
-        (0xEF64A7, None), (0x2EA5, 0x40), 0x0128, pools={POOL_SCROLL}),
+        (0xFF0038, None), (0x2EA5, 0x40), 0x0128, pools={POOL_SCROLL}),
     LocationData(
         6029473, TMCLocation.TOWN_DOJO_NPC_4, TMCRegion.HYRULE_TOWN, Items.DOWNTHRUST,
-        (0xEF64AA, None), (0x2EA5, 0x80), 0x0128, pools={POOL_SCROLL}),
+        (0xFF003C, None), (0x2EA5, 0x80), 0x0128, pools={POOL_SCROLL}),
     LocationData(
         6029474, TMCLocation.TOWN_WELL_TOP_CHEST, TMCRegion.HYRULE_TOWN, Items.RUPEES_100,
         (0x0EFBBE, None), (0x2CFC, 0x40), 0x0041),
@@ -1564,7 +1564,7 @@ all_locations: typing.List[LocationData] = [
         (0x0F8082, None), (0x2D1D, 0x40), 0x0B32),
     LocationData(
         6029487, TMCLocation.TOWN_CARLOV_NPC, TMCRegion.HYRULE_TOWN, Items.CARLOV_MEDAL,
-        (0xEF6158, 0xEF615C), (0x2EA5, 0x02), 0x0723),
+        (0xFF0040, None), (0x2EA5, 0x02), 0x0723),
     LocationData(
         6029488, TMCLocation.TOWN_WELL_BOTTOM_CHEST, TMCRegion.HYRULE_TOWN, Items.RUPEES_100,
         (0x0EFBCE, None), (0x2CFD, 0x02), 0x0041),
@@ -1671,7 +1671,7 @@ all_locations: typing.List[LocationData] = [
         (0x0F7C06, None), (0x2D1D, 0x01), 0x0032),
     LocationData(
         6029522, TMCLocation.NORTH_FIELD_WATERFALL_FUSION_DOJO_NPC, TMCRegion.NORTH_FIELD, Items.LONG_SPIN,
-        (0xEF64BF, None), (0x2EA6, 0x40), 0x0225, pools={POOL_SCROLL}),
+        (0xFF0044, None), (0x2EA6, 0x40), 0x0225, pools={POOL_SCROLL}),
     #endregion
 ]
 
