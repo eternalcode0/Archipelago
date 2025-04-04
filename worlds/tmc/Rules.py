@@ -1,11 +1,12 @@
 from typing import Union, Callable, Iterable, Dict
-from worlds.generic.Rules import add_rule, CollectionRule
+from worlds.generic.Rules import add_rule, forbid_item, CollectionRule
 from BaseClasses import CollectionState
 
 from . import Items
 from .Items import ItemData
 from .Constants.LocationName import TMCLocation
 from .Constants.RegionName import TMCRegion
+from .Options import MinishCapOptions
 
 item_to_name = lambda item: item.item_name
 
@@ -2076,7 +2077,7 @@ class MinishCapRules():
     def can_reach(self, locations: [str]) -> CollectionRule:
         return lambda state: all(state.can_reach(loc, "Location", self.player) for loc in locations)
 
-    def set_rules(self, disabled_locations: set[int], location_name_to_id: dict[str, id]) -> None:
+    def set_rules(self, disabled_locations: set[int], location_name_to_id: dict[str, id], options: MinishCapOptions) -> None:
         multiworld = self.world.multiworld
 
         # menu_region = multiworld.get_region("Menu", self.player)

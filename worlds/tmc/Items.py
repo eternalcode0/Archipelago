@@ -1,6 +1,8 @@
 import typing
 
 from BaseClasses import Item, ItemClassification
+from .Options import ShuffleElements
+from .Constants.LocationName import TMCLocation
 
 class ItemData(typing.NamedTuple):
     item_name: str
@@ -174,13 +176,16 @@ SMALL_KEY_POW = ItemData("Small Key (PoW)",                      ItemClassificat
 SMALL_KEY_DHC = ItemData("Small Key (DHC)",                      ItemClassification.progression, (0x53, 0x1D)) # working
 SMALL_KEY_RC  = ItemData("Small Key (RC)",                       ItemClassification.progression, (0x53, 0x1E)) # working
 
-def pool_baseitems() -> [ItemData]:
+def pool_elements() -> [ItemData]:
     return [
         EARTH_ELEMENT,
         FIRE_ELEMENT,
         WATER_ELEMENT,
         WIND_ELEMENT,
+    ]
 
+def pool_baseitems() -> [ItemData]:
+    return [
         *[PROGRESSIVE_SWORD] * 5,
         *[PROGRESSIVE_SHIELD] * 2,
         *[PROGRESSIVE_BOW] * 2,
@@ -324,8 +329,49 @@ def pool_kinstone_green() -> [ItemData]:
         *[*[KINSTONE_GREEN_P] * 16],
     ]
 
+def get_item_pool(world: "MinishCapWorld") -> [ItemData]:
+    player = world.player
+    multiworld = world.multiworld
+    item_pool = [
+        *(pool_baseitems()),
+        *(pool_bigkeys()),
+        *(pool_smallkeys()),
+        *(pool_dungeonmaps()),
+        *(pool_compass()),
+        *(pool_kinstone_gold()),
+    ]
+
+    print("itempool")
+    if world.options.shuffle_elements.value is not ShuffleElements.option_anywhere:
+        print("not anywhere")
+        if world.options.shuffle_elements.value is ShuffleElements.option_original_dungeon:
+            print("original_dungeon")
+            element = world.create_item(EARTH_ELEMENT.item_name)
+            multiworld.get_location(TMCLocation.DEEPWOOD_PRIZE, player).place_locked_item(element)
+            element = world.create_item(FIRE_ELEMENT.item_name)
+            multiworld.get_location(TMCLocation.COF_PRIZE, player).place_locked_item(element)
+            element = world.create_item(WATER_ELEMENT.item_name)
+            multiworld.get_location(TMCLocation.DROPLETS_PRIZE, player).place_locked_item(element)
+            element = world.create_item(WIND_ELEMENT.item_name)
+            multiworld.get_location(TMCLocation.PALACE_PRIZE, player).place_locked_item(element)
+        elif world.options.shuffle_elements.value is ShuffleElements.option_own_dungeon:
+            print("own dungoen")
+            dungeons = [TMCLocation.DEEPWOOD_PRIZE, TMCLocation.COF_PRIZE, TMCLocation.DROPLETS_PRIZE, TMCLocation.PALACE_PRIZE, TMCLocation.FORTRESS_PRIZE, TMCLocation.CRYPT_PRIZE]
+            elements = [EARTH_ELEMENT, FIRE_ELEMENT, WATER_ELEMENT, WIND_ELEMENT]
+            world.random.shuffle(dungeons)
+
+            for i, element in enumerate(elements):
+                print(f"{dungeons[i]}: {element.item_name}")
+                multiworld.get_location(dungeons[i], player).place_locked_item(world.create_item(element.item_name))
+    else:
+        item_pool.extend(pool_elements())
+    # raise Exception("oops")
+
+    return item_pool
+
 itemList: typing.List[ItemData] = [
     *(pool_baseitems()),
+    *(pool_elements()),
     *(pool_bigkeys()),
     *(pool_smallkeys()),
     *(pool_dungeonmaps()),

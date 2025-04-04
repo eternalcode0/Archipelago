@@ -12,7 +12,7 @@ import settings
 from BaseClasses import Tutorial, Item, Region, Location, LocationProgressType, ItemClassification
 from worlds.AutoWorld import WebWorld, World
 from .Options import MinishCapOptions
-from .Items import ItemData, item_frequencies, item_table, MinishCapItem, itemList, EARTH_ELEMENT, WIND_ELEMENT, FIRE_ELEMENT, WATER_ELEMENT, item_groups, filler_item_selection
+from .Items import ItemData, item_frequencies, item_table, MinishCapItem, itemList, item_groups, filler_item_selection, get_item_pool
 from .Locations import all_locations, DEFAULT_SET, OBSCURE_SET, POOL_RUPEE, location_groups
 from .Constants.LocationName import TMCLocation
 from .Client import MinishCapClient
@@ -86,7 +86,6 @@ class MinishCapWorld(World):
 
         self.disabled_locations = set(loc.name for loc in all_locations if not loc.pools.issubset(enabled_pools))
 
-
     def fill_slot_data(self) -> Dict[str, any]:
         return {
             "DeathLink": self.options.death_link.value,
@@ -115,8 +114,9 @@ class MinishCapWorld(World):
         # First add in all progression and useful items
         total_locations = len(self.multiworld.get_unfilled_locations(self.player))
         required_items = []
-        precollected = [item for item in itemList if item in self.multiworld.precollected_items]
-        for item in itemList:
+        item_pool = get_item_pool(self)
+        precollected = [item for item in item_pool if item in self.multiworld.precollected_items]
+        for item in item_pool:
             if item.classification not in (ItemClassification.filler, ItemClassification.skip_balancing):
                 freq = item_frequencies.get(item.item_name, 1)
                 if item in precollected:
@@ -130,7 +130,7 @@ class MinishCapWorld(World):
             self.multiworld.itempool.append(self.create_filler())
 
     def set_rules(self) -> None:
-        MinishCapRules(self).set_rules(self.disabled_locations, self.location_name_to_id)
+        MinishCapRules(self).set_rules(self.disabled_locations, self.location_name_to_id, self.options)
         # from Utils import visualize_regions
         # visualize_regions(self.multiworld.get_region("Menu", self.player), "tmc_world.puml")
 

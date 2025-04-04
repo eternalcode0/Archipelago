@@ -21,6 +21,20 @@ class ObscureSpots(Toggle):
     """Add all special pots, dig spots, etc. that drop a unique item to the pool."""
     display_name = "Obscure Spots"
 
+class ShuffleElements(Choice):
+    """
+    Lock elements to specific locations
+    Original Dungeon: Elements are in the same dungeons as vanilla
+    Own Dungeon (false): Elements are shuffled between the 6 dungeon prizes
+    Anywhere (true): Elements are in completely random locations
+    """
+    default = 1
+    option_original_dungeon = 0
+    option_own_dungeon = 1
+    option_anywhere = 2
+    alias_true = 2
+    alias_false = 1
+
 class SmallKeys(DungeonItem):
     display_name = "Small Key"
 
@@ -108,6 +122,7 @@ class MinishCapOptions(PerGameCommonOptions):
     # goal_sword: GoalSword
     # goal_figurines: GoalFigurines
     # figurine_amount: FigurineAmount
+    shuffle_elements: ShuffleElements
     rupeesanity: Rupeesanity
     obscure_spots: ObscureSpots
     # dungeon_small_keys: SmallKeys
