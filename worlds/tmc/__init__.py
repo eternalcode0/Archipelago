@@ -92,13 +92,15 @@ class MinishCapWorld(World):
             "DeathLinkGameover": self.options.death_link_gameover.value,
             "RupeeSpot": self.options.rupeesanity.value,
             "ObscureSpot": self.options.obscure_spots.value,
+            "GoalVaati": self.options.goal_vaati.value,
         }
 
     def create_regions(self) -> None:
         create_regions(self, self.disabled_locations)
 
         item = MinishCapItem("Victory", ItemClassification.progression, None, self.player)
-        self.get_location(TMCLocation.BOSS_VAATI).place_locked_item(item)
+        loc = TMCLocation.BOSS_VAATI if self.options.goal_vaati.value else TMCLocation.PEDESTAL_COMPLETE
+        self.get_location(loc).place_locked_item(item)
 
     def create_item(self, name: str) -> MinishCapItem:
         item = item_table[name]

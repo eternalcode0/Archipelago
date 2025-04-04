@@ -517,6 +517,7 @@ class TMCLocation():
     SANCTUARY_PEDESTAL_ITEM1 = "Sanctuary Pedestal Item1"
     SANCTUARY_PEDESTAL_ITEM2 = "Sanctuary Pedestal Item2"
     SANCTUARY_PEDESTAL_ITEM3 = "Sanctuary Pedestal Item3"
+    PEDESTAL_COMPLETE = "Pedestal Complete"
     DHC_B2_KING = "DHC B2 King"
     DHC_B1_BIG_CHEST = "DHC B1 Big Chest"
     DHC_1F_BLADE_CHEST = "DHC 1F Blade Chest"

@@ -48,7 +48,10 @@ class DungeonCompasses(DungeonItem):
     display_name = "Dungeon Compasses"
 
 class GoalVaati(DefaultOnToggle):
-    """After completing the other goal conditions DHC will open. Kill Vaati to goal"""
+    """
+    If enabled, DHC will open after completing Pedestal. Kill Vaati to goal.
+    If disabled, complete Pedestal to goal. DHC/Vaati is unecessary.
+    """
 
 class GoalDungeons(Range):
     """
@@ -116,7 +119,7 @@ class MinishCapOptions(PerGameCommonOptions):
     start_inventory_from_pool: StartInventoryPool
     death_link: DeathLink
     death_link_gameover: DeathLinkGameover
-    # goal_vaati: GoalVaati
+    goal_vaati: GoalVaati
     # goal_dungeons: GoalDungeons
     # goal_elements: GoalElements
     # goal_sword: GoalSword

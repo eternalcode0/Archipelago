@@ -1877,6 +1877,8 @@ class MinishCapRules():
                 self.has_group("Elements", 3),
             TMCLocation.SANCTUARY_PEDESTAL_ITEM3:
                 self.has_group("Elements", 4),
+            TMCLocation.PEDESTAL_COMPLETE:
+                self.has_all([Items.EARTH_ELEMENT, Items.FIRE_ELEMENT, Items.WATER_ELEMENT, Items.WIND_ELEMENT]),
             #endregion
 
             #region Dungeon DHC

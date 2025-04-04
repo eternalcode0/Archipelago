@@ -49,6 +49,7 @@ RAM_ADDRS = {
     # We'll use it to store the index of the last processed remote item
     "received_index": (0x3FF00, 2, "EWRAM"),
     "vaati_address": (0x2CA6, 1, "EWRAM"),
+    "pedestal_address": (0x2D0B, 1, "EWRAM"),
     "link_health": (0x11A5, 1, "IWRAM"),
     "gameover": (0x10A5, 1, "IWRAM"),
 }
@@ -114,6 +115,7 @@ class MinishCapClient(BizHawkClient):
                 RAM_ADDRS["link_priority"],
                 RAM_ADDRS["received_index"],
                 RAM_ADDRS["vaati_address"],
+                RAM_ADDRS["pedestal_address"],
                 RAM_ADDRS["link_health"],
                 RAM_ADDRS["gameover"],
             ])
@@ -127,13 +129,17 @@ class MinishCapClient(BizHawkClient):
             link_priority = read_result[4][0]
             received_index = (read_result[5][0] << 8) + read_result[5][1]
             vaati_address = read_result[6][0]
-            link_health = int.from_bytes(read_result[7], "little")
-            gameover = bool.from_bytes(read_result[8])
+            pedestal_address = read_result[7][0]
+            link_health = int.from_bytes(read_result[8], "little")
+            gameover = bool.from_bytes(read_result[9])
 
             # Check for goal, since vaati's defeat triggers a cutscene this has to be checked before the next if
             # specifically because it sets the game_task to 0x04
-            if not ctx.finished_game and vaati_address | 0x02 == vaati_address:
-                await ctx.send_msgs([{"cmd": "StatusUpdate", "status": ClientStatus.CLIENT_GOAL}])
+            if not ctx.finished_game:
+                if ctx.slot_data["GoalVaati"] == 1 and vaati_address | 0x02 == vaati_address:
+                    await ctx.send_msgs([{"cmd": "StatusUpdate", "status": ClientStatus.CLIENT_GOAL}])
+                elif ctx.slot_data["GoalVaati"] == 0 and pedestal_address | 0x01 == pedestal_address:
+                    await ctx.send_msgs([{"cmd": "StatusUpdate", "status": ClientStatus.CLIENT_GOAL}])
 
             # Only process items/locations if the player is in "normal" gameplay
             if game_task == 0x02 or task_substate == 0x02:

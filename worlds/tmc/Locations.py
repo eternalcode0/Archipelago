@@ -1402,6 +1402,9 @@ all_locations: typing.List[LocationData] = [
     LocationData(
         6029434, TMCLocation.SANCTUARY_PEDESTAL_ITEM3, TMCRegion.SANCTUARY, Items.PROGRESSIVE_SWORD,
         (None, None), (0x2EA8, 0x02), None, pools={POOL_PED}),
+    LocationData(
+        None, TMCLocation.PEDESTAL_COMPLETE, TMCRegion.DUNGEON_DHC, None,
+        (None, None), (0x2D0B, 0x01), None),
     #endregion
     #region Dungeon DHC
     LocationData(
