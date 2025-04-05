@@ -106,6 +106,9 @@ class FigurineAmount(Range):
     range_start = 0
     range_end = 136
 
+class EarlyWeapon(Toggle):
+    """Force a weapon to be in your sphere 1"""
+
 class DeathLinkGameover(Toggle):
     """
     If disabled, deathlinks are sent when reaching 0 hp, fairy or not. Received deathlinks will drop you to 0 hp, using
@@ -128,6 +131,7 @@ class MinishCapOptions(PerGameCommonOptions):
     shuffle_elements: ShuffleElements
     rupeesanity: Rupeesanity
     obscure_spots: ObscureSpots
+    early_weapon: EarlyWeapon
     # dungeon_small_keys: SmallKeys
     # dungeon_big_keys: BigKeys
     # dungeon_maps: DungeonMaps
