@@ -71,7 +71,7 @@ def item_inject(world: "MinishCapWorld", patch: MinishCapProcedurePatch, locatio
     if hasattr(location.rom_addr[0], "__iter__") and hasattr(location.rom_addr[1], "__iter__"):
         for loc1, loc2 in zip(location.rom_addr[0], location.rom_addr[1]):
             write_single_byte(patch, loc1, item_byte_first)
-            write_single_byte(patch, loc2, item_byte_second)
+            write_single_byte(patch, loc2 or loc1 + 1, item_byte_second)
     else:
         loc2 = location.rom_addr[1] or location.rom_addr[0] + 1
         write_single_byte(patch, location.rom_addr[0], item_byte_first)

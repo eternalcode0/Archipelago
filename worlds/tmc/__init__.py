@@ -78,7 +78,7 @@ class MinishCapWorld(World):
         tmc_logger.warning("INCOMPLETE WORLD! Slot '%s' is using an unfinished alpha world that doesn't have all logic yet!", self.player_name)
         tmc_logger.warning("INCOMPLETE WORLD! Slot '%s' will require send_location/send_item for completion!", self.player_name)
 
-        enabled_pools = DEFAULT_SET
+        enabled_pools = set(DEFAULT_SET)
         if self.options.rupeesanity.value:
             enabled_pools.add(POOL_RUPEE)
         if self.options.obscure_spots.value:

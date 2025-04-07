@@ -801,7 +801,10 @@ class MinishCapRules():
                 self.has_all([Items.MOLE_MITTS, Items.ROCS_CAPE]),
             TMCLocation.HYLIA_MIDDLE_ISLAND_FUSION_DIG_CAVE_CHEST:
                 # Fusion 34
-                self.has(Items.MOLE_MITTS),
+                self.logic_and([
+                    self.has(Items.MOLE_MITTS),
+                    self.has_any([Items.ROCS_CAPE, Items.FLIPPERS]),
+                ]),
             TMCLocation.HYLIA_BOTTOM_HP:
                 self.has_any([Items.FLIPPERS, Items.ROCS_CAPE]),
             TMCLocation.HYLIA_DOJO_HP:

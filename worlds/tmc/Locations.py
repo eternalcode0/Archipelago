@@ -170,7 +170,7 @@ all_locations: typing.List[LocationData] = [
         (0x00B7B4, None), (0x2CEF, 0x80), 0x0129, pools={POOL_FAIRY}),
     LocationData(
         6029037, TMCLocation.HILLS_FARM_DIG_CAVE_ITEM, TMCRegion.EASTERN_HILLS, Items.RUPEES_20,
-        (0x0F3C9F, None), (0x2D04, 0x40), 0x0013),
+        (0x0F3C9F, None), (0x2D04, 0x40), 0x0013, pools={POOL_RUPEE}),
     #endregion
     #region Lonlon
     LocationData(
