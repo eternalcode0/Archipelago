@@ -330,7 +330,7 @@ def pool_kinstone_green() -> [ItemData]:
         *[*[KINSTONE_GREEN_P] * 16],
     ]
 
-def get_item_pool(world: MinishCapWorld) -> [MinishCapItem]:
+def get_item_pool(world: "MinishCapWorld") -> [MinishCapItem]:
     player = world.player
     multiworld = world.multiworld
     item_pool = [
