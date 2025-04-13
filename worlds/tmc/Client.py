@@ -1,4 +1,4 @@
-from typing import TYPE_CHECKING, Set, Dict
+from typing import TYPE_CHECKING, Set, Dict, List
 
 import asyncio
 
@@ -61,7 +61,7 @@ class MinishCapClient(BizHawkClient):
     patch_suffix = ".aptmc"
     local_checked_locations: Set[int]
     location_name_to_id: Dict[str, int]
-    location_by_room_area: Dict[int, [LocationData]]
+    location_by_room_area: Dict[int, List[LocationData]]
     room: int
     previous_death_link = 0
     death_link_ready = False
@@ -112,7 +112,6 @@ class MinishCapClient(BizHawkClient):
                 RAM_ADDRS["task_substate"], # Is there any room transitions or anything similar
                 RAM_ADDRS["room_area_id"],
                 RAM_ADDRS["action_state"],
-                RAM_ADDRS["link_priority"],
                 RAM_ADDRS["received_index"],
                 RAM_ADDRS["vaati_address"],
                 RAM_ADDRS["pedestal_address"],
@@ -126,12 +125,11 @@ class MinishCapClient(BizHawkClient):
             task_substate = read_result[1][0]
             room_area_id = int.from_bytes(read_result[2], "little")
             action_state = read_result[3][0]
-            link_priority = read_result[4][0]
-            received_index = (read_result[5][0] << 8) + read_result[5][1]
-            vaati_address = read_result[6][0]
-            pedestal_address = read_result[7][0]
-            link_health = int.from_bytes(read_result[8], "little")
-            gameover = bool.from_bytes(read_result[9])
+            received_index = (read_result[4][0] << 8) + read_result[5][1]
+            vaati_address = read_result[5][0]
+            pedestal_address = read_result[6][0]
+            link_health = int.from_bytes(read_result[7], "little")
+            gameover = bool.from_bytes(read_result[8])
 
             # Check for goal, since vaati's defeat triggers a cutscene this has to be checked before the next if
             # specifically because it sets the game_task to 0x04
