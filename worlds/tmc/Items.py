@@ -1,21 +1,19 @@
 import typing
+from dataclasses import dataclass
 
-from BaseClasses import Item, ItemClassification
+from BaseClasses import ItemClassification
 from .Options import ShuffleElements
-from .Constants.LocationName import TMCLocation
+from .constants import TMCLocation, TMCItem, MinishCapItem
 
-class ItemData(typing.NamedTuple):
+@dataclass
+class ItemData:
     item_name: str
     classification: ItemClassification
-    byte_ids: typing.Tuple[int, int]
-    handler: typing.Callable[[object, object], bool] = None
+    byte_ids: tuple[int, int]
 
     @property
-    def item_id(self): return (self.byte_ids[0] << 8) + self.byte_ids[1]
-
-
-class MinishCapItem(Item):
-    game: str = "The Minish Cap"
+    def item_id(self):
+        return (self.byte_ids[0] << 8) + self.byte_ids[1]
 
 # SMITHS_SWORD          = ItemData("Smith's Sword",                ItemClassification.progression, (0x01, 0x00))
 # WHITE_SWORD_GREEN     = ItemData("White Sword (Green)",          ItemClassification.progression, (0x02, 0x00))
@@ -143,9 +141,9 @@ ARROW_REFILL_30       = ItemData("30 Arrow Refill",              ItemClassificat
 BOW_BUTTERFLY         = ItemData("Bow Butterfly",                ItemClassification.useful, (0x70, 0x00))
 DIG_BUTTERFLY         = ItemData("Dig Butterfly",                ItemClassification.useful, (0x71, 0x00))
 SWIM_BUTTERFLY        = ItemData("Swim Butterfly",               ItemClassification.useful, (0x72, 0x00))
-FAST_SPIN_SCROLL      = ItemData("Fast Spin Scroll",             ItemClassification.useful, (0x73, 0x00)) # working
-FAST_SPLIT_SCROLL     = ItemData("Fast Split Scroll",            ItemClassification.useful, (0x74, 0x00))
-LONG_SPIN             = ItemData("Long Spin",                    ItemClassification.useful, (0x75, 0x00))
+FAST_SPIN_SCROLL      = ItemData("Fast Spin Scroll",             ItemClassification.progression, (0x73, 0x00)) # working
+FAST_SPLIT_SCROLL     = ItemData("Fast Split Scroll",            ItemClassification.progression, (0x74, 0x00))
+LONG_SPIN             = ItemData("Long Spin",                    ItemClassification.progression, (0x75, 0x00))
 
 DUNGEON_MAP_DWS = ItemData("Dungeon Map (DWS)",                  ItemClassification.useful, (0x50, 0x18)) # working
 DUNGEON_MAP_COF = ItemData("Dungeon Map (CoF)",                  ItemClassification.useful, (0x50, 0x19))
@@ -329,7 +327,7 @@ def pool_kinstone_green() -> [ItemData]:
         *[*[KINSTONE_GREEN_P] * 16],
     ]
 
-def get_item_pool(world: "MinishCapWorld") -> [ItemData]:
+def get_item_pool(world: "MinishCapWorld") -> [MinishCapItem]:
     player = world.player
     multiworld = world.multiworld
     item_pool = [
@@ -370,7 +368,7 @@ def get_item_pool(world: "MinishCapWorld") -> [ItemData]:
         for i, element in enumerate(elements):
             multiworld.get_location(dungeons[i], player).place_locked_item(world.create_item(element.item_name))
 
-    return item_pool
+    return [world.create_item(item.item_name) for item in item_pool]
 
 itemList: typing.List[ItemData] = [
     *(pool_baseitems()),

@@ -47,7 +47,7 @@ RAM_ADDRS = {
     "link_priority": (0x1171, 1, "IWRAM"),
     # An arbitrary address that isn't used strictly by the game
     # We'll use it to store the index of the last processed remote item
-    "received_index": (0x3FF00, 2, "EWRAM"),
+    "received_index": (0x2A44, 2, "EWRAM"),
     "vaati_address": (0x2CA6, 1, "EWRAM"),
     "pedestal_address": (0x2D0B, 1, "EWRAM"),
     "link_health": (0x11A5, 1, "IWRAM"),
@@ -184,7 +184,7 @@ class MinishCapClient(BizHawkClient):
             await bizhawk.write(
                 ctx.bizhawk_ctx,
                 [
-                    (0x3FF00, [(received_index + i + 1) // 0x100, (received_index + i + 1) % 0x100], "EWRAM"),
+                    (RAM_ADDRS["received_index"][0], [(received_index + i + 1) // 0x100, (received_index + i + 1) % 0x100], "EWRAM"),
                 ]
             )
 

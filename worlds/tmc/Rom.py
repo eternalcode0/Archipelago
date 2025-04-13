@@ -1,10 +1,10 @@
-import typing
 from worlds.Files import APProcedurePatch, APTokenMixin, APTokenTypes
 from settings import get_settings
 from BaseClasses import Item, ItemClassification
 
-from .Locations import location_table_by_name, all_locations, LocationData
-from .Items import itemList, item_table
+from .Locations import location_table_by_name, LocationData
+from .Items import item_table
+from .constants import EXTERNAL_ITEMS, EXTERNAL_ITEM_MAP
 
 class MinishCapProcedurePatch(APProcedurePatch, APTokenMixin):
     game = "The Legend of Zelda - The Minish Cap"
@@ -24,20 +24,12 @@ class MinishCapProcedurePatch(APProcedurePatch, APTokenMixin):
 
         return base_rom_bytes
 
-EXTERNAL_ITEMS = [0x18, 0x19, 0x1A]
-EXTERNAL_ITEM_MAP: dict[ItemClassification, typing.Callable[[object], int]] = {
-    ItemClassification.filler: lambda random: 0x1A,
-    ItemClassification.progression: lambda random: 0x18,
-    ItemClassification.useful: lambda random: 0x19,
-    ItemClassification.trap: lambda random: random.choice(EXTERNAL_ITEMS),
-    ItemClassification.skip_balancing: lambda random: 0x19,
-    ItemClassification.progression_skip_balancing: lambda random: 0x18,
-}
-
 def write_tokens(world: "MinishCapWorld", patch: MinishCapProcedurePatch) -> None:
     # Patch Items into Locations
     for location_name, loc in location_table_by_name.items():
-        if location_name in world.disabled_locations and (loc.vanilla_item is None or loc.vanilla_item.classification != ItemClassification.filler):
+        if loc.rom_addr is None:
+            continue
+        if location_name in world.disabled_locations and (loc.vanilla_item is None or (loc.vanilla_item in item_table and item_table[loc.vanilla_item].classification != ItemClassification.filler)):
             if loc.rom_addr[0] is None:
                 continue
             item_inject(world, patch, location_table_by_name[location_name], world.create_filler())
@@ -47,7 +39,7 @@ def write_tokens(world: "MinishCapWorld", patch: MinishCapProcedurePatch) -> Non
         location = world.get_location(location_name)
         item = location.item
         # Temporary if statement until I fill in all the rom addresses for each location
-        if loc.rom_addr[0] is not None:
+        if loc.rom_addr is not None and loc.rom_addr[0] is not None:
             item_inject(world, patch, location_table_by_name[location.name], item)
 
     patch.write_file("token_data.bin", patch.get_token_binary())
@@ -81,5 +73,5 @@ def write_single_byte(patch: MinishCapProcedurePatch, address: int, byte: int):
     if address is None:
         return
     if byte is None:
-        byte == 0x00
+        byte = 0x00
     patch.write_token(APTokenTypes.WRITE, address, bytes([byte]))

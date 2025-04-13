@@ -1,5 +1,5 @@
-from Options import Choice, DefaultOnToggle, Toggle, StartInventoryPool, PerGameCommonOptions, Range, Removed, DeathLink
 from dataclasses import dataclass
+from Options import Choice, DefaultOnToggle, Toggle, StartInventoryPool, PerGameCommonOptions, Range, DeathLink
 
 # Copied from A Link to the Past for usability/accessibility
 # start_with not supported, use start inventory instead
