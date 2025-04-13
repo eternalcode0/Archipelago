@@ -3,7 +3,7 @@ from dataclasses import dataclass
 
 from BaseClasses import ItemClassification
 from .Options import ShuffleElements
-from .constants import TMCLocation, TMCItem, MinishCapItem
+from .constants import TMCLocation, MinishCapItem
 
 @dataclass
 class ItemData:

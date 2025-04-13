@@ -136,7 +136,7 @@ class MinishCapWorld(World):
             self.multiworld.itempool.append(self.create_filler())
 
     def set_rules(self) -> None:
-        MinishCapRules(self).set_rules(self.disabled_locations, self.location_name_to_id, self.options)
+        MinishCapRules(self).set_rules(self.disabled_locations, self.location_name_to_id)
         # from Utils import visualize_regions
         # visualize_regions(self.multiworld.get_region("Menu", self.player), "tmc_world.puml")
 

@@ -1,7 +1,7 @@
 import typing
 
 from BaseClasses import Region
-from .constants import TMCRegion, TMCEvent, MinishCapLocation
+from .constants import TMCRegion, MinishCapLocation
 from .Locations import all_locations
 
 if typing.TYPE_CHECKING:

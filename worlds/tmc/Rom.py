@@ -4,10 +4,10 @@ from BaseClasses import Item, ItemClassification
 
 from .Locations import location_table_by_name, LocationData
 from .Items import item_table
-from .constants import EXTERNAL_ITEMS, EXTERNAL_ITEM_MAP
+from .constants import EXTERNAL_ITEM_MAP
 
 class MinishCapProcedurePatch(APProcedurePatch, APTokenMixin):
-    game = "The Legend of Zelda - The Minish Cap"
+    game = "The Minish Cap"
     hash = "2af78edbe244b5de44471368ae2b6f0b"
     patch_file_ending = ".aptmc"
     result_file_ending = ".gba"

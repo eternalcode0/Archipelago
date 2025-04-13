@@ -2,7 +2,6 @@ from worlds.generic.Rules import add_rule, CollectionRule
 from BaseClasses import CollectionState
 
 from .constants import TMCLocation, TMCRegion, TMCItem, TMCEvent
-from .Options import MinishCapOptions
 
 class MinishCapRules():
     player: int
@@ -2085,7 +2084,7 @@ class MinishCapRules():
     def can_reach(self, locations: [TMCLocation]) -> CollectionRule:
         return lambda state: all(state.can_reach(loc, "Location", self.player) for loc in locations)
 
-    def set_rules(self, disabled_locations: set[int], location_name_to_id: dict[str, id], options: MinishCapOptions) -> None:
+    def set_rules(self, disabled_locations: set[int], location_name_to_id: dict[str, id]) -> None:
         multiworld = self.world.multiworld
 
         # menu_region = multiworld.get_region("Menu", self.player)

@@ -28,9 +28,9 @@ DEFAULT_SET      = { POOL_HP, POOL_SCROLL, POOL_FAIRY, POOL_SCRUB, POOL_BUTTERFL
 @dataclass
 class LocationData:
     id: int
-    name: str
-    region: str
-    vanilla_item: str
+    name: TMCLocation
+    region: TMCRegion
+    vanilla_item: TMCItem
     """The item name of what is normally given in this location"""
     rom_addr: typing.Tuple[int, int]
     """The address in the rom for placing items"""
@@ -43,7 +43,7 @@ class LocationData:
     """
     scoutable: bool = False
     """Whether the item should be auto-hinted when leaving the room it's in without collecting it"""
-    pools: [str] = frozenset()
+    pools: set[str] = frozenset()
     """Which location sets must be enabled for this spot to be randomized"""
 
 all_locations: typing.List[LocationData] = [
