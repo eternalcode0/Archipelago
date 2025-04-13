@@ -1,7 +1,11 @@
+from typing import TYPE_CHECKING
 from worlds.generic.Rules import add_rule, CollectionRule
 from BaseClasses import CollectionState
 
 from .constants import TMCLocation, TMCRegion, TMCItem, TMCEvent
+
+if TYPE_CHECKING:
+    from . import MinishCapWorld
 
 class MinishCapRules():
     player: int

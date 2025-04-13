@@ -22,8 +22,9 @@ POOL_SHOP        = "shop"
 POOL_GORON       = "goron:" # Meant to be used as an fstring with the set number following it
 POOL_CUCCO       = "cucco:" # Meant to be used as an fstring with the round number following it
 
-OBSCURE_SET      = { POOL_DIG, POOL_WATER, POOL_POT }
-DEFAULT_SET      = { POOL_HP, POOL_SCROLL, POOL_FAIRY, POOL_SCRUB, POOL_BUTTERFLY, POOL_ELEMENT, "cucco:10", POOL_SHOP }
+OBSCURE_SET      = frozenset({ POOL_DIG, POOL_WATER, POOL_POT })
+SHOP_SET         = frozenset({ POOL_SHOP, POOL_SCRUB })
+DEFAULT_SET      = frozenset({ POOL_HP, POOL_SCROLL, POOL_FAIRY, POOL_SCRUB, POOL_BUTTERFLY, POOL_ELEMENT, "cucco:10", POOL_SHOP })
 
 @dataclass
 class LocationData:
@@ -1707,6 +1708,7 @@ location_groups: dict[str, set[str]] = {
     "RC": set(loc.name.value for loc in all_locations if loc.region == TMCRegion.DUNGEON_RC),
     "DHC": set(loc.name.value for loc in all_locations if loc.region == TMCRegion.DUNGEON_DHC),
     "Graveyard": set(loc.name.value for loc in all_locations if loc.region == TMCRegion.GRAVEYARD),
-    "Obscure": set(loc.name.value for loc in all_locations if loc.pools in OBSCURE_SET),
-    "Shop": set(loc.name.value for loc in all_locations if loc.pools in { POOL_SHOP, POOL_SCRUB }),
+    "Obscure": set(loc.name.value for loc in all_locations if loc.pools.issubset(OBSCURE_SET) and len(loc.pools)),
+    "Shop": set(loc.name.value for loc in all_locations if loc.pools.issubset(SHOP_SET) and len(loc.pools)),
+    "Rupees": set(loc.name.value for loc in all_locations if loc.pools.issubset({POOL_RUPEE}) and len(loc.pools)),
 }

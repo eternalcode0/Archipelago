@@ -1,9 +1,12 @@
-import typing
+from typing import TYPE_CHECKING
 from dataclasses import dataclass
 
 from BaseClasses import ItemClassification
 from .Options import ShuffleElements
 from .constants import TMCLocation, MinishCapItem
+
+if TYPE_CHECKING:
+    from . import MinishCapWorld
 
 @dataclass
 class ItemData:
@@ -327,7 +330,7 @@ def pool_kinstone_green() -> [ItemData]:
         *[*[KINSTONE_GREEN_P] * 16],
     ]
 
-def get_item_pool(world: "MinishCapWorld") -> [MinishCapItem]:
+def get_item_pool(world: MinishCapWorld) -> [MinishCapItem]:
     player = world.player
     multiworld = world.multiworld
     item_pool = [
@@ -370,7 +373,7 @@ def get_item_pool(world: "MinishCapWorld") -> [MinishCapItem]:
 
     return [world.create_item(item.item_name) for item in item_pool]
 
-itemList: typing.List[ItemData] = [
+itemList: list[ItemData] = [
     *(pool_baseitems()),
     *(pool_elements()),
     *(pool_bigkeys()),
@@ -383,7 +386,7 @@ itemList: typing.List[ItemData] = [
     # *(pool_kinstone_green()),
 ]
 
-item_frequencies: typing.Dict[str, int] = {
+item_frequencies: dict[str, int] = {
     RUPEES_1.item_name: 36,
     RUPEES_5.item_name: 49,
     RUPEES_20.item_name: 53,
@@ -399,9 +402,9 @@ item_frequencies: typing.Dict[str, int] = {
     ARROW_REFILL_30.item_name: 16,
 }
 
-filler_item_selection: [str] = [name for name, count in item_frequencies.items() for _ in range(count)]
-item_table: typing.Dict[str, ItemData] = {item.item_name: item for item in itemList}
-items_by_id: typing.Dict[int, ItemData] = {item.item_id: item for item in itemList}
+filler_item_selection: list[str] = [name for name, count in item_frequencies.items() for _ in range(count)]
+item_table: dict[str, ItemData] = {item.item_name: item for item in itemList}
+items_by_id: dict[int, ItemData] = {item.item_id: item for item in itemList}
 item_groups: dict[str, set[str]] = {
     "Scrolls": {
         SPIN_ATTACK.item_name,

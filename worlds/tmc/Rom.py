@@ -1,3 +1,4 @@
+from typing import TYPE_CHECKING
 from worlds.Files import APProcedurePatch, APTokenMixin, APTokenTypes
 from settings import get_settings
 from BaseClasses import Item, ItemClassification
@@ -5,6 +6,9 @@ from BaseClasses import Item, ItemClassification
 from .Locations import location_table_by_name, LocationData
 from .Items import item_table
 from .constants import EXTERNAL_ITEM_MAP
+
+if TYPE_CHECKING:
+    from . import MinishCapWorld
 
 class MinishCapProcedurePatch(APProcedurePatch, APTokenMixin):
     game = "The Minish Cap"
