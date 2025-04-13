@@ -29,6 +29,12 @@ class MinishCapProcedurePatch(APProcedurePatch, APTokenMixin):
         return base_rom_bytes
 
 def write_tokens(world: "MinishCapWorld", patch: MinishCapProcedurePatch) -> None:
+    # Bake player name into ROM
+    patch.write_token(APTokenTypes.WRITE, 0x000600, world.multiworld.player_name[world.player].encode("UTF-8"))
+
+    # Bake seed name into ROM
+    patch.write_token(APTokenTypes.WRITE, 0x000620, world.multiworld.seed_name.encode("UTF-8"))
+
     # Patch Items into Locations
     for location_name, loc in location_table_by_name.items():
         if loc.rom_addr is None:

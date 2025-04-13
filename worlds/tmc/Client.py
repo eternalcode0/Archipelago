@@ -1,4 +1,4 @@
-from typing import TYPE_CHECKING, Set, Dict, List
+from typing import TYPE_CHECKING, Set, Dict, List, Optional
 
 import asyncio
 
@@ -68,6 +68,8 @@ class MinishCapClient(BizHawkClient):
     ignore_next_death_link = False
     event_data = list(map(lambda e: (e[0], 1, "EWRAM"), events.keys()))
     events_sent = set()
+    player_name: Optional[str]
+    seed_verify = False
 
     def __init__(self) -> None:
         super().__init__()
@@ -98,14 +100,40 @@ class MinishCapClient(BizHawkClient):
         ctx.items_handling = 0b101
         ctx.want_slot_data = True
         ctx.watcher_timeout = 0.5
+        name_bytes = (await bizhawk.read(ctx.bizhawk_ctx, [(0x000600, 16, "ROM")]))[0]
+        name = bytes([byte for byte in name_bytes if byte != 0]).decode("UTF-8")
+        self.player_name = name
 
         return True
 
+    async def set_auth(self, ctx: "BizHawkClientContext") -> None:
+        ctx.auth = self.player_name
+
+    def on_package(self, ctx, cmd, args) -> None:
+        if cmd == "RoomInfo":
+            ctx.seed_name = args["seed_name"]
+
     async def game_watcher(self, ctx: "BizHawkClientContext") -> None:
+        from CommonClient import logger
+
         if ctx.server is None or ctx.server.socket.closed or ctx.slot_data is None:
             return
 
         try:
+            if ctx.seed_name is None:
+                return
+            if not self.seed_verify:
+                seed = await bizhawk.read(ctx.bizhawk_ctx, [(0x000620, len(ctx.seed_name), "ROM")])
+                seed = seed[0].decode("UTF-8")
+                if seed not in ctx.seed_name:
+                    logger.info(
+                        "ERROR: The ROM you loaded is for a different game of AP. "
+                        "Please make sure the host has sent you the correct patch file,"
+                        "and that you have opened the correct ROM."
+                    )
+                    raise bizhawk.ConnectorError("Loaded ROM is for Incorrect lobby.")
+                self.seed_verify = True
+
             # Handle giving the player items
             read_result = await bizhawk.read(ctx.bizhawk_ctx, [
                 RAM_ADDRS["game_task"], # Current state of game (is the player actually in-game?)
@@ -125,7 +153,7 @@ class MinishCapClient(BizHawkClient):
             task_substate = read_result[1][0]
             room_area_id = int.from_bytes(read_result[2], "little")
             action_state = read_result[3][0]
-            received_index = (read_result[4][0] << 8) + read_result[5][1]
+            received_index = (read_result[4][0] << 8) + read_result[4][1]
             vaati_address = read_result[5][0]
             pedestal_address = read_result[6][0]
             link_health = int.from_bytes(read_result[7], "little")
