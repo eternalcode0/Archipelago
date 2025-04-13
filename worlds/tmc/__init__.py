@@ -13,8 +13,8 @@ from BaseClasses import Tutorial, Item, Region, Location, LocationProgressType, 
 from worlds.AutoWorld import WebWorld, World
 from .Options import MinishCapOptions
 from .Items import ItemData, item_frequencies, item_table, itemList, item_groups, filler_item_selection, get_item_pool
-from .Locations import all_locations, DEFAULT_SET, OBSCURE_SET, POOL_RUPEE, location_groups
-from .constants import TMCEvent, MinishCapItem
+from .Locations import all_locations, DEFAULT_SET, OBSCURE_SET, POOL_RUPEE, location_groups, GOAL_VAATI, GOAL_PED
+from .constants import TMCEvent, MinishCapItem, MinishCapLocation
 from .Client import MinishCapClient
 from .Regions import create_regions
 from .Rom import MinishCapProcedurePatch, write_tokens
@@ -98,10 +98,13 @@ class MinishCapWorld(World):
     def create_regions(self) -> None:
         create_regions(self, self.disabled_locations)
 
-        item = MinishCapItem("Victory", ItemClassification.progression, None, self.player)
-        loc = TMCEvent.CLEAR_DHC if self.options.goal_vaati.value else TMCEvent.CLEAR_PED
-        self.get_location(loc).place_locked_item(item)
-        self.get_location(TMCEvent.CLEAR_PED).place_locked_item(self.create_event(TMCEvent.CLEAR_PED))
+        loc = GOAL_VAATI if self.options.goal_vaati.value else GOAL_PED
+        goal_region = self.get_region(loc.region)
+        goal_item = MinishCapItem("Victory", ItemClassification.progression, None, self.player)
+        goal_location = MinishCapLocation(self.player, loc.name, None, goal_region)
+        goal_location.place_locked_item(goal_item)
+        goal_region.locations.append(goal_location)
+        # self.get_location(TMCEvent.CLEAR_PED).place_locked_item(self.create_event(TMCEvent.CLEAR_PED))
 
     def create_item(self, name: str) -> MinishCapItem:
         item = item_table[name]

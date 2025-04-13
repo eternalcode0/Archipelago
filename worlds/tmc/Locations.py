@@ -1397,9 +1397,6 @@ all_locations: typing.List[LocationData] = [
     LocationData(
         6029434, TMCLocation.SANCTUARY_PEDESTAL_ITEM3, TMCRegion.SANCTUARY, TMCItem.PROGRESSIVE_SWORD,
         (None, None), (0x2EA8, 0x02), None, pools={POOL_PED}),
-    LocationData(
-        None, TMCEvent.CLEAR_PED, TMCRegion.DUNGEON_DHC, None,
-        (None, None), (0x2D0B, 0x01), None),
     #endregion
     #region Dungeon DHC
     LocationData(
@@ -1429,9 +1426,6 @@ all_locations: typing.List[LocationData] = [
     LocationData(
         6029443, TMCLocation.DHC_2F_BLUE_WARP_BIG_CHEST, TMCRegion.DUNGEON_DHC, TMCItem.BIG_KEY_DHC,
         (0x0EB556, None), (0x2DBC, 0x08), 0x0988),
-    LocationData(
-        None, TMCEvent.CLEAR_DHC, TMCRegion.VAATI_FIGHT, None,
-        None, (0x2CA6, 0x02), 0x008B),
     #endregion
     #region Hyrule Town
     LocationData(
@@ -1675,6 +1669,9 @@ all_locations: typing.List[LocationData] = [
         (0xFF0044, None), (0x2EA6, 0x40), 0x0225, pools={POOL_SCROLL}),
     #endregion
 ]
+
+GOAL_PED = LocationData(None, TMCEvent.CLEAR_PED, TMCRegion.DUNGEON_DHC, None, None, (0x2D0B, 0x01), None)
+GOAL_VAATI = LocationData(None, TMCEvent.CLEAR_DHC, TMCRegion.VAATI_FIGHT, None, None, (0x2CA6, 0x02), 0x008B)
 
 events: typing.Dict[str, typing.Tuple[int, int]] = {
     (0x2B44, 0x01): "scroll_spin",
