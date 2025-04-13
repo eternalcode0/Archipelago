@@ -69,7 +69,7 @@ class MinishCapWorld(World):
     options: MinishCapOptions
     settings: typing.ClassVar[MinishCapSettings]
     item_name_to_id = {name: data.item_id for name, data in item_table.items()}
-    location_name_to_id = {loc_data.name.value: loc_data.id for loc_data in all_locations}
+    location_name_to_id = {loc_data.name: loc_data.id for loc_data in all_locations}
     item_name_groups = item_groups
     location_name_groups = location_groups
     disabled_locations: Set[str]
@@ -84,7 +84,7 @@ class MinishCapWorld(World):
         if self.options.obscure_spots.value:
             enabled_pools |= OBSCURE_SET
 
-        self.disabled_locations = set(loc.name.value for loc in all_locations if not loc.pools.issubset(enabled_pools))
+        self.disabled_locations = set(loc.name for loc in all_locations if not loc.pools.issubset(enabled_pools))
 
     def fill_slot_data(self) -> Dict[str, any]:
         return {

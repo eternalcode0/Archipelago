@@ -29,9 +29,9 @@ DEFAULT_SET      = frozenset({ POOL_HP, POOL_SCROLL, POOL_FAIRY, POOL_SCRUB, POO
 @dataclass
 class LocationData:
     id: int
-    name: TMCLocation
-    region: TMCRegion
-    vanilla_item: TMCItem
+    name: str
+    region: str
+    vanilla_item: str
     """The item name of what is normally given in this location"""
     rom_addr: typing.Tuple[int, int]
     """The address in the rom for placing items"""
@@ -1698,17 +1698,17 @@ events: typing.Dict[str, typing.Tuple[int, int]] = {
     (0x2C82, 0x02): "fuse_09", # Veil Falls Door
 }
 
-location_table_by_name: typing.Dict[str, LocationData] = {location.name.value: location for location in all_locations}
+location_table_by_name: typing.Dict[str, LocationData] = {location.name: location for location in all_locations}
 location_groups: dict[str, set[str]] = {
-    "DWS": set(loc.name.value for loc in all_locations if loc.region == TMCRegion.DUNGEON_DWS),
-    "CoF": set(loc.name.value for loc in all_locations if loc.region == TMCRegion.DUNGEON_COF),
-    "FoW": set(loc.name.value for loc in all_locations if loc.region == TMCRegion.DUNGEON_FOW),
-    "ToD": set(loc.name.value for loc in all_locations if loc.region in { TMCRegion.DUNGEON_TOD, TMCRegion.DUNGEON_TOD_MAIN }),
-    "PoW": set(loc.name.value for loc in all_locations if loc.region == TMCRegion.DUNGEON_POW),
-    "RC": set(loc.name.value for loc in all_locations if loc.region == TMCRegion.DUNGEON_RC),
-    "DHC": set(loc.name.value for loc in all_locations if loc.region == TMCRegion.DUNGEON_DHC),
-    "Graveyard": set(loc.name.value for loc in all_locations if loc.region == TMCRegion.GRAVEYARD),
-    "Obscure": set(loc.name.value for loc in all_locations if loc.pools.issubset(OBSCURE_SET) and len(loc.pools)),
-    "Shop": set(loc.name.value for loc in all_locations if loc.pools.issubset(SHOP_SET) and len(loc.pools)),
-    "Rupees": set(loc.name.value for loc in all_locations if loc.pools.issubset({POOL_RUPEE}) and len(loc.pools)),
+    "DWS": set(loc.name for loc in all_locations if loc.region == TMCRegion.DUNGEON_DWS),
+    "CoF": set(loc.name for loc in all_locations if loc.region == TMCRegion.DUNGEON_COF),
+    "FoW": set(loc.name for loc in all_locations if loc.region == TMCRegion.DUNGEON_FOW),
+    "ToD": set(loc.name for loc in all_locations if loc.region in { TMCRegion.DUNGEON_TOD, TMCRegion.DUNGEON_TOD_MAIN }),
+    "PoW": set(loc.name for loc in all_locations if loc.region == TMCRegion.DUNGEON_POW),
+    "RC": set(loc.name for loc in all_locations if loc.region == TMCRegion.DUNGEON_RC),
+    "DHC": set(loc.name for loc in all_locations if loc.region == TMCRegion.DUNGEON_DHC),
+    "Graveyard": set(loc.name for loc in all_locations if loc.region == TMCRegion.GRAVEYARD),
+    "Obscure": set(loc.name for loc in all_locations if loc.pools.issubset(OBSCURE_SET) and len(loc.pools)),
+    "Shop": set(loc.name for loc in all_locations if loc.pools.issubset(SHOP_SET) and len(loc.pools)),
+    "Rupees": set(loc.name for loc in all_locations if loc.pools.issubset({POOL_RUPEE}) and len(loc.pools)),
 }

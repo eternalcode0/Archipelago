@@ -1,8 +1,7 @@
 from collections.abc import Callable
-from enum import StrEnum
+from enum import Enum
 
 from BaseClasses import Item, Location, ItemClassification
-
 
 class MinishCapItem(Item):
     game: str = "The Minish Cap"
@@ -10,7 +9,7 @@ class MinishCapItem(Item):
 class MinishCapLocation(Location):
     game: str = "The Minish Cap"
 
-class TMCItem(StrEnum):
+class TMCItem:
     SMITHS_SWORD          = "Smith's Sword"
     WHITE_SWORD_GREEN     = "White Sword (Green)"
     WHITE_SWORD_RED       = "White Sword (Red)"
@@ -163,7 +162,7 @@ class TMCItem(StrEnum):
     SMALL_KEY_DHC = "Small Key (DHC)"
     SMALL_KEY_RC  = "Small Key (RC)"
 
-class TMCLocation(StrEnum):
+class TMCLocation:
     SMITH_HOUSE_RUPEE = "Smith House: 20 Rupee Chest"
     SMITH_HOUSE_SWORD = "Smith House: Smith's Sword"
     SMITH_HOUSE_SHIELD = "Smith House: Small Shield"
@@ -688,7 +687,7 @@ class TMCLocation(StrEnum):
     DHC_3F_SOUTH_EAST_CHEST = "DHC 3F South East Chest"
     DHC_2F_BLUE_WARP_BIG_CHEST = "DHC 2F Blue Warp Big Chest"
 
-class TMCEvent(StrEnum):
+class TMCEvent:
     CLEAR_DWS = "Clear DeepWood Shrine"
     CLEAR_COF = "Clear Cave of Flames"
     CLEAR_FOW = "Clear Fortress of Winds"
@@ -698,7 +697,7 @@ class TMCEvent(StrEnum):
     CLEAR_PED = "Pedestal Complete"
     CLEAR_DHC = "Kill Vaati"
 
-class TMCRegion(StrEnum):
+class TMCRegion:
     SOUTH_FIELD = "South Field"
     NORTH_FIELD = "North Field"
     CASTLE_EXTERIOR = "Castle Exterior"
@@ -751,3 +750,38 @@ EXTERNAL_ITEM_MAP: dict[ItemClassification, Callable[[object], int]] = {
     ItemClassification.skip_balancing: lambda random: 0x19,
     ItemClassification.progression_skip_balancing: lambda random: 0x18,
 }
+
+ALL_REGIONS = [
+    TMCRegion.SOUTH_FIELD,
+    TMCRegion.NORTH_FIELD,
+    TMCRegion.CASTLE_EXTERIOR,
+    TMCRegion.EASTERN_HILLS,
+    TMCRegion.LONLON,
+    TMCRegion.LOWER_FALLS,
+    TMCRegion.LAKE_HYLIA_NORTH,
+    TMCRegion.LAKE_HYLIA_SOUTH,
+    TMCRegion.MINISH_WOODS,
+    TMCRegion.TRILBY_HIGHLANDS,
+    TMCRegion.WESTERN_WOODS,
+    TMCRegion.CRENEL_BASE,
+    TMCRegion.CRENEL,
+    TMCRegion.MELARI,
+    TMCRegion.CASTOR_WILDS,
+    TMCRegion.WIND_RUINS,
+    TMCRegion.ROYAL_VALLEY,
+    TMCRegion.GRAVEYARD,
+    TMCRegion.DUNGEON_RC,
+    TMCRegion.UPPER_FALLS,
+    TMCRegion.CLOUDS,
+    TMCRegion.WIND_TRIBE,
+    TMCRegion.DUNGEON_DWS,
+    TMCRegion.DUNGEON_COF,
+    TMCRegion.DUNGEON_FOW,
+    TMCRegion.DUNGEON_TOD,
+    TMCRegion.DUNGEON_TOD_MAIN,
+    TMCRegion.DUNGEON_POW,
+    TMCRegion.SANCTUARY,
+    TMCRegion.DUNGEON_DHC,
+    TMCRegion.HYRULE_TOWN,
+    TMCRegion.VAATI_FIGHT,
+]
