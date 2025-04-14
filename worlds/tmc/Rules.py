@@ -109,7 +109,7 @@ class MinishCapRules():
                     self.has(TMCItem.GRIP_RING),
                     self.logic_and([
                         self.has_all([
-                            TMCItem.BOMB_BAG, 
+                            TMCItem.BOMB_BAG,
                             TMCItem.GUST_JAR
                         ]),
                         self.has_bottle()
@@ -570,23 +570,23 @@ class MinishCapRules():
                 self.access_belari(), # Fusion 38
             TMCLocation.MINISH_WOODS_FLIPPER_HOLE_MIDDLE_CHEST:
                 self.logic_and([
-                    self.access_belari(), 
-                    TMCItem.FLIPPERS
+                    self.access_belari(),
+                    self.has(TMCItem.FLIPPERS),
                 ]),
             TMCLocation.MINISH_WOODS_FLIPPER_HOLE_RIGHT_CHEST:
                 self.logic_and([
-                    self.access_belari(), 
-                    TMCItem.FLIPPERS
+                    self.access_belari(),
+                    self.has(TMCItem.FLIPPERS),
                 ]),
             TMCLocation.MINISH_WOODS_FLIPPER_HOLE_LEFT_CHEST:
                 self.logic_and([
-                    self.access_belari(), 
-                    TMCItem.FLIPPERS
+                    self.access_belari(),
+                    self.has(TMCItem.FLIPPERS),
                 ]),
             TMCLocation.MINISH_WOODS_FLIPPER_HOLE_HP:
                 self.logic_and([
-                    self.access_belari(), 
-                    TMCItem.FLIPPERS
+                    self.access_belari(),
+                    self.has(TMCItem.FLIPPERS),
                 ]),
             #endregion
 
