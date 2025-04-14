@@ -195,7 +195,7 @@ def get_option_data(options: MinishCapOptions):
         "weapon_gust_jar": 0, # No, Yes
         "weapon_lantern": 0,
         "trick_mitts_farm_rupees": 0, # No, Yes
-        "trick_bombable_dust": 1,
+        "trick_bombable_dust": 0,
         "trick_crenel_mushroom_gust_jar": 0,
         "trick_light_arrows_break_objects": 1,
         "trick_bobombs_destroy_walls": 0,

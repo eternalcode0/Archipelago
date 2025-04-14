@@ -162,10 +162,10 @@ all_locations: typing.List[LocationData] = [
         6029035, TMCLocation.HILLS_BOMB_CAVE_CHEST, TMCRegion.EASTERN_HILLS, None,
         (0x0F85C2, None), (0x2D22, 0x08), 0x1332),
     LocationData(
-        6029036, TMCLocation.MINISH_GREAT_FAIRY_NPC, TMCRegion.EASTERN_HILLS, TMCItem.BIG_WALLET, # Technically Minish Woods but the only access is cutting through eastern woods from lonlon
+        6029036, TMCLocation.MINISH_GREAT_FAIRY_NPC, TMCRegion.LONLON, TMCItem.BIG_WALLET, # Technically Minish Woods but the only access is cutting through eastern woods from lonlon
         (0x00B7B4, None), (0x2CEF, 0x80), 0x0129, pools={POOL_FAIRY}),
     LocationData(
-        6029037, TMCLocation.HILLS_FARM_DIG_CAVE_ITEM, TMCRegion.EASTERN_HILLS, TMCItem.RUPEES_20,
+        6029037, TMCLocation.HILLS_FARM_DIG_CAVE_ITEM, TMCRegion.LONLON, TMCItem.RUPEES_20, # Technically Eastern Hills but requires blowing up a bomb to reach from that area
         (0x0F3C9F, None), (0x2D04, 0x40), 0x0013, pools={POOL_RUPEE}),
     #endregion
     #region Lonlon
@@ -890,7 +890,7 @@ all_locations: typing.List[LocationData] = [
     LocationData(
         6029270, TMCLocation.FALLS_TOP_CAVE_CHEST, TMCRegion.UPPER_FALLS, TMCItem.RUPEES_100,
         (0x0F8ADE, None), (0x2D25, 0x01), 0x0033),
-    #endreigon
+    #endregion
     #region Cloudtops
     LocationData(
         6029271, TMCLocation.CLOUDS_FREE_CHEST, TMCRegion.CLOUDS, TMCItem.KINSTONE_GOLD_CLOUD,
