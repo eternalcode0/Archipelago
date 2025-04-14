@@ -890,7 +890,7 @@ all_locations: typing.List[LocationData] = [
     LocationData(
         6029270, TMCLocation.FALLS_TOP_CAVE_CHEST, TMCRegion.UPPER_FALLS, TMCItem.RUPEES_100,
         (0x0F8ADE, None), (0x2D25, 0x01), 0x0033),
-    #endreigon
+    #endregion
     #region Cloudtops
     LocationData(
         6029271, TMCLocation.CLOUDS_FREE_CHEST, TMCRegion.CLOUDS, TMCItem.KINSTONE_GOLD_CLOUD,
