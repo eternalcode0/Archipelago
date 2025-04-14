@@ -1322,7 +1322,7 @@ class MinishCapRules():
             #region Dungeon FOW
             TMCLocation.FORTRESS_ENTRANCE_1F_LEFT_CHEST:
                 self.has(TMCItem.MOLE_MITTS),
-            TMCLocation.FORTRESS_ENTRANCE_1F_LEFT_WIZROBE_CHEST:
+            TMCLocation.FORTRESS_ENTRANCE_1F_LEFT_WIZZROBE_CHEST:
                 self.has(TMCItem.MOLE_MITTS),
             TMCLocation.FORTRESS_ENTRANCE_1F_RIGHT_ITEM:
                 self.has(TMCItem.MOLE_MITTS),
@@ -1693,7 +1693,7 @@ class MinishCapRules():
             #region Dungeon POW
             TMCLocation.PALACE_1ST_HALF_1F_GRATE_CHEST:
                 self.has(TMCItem.ROCS_CAPE),
-            #TMCLocation.PALACE_1ST_HALF_1F_WIZROBE_BIG_CHEST: None
+            #TMCLocation.PALACE_1ST_HALF_1F_WIZZROBE_BIG_CHEST: None
             TMCLocation.PALACE_1ST_HALF_2F_ITEM1:
                 self.has_all([
                     TMCItem.CANE_OF_PACCI,
@@ -1787,7 +1787,7 @@ class MinishCapRules():
                     ]),
                     self.has(TMCItem.SMALL_KEY_POW,4)
                 ]),
-            TMCLocation.PALACE_2ND_HALF_2F_TWIN_WIZROBES_CHEST:
+            TMCLocation.PALACE_2ND_HALF_2F_TWIN_WIZZROBES_CHEST:
                 self.logic_and([
                     self.has_all([
                         TMCItem.CANE_OF_PACCI,
@@ -1797,7 +1797,7 @@ class MinishCapRules():
                     ]),
                     self.has(TMCItem.SMALL_KEY_POW,4),
                 ]),
-            TMCLocation.PALACE_2ND_HALF_3F_FIRE_WIZROBES_BIG_CHEST:
+            TMCLocation.PALACE_2ND_HALF_3F_FIRE_WIZZROBES_BIG_CHEST:
                 self.logic_and([
                     self.has_all([
                         TMCItem.CANE_OF_PACCI,
