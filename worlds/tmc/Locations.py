@@ -1100,7 +1100,7 @@ all_locations: typing.List[LocationData] = [
         6029335, TMCLocation.FORTRESS_ENTRANCE_1F_LEFT_CHEST, TMCRegion.DUNGEON_FOW, Items.KINSTONE,
         (0x0F3E96, None), (0x2D05, 0x80), 0x0018),
     LocationData(
-        6029336, TMCLocation.FORTRESS_ENTRANCE_1F_LEFT_WIZROBE_CHEST, TMCRegion.DUNGEON_FOW, None,
+        6029336, TMCLocation.FORTRESS_ENTRANCE_1F_LEFT_WIZZROBE_CHEST, TMCRegion.DUNGEON_FOW, None,
         (0x0E2D4A, None), (0x2D74, 0x08), 0x2358),
     LocationData(
         6029337, TMCLocation.FORTRESS_ENTRANCE_1F_RIGHT_ITEM, TMCRegion.DUNGEON_FOW, Items.RUPEES_50,
@@ -1323,7 +1323,7 @@ all_locations: typing.List[LocationData] = [
         6029408, TMCLocation.PALACE_1ST_HALF_1F_GRATE_CHEST, TMCRegion.DUNGEON_POW, Items.KINSTONE,
         (0x0E99DE, None), (0x2DAA, 0x40), 0x2D70),
     LocationData(
-        6029409, TMCLocation.PALACE_1ST_HALF_1F_WIZROBE_BIG_CHEST, TMCRegion.DUNGEON_POW, Items.ROCS_CAPE,
+        6029409, TMCLocation.PALACE_1ST_HALF_1F_WIZZROBE_BIG_CHEST, TMCRegion.DUNGEON_POW, Items.ROCS_CAPE,
         (0x0E980A, None), (0x2DAA, 0x10), 0x2C70),
     LocationData(
         6029410, TMCLocation.PALACE_1ST_HALF_2F_ITEM1, TMCRegion.DUNGEON_POW, Items.RUPEES_1,
@@ -1365,10 +1365,10 @@ all_locations: typing.List[LocationData] = [
         6029422, TMCLocation.PALACE_2ND_HALF_2F_MANY_ROLLERS_CHEST, TMCRegion.DUNGEON_POW, Items.SMALL_KEY_POW,
         (0x0E95AA, None), (0x2DA9, 0x80), 0x2B70),
     LocationData(
-        6029423, TMCLocation.PALACE_2ND_HALF_2F_TWIN_WIZROBES_CHEST, TMCRegion.DUNGEON_POW, Items.KINSTONE,
+        6029423, TMCLocation.PALACE_2ND_HALF_2F_TWIN_WIZZROBES_CHEST, TMCRegion.DUNGEON_POW, Items.KINSTONE,
         (0x0E945E, None), (0x2DA9, 0x40), 0x2970),
     LocationData(
-        6029424, TMCLocation.PALACE_2ND_HALF_3F_FIRE_WIZROBES_BIG_CHEST, TMCRegion.DUNGEON_POW, Items.DUNGEON_MAP_POW,
+        6029424, TMCLocation.PALACE_2ND_HALF_3F_FIRE_WIZZROBES_BIG_CHEST, TMCRegion.DUNGEON_POW, Items.DUNGEON_MAP_POW,
         (0x0E86F2, None), (0x2DA6, 0x80), 0x1C70),
     LocationData(
         6029425, TMCLocation.PALACE_2ND_HALF_4F_HP, TMCRegion.DUNGEON_POW, Items.HEART_PIECE,
