@@ -1,17 +1,17 @@
 from dataclasses import dataclass
 from Options import Choice, DefaultOnToggle, Toggle, StartInventoryPool, PerGameCommonOptions, Range, DeathLink
 
-# Copied from A Link to the Past for usability/accessibility
-# start_with not supported, use start inventory instead
 class DungeonItem(Choice):
     value: int
-    option_original_dungeon = 0
-    option_own_dungeons = 1
-    option_own_world = 2
-    option_any_world = 3
-    option_different_world = 4
-    alias_true = 3
-    alias_false = 0
+    option_removed = 0
+    option_vanilla = 1
+    option_home_dungeon = 2
+    option_home_region = 3
+    option_any_dungeon = 4
+    option_any_region = 5
+    option_anywhere = 6
+    alias_true = 6
+    alias_false = 2
 
 class Rupeesanity(Toggle):
     """Add all rupees locations to the pool to be randomized."""
@@ -59,7 +59,8 @@ class GoalDungeons(Range):
     """
     How many dungeons are required to goal?
     If GoalVaati is on then you need this many dungeons cleared before DHC opens,
-    otherwise you goal immediately upon having this many dungeons cleared (and other goal conditions) and entering sanctuary
+    otherwise you goal immediately upon having this many dungeons cleared
+    (and other goal conditions) and entering sanctuary
     """
     display_name = "Required Dungeons to Goal"
     default = 0
@@ -119,12 +120,12 @@ class EarlyWeapon(Toggle):
 
 class DeathLinkGameover(Toggle):
     """
-    If disabled, deathlinks are sent when reaching 0 hp, fairy or not. Received deathlinks will drop you to 0 hp, using
-    a fairy if you have one.
-    If enabled, deathlinks are only sent when reaching the gameover screen. Received deathlinks will also send you straight to a gameover.
+    If disabled, deathlinks are sent when reaching 0HP, before a fairy is used. Received deathlinks will drop you to
+    0HP, using a fairy if you have one.
+    If enabled, deathlinks are only sent when reaching the gameover screen. Received deathlinks will also send you
+    straight to a gameover, fairy or not.
     """
     display_name = "Deathlink is Gameover"
-
 
 @dataclass
 class MinishCapOptions(PerGameCommonOptions):
@@ -145,3 +146,72 @@ class MinishCapOptions(PerGameCommonOptions):
     # dungeon_big_keys: BigKeys
     # dungeon_maps: DungeonMaps
     # dungeon_compasses: DungeonCompasses
+
+def get_option_data(options: MinishCapOptions):
+    """
+    Template for the options that will likely be added in the future.
+    Intended for trackers to properly match the logic between the standalone randomizer (TMCR) and AP
+    """
+    return {
+        "goal_dungeons": 0, # 0-6
+        "goal_swords": 0, # 0-5
+        "goal_elements": 4, # 0-4
+        "goal_figurines": 0, # 0-136
+        "dungeon_small_keys": DungeonItem.option_anywhere,
+        "dungeon_big_keys": DungeonItem.option_anywhere,
+        "dungeon_maps": DungeonItem.option_anywhere,
+        "dungeon_compasses": DungeonItem.option_anywhere,
+        "dungeon_warp_dws": 0, # 0 = None, 1 = Blue, 2 = Red, 3 = Both
+        "dungeon_warp_cof": 0,
+        "dungeon_warp_fow": 0,
+        "dungeon_warp_tod": 0,
+        "dungeon_warp_pow": 0,
+        "dungeon_warp_dhc": 0,
+        "cucco_rounds": 1, # 0-10
+        "goron_sets": 0, # 0-5
+        "shuffle_heart_pieces": 1,
+        "shuffle_rupees": options.rupeesanity.value,
+        "shuffle_pots": options.obscure_spots.value,
+        "shuffle_digging": options.obscure_spots.value,
+        "shuffle_underwater": options.obscure_spots.value,
+        "shuffle_gold_enemies": 0,
+        "shuffle_pedestal": 0,
+        "kinstones_gold": 1, # 0 = Closed, 1 = Vanilla, 2 = Combined, 3 = Open
+        "kinstones_red": 3, # 0 = Closed, 1 = Vanilla, 2 = Combined, 3 = Open
+        "kinstones_blue": 3, # 0 = Closed, 1 = Vanilla, 2 = Combined, 3 = Open
+        "kinstones_green": 3, # 0 = Closed, 1 = Vanilla, 2 = Combined, 3 = Open
+        "grabbables": 0, # 0 = Not Allowed, 1 = Allowed, 2 = Required, 3 = Required (Hard)
+        "open_world": 0, # No, Yes
+        "extra_shop_item": 0,
+        "wind_crest_crenel": 0,
+        "wind_crest_castor": 0,
+        "wind_crest_clouds": 0,
+        "wind_crest_lake": 0,
+        "wind_crest_falls": 0,
+        "wind_crest_south_field": 0,
+        "wind_crest_minish_woods": 0,
+        "weapon_bombs": 0, # No, Yes, Yes + Bosses
+        "weapon_bows": 0,
+        "weapon_gust_jar": 0, # No, Yes
+        "weapon_lantern": 0,
+        "trick_mitts_farm_rupees": 0, # No, Yes
+        "trick_bombable_dust": 1,
+        "trick_crenel_mushroom_gust_jar": 0,
+        "trick_light_arrows_break_objects": 1,
+        "trick_bobombs_destroy_walls": 0,
+        "trick_like_like_cave_no_sword": 0,
+        "trick_boots_skip_town_guard": 0,
+        "trick_beam_crenel_switch": 0,
+        "trick_down_thrust_spikey_beetle": 1,
+        "trick_dark_rooms_no_lantern": 0,
+        "trick_cape_extensions": 0,
+        "trick_lake_minish_no_boots": 0,
+        "trick_cabin_swim_no_lilypad": 0,
+        "trick_cloud_sharks_no_weapons": 0,
+        "trick_pow_2f_no_cane": 0,
+        "trick_pot_puzzle_no_bracelets": 0,
+        "trick_fow_pot_gust_jar": 0,
+        "trick_dhc_cannons_no_four_sword": 0,
+        "trick_dhc_pads_no_four_sword": 0,
+        "trick_dhc_switches_no_four_sword": 0,
+    }

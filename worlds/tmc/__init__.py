@@ -11,7 +11,7 @@ import os
 import settings
 from BaseClasses import Tutorial, Item, Region, Location, LocationProgressType, ItemClassification
 from worlds.AutoWorld import WebWorld, World
-from .Options import MinishCapOptions
+from .Options import MinishCapOptions, DungeonItem, get_option_data
 from .Items import ItemData, item_frequencies, item_table, itemList, item_groups, filler_item_selection, get_item_pool
 from .Locations import all_locations, DEFAULT_SET, OBSCURE_SET, POOL_RUPEE, location_groups, GOAL_VAATI, GOAL_PED
 from .constants import TMCEvent, MinishCapItem, MinishCapLocation
@@ -87,13 +87,17 @@ class MinishCapWorld(World):
         self.disabled_locations = set(loc.name for loc in all_locations if not loc.pools.issubset(enabled_pools))
 
     def fill_slot_data(self) -> Dict[str, any]:
-        return {
+        data = {
             "DeathLink": self.options.death_link.value,
             "DeathLinkGameover": self.options.death_link_gameover.value,
             "RupeeSpot": self.options.rupeesanity.value,
             "ObscureSpot": self.options.obscure_spots.value,
             "GoalVaati": self.options.goal_vaati.value,
         }
+        data |= self.options.as_dict("death_link", "death_link_gameover", "rupeesanity", "obscure_spots", "goal_vaati",
+            casing="snake")
+        data |= get_option_data(self.options)
+        return data
 
     def create_regions(self) -> None:
         create_regions(self, self.disabled_locations)

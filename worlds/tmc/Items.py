@@ -20,28 +20,28 @@ class ItemData:
 
 # SMITHS_SWORD          = ItemData("Smith's Sword",                ItemClassification.progression, (0x01, 0x00))
 # WHITE_SWORD_GREEN     = ItemData("White Sword (Green)",          ItemClassification.progression, (0x02, 0x00))
-# WHITE_SWORD_RED       = ItemData("White Sword (Red)",            ItemClassification.progression, (0x03, 0x00)) # works but isn't progressive
+# WHITE_SWORD_RED       = ItemData("White Sword (Red)",            ItemClassification.progression, (0x03, 0x00))
 # WHITE_SWORD_BLUE      = ItemData("White Sword (Blue)",           ItemClassification.progression, (0x04, 0x00))
 # # UNUSED_SWORD        = ItemData("Unused Sword",                 ItemClassification.progression, (0x05, 0x00))
 # FOUR_SWORD            = ItemData("Four Sword",                   ItemClassification.progression, (0x06, 0x00))
 PROGRESSIVE_SWORD     = ItemData("Progressive Sword",            ItemClassification.progression, (0x01, 0x00))
-# BOMB                  = ItemData("Bomb",                         ItemClassification.progression, (0x07, 0x00)) # gives bomb but 0 capacity
+# BOMB                  = ItemData("Bomb",                         ItemClassification.progression, (0x07, 0x00))
 REMOTE_BOMB           = ItemData("Remote Bomb",                  ItemClassification.useful, (0x08, 0x00))
 # PROGRESSIVE_BOMB      = ItemData("Progressive Bomb",             ItemClassification.progression, (0x07, 0x00))
-# BOW                   = ItemData("Bow",                          ItemClassification.progression, (0x09, 0x00)) # working, received before quiver
+# BOW                   = ItemData("Bow",                          ItemClassification.progression, (0x09, 0x00))
 # LIGHT_ARROW           = ItemData("Light Arrow",                  ItemClassification.progression, (0x0A, 0x00))
 PROGRESSIVE_BOW       = ItemData("Progressive Bow",              ItemClassification.progression, (0x09, 0x00))
-# BOOMERANG             = ItemData("Boomerang",                    ItemClassification.progression, (0x0B, 0x00)) # working, received before mboom
+# BOOMERANG             = ItemData("Boomerang",                    ItemClassification.progression, (0x0B, 0x00))
 # MAGIC_BOOMERANG       = ItemData("Magic Boomerang",              ItemClassification.progression, (0x0C, 0x00))
 PROGRESSIVE_BOOMERANG = ItemData("Progressive Boomerang",        ItemClassification.progression, (0x0B, 0x00))
 # SHIELD                = ItemData("Shield",                       ItemClassification.progression, (0x0D, 0x00))
 # MIRROR_SHIELD         = ItemData("Mirror Shield",                ItemClassification.progression, (0x0E, 0x00))
 PROGRESSIVE_SHIELD    = ItemData("Progressive Shield",           ItemClassification.progression, (0x0D, 0x00))
 LANTERN               = ItemData("Lantern",                      ItemClassification.progression, (0x0F, 0x00))
-# LANTERN             = ItemData("Lantern",                      ItemClassification.progression, (0x10, 0x00)) # works but is given in the on state
+# LANTERN             = ItemData("Lantern",                      ItemClassification.progression, (0x10, 0x00))
 GUST_JAR              = ItemData("Gust Jar",                     ItemClassification.progression, (0x11, 0x00))
 CANE_OF_PACCI         = ItemData("Cane of Pacci",                ItemClassification.progression, (0x12, 0x00))
-MOLE_MITTS            = ItemData("Mole Mitts",                   ItemClassification.progression, (0x13, 0x00)) # working
+MOLE_MITTS            = ItemData("Mole Mitts",                   ItemClassification.progression, (0x13, 0x00))
 ROCS_CAPE             = ItemData("Roc's Cape",                   ItemClassification.progression, (0x14, 0x00))
 PEGASUS_BOOTS         = ItemData("Pegasus Boots",                ItemClassification.progression, (0x15, 0x00))
 # FIRE_ROD            = ItemData("Fire Rod",                     ItemClassification.progression, (0x16, 0x00))
@@ -76,40 +76,40 @@ DINS_CHARM            = ItemData("Dins Charm",                   ItemClassificat
 # UNUSED              = ItemData("Unused",                       ItemClassification.progression, (0x33, 0x00))
 SMITH_SWORD_QUEST     = ItemData("Smith Sword (Quest)",          ItemClassification.progression, (0x34, 0x00))
 BROKEN_PICORI_BLADE   = ItemData("Broken Picori Blade",          ItemClassification.progression, (0x35, 0x00))
-DOG_FOOD              = ItemData("Dog Food",                     ItemClassification.progression, (0x36, 0x00)) # it became a quest item... because I didn't have a bottle before receiving it?
+DOG_FOOD              = ItemData("Dog Food",                     ItemClassification.progression, (0x36, 0x00))
 LONLON_KEY            = ItemData("LonLon Key",                   ItemClassification.progression, (0x37, 0x00))
 WAKEUP_MUSHROOM       = ItemData("Wakeup Mushroom",              ItemClassification.progression, (0x38, 0x00))
 RED_BOOK              = ItemData("Red Book (Hyrulian Bestiary)", ItemClassification.progression, (0x39, 0x00))
-GREEN_BOOK            = ItemData("Green Book (Picori Legend)",   ItemClassification.progression, (0x3A, 0x00)) # working
+GREEN_BOOK            = ItemData("Green Book (Picori Legend)",   ItemClassification.progression, (0x3A, 0x00))
 BLUE_BOOK             = ItemData("Blue Book (History of Masks)", ItemClassification.progression, (0x3B, 0x00))
 GRAVEYARD_KEY         = ItemData("Graveyard Key",                ItemClassification.progression, (0x3C, 0x00))
-TINGLE_TROPHY         = ItemData("Tingle Trophy",                ItemClassification.progression, (0x3D, 0x00)) # working
-CARLOV_MEDAL          = ItemData("Carlov Medal",                 ItemClassification.progression, (0x3E, 0x00)) # working
+TINGLE_TROPHY         = ItemData("Tingle Trophy",                ItemClassification.progression, (0x3D, 0x00))
+CARLOV_MEDAL          = ItemData("Carlov Medal",                 ItemClassification.progression, (0x3E, 0x00))
 # SHELLS              = ItemData("Shells",                       ItemClassification.progression, (0x3F, 0x00))
-EARTH_ELEMENT         = ItemData("Earth Element",                ItemClassification.progression, (0x40, 0x00)) # working but removes the icon from the map
+EARTH_ELEMENT         = ItemData("Earth Element",                ItemClassification.progression, (0x40, 0x00))
 FIRE_ELEMENT          = ItemData("Fire Element",                 ItemClassification.progression, (0x41, 0x00))
 WATER_ELEMENT         = ItemData("Water Element",                ItemClassification.progression, (0x42, 0x00))
 WIND_ELEMENT          = ItemData("Wind Element",                 ItemClassification.progression, (0x43, 0x00))
 GRIP_RING             = ItemData("Grip Ring",                    ItemClassification.progression, (0x44, 0x00))
-POWER_BRACELETS       = ItemData("Power Bracelets",              ItemClassification.progression, (0x45, 0x00)) # working
+POWER_BRACELETS       = ItemData("Power Bracelets",              ItemClassification.progression, (0x45, 0x00))
 FLIPPERS              = ItemData("Flippers",                     ItemClassification.progression, (0x46, 0x00))
 HYRULE_MAP            = ItemData("Hyrule Map",                   ItemClassification.progression, (0x47, 0x00))
-SPIN_ATTACK           = ItemData("Spin Attack",                  ItemClassification.progression, (0x48, 0x00)) # working
+SPIN_ATTACK           = ItemData("Spin Attack",                  ItemClassification.progression, (0x48, 0x00))
 ROLL_ATTACK           = ItemData("Roll Attack",                  ItemClassification.progression, (0x49, 0x00))
 DASH_ATTACK           = ItemData("Dash Attack",                  ItemClassification.progression, (0x4A, 0x00))
-ROCK_BREAKER          = ItemData("Rock Breaker",                 ItemClassification.progression, (0x4B, 0x00)) # working
+ROCK_BREAKER          = ItemData("Rock Breaker",                 ItemClassification.progression, (0x4B, 0x00))
 SWORD_BEAM            = ItemData("Sword Beam",                   ItemClassification.progression, (0x4C, 0x00))
 GREATSPIN             = ItemData("Greatspin",                    ItemClassification.progression, (0x4D, 0x00))
-DOWNTHRUST            = ItemData("DownThrust",                   ItemClassification.progression, (0x4E, 0x00)) # received but upon viewing the Quest Status screen crashed the game. Reloading a new save worked.
-PERIL_BEAM            = ItemData("Peril Beam",                   ItemClassification.progression, (0x4F, 0x00)) # working
-RUPEES_1              = ItemData("1 Rupee",                      ItemClassification.filler, (0x54, 0x00)) # working
-RUPEES_5              = ItemData("5 Rupees",                     ItemClassification.filler, (0x55, 0x00)) # working
-RUPEES_20             = ItemData("20 Rupees",                    ItemClassification.filler, (0x56, 0x00)) # working
-RUPEES_50             = ItemData("50 Rupees",                    ItemClassification.filler, (0x57, 0x00)) # working
-RUPEES_100            = ItemData("100 Rupees",                   ItemClassification.filler, (0x58, 0x00)) # working
-RUPEES_200            = ItemData("200 Rupees",                   ItemClassification.filler, (0x59, 0x00)) # working
+DOWNTHRUST            = ItemData("DownThrust",                   ItemClassification.progression, (0x4E, 0x00))
+PERIL_BEAM            = ItemData("Peril Beam",                   ItemClassification.progression, (0x4F, 0x00))
+RUPEES_1              = ItemData("1 Rupee",                      ItemClassification.filler, (0x54, 0x00))
+RUPEES_5              = ItemData("5 Rupees",                     ItemClassification.filler, (0x55, 0x00))
+RUPEES_20             = ItemData("20 Rupees",                    ItemClassification.filler, (0x56, 0x00))
+RUPEES_50             = ItemData("50 Rupees",                    ItemClassification.filler, (0x57, 0x00))
+RUPEES_100            = ItemData("100 Rupees",                   ItemClassification.filler, (0x58, 0x00))
+RUPEES_200            = ItemData("200 Rupees",                   ItemClassification.filler, (0x59, 0x00))
 # UNUSED              = ItemData("Unused",                       ItemClassification.progression, (0x5A, 0x00))
-JABBER_NUT            = ItemData("Jabber Nut",                   ItemClassification.progression, (0x5B, 0x00)) # working
+JABBER_NUT            = ItemData("Jabber Nut",                   ItemClassification.progression, (0x5B, 0x00))
 KINSTONE              = ItemData("Broken Kinstone (Report Me!)", ItemClassification.progression, (0x5C, 0x00))
 KINSTONE_GOLD_CLOUD   = ItemData("Kinstone Cloud Tops",          ItemClassification.progression, (0x5C, 0x65))
 KINSTONE_GOLD_SWAMP   = ItemData("Kinstone Swamps",              ItemClassification.progression, (0x5C, 0x6A))
@@ -129,9 +129,9 @@ HEART_REFILL          = ItemData("Recovery Heart",               ItemClassificat
 # SHELLS_30           = ItemData("30 Shells",                    ItemClassification.progression, (0x61, 0x00))
 HEART_CONTAINER       = ItemData("Heart Container",              ItemClassification.progression, (0x62, 0x00))
 HEART_PIECE           = ItemData("Heart Piece",                  ItemClassification.progression, (0x63, 0x00))
-BIG_WALLET            = ItemData("Big Wallet",                   ItemClassification.progression, (0x64, 0x00)) # working, 2 received
-BOMB_BAG              = ItemData("Bomb Bag",                     ItemClassification.progression, (0x65, 0x00)) # working, sent after bombs, fixed 0 capacity
-QUIVER                = ItemData("Quiver",                       ItemClassification.useful, (0x66, 0x00)) # working, 1 received
+BIG_WALLET            = ItemData("Big Wallet",                   ItemClassification.progression, (0x64, 0x00))
+BOMB_BAG              = ItemData("Bomb Bag",                     ItemClassification.progression, (0x65, 0x00))
+QUIVER                = ItemData("Quiver",                       ItemClassification.useful, (0x66, 0x00))
 # KINSTONE_BAG        = ItemData("Kinstone Bag",                 ItemClassification.progression, (0x67, 0x00))
 # BRIOCHE             = ItemData("Brioche",                      ItemClassification.filler, (0x68, 0x00))
 # CROISSANT           = ItemData("Croissant",                    ItemClassification.filler, (0x69, 0x00))
@@ -144,38 +144,38 @@ ARROW_REFILL_30       = ItemData("30 Arrow Refill",              ItemClassificat
 BOW_BUTTERFLY         = ItemData("Bow Butterfly",                ItemClassification.useful, (0x70, 0x00))
 DIG_BUTTERFLY         = ItemData("Dig Butterfly",                ItemClassification.useful, (0x71, 0x00))
 SWIM_BUTTERFLY        = ItemData("Swim Butterfly",               ItemClassification.useful, (0x72, 0x00))
-FAST_SPIN_SCROLL      = ItemData("Fast Spin Scroll",             ItemClassification.progression, (0x73, 0x00)) # working
+FAST_SPIN_SCROLL      = ItemData("Fast Spin Scroll",             ItemClassification.progression, (0x73, 0x00))
 FAST_SPLIT_SCROLL     = ItemData("Fast Split Scroll",            ItemClassification.progression, (0x74, 0x00))
 LONG_SPIN             = ItemData("Long Spin",                    ItemClassification.progression, (0x75, 0x00))
 
-DUNGEON_MAP_DWS = ItemData("Dungeon Map (DWS)",                  ItemClassification.useful, (0x50, 0x18)) # working
+DUNGEON_MAP_DWS = ItemData("Dungeon Map (DWS)",                  ItemClassification.useful, (0x50, 0x18))
 DUNGEON_MAP_COF = ItemData("Dungeon Map (CoF)",                  ItemClassification.useful, (0x50, 0x19))
 DUNGEON_MAP_FOW = ItemData("Dungeon Map (FoW)",                  ItemClassification.useful, (0x50, 0x1A))
 DUNGEON_MAP_TOD = ItemData("Dungeon Map (ToD)",                  ItemClassification.useful, (0x50, 0x1B))
 DUNGEON_MAP_POW = ItemData("Dungeon Map (PoW)",                  ItemClassification.useful, (0x50, 0x1C))
-DUNGEON_MAP_DHC = ItemData("Dungeon Map (DHC)",                  ItemClassification.useful, (0x50, 0x1D)) # working
+DUNGEON_MAP_DHC = ItemData("Dungeon Map (DHC)",                  ItemClassification.useful, (0x50, 0x1D))
 
 DUNGEON_COMPASS_DWS = ItemData("Dungeon Compass (DWS)",          ItemClassification.useful, (0x51, 0x18))
-DUNGEON_COMPASS_COF = ItemData("Dungeon Compass (CoF)",          ItemClassification.useful, (0x51, 0x19)) # working
+DUNGEON_COMPASS_COF = ItemData("Dungeon Compass (CoF)",          ItemClassification.useful, (0x51, 0x19))
 DUNGEON_COMPASS_FOW = ItemData("Dungeon Compass (FoW)",          ItemClassification.useful, (0x51, 0x1A))
 DUNGEON_COMPASS_TOD = ItemData("Dungeon Compass (ToD)",          ItemClassification.useful, (0x51, 0x1B))
-DUNGEON_COMPASS_POW = ItemData("Dungeon Compass (PoW)",          ItemClassification.useful, (0x51, 0x1C)) # working
+DUNGEON_COMPASS_POW = ItemData("Dungeon Compass (PoW)",          ItemClassification.useful, (0x51, 0x1C))
 DUNGEON_COMPASS_DHC = ItemData("Dungeon Compass (DHC)",          ItemClassification.useful, (0x51, 0x1D))
 
 BIG_KEY_DWS = ItemData("Big Key (DWS)",                          ItemClassification.progression, (0x52, 0x18))
-BIG_KEY_COF = ItemData("Big Key (CoF)",                          ItemClassification.progression, (0x52, 0x19)) # working
+BIG_KEY_COF = ItemData("Big Key (CoF)",                          ItemClassification.progression, (0x52, 0x19))
 BIG_KEY_FOW = ItemData("Big Key (FoW)",                          ItemClassification.progression, (0x52, 0x1A))
 BIG_KEY_TOD = ItemData("Big Key (ToD)",                          ItemClassification.progression, (0x52, 0x1B))
-BIG_KEY_POW = ItemData("Big Key (PoW)",                          ItemClassification.progression, (0x52, 0x1C)) # working
+BIG_KEY_POW = ItemData("Big Key (PoW)",                          ItemClassification.progression, (0x52, 0x1C))
 BIG_KEY_DHC = ItemData("Big Key (DHC)",                          ItemClassification.progression, (0x52, 0x1D))
 
-SMALL_KEY_DWS = ItemData("Small Key (DWS)",                      ItemClassification.progression, (0x53, 0x18)) # working
+SMALL_KEY_DWS = ItemData("Small Key (DWS)",                      ItemClassification.progression, (0x53, 0x18))
 SMALL_KEY_COF = ItemData("Small Key (CoF)",                      ItemClassification.progression, (0x53, 0x19))
-SMALL_KEY_FOW = ItemData("Small Key (FoW)",                      ItemClassification.progression, (0x53, 0x1A)) # working
+SMALL_KEY_FOW = ItemData("Small Key (FoW)",                      ItemClassification.progression, (0x53, 0x1A))
 SMALL_KEY_TOD = ItemData("Small Key (ToD)",                      ItemClassification.progression, (0x53, 0x1B))
-SMALL_KEY_POW = ItemData("Small Key (PoW)",                      ItemClassification.progression, (0x53, 0x1C)) # working
-SMALL_KEY_DHC = ItemData("Small Key (DHC)",                      ItemClassification.progression, (0x53, 0x1D)) # working
-SMALL_KEY_RC  = ItemData("Small Key (RC)",                       ItemClassification.progression, (0x53, 0x1E)) # working
+SMALL_KEY_POW = ItemData("Small Key (PoW)",                      ItemClassification.progression, (0x53, 0x1C))
+SMALL_KEY_DHC = ItemData("Small Key (DHC)",                      ItemClassification.progression, (0x53, 0x1D))
+SMALL_KEY_RC  = ItemData("Small Key (RC)",                       ItemClassification.progression, (0x53, 0x1E))
 
 def pool_elements() -> [ItemData]:
     return [
@@ -370,6 +370,7 @@ def get_item_pool(world: "MinishCapWorld") -> [MinishCapItem]:
 
         for i, element in enumerate(elements):
             multiworld.get_location(dungeons[i], player).place_locked_item(world.create_item(element.item_name))
+            multiworld.start_hints[player].value.add(element.item_name)
 
     return [world.create_item(item.item_name) for item in item_pool]
 
