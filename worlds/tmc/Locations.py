@@ -1712,3 +1712,57 @@ location_groups: dict[str, set[str]] = {
     "Shop": set(loc.name for loc in all_locations if loc.pools.issubset(SHOP_SET) and len(loc.pools)),
     "Rupees": set(loc.name for loc in all_locations if loc.pools.issubset({POOL_RUPEE}) and len(loc.pools)),
 }
+
+def get_location_groups() -> dict[str, set[str]]:
+    group_keys = ["DWS", "CoF", "FoW", "ToD", "PoW", "RC", "DHC",
+        "SouthField", "HyruleTown", "NorthField", "CastleGarden", "VeilFalls", "CloudTops", "LonLon", "EasternHills", "TrilbyHighlands", "WesternWoods", "CastorWilds", "WindRuins", "Crenel", "RoyalValley", "LakeHylia", "MinishWoods",
+        "Obscure", "Shop", "Rupees"]
+    groups = {key: set() for key in group_keys}
+    regions = {
+        TMCRegion.DUNGEON_DWS: "DWS",
+        TMCRegion.DUNGEON_COF: "CoF",
+        TMCRegion.DUNGEON_FOW: "FoW",
+        TMCRegion.DUNGEON_TOD: "ToD",
+        TMCRegion.DUNGEON_TOD_MAIN: "ToD",
+        TMCRegion.DUNGEON_POW: "PoW",
+        TMCRegion.DUNGEON_RC: "RC",
+        TMCRegion.DUNGEON_DHC: "DHC",
+        TMCRegion.SOUTH_FIELD: "SouthField",
+        TMCRegion.HYRULE_TOWN: "HyruleTown",
+        TMCRegion.NORTH_FIELD: "NorthField",
+        TMCRegion.CASTLE_EXTERIOR: "CastleGarden",
+        TMCRegion.SANCTUARY: "CastleGarden",
+        TMCRegion.UPPER_FALLS: "VeilFalls",
+        TMCRegion.LOWER_FALLS: "VeilFalls",
+        TMCRegion.CLOUDS: "CloudTops",
+        TMCRegion.WIND_TRIBE: "CloudTops",
+        TMCRegion.LONLON: "LonLon",
+        TMCRegion.EASTERN_HILLS: "EasternHills",
+        TMCRegion.TRILBY_HIGHLANDS: "TrilbyHighlands",
+        TMCRegion.WESTERN_WOODS: "WesternWoods",
+        TMCRegion.CASTOR_WILDS: "CastorWilds",
+        TMCRegion.WIND_RUINS: "WindRuins",
+        TMCRegion.CRENEL: "Crenel",
+        TMCRegion.CRENEL_BASE: "Crenel",
+        TMCRegion.MELARI: "Crenel",
+        TMCRegion.ROYAL_VALLEY: "RoyalValley",
+        TMCRegion.GRAVEYARD: "RoyalValley",
+        TMCRegion.LAKE_HYLIA_NORTH: "LakeHylia",
+        TMCRegion.LAKE_HYLIA_SOUTH: "LakeHylia",
+        TMCRegion.MINISH_WOODS: "MinishWoods",
+    }
+    pools = {
+        "Obscure": OBSCURE_SET,
+        "Shop": SHOP_SET,
+        "Rupees": { POOL_RUPEE },
+    }
+    for loc in all_locations:
+        groups[regions[loc.region]].add(loc.name)
+        if len(loc.pools) == 0:
+            continue
+        for pool_name, pool_set in pools.items():
+            if not loc.pools.issubset(pool_set):
+                continue
+            groups[pool_name].add(loc.name)
+
+    return groups

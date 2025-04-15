@@ -13,7 +13,7 @@ from BaseClasses import Tutorial, Item, Region, Location, LocationProgressType, 
 from worlds.AutoWorld import WebWorld, World
 from .Options import MinishCapOptions, DungeonItem, get_option_data
 from .Items import ItemData, item_frequencies, item_table, itemList, item_groups, filler_item_selection, get_item_pool
-from .Locations import all_locations, DEFAULT_SET, OBSCURE_SET, POOL_RUPEE, location_groups, GOAL_VAATI, GOAL_PED
+from .Locations import all_locations, DEFAULT_SET, OBSCURE_SET, POOL_RUPEE, get_location_groups, GOAL_VAATI, GOAL_PED
 from .constants import TMCEvent, MinishCapItem, MinishCapLocation
 from .Client import MinishCapClient
 from .Regions import create_regions
@@ -71,7 +71,7 @@ class MinishCapWorld(World):
     item_name_to_id = {name: data.item_id for name, data in item_table.items()}
     location_name_to_id = {loc_data.name: loc_data.id for loc_data in all_locations}
     item_name_groups = item_groups
-    location_name_groups = location_groups
+    location_name_groups = get_location_groups()
     disabled_locations: Set[str]
 
     def generate_early(self) -> None:
@@ -83,6 +83,8 @@ class MinishCapWorld(World):
             enabled_pools.add(POOL_RUPEE)
         if self.options.obscure_spots.value:
             enabled_pools |= OBSCURE_SET
+
+        # tmc_logger.info({ group_name: len(group_set) for group_name, group_set in self.location_name_groups.items() })
 
         self.disabled_locations = set(loc.name for loc in all_locations if not loc.pools.issubset(enabled_pools))
 
