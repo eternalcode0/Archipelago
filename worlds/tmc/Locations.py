@@ -332,7 +332,7 @@ all_locations: typing.List[LocationData] = [
         (0x0EF7CA, None), (0x2CFE, 0x10), 0x1062),
     LocationData(
         6029093, TMCLocation.TOWN_UNDER_LIBRARY_UNDERWATER, TMCRegion.HYRULE_TOWN, TMCItem.RUPEES_50,
-        (0x0EF79B, None), (0x2CFE, 0x08), 0x1062),
+        (0x0EF79B, None), (0x2CFE, 0x08), 0x1062, pools={POOL_WATER}),
     #endregion
     #region North Fields
     LocationData(

@@ -91,7 +91,7 @@ class TMCItem:
     JABBER_NUT            = "Jabber Nut"
     KINSTONE              = "Broken Kinstone (Report Me!)"
     KINSTONE_GOLD_CLOUD   = "Kinstone Cloud Tops"
-    KINSTONE_GOLD_SWAMP   = "Kinstone Swamps"
+    KINSTONE_GOLD_SWAMP   = "Kinstone Swamp"
     KINSTONE_GOLD_FALLS   = "Kinstone Falls"
     KINSTONE_RED_W        = "Kinstone Red W"
     KINSTONE_RED_ANGLE    = "Kinstone Red >"
