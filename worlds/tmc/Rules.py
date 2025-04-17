@@ -1471,7 +1471,7 @@ class MinishCapRules():
             #region Dungeon TOD
             #TMCLocation.DROPLETS_ENTRANCE_B2_EAST_ICEBLOCK: none
             TMCLocation.DROPLETS_ENTRANCE_B2_WEST_ICEBLOCK:
-                self.has(TMCItem.SMALL_KEY_TOD,4),
+                self.has(TMCItem.SMALL_KEY_TOD,1), #FIXME: correct so that ToD placement with dungeon items works... better
             #endregion
 
             #region Dungeon TOD after Big Key

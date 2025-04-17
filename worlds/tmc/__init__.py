@@ -15,6 +15,7 @@ from .Options import MinishCapOptions, DungeonItem, get_option_data
 from .Items import ItemData, item_frequencies, item_table, itemList, item_groups, filler_item_selection, get_item_pool
 from .Locations import all_locations, DEFAULT_SET, OBSCURE_SET, POOL_RUPEE, location_groups, GOAL_VAATI, GOAL_PED
 from .constants import TMCEvent, MinishCapItem, MinishCapLocation
+from .dungeons import dungeon_fill
 from .Client import MinishCapClient
 from .Regions import create_regions
 from .Rom import MinishCapProcedurePatch, write_tokens
@@ -71,6 +72,8 @@ class MinishCapWorld(World):
     item_name_to_id = {name: data.item_id for name, data in item_table.items()}
     location_name_to_id = {loc_data.name: loc_data.id for loc_data in all_locations}
     item_name_groups = item_groups
+    item_pool = []
+    pre_fill_pool = []
     location_name_groups = location_groups
     disabled_locations: Set[str]
 
@@ -122,7 +125,9 @@ class MinishCapWorld(World):
 
     def create_items(self):
         # First add in all progression and useful items
-        item_pool = get_item_pool(self)
+        item_pool, pre_fill_pool = get_item_pool(self)
+        self.item_pool = item_pool
+        self.pre_fill_pool = pre_fill_pool
         total_locations = len(self.multiworld.get_unfilled_locations(self.player))
         required_items = []
         precollected = [item for item in item_pool if item in self.multiworld.precollected_items]
@@ -136,13 +141,16 @@ class MinishCapWorld(World):
         for item in required_items:
             self.multiworld.itempool.append(item)
 
-        for _ in range(total_locations - len(required_items)):
+        for _ in range(total_locations - len(required_items) - len(pre_fill_pool)):
             self.multiworld.itempool.append(self.create_filler())
 
     def set_rules(self) -> None:
         MinishCapRules(self).set_rules(self.disabled_locations, self.location_name_to_id)
         # from Utils import visualize_regions
         # visualize_regions(self.multiworld.get_region("Menu", self.player), "tmc_world.puml")
+
+    def pre_fill(self) -> None:
+        dungeon_fill(self, self.item_pool, self.pre_fill_pool)
 
     def generate_output(self, output_directory: str) -> None:
         patch = MinishCapProcedurePatch(player = self.player, player_name = self.multiworld.player_name[self.player])

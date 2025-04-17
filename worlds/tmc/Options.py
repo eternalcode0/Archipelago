@@ -3,12 +3,13 @@ from Options import Choice, DefaultOnToggle, Toggle, StartInventoryPool, PerGame
 
 class DungeonItem(Choice):
     value: int
-    option_removed = 0
-    option_vanilla = 1
+    # TODO: removed temporarily while `accessibility: minimal` is worked on
+    # option_removed = 0
+    # option_vanilla = 1
     option_home_dungeon = 2
-    option_home_region = 3
-    option_any_dungeon = 4
-    option_any_region = 5
+    # option_home_region = 3
+    # option_any_dungeon = 4
+    # option_any_region = 5
     option_anywhere = 6
     alias_true = 6
     alias_false = 2
@@ -142,10 +143,10 @@ class MinishCapOptions(PerGameCommonOptions):
     rupeesanity: Rupeesanity
     obscure_spots: ObscureSpots
     early_weapon: EarlyWeapon
-    # dungeon_small_keys: SmallKeys
-    # dungeon_big_keys: BigKeys
-    # dungeon_maps: DungeonMaps
-    # dungeon_compasses: DungeonCompasses
+    dungeon_small_keys: SmallKeys
+    dungeon_big_keys: BigKeys
+    dungeon_maps: DungeonMaps
+    dungeon_compasses: DungeonCompasses
 
 def get_option_data(options: MinishCapOptions):
     """
@@ -186,7 +187,8 @@ def get_option_data(options: MinishCapOptions):
         "wind_crest_crenel": 0,
         "wind_crest_castor": 0,
         "wind_crest_clouds": 0,
-        "wind_crest_lake": 0,
+        "wind_crest_lake": 1,
+        "wind_crest_town": 1,
         "wind_crest_falls": 0,
         "wind_crest_south_field": 0,
         "wind_crest_minish_woods": 0,
