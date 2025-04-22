@@ -148,6 +148,17 @@ FAST_SPIN_SCROLL      = ItemData("Fast Spin Scroll",             ItemClassificat
 FAST_SPLIT_SCROLL     = ItemData("Fast Split Scroll",            ItemClassification.progression, (0x74, 0x00))
 LONG_SPIN             = ItemData("Long Spin",                    ItemClassification.progression, (0x75, 0x00))
 
+TRAP_ICE   = ItemData("Freeze Trap",   ItemClassification.trap, (0x1B, 0x1))
+TRAP_FIRE  = ItemData("Burn Trap",     ItemClassification.trap, (0x1B, 0x2))
+TRAP_ZAP   = ItemData("Zap Trap",      ItemClassification.trap, (0x1B, 0x3))
+TRAP_BOMB  = ItemData("Bomb Trap",     ItemClassification.trap, (0x1B, 0x4))
+TRAP_MONEY = ItemData("Money Trap",    ItemClassification.trap, (0x1B, 0x5))
+TRAP_STINK = ItemData("Stink Trap",    ItemClassification.trap, (0x1B, 0x6))
+TRAP_ROPE  = ItemData("Rope Trap",     ItemClassification.trap, (0x1B, 0x7))
+TRAP_BAT   = ItemData("Bat Trap",      ItemClassification.trap, (0x1B, 0x8))
+TRAP_LIKE  = ItemData("LikeLike Trap", ItemClassification.trap, (0x1B, 0x9))
+TRAP_CURSE = ItemData("Curse Trap",    ItemClassification.trap, (0x1B, 0xA))
+
 DUNGEON_MAP_DWS = ItemData("Dungeon Map (DWS)",                  ItemClassification.useful, (0x50, 0x18))
 DUNGEON_MAP_COF = ItemData("Dungeon Map (CoF)",                  ItemClassification.useful, (0x50, 0x19))
 DUNGEON_MAP_FOW = ItemData("Dungeon Map (FoW)",                  ItemClassification.useful, (0x50, 0x1A))
@@ -303,6 +314,20 @@ def pool_smallkeys() -> [ItemData]:
         *[*[SMALL_KEY_RC] * 3],
     ]
 
+def pool_traps() -> [ItemData]:
+    return [
+        TRAP_ICE,
+        TRAP_FIRE,
+        TRAP_ZAP,
+        TRAP_BOMB,
+        TRAP_MONEY,
+        TRAP_STINK,
+        TRAP_ROPE,
+        TRAP_BAT,
+        TRAP_LIKE,
+        TRAP_CURSE,
+    ]
+
 def pool_kinstone_gold() -> [ItemData]:
     return [
         *[*[KINSTONE_GOLD_CLOUD] * 5],
@@ -382,6 +407,7 @@ itemList: list[ItemData] = [
     *(pool_dungeonmaps()),
     *(pool_compass()),
     *(pool_kinstone_gold()),
+    *(pool_traps()),
     # *(pool_kinstone_red()),
     # *(pool_kinstone_blue()),
     # *(pool_kinstone_green()),
@@ -403,7 +429,26 @@ item_frequencies: dict[str, int] = {
     ARROW_REFILL_30.item_name: 16,
 }
 
-filler_item_selection: list[str] = [name for name, count in item_frequencies.items() for _ in range(count)]
+trap_frequencies: dict[str, int] = {
+    TRAP_ICE.item_name: 10,
+    TRAP_FIRE.item_name: 10,
+    TRAP_ZAP.item_name: 10,
+    TRAP_BOMB.item_name: 10,
+    TRAP_MONEY.item_name: 10,
+    TRAP_STINK.item_name: 10,
+    TRAP_ROPE.item_name: 10,
+    TRAP_BAT.item_name: 10,
+    TRAP_LIKE.item_name: 10,
+    TRAP_CURSE.item_name: 10,
+}
+
+def get_filler_item_selection(world: "MinishCapWorld"):
+    frequencies = item_frequencies.copy()
+    if world.options.traps_enabled:
+        traps = trap_frequencies.copy()
+        frequencies.update(traps)
+    return [name for name, count in frequencies.items() for _ in range(count)]
+
 item_table: dict[str, ItemData] = {item.item_name: item for item in itemList}
 items_by_id: dict[int, ItemData] = {item.item_id: item for item in itemList}
 item_groups: dict[str, set[str]] = {

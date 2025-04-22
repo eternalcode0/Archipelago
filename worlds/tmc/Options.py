@@ -48,6 +48,9 @@ class DungeonMaps(DungeonItem):
 class DungeonCompasses(DungeonItem):
     display_name = "Dungeon Compasses Shuffle"
 
+class Traps(Toggle):
+    display_name = "Traps Enabled"
+
 class GoalVaati(DefaultOnToggle):
     """
     If enabled, DHC will open after completing Pedestal. Kill Vaati to goal.
@@ -141,6 +144,7 @@ class MinishCapOptions(PerGameCommonOptions):
     shuffle_elements: ShuffleElements
     rupeesanity: Rupeesanity
     obscure_spots: ObscureSpots
+    traps_enabled: Traps
     early_weapon: EarlyWeapon
     # dungeon_small_keys: SmallKeys
     # dungeon_big_keys: BigKeys

@@ -12,7 +12,7 @@ import settings
 from BaseClasses import Tutorial, Item, Region, Location, LocationProgressType, ItemClassification
 from worlds.AutoWorld import WebWorld, World
 from .Options import MinishCapOptions, DungeonItem, get_option_data
-from .Items import ItemData, item_frequencies, item_table, itemList, item_groups, filler_item_selection, get_item_pool
+from .Items import ItemData, item_frequencies, item_table, get_filler_item_selection, item_groups, get_item_pool
 from .Locations import all_locations, DEFAULT_SET, OBSCURE_SET, POOL_RUPEE, location_groups, GOAL_VAATI, GOAL_PED
 from .constants import TMCEvent, MinishCapItem, MinishCapLocation
 from .Client import MinishCapClient
@@ -72,6 +72,7 @@ class MinishCapWorld(World):
     location_name_to_id = {loc_data.name: loc_data.id for loc_data in all_locations}
     item_name_groups = item_groups
     location_name_groups = location_groups
+    filler_items = []
     disabled_locations: Set[str]
 
     def generate_early(self) -> None:
@@ -84,6 +85,7 @@ class MinishCapWorld(World):
         if self.options.obscure_spots.value:
             enabled_pools |= OBSCURE_SET
 
+        self.filler_items = get_filler_item_selection(self)
         self.disabled_locations = set(loc.name for loc in all_locations if not loc.pools.issubset(enabled_pools))
 
     def fill_slot_data(self) -> Dict[str, any]:
@@ -118,7 +120,7 @@ class MinishCapWorld(World):
         return MinishCapItem(name, ItemClassification.progression, None, self.player)
 
     def get_filler_item_name(self) -> str:
-        return self.random.choice(filler_item_selection)
+        return self.random.choice(self.filler_items)
 
     def create_items(self):
         # First add in all progression and useful items
