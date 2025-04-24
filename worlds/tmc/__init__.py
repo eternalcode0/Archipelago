@@ -11,11 +11,11 @@ import os
 import settings
 from BaseClasses import Tutorial, Item, Region, Location, LocationProgressType, ItemClassification
 from worlds.AutoWorld import WebWorld, World
-from .Options import MinishCapOptions, DungeonItem, get_option_data
+from .Options import MinishCapOptions, DungeonItem, ShuffleElements, get_option_data
 from .Items import ItemData, item_frequencies, item_table, itemList, item_groups, filler_item_selection, get_item_pool
 from .Locations import all_locations, DEFAULT_SET, OBSCURE_SET, POOL_RUPEE, location_groups, GOAL_VAATI, GOAL_PED
-from .constants import TMCEvent, MinishCapItem, MinishCapLocation
-from .dungeons import dungeon_fill
+from .constants import TMCEvent, TMCItem, MinishCapItem, MinishCapLocation
+from .dungeons import fill_dungeons
 from .Client import MinishCapClient
 from .Regions import create_regions
 from .Rom import MinishCapProcedurePatch, write_tokens
@@ -87,6 +87,12 @@ class MinishCapWorld(World):
         if self.options.obscure_spots.value:
             enabled_pools |= OBSCURE_SET
 
+        if self.options.shuffle_elements.value == ShuffleElements.option_own_dungeon:
+            self.options.start_hints.value.add(TMCItem.EARTH_ELEMENT)
+            self.options.start_hints.value.add(TMCItem.FIRE_ELEMENT)
+            self.options.start_hints.value.add(TMCItem.WATER_ELEMENT)
+            self.options.start_hints.value.add(TMCItem.WIND_ELEMENT)
+
         self.disabled_locations = set(loc.name for loc in all_locations if not loc.pools.issubset(enabled_pools))
 
     def fill_slot_data(self) -> Dict[str, any]:
@@ -150,7 +156,7 @@ class MinishCapWorld(World):
         # visualize_regions(self.multiworld.get_region("Menu", self.player), "tmc_world.puml")
 
     def pre_fill(self) -> None:
-        dungeon_fill(self, self.item_pool, self.pre_fill_pool)
+        fill_dungeons(self)
 
     def generate_output(self, output_directory: str) -> None:
         patch = MinishCapProcedurePatch(player = self.player, player_name = self.multiworld.player_name[self.player])

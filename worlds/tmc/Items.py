@@ -342,49 +342,27 @@ def get_item_pool(world: "MinishCapWorld") -> (list[MinishCapItem], list[MinishC
         multiworld.local_early_items[player][PROGRESSIVE_SWORD.item_name] = 1
 
     # TODO: add support for the other options, maybe clean this up so it's not a massive if/else branch
-    if world.options.dungeon_big_keys == DungeonItem.option_home_dungeon:
+    if world.options.dungeon_big_keys == DungeonItem.option_own_dungeon:
         pre_fill_pool.extend(pool_bigkeys())
     else:
         item_pool.extend(pool_bigkeys())
-    if world.options.dungeon_small_keys == DungeonItem.option_home_dungeon:
+    if world.options.dungeon_small_keys == DungeonItem.option_own_dungeon:
         pre_fill_pool.extend(pool_smallkeys())
     else:
         item_pool.extend(pool_smallkeys())
-    if world.options.dungeon_compasses == DungeonItem.option_home_dungeon:
+    if world.options.dungeon_compasses == DungeonItem.option_own_dungeon:
         pre_fill_pool.extend(pool_compass())
     else:
         item_pool.extend(pool_compass())
-    if world.options.dungeon_maps == DungeonItem.option_home_dungeon:
+    if world.options.dungeon_maps == DungeonItem.option_own_dungeon:
         pre_fill_pool.extend(pool_dungeonmaps())
     else:
         item_pool.extend(pool_dungeonmaps())
 
     if world.options.shuffle_elements.value is ShuffleElements.option_anywhere:
         item_pool.extend(pool_elements())
-    elif world.options.shuffle_elements.value is ShuffleElements.option_original_dungeon:
-        placements = {
-            TMCLocation.DEEPWOOD_PRIZE: EARTH_ELEMENT,
-            TMCLocation.COF_PRIZE: FIRE_ELEMENT,
-            TMCLocation.DROPLETS_PRIZE: WATER_ELEMENT,
-            TMCLocation.PALACE_PRIZE: WIND_ELEMENT,
-        }
-        for loc, element in placements.items():
-            multiworld.get_location(loc, player).place_locked_item(world.create_item(element.item_name))
-    elif world.options.shuffle_elements.value is ShuffleElements.option_own_dungeon:
-        dungeons = [
-            TMCLocation.DEEPWOOD_PRIZE,
-            TMCLocation.COF_PRIZE,
-            TMCLocation.DROPLETS_PRIZE,
-            TMCLocation.PALACE_PRIZE,
-            TMCLocation.FORTRESS_PRIZE,
-            TMCLocation.CRYPT_PRIZE
-        ]
-        elements = [EARTH_ELEMENT, FIRE_ELEMENT, WATER_ELEMENT, WIND_ELEMENT]
-        world.random.shuffle(dungeons)
-
-        for i, element in enumerate(elements):
-            multiworld.get_location(dungeons[i], player).place_locked_item(world.create_item(element.item_name))
-            world.options.start_hints.value.add(element.item_name)
+    else:
+        pre_fill_pool.extend(pool_elements())
 
     return (
         [world.create_item(item.item_name) for item in item_pool],

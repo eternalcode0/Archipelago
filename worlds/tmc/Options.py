@@ -3,16 +3,19 @@ from Options import Choice, DefaultOnToggle, Toggle, StartInventoryPool, PerGame
 
 class DungeonItem(Choice):
     value: int
-    # TODO: removed temporarily while `accessibility: minimal` is worked on
-    # option_removed = 0
-    # option_vanilla = 1
-    option_home_dungeon = 2
-    # option_home_region = 3
-    # option_any_dungeon = 4
-    # option_any_region = 5
-    option_anywhere = 6
-    alias_true = 6
-    alias_false = 2
+    # EternalCode's note: I want to experiment with a `closed` for small/big keys to actually remove them from the pool
+    # entirely and keep the doors closed. All locations behind them would be removed & inaccessible.
+    # Elements would need to be forced to be anywhere under this setting.
+    # option_closed = 0
+    # option_open = 1 # TMCR Removed
+    # option_vanilla = 2
+    option_own_dungeon = 0 # 3
+    # option_own_region = 4
+    # option_any_dungeon = 5
+    # option_any_region = 6
+    option_anywhere = 1 # 7
+    alias_true = 1
+    alias_false = 0
 
 class Rupeesanity(Toggle):
     """Add all rupees locations to the pool to be randomized."""
@@ -23,6 +26,9 @@ class ObscureSpots(Toggle):
     display_name = "Obscure Spots"
 
 class ShuffleElements(Choice):
+    # EternalCode's Note: I'd like to see ElementShuffle extend DungeonItem choice. ElementShuffle would
+    # get it's own unique `dungeon_prize` setting to keep current/default functionality. `own_dungeon` could then place
+    # a maximum of one element anywhere in the dungeon.
     """
     Lock elements to specific locations
     Original Dungeon: Elements are in the same dungeons as vanilla
