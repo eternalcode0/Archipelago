@@ -1,5 +1,4 @@
 from collections.abc import Callable
-from enum import Enum
 
 from BaseClasses import Item, Location, ItemClassification
 
@@ -36,7 +35,7 @@ class TMCItem:
     BOTTLE_2              = "Bottle 2"
     BOTTLE_3              = "Bottle 3"
     BOTTLE_4              = "Bottle 4"
-    # EMPTY_BOTTLE          = "Bottle (Empty)"
+    EMPTY_BOTTLE          = "Bottle"
     LON_LON_BUTTER        = "Bottle (Lon Lon Butter)"
     LON_LON_MILK          = "Bottle (Lon Lon Milk)"
     LON_LON_MILK_HALF     = "Bottle (Lon Lon Milk (1/2))"
