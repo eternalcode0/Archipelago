@@ -32,33 +32,49 @@ class ShuffleElements(Choice):
     """
     Lock elements to specific locations
     Original Dungeon: Elements are in the same dungeons as vanilla
-    Own Dungeon (false): Elements are shuffled between the 6 dungeon prizes
+    Own Dungeon (false/default): Elements are shuffled between the 6 dungeon prizes
     Anywhere (true): Elements are in completely random locations
     """
     display_name = "Element Shuffle"
     default = 1
-    option_original_dungeon = 0
+    option_original_dungeon = 0 # to be renamed to `vanilla`
     option_own_dungeon = 1
     option_anywhere = 2
     alias_true = 2
     alias_false = 1
 
 class SmallKeys(DungeonItem):
+    """
+    Own Dungeon (false/default): Randomized within the dungeon they're normally found in
+    Anywhere (true): Items are in completely random locations
+    """
     display_name = "Small Key Shuffle"
 
 class BigKeys(DungeonItem):
+    """
+    Own Dungeon (default/false): Randomized within the dungeon they're normally found in
+    Anywhere (true): Items are in completely random locations
+    """
     display_name = "Big Key Shuffle"
 
 class DungeonMaps(DungeonItem):
+    """
+    Own Dungeon (default/false): Randomized within the dungeon they're normally found in
+    Anywhere (true): Items are in completely random locations
+    """
     display_name = "Dungeon Maps Shuffle"
 
 class DungeonCompasses(DungeonItem):
+    """
+    Own Dungeon (default/false): Randomized within the dungeon they're normally found in
+    Anywhere (true): Items are in completely random locations
+    """
     display_name = "Dungeon Compasses Shuffle"
 
 class GoalVaati(DefaultOnToggle):
     """
     If enabled, DHC will open after completing Pedestal. Kill Vaati to goal.
-    If disabled, complete Pedestal to goal. DHC/Vaati is unecessary.
+    If disabled, complete Pedestal to goal. DHC/Vaati is unnecessary.
     """
     display_name = "Vaati Goal"
 
