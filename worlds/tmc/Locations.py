@@ -1106,25 +1106,25 @@ all_locations: typing.List[LocationData] = [
         (0x0F4086, None), (0x2D06, 0x01), 0x0118),
     LocationData(
         6029339, TMCLocation.FORTRESS_LEFT_2F_ITEM1, TMCRegion.DUNGEON_FOW, TMCItem.RUPEES_1,
-        (0x0F3F37, None), (0x2D06, 0x20), 0x0118),
+        (0x0F3F37, None), (0x2D06, 0x20), 0x0118, pools={POOL_RUPEE}),
     LocationData(
         6029340, TMCLocation.FORTRESS_LEFT_2F_ITEM2, TMCRegion.DUNGEON_FOW, TMCItem.RUPEES_1,
-        (0x0F3F47, None), (0x2D06, 0x40), 0x0118),
+        (0x0F3F47, None), (0x2D06, 0x40), 0x0118, pools={POOL_RUPEE}),
     LocationData(
         6029341, TMCLocation.FORTRESS_LEFT_2F_ITEM3, TMCRegion.DUNGEON_FOW, TMCItem.RUPEES_1,
-        (0x0F3F57, None), (0x2D06, 0x80), 0x0118),
+        (0x0F3F57, None), (0x2D06, 0x80), 0x0118, pools={POOL_RUPEE}),
     LocationData(
         6029342, TMCLocation.FORTRESS_LEFT_2F_ITEM4, TMCRegion.DUNGEON_FOW, TMCItem.RUPEES_1,
-        (0x0F3F67, None), (0x2D07, 0x01), 0x0118),
+        (0x0F3F67, None), (0x2D07, 0x01), 0x0118, pools={POOL_RUPEE}),
     LocationData(
         6029343, TMCLocation.FORTRESS_LEFT_2F_ITEM5, TMCRegion.DUNGEON_FOW, TMCItem.RUPEES_1,
-        (0x0F3F97, None), (0x2D07, 0x08), 0x0118),
+        (0x0F3F97, None), (0x2D07, 0x08), 0x0118, pools={POOL_RUPEE}),
     LocationData(
         6029344, TMCLocation.FORTRESS_LEFT_2F_ITEM6, TMCRegion.DUNGEON_FOW, TMCItem.RUPEES_5,
-        (0x0F3F87, None), (0x2D07, 0x04), 0x0118),
+        (0x0F3F87, None), (0x2D07, 0x04), 0x0118, pools={POOL_RUPEE}),
     LocationData(
         6029345, TMCLocation.FORTRESS_LEFT_2F_ITEM7, TMCRegion.DUNGEON_FOW, TMCItem.RUPEES_5,
-        (0x0F3F77, None), (0x2D07, 0x02), 0x0118),
+        (0x0F3F77, None), (0x2D07, 0x02), 0x0118, pools={POOL_RUPEE}),
     LocationData(
         6029346, TMCLocation.FORTRESS_LEFT_3F_SWITCH_CHEST, TMCRegion.DUNGEON_FOW, TMCItem.KINSTONE,
         (0x0F4146, None), (0x2D07, 0x20), 0x0218),
@@ -1294,19 +1294,19 @@ all_locations: typing.List[LocationData] = [
         (0x0E520E, None), (0x2D8F, 0x40), 0x2B60),
     LocationData(
         6029401, TMCLocation.DROPLETS_RIGHT_PATH_B2_UNDERPASS_ITEM1, TMCRegion.DUNGEON_TOD_MAIN, TMCItem.RUPEES_1,
-        (0x0E483F, None), (0x2D95, 0x10), 0x2560, pools={POOL_WATER}),
+        (0x0E483F, None), (0x2D95, 0x10), 0x2560, pools={POOL_RUPEE}),
     LocationData(
         6029402, TMCLocation.DROPLETS_RIGHT_PATH_B2_UNDERPASS_ITEM2, TMCRegion.DUNGEON_TOD_MAIN, TMCItem.RUPEES_1,
-        (0x0E484F, None), (0x2D95, 0x20), 0x2560, pools={POOL_WATER}),
+        (0x0E484F, None), (0x2D95, 0x20), 0x2560, pools={POOL_RUPEE}),
     LocationData(
         6029403, TMCLocation.DROPLETS_RIGHT_PATH_B2_UNDERPASS_ITEM3, TMCRegion.DUNGEON_TOD_MAIN, TMCItem.RUPEES_1,
-        (0x0E485F, None), (0x2D95, 0x40), 0x2560, pools={POOL_WATER}),
+        (0x0E485F, None), (0x2D95, 0x40), 0x2560, pools={POOL_RUPEE}),
     LocationData(
         6029404, TMCLocation.DROPLETS_RIGHT_PATH_B2_UNDERPASS_ITEM4, TMCRegion.DUNGEON_TOD_MAIN, TMCItem.RUPEES_1,
-        (0x0E486F, None), (0x2D95, 0x04), 0x2560, pools={POOL_WATER}),
+        (0x0E486F, None), (0x2D95, 0x04), 0x2560, pools={POOL_RUPEE}),
     LocationData(
         6029405, TMCLocation.DROPLETS_RIGHT_PATH_B2_UNDERPASS_ITEM5, TMCRegion.DUNGEON_TOD_MAIN, TMCItem.RUPEES_1,
-        (0x0E487F, None), (0x2D95, 0x08), 0x2560, pools={POOL_WATER}),
+        (0x0E487F, None), (0x2D95, 0x08), 0x2560, pools={POOL_RUPEE}),
     LocationData(
         6029406, TMCLocation.DROPLETS_BOSS_ITEM, TMCRegion.DUNGEON_TOD_MAIN, TMCItem.HEART_CONTAINER,
         (0x0E4103, None), (0x2D8C, 0x01), 0x0E60),

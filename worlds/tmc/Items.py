@@ -370,7 +370,7 @@ def get_item_pool(world: "MinishCapWorld") -> [MinishCapItem]:
 
         for i, element in enumerate(elements):
             multiworld.get_location(dungeons[i], player).place_locked_item(world.create_item(element.item_name))
-            multiworld.start_hints[player].value.add(element.item_name)
+            world.options.start_hints.value.add(element.item_name)
 
     return [world.create_item(item.item_name) for item in item_pool]
 
