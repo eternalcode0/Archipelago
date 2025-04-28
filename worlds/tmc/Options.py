@@ -6,16 +6,17 @@ class DungeonItem(Choice):
     # EternalCode's note: I want to experiment with a `closed` for small/big keys to actually remove them from the pool
     # entirely and keep the doors closed. All locations behind them would be removed & inaccessible.
     # Elements would need to be forced to be anywhere under this setting.
-    # option_closed = 0
-    # option_open = 1 # TMCR Removed
+    # option_closed = 0 # New compared to TMCR (compass/map removed from pool, locations behind keys inaccessible, I doubt many would use this but it'd be relatively simple to implement)
+    # option_open = 1 # TMCR Removed (compass/map start_inventory, keys removed from pool, doors are open at the start of the save)
     # option_vanilla = 2
-    option_own_dungeon = 0 # 3
+    option_own_dungeon = 3
     # option_own_region = 4
     # option_any_dungeon = 5
     # option_any_region = 6
-    option_anywhere = 1 # 7
-    alias_true = 1
-    alias_false = 0
+    # 7 reserved for option specific settings (small key = universal)
+    option_anywhere = 8
+    alias_true = 8
+    alias_false = 3
 
 class Rupeesanity(Toggle):
     """Add all rupees locations to the pool to be randomized."""
@@ -26,22 +27,30 @@ class ObscureSpots(Toggle):
     display_name = "Obscure Spots"
 
 class ShuffleElements(Choice):
-    # EternalCode's Note: I'd like to see ElementShuffle extend DungeonItem choice. ElementShuffle would
-    # get it's own unique `dungeon_prize` setting to keep current/default functionality. `own_dungeon` could then place
-    # a maximum of one element anywhere in the dungeon.
+    # EternalCode's Note: I'd like to experiment with ElementShuffle extending DungeonItem choice, just for consistency.
+    # The settings would be slightly repurposed to something like this
+    # `closed`: elements removed from pool, goal_elements forced to 0
+    # `open`: elements added to start inventory (pretty useless all things considered)
+    # `vanilla`: elements in their usual dungeon prize location
+    # `own_dungeon`: place a element anywhere in it's usual dungeon
+    # `own_region`: place element in the vacinity of it's usual dungeon
+    # `any_dungeon`: place elements anywhere in any dungeon
+    # `any_region`: place elements anywhere in the vacinity of any dungeon
+    # `dungeon_prize` (default): Elements are shuffled between the 6 dungeon prizes
+    # `anywhere`: full random
     """
     Lock elements to specific locations
-    Original Dungeon: Elements are in the same dungeons as vanilla
-    Own Dungeon (false/default): Elements are shuffled between the 6 dungeon prizes
+    Vanilla: Elements are in the same dungeons as vanilla
+    Dungeon Prize (false/default): Elements are shuffled between the 6 dungeon prizes
     Anywhere (true): Elements are in completely random locations
     """
     display_name = "Element Shuffle"
-    default = 1
-    option_original_dungeon = 0 # to be renamed to `vanilla`
-    option_own_dungeon = 1
-    option_anywhere = 2
-    alias_true = 2
-    alias_false = 1
+    default = 7
+    option_vanilla = 2
+    option_dungeon_prize = 7
+    option_anywhere = 8
+    alias_true = 8
+    alias_false = 7
 
 class SmallKeys(DungeonItem):
     """
@@ -49,6 +58,7 @@ class SmallKeys(DungeonItem):
     Anywhere (true): Items are in completely random locations
     """
     display_name = "Small Key Shuffle"
+    default = 3
 
 class BigKeys(DungeonItem):
     """
@@ -56,6 +66,7 @@ class BigKeys(DungeonItem):
     Anywhere (true): Items are in completely random locations
     """
     display_name = "Big Key Shuffle"
+    default = 3
 
 class DungeonMaps(DungeonItem):
     """
@@ -63,6 +74,7 @@ class DungeonMaps(DungeonItem):
     Anywhere (true): Items are in completely random locations
     """
     display_name = "Dungeon Maps Shuffle"
+    default = 3
 
 class DungeonCompasses(DungeonItem):
     """
@@ -70,6 +82,7 @@ class DungeonCompasses(DungeonItem):
     Anywhere (true): Items are in completely random locations
     """
     display_name = "Dungeon Compasses Shuffle"
+    default = 3
 
 class GoalVaati(DefaultOnToggle):
     """
@@ -180,10 +193,6 @@ def get_option_data(options: MinishCapOptions):
         "goal_swords": 0, # 0-5
         "goal_elements": 4, # 0-4
         "goal_figurines": 0, # 0-136
-        "dungeon_small_keys": DungeonItem.option_anywhere,
-        "dungeon_big_keys": DungeonItem.option_anywhere,
-        "dungeon_maps": DungeonItem.option_anywhere,
-        "dungeon_compasses": DungeonItem.option_anywhere,
         "dungeon_warp_dws": 0, # 0 = None, 1 = Blue, 2 = Red, 3 = Both
         "dungeon_warp_cof": 0,
         "dungeon_warp_fow": 0,

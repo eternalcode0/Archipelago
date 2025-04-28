@@ -14,7 +14,7 @@ from worlds.AutoWorld import WebWorld, World
 from .Options import MinishCapOptions, DungeonItem, ShuffleElements, get_option_data
 from .Items import ItemData, item_frequencies, item_table, itemList, item_groups, filler_item_selection, get_item_pool
 from .Locations import all_locations, DEFAULT_SET, OBSCURE_SET, POOL_RUPEE, location_groups, GOAL_VAATI, GOAL_PED
-from .constants import TMCEvent, TMCItem, MinishCapItem, MinishCapLocation
+from .constants import TMCLocation, TMCEvent, TMCItem, MinishCapItem, MinishCapLocation
 from .dungeons import fill_dungeons
 from .Client import MinishCapClient
 from .Regions import create_regions
@@ -87,7 +87,7 @@ class MinishCapWorld(World):
         if self.options.obscure_spots.value:
             enabled_pools |= OBSCURE_SET
 
-        if self.options.shuffle_elements.value == ShuffleElements.option_own_dungeon:
+        if self.options.shuffle_elements.value == ShuffleElements.option_dungeon_prize:
             self.options.start_hints.value.add(TMCItem.EARTH_ELEMENT)
             self.options.start_hints.value.add(TMCItem.FIRE_ELEMENT)
             self.options.start_hints.value.add(TMCItem.WATER_ELEMENT)
@@ -104,8 +104,23 @@ class MinishCapWorld(World):
             "GoalVaati": self.options.goal_vaati.value,
         }
         data |= self.options.as_dict("death_link", "death_link_gameover", "rupeesanity", "obscure_spots", "goal_vaati",
+            "dungeon_small_keys", "dungeon_big_keys", "dungeon_compasses", "dungeon_maps",
             casing="snake")
         data |= get_option_data(self.options)
+        # If Element location should be known, add locations to slot data for tracker
+        if self.options.shuffle_elements.value != ShuffleElements.option_anywhere:
+            prizes = {
+                TMCLocation.COF_PRIZE: "prize_cof",
+                TMCLocation.CRYPT_PRIZE: "prize_rc",
+                TMCLocation.PALACE_PRIZE: "prize_pow",
+                TMCLocation.DEEPWOOD_PRIZE: "prize_dws",
+                TMCLocation.DROPLETS_PRIZE: "prize_tod",
+                TMCLocation.FORTRESS_PRIZE: "prize_fow",
+            }
+            for loc_name, data_name in prizes.items():
+                placed_item = self.get_location(loc_name).item.name
+                if placed_item in self.item_name_groups["Elements"]:
+                    data[data_name] = item_table[placed_item].byte_ids[0]
         return data
 
     def create_regions(self) -> None:

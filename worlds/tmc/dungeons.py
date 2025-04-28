@@ -103,20 +103,20 @@ def fill_dungeons(world: "MinishCapWorld"):
     # Place after the first 6 dungeons so that the prize locations are guaranteed reachable from the dungeon fill
     elements = list(map(world.create_item,
         [TMCItem.EARTH_ELEMENT, TMCItem.FIRE_ELEMENT, TMCItem.WATER_ELEMENT, TMCItem.WIND_ELEMENT])) # Order matters
-    if world.options.shuffle_elements.value is ShuffleElements.option_own_dungeon:
+    if world.options.shuffle_elements.value is ShuffleElements.option_dungeon_prize:
         # Place elements into any "prize" location, shuffle locations
         locations = [loc for loc in world.get_locations() if loc.name in ELEMENT_LOCATIONS]
         world.random.shuffle(locations)
         # Don't allow excluded locations so that players can ban specific dungeons
         fill_restrictive(multiworld, all_state, locations, elements,
             single_player_placement=True, lock=True, allow_excluded=False, name="TMC Element Fill")
-    elif world.options.shuffle_elements.value is ShuffleElements.option_original_dungeon:
+    elif world.options.shuffle_elements.value is ShuffleElements.option_vanilla:
         # Place elements into ordered locations, don't shuffle
         locations = []
-        locations.append(world.get_location(TMCLocation.DEEPWOOD_PRIZE))
-        locations.append(world.get_location(TMCLocation.COF_PRIZE))
-        locations.append(world.get_location(TMCLocation.DROPLETS_PRIZE))
         locations.append(world.get_location(TMCLocation.PALACE_PRIZE))
+        locations.append(world.get_location(TMCLocation.DROPLETS_PRIZE))
+        locations.append(world.get_location(TMCLocation.COF_PRIZE))
+        locations.append(world.get_location(TMCLocation.DEEPWOOD_PRIZE))
         fill_restrictive(multiworld, all_state, locations, elements,
             single_player_placement=True, lock=True, allow_excluded=True, name="TMC Element Fill")
 
