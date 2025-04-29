@@ -12,7 +12,7 @@ import settings
 from BaseClasses import Tutorial, Item, Region, Location, LocationProgressType, ItemClassification
 from worlds.AutoWorld import WebWorld, World
 from .Options import MinishCapOptions, DungeonItem, ShuffleElements, get_option_data
-from .Items import ItemData, item_frequencies, item_table, itemList, item_groups, filler_item_selection, get_item_pool
+from .Items import ItemData, item_frequencies, item_table, item_list, item_groups, filler_item_selection, get_item_pool
 from .Locations import all_locations, DEFAULT_SET, OBSCURE_SET, POOL_RUPEE, location_groups, GOAL_VAATI, GOAL_PED
 from .constants import TMCLocation, TMCEvent, TMCItem, MinishCapItem, MinishCapLocation
 from .dungeons import fill_dungeons

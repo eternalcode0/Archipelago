@@ -28,7 +28,7 @@ DUNGEON_ITEMS = {
         "dungeon_maps": [TMCItem.DUNGEON_MAP_FOW],
     },
     "ToD": {
-        "dungeon_big_keys": [TMCItem.BIG_KEY_TOD],
+        "dungeon_big_keys": [], # ToD big key is placed manually
         "dungeon_small_keys": [TMCItem.SMALL_KEY_TOD] * 4,
         "dungeon_compasses": [TMCItem.DUNGEON_COMPASS_TOD],
         "dungeon_maps": [TMCItem.DUNGEON_MAP_TOD],
@@ -92,7 +92,7 @@ def fill_dungeons(world: "MinishCapWorld"):
 
     # Initialize collection state to assume player has all items except dungeon keys
     all_state = CollectionState(multiworld)
-    collection = [all_state.collect(item) for item in multiworld.itempool if item.player == world.player]
+    collection = [all_state.collect(item) for item in world.item_pool]
 
     # Dungeon Keys/Maps/Compasses
     # Exclude DHC until Elements are placed
