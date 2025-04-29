@@ -145,7 +145,8 @@ class MinishCapRules():
                 ]),
             (TMCRegion.MELARI, TMCRegion.DUNGEON_COF):
                 self.logic_and([
-                    self.has(TMCItem.BOMB_BAG), # remove for the bobombs destroying bombs option
+                    self.logic_option("bobombs_destroy_walls" not in self.world.options.tricks,
+                        self.has(TMCItem.BOMB_BAG)),
                     self.can_attack(),
                     self.logic_or([
                         self.has_all([
@@ -629,12 +630,14 @@ class MinishCapRules():
             TMCLocation.CRENEL_BASE_MINISH_VINE_HOLE_CHEST:
                 self.logic_and([
                     self.has_any([TMCItem.BOMB_BAG, TMCItem.ROCS_CAPE]),
-                    self.has(TMCItem.GUST_JAR), # Bomb dust trick
+                    self.logic_option("bombable_dust" not in self.world.options.tricks,
+                        self.has(TMCItem.GUST_JAR))
                 ]),
             TMCLocation.CRENEL_BASE_MINISH_CRACK_CHEST:
                 self.logic_and([
                     self.has_any([TMCItem.BOMB_BAG, TMCItem.ROCS_CAPE]),
-                    self.has(TMCItem.GUST_JAR), # Bomb dust trick
+                    self.logic_option("bombable_dust" not in self.world.options.tricks,
+                        self.has(TMCItem.GUST_JAR))
                 ]),
             TMCLocation.CRENEL_VINE_TOP_GOLDEN_TEKTITE: # Fusion 3B
                 self.can_attack(),
@@ -1131,7 +1134,12 @@ class MinishCapRules():
                 self.has_any([TMCItem.LANTERN, TMCItem.GUST_JAR]),
             #TMCLocation.DEEPWOOD_1F_SLUG_TORCHES_CHEST : None,
             TMCLocation.DEEPWOOD_1F_BARREL_ROOM_CHEST:
-                self.has_all([TMCItem.SMALL_KEY_DWS, TMCItem.GUST_JAR]), # bomb dust trick
+                self.logic_and([
+                    self.has(TMCItem.SMALL_KEY_DWS, 1),
+                    self.logic_option("bombable_dust" in self.world.options.tricks,
+                        self.has_any([TMCItem.GUST_JAR, TMCItem.BOMB_BAG]), # bomb dust trick
+                        self.has(TMCItem.GUST_JAR))
+                ]),
             TMCLocation.DEEPWOOD_1F_WEST_BIG_CHEST:
                 self.has(TMCItem.SMALL_KEY_DWS,1),
             TMCLocation.DEEPWOOD_1F_WEST_STATUE_PUZZLE_CHEST:
@@ -1142,16 +1150,18 @@ class MinishCapRules():
                     self.can_attack()
                 ]),
             TMCLocation.DEEPWOOD_1F_NORTH_EAST_CHEST:
-                #self.logic_or([
-                #    self.logic_and([
-                #        self.has(TMCItem.SMALL_KEY_DWS,2),
-                #        self.has(TMCItem.BOMB_BAG)     # bomb dust trick
-                #    ]),
+                self.logic_or([
+                    self.logic_option("bombable_dust" in self.world.options.tricks,
+                        self.logic_and([
+                            self.has(TMCItem.SMALL_KEY_DWS,2),
+                            self.has(TMCItem.BOMB_BAG)     # bomb dust trick
+                        ])
+                    ),
                     self.logic_and([
                         self.has(TMCItem.GUST_JAR),
                         self.has(TMCItem.SMALL_KEY_DWS,1)
                     ]),
-                #]),
+                ]),
             TMCLocation.DEEPWOOD_B1_SWITCH_ROOM_BIG_CHEST:
                 self.logic_or([
                     self.has(TMCItem.SMALL_KEY_DWS,2),
@@ -2022,11 +2032,15 @@ class MinishCapRules():
         }
 
 
-    def logic_or(self, rules: [CollectionRule]) -> CollectionRule:
-        return lambda state: any(rule(state) for rule in rules)
+    def logic_or(self, rules: [CollectionRule | None]) -> CollectionRule:
+        return lambda state: any(rule(state) for rule in rules if rule is not None)
 
-    def logic_and(self, rules: [CollectionRule]) -> CollectionRule:
-        return lambda state: all(rule(state) for rule in rules)
+    def logic_and(self, rules: [CollectionRule | None]) -> CollectionRule:
+        return lambda state: all(rule(state) for rule in rules if rule is not None)
+
+    def logic_option(self, option: bool, rule_true: CollectionRule,
+        rule_false: CollectionRule | None = None) -> CollectionRule | None:
+        return rule_true if option else rule_false
 
     def droplet_right_lever(self) -> CollectionRule:
         return self.logic_and([self.can_attack(), self.split_rule(2), self.has(TMCItem.SMALL_KEY_TOD,4), self.has_all([TMCItem.LANTERN,TMCItem.BOMB_BAG,TMCItem.FLIPPERS])])

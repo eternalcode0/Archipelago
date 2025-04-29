@@ -1,5 +1,14 @@
 from dataclasses import dataclass
-from Options import Choice, DefaultOnToggle, Toggle, StartInventoryPool, PerGameCommonOptions, Range, DeathLink
+from Options import (
+    Choice,
+    DefaultOnToggle,
+    Toggle,
+    StartInventoryPool,
+    PerGameCommonOptions,
+    Range,
+    DeathLink,
+    OptionSet
+)
 
 class DungeonItem(Choice):
     value: int
@@ -127,6 +136,14 @@ class DeathLinkGameover(Toggle):
     """
     display_name = "Deathlink is Gameover"
 
+class Tricks(OptionSet):
+    """
+    bombable_dust: Bombs may be required to blow away dust instead of Gust Jar
+    bobombs_destroy_walls: Either a Sword or the Gust Jar may be required to blow up walls near Bobombs
+    """
+    display_name = "Tricks"
+    valid_keys = ["bombable_dust", "bobombs_destroy_walls"]
+
 @dataclass
 class MinishCapOptions(PerGameCommonOptions):
     start_inventory_from_pool: StartInventoryPool
@@ -139,6 +156,7 @@ class MinishCapOptions(PerGameCommonOptions):
     # goal_figurines: GoalFigurines
     # figurine_amount: FigurineAmount
     shuffle_elements: ShuffleElements
+    tricks: Tricks
     rupeesanity: Rupeesanity
     obscure_spots: ObscureSpots
     early_weapon: EarlyWeapon
@@ -195,10 +213,10 @@ def get_option_data(options: MinishCapOptions):
         "weapon_gust_jar": 0, # No, Yes
         "weapon_lantern": 0,
         "trick_mitts_farm_rupees": 0, # No, Yes
-        "trick_bombable_dust": 0,
+        "trick_bombable_dust": "bombable_dust" in options.tricks,
         "trick_crenel_mushroom_gust_jar": 0,
         "trick_light_arrows_break_objects": 1,
-        "trick_bobombs_destroy_walls": 0,
+        "trick_bobombs_destroy_walls": "bobombs_destroy_walls" in options.tricks,
         "trick_like_like_cave_no_sword": 0,
         "trick_boots_skip_town_guard": 0,
         "trick_beam_crenel_switch": 0,
