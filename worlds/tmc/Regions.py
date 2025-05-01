@@ -1,7 +1,7 @@
 import typing
 
 from BaseClasses import Region
-from .constants import ALL_REGIONS, MinishCapLocation
+from .constants import ALL_REGIONS, MinishCapLocation, TMCRegion, TMCEvent
 from .Locations import all_locations
 
 if typing.TYPE_CHECKING:
@@ -16,6 +16,21 @@ def create_regions(world: "MinishCapWorld", disabled_locations: set[str]):
 
     for region_key in ALL_REGIONS:
         create_region(world, region_key, excluded_locations_by_region(region_key, disabled_locations))
+
+    dungeon_clears = {
+        TMCRegion.DUNGEON_DWS_CLEAR: TMCEvent.CLEAR_DWS,
+        TMCRegion.DUNGEON_COF_CLEAR: TMCEvent.CLEAR_COF,
+        TMCRegion.DUNGEON_FOW_CLEAR: TMCEvent.CLEAR_FOW,
+        TMCRegion.DUNGEON_TOD_CLEAR: TMCEvent.CLEAR_TOD,
+        TMCRegion.DUNGEON_RC_CLEAR: TMCEvent.CLEAR_RC,
+        TMCRegion.DUNGEON_POW_CLEAR: TMCEvent.CLEAR_POW,
+    }
+
+    for dungeon, event in dungeon_clears.items():
+        reg = world.get_region(dungeon)
+        loc = MinishCapLocation(world.player, event, None, reg)
+        loc.place_locked_item(world.create_event(event))
+        reg.locations.append(loc)
 
 def create_region(world: "MinishCapWorld", name, locations):
     ret = Region(name, world.player, world.multiworld)

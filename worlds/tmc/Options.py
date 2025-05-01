@@ -55,51 +55,47 @@ class GoalVaati(DefaultOnToggle):
     """
     display_name = "Vaati Goal"
 
-class GoalDungeons(Range):
+class PedDungeons(Range):
     """
-    How many dungeons are required to goal?
+    How many dungeons are required to activate Pedestal?
     If GoalVaati is on then you need this many dungeons cleared before DHC opens,
     otherwise you goal immediately upon having this many dungeons cleared
     (and other goal conditions) and entering sanctuary
     """
-    display_name = "Required Dungeons to Goal"
+    display_name = "Required Dungeons to Pedestal"
     default = 0
     range_start = 0
     range_end = 6
 
-class GoalElements(Range):
+class PedElements(Range):
     """
-    How many elements are required to goal?
+    How many elements are required to activate Pedestal?
     If GoalVaati is on then you need this many elements before DHC opens,
     otherwise you goal immediately upon having this many elements (and other goal conditions) and entering sanctuary
     """
-    display_name = "Required Elements to Goal"
+    display_name = "Required Elements to Pedestal"
     default = 4
     range_start = 0
     range_end = 4
 
-class GoalSword(Choice):
+class PedSword(Range):
     """
-    What level of sword is required to goal?
+    What level of sword is required to activate Pedestal?
     If GoalVaati is on then you need at least this sword level before DHC opens,
     otherwise you goal immediately upon having this sword level (and other goal conditions) and entering sanctuary
     """
-    display_name = "Required Swords to Goal"
-    default = 0
-    option_none = 0
-    option_smith_sword = 1
-    option_green_sword = 2
-    option_red_sword = 3
-    option_blue_sword = 4
-    option_four_sword = 5
+    display_name = "Required Swords to Pedestal"
+    default = 5
+    range_start = 0
+    range_end = 5
 
-class GoalFigurines(Range):
+class PedFigurines(Range):
     """
-    How many figurines are required to goal?
+    How many figurines are required to activate Pedestal?
     If GoalVatti is on then you need at least this many figurines before DHC opens,
     otherwise you goal immediately upon having this many figurines (and other goal conditons) and entering sanctuary
     """
-    display_name = "Required Figurines to Goal"
+    display_name = "Required Figurines to Pedestal"
     default = 0
     range_start = 0
     range_end = 136
@@ -133,10 +129,10 @@ class MinishCapOptions(PerGameCommonOptions):
     death_link: DeathLink
     death_link_gameover: DeathLinkGameover
     goal_vaati: GoalVaati
-    # goal_dungeons: GoalDungeons
-    # goal_elements: GoalElements
-    # goal_sword: GoalSword
-    # goal_figurines: GoalFigurines
+    ped_elements: PedElements
+    ped_swords: PedSword
+    ped_dungeons: PedDungeons
+    # ped_figurines: GoalFigurines
     # figurine_amount: FigurineAmount
     shuffle_elements: ShuffleElements
     rupeesanity: Rupeesanity

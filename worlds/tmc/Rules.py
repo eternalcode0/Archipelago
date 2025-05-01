@@ -52,7 +52,18 @@ class MinishCapRules():
 
             # (TMCRegion.SANCTUARY, TMCRegion.CASTLE_EXTERIOR): Already connected
             (TMCRegion.SANCTUARY, TMCRegion.DUNGEON_DHC):
-                self.has_4_elements(),
+                self.logic_and([
+                    self.has_group("Elements", self.world.options.ped_elements.value),
+                    self.has(TMCItem.PROGRESSIVE_SWORD, self.world.options.ped_swords.value),
+                    self.has_from_list([
+                        TMCEvent.CLEAR_DWS,
+                        TMCEvent.CLEAR_COF,
+                        TMCEvent.CLEAR_FOW,
+                        TMCEvent.CLEAR_TOD,
+                        TMCEvent.CLEAR_RC,
+                        TMCEvent.CLEAR_POW,
+                    ], self.world.options.ped_dungeons.value)
+                ]),
 
             (TMCRegion.DUNGEON_DHC, TMCRegion.VAATI_FIGHT):
                 self.logic_and([
@@ -88,6 +99,12 @@ class MinishCapRules():
             # (TMCRegion.MINISH_WOODS, TMCRegion.EASTERN_HILLS): Already connected
             (TMCRegion.MINISH_WOODS, TMCRegion.DUNGEON_DWS):
                 self.has_any([TMCItem.FLIPPERS, TMCItem.JABBER_NUT]),
+            (TMCRegion.DUNGEON_DWS, TMCRegion.DUNGEON_DWS_CLEAR):
+                self.logic_and([
+                    self.can_attack(),
+                    self.has(TMCItem.GUST_JAR),
+                    self.has(TMCItem.BIG_KEY_DWS)
+                ]),
             (TMCRegion.MINISH_WOODS, TMCRegion.LAKE_HYLIA_SOUTH):
                 self.logic_and([
                     self.access_minish_woods_top_left(),
@@ -159,6 +176,12 @@ class MinishCapRules():
                         ])
                     ])
                 ]),
+            (TMCRegion.DUNGEON_COF, TMCRegion.DUNGEON_COF_CLEAR):
+                self.logic_and([
+                    self.has(TMCItem.PROGRESSIVE_SWORD),
+                    self.has_all([TMCItem.CANE_OF_PACCI,TMCItem.BIG_KEY_COF]),
+                    self.has(TMCItem.SMALL_KEY_COF,2),
+                ]),
             (TMCRegion.UPPER_FALLS, TMCRegion.CLOUDS):
                 self.has(TMCItem.GRIP_RING),
             (TMCRegion.CLOUDS, TMCRegion.WIND_TRIBE):
@@ -171,12 +194,28 @@ class MinishCapRules():
                     self.has_any([TMCItem.ROCS_CAPE, TMCItem.PROGRESSIVE_BOOMERANG, TMCItem.BOMB_BAG]),
                     self.split_rule(3),
                 ]),
+            (TMCRegion.DUNGEON_POW, TMCRegion.DUNGEON_POW_CLEAR):
+                self.logic_and([
+                    self.has_all([
+                        TMCItem.CANE_OF_PACCI,
+                        TMCItem.ROCS_CAPE,
+                        TMCItem.BIG_KEY_POW,
+                        TMCItem.LANTERN
+                    ]),
+                    self.has(TMCItem.SMALL_KEY_POW,6),
+                ]),
 
             # (TMCRegion.ROYAL_VALLEY, TMCRegion.NORTH_FIELD): # Already connected
             (TMCRegion.ROYAL_VALLEY, TMCRegion.GRAVEYARD):
                 self.has_all([TMCItem.GRAVEYARD_KEY, TMCItem.PEGASUS_BOOTS, TMCItem.LANTERN]),
             (TMCRegion.GRAVEYARD, TMCRegion.DUNGEON_RC):
                 self.split_rule(3),
+            (TMCRegion.DUNGEON_RC, TMCRegion.DUNGEON_RC_CLEAR):
+                self.logic_and([
+                    self.can_attack(),
+                    self.has(TMCItem.SMALL_KEY_RC,3),
+                    self.has(TMCItem.LANTERN)
+                ]),
 
             (TMCRegion.CASTOR_WILDS, TMCRegion.WIND_RUINS):
                 self.logic_and([
@@ -189,6 +228,15 @@ class MinishCapRules():
                 ]),
             (TMCRegion.WIND_RUINS, TMCRegion.DUNGEON_FOW):
                 self.has(TMCItem.PROGRESSIVE_SWORD),    # redundancy for later logic improvements
+            (TMCRegion.DUNGEON_FOW, TMCRegion.DUNGEON_FOW_CLEAR):
+                self.logic_and([
+                    self.has_all([
+                        TMCItem.PROGRESSIVE_BOW,
+                        TMCItem.MOLE_MITTS,
+                        TMCItem.PROGRESSIVE_SWORD,
+                    ]),
+                    self.has(TMCItem.BIG_KEY_FOW)
+                ]),
 
             (TMCRegion.LAKE_HYLIA_NORTH, TMCRegion.LONLON): None, # allows Ocarina warp access to lonlon and minish woods
             (TMCRegion.LAKE_HYLIA_NORTH, TMCRegion.LAKE_HYLIA_SOUTH):
@@ -198,6 +246,11 @@ class MinishCapRules():
             # (TMCRegion.LAKE_HYLIA_SOUTH, TMCRegion.MINISH_WOODS): # Already connected
             (TMCRegion.DUNGEON_TOD, TMCRegion.DUNGEON_TOD_MAIN):
                 self.has(TMCItem.BIG_KEY_TOD),
+            (TMCRegion.DUNGEON_TOD_MAIN, TMCRegion.DUNGEON_TOD_CLEAR):
+                self.logic_and([
+                    self.droplet_right_lever(),
+                    self.droplet_left_lever()
+                ]),
         }
 
         self.location_rules = {
@@ -725,7 +778,7 @@ class MinishCapRules():
             TMCLocation.CRENEL_MELARI_CENTER_DIG:
                 self.has(TMCItem.MOLE_MITTS),
             TMCLocation.CRENEL_MELARI_NPC_COF:
-                self.can_reach([TMCLocation.COF_PRIZE]),
+                self.has(TMCEvent.CLEAR_COF),
             #endregion
 
             #region Western Woods
@@ -1240,18 +1293,6 @@ class MinishCapRules():
                     self.has(TMCItem.SMALL_KEY_DWS,4),
                     self.has(TMCItem.GUST_JAR),
                 ]),
-            TMCLocation.DEEPWOOD_BOSS_ITEM:
-                self.logic_and([
-                    self.can_attack(),
-                    self.has(TMCItem.GUST_JAR),
-                    self.has(TMCItem.BIG_KEY_DWS)
-                ]),
-            TMCLocation.DEEPWOOD_PRIZE:
-                self.logic_and([
-                    self.can_attack(),
-                    self.has(TMCItem.GUST_JAR),
-                    self.has(TMCItem.BIG_KEY_DWS)
-                ]),
              #endregion
 
             #region Dungeon CoF
@@ -1316,18 +1357,6 @@ class MinishCapRules():
                 self.logic_and([
                     self.has(TMCItem.PROGRESSIVE_SWORD),
                     self.has(TMCItem.CANE_OF_PACCI),
-                    self.has(TMCItem.SMALL_KEY_COF,2),
-                ]),
-            TMCLocation.COF_BOSS_ITEM:
-                self.logic_and([
-                    self.has(TMCItem.PROGRESSIVE_SWORD),
-                    self.has_all([TMCItem.CANE_OF_PACCI,TMCItem.BIG_KEY_COF]),
-                    self.has(TMCItem.SMALL_KEY_COF,2),
-                ]),
-            TMCLocation.COF_PRIZE:
-                self.logic_and([
-                    self.has(TMCItem.PROGRESSIVE_SWORD),
-                    self.has_all([TMCItem.CANE_OF_PACCI,TMCItem.BIG_KEY_COF]),
                     self.has(TMCItem.SMALL_KEY_COF,2),
                 ]),
             #endregion
@@ -1447,24 +1476,6 @@ class MinishCapRules():
                         TMCItem.PROGRESSIVE_SWORD,
                     ]),
                     self.has(TMCItem.SMALL_KEY_FOW,4)
-                ]),
-            TMCLocation.FORTRESS_BOSS_ITEM:
-                self.logic_and([
-                    self.has_all([
-                        TMCItem.PROGRESSIVE_BOW,
-                        TMCItem.MOLE_MITTS,
-                        TMCItem.PROGRESSIVE_SWORD,
-                    ]),
-                    self.has(TMCItem.BIG_KEY_FOW)
-                ]),
-            TMCLocation.FORTRESS_PRIZE:
-                self.logic_and([
-                    self.has_all([
-                        TMCItem.PROGRESSIVE_BOW,
-                        TMCItem.MOLE_MITTS,
-                        TMCItem.PROGRESSIVE_SWORD,
-                    ]),
-                    self.has(TMCItem.BIG_KEY_FOW)
                 ]),
             #endregion
 
@@ -1682,16 +1693,6 @@ class MinishCapRules():
                     self.has(TMCItem.LANTERN),
                     self.has(TMCItem.SMALL_KEY_TOD,4)
                 ]),
-            TMCLocation.DROPLETS_BOSS_ITEM:
-                self.logic_and([
-                    self.droplet_right_lever(),
-                    self.droplet_left_lever()
-                ]),
-            TMCLocation.DROPLETS_PRIZE:
-                self.logic_and([
-                    self.droplet_right_lever(),
-                    self.droplet_left_lever()
-                ]),
             #endregion
 
             #region Dungeon RC
@@ -1708,12 +1709,6 @@ class MinishCapRules():
                 self.logic_and([
                     self.split_rule(3),
                     self.has(TMCItem.SMALL_KEY_RC,1),
-                ]),
-            TMCLocation.CRYPT_PRIZE:
-                self.logic_and([
-                    self.can_attack(),
-                    self.has(TMCItem.SMALL_KEY_RC,3),
-                    self.has(TMCItem.LANTERN)
                 ]),
             #endregion
 
@@ -1892,26 +1887,6 @@ class MinishCapRules():
                     ]),
                     self.has(TMCItem.SMALL_KEY_POW,6),
                 ]),
-            TMCLocation.PALACE_BOSS_ITEM:
-                self.logic_and([
-                    self.has_all([
-                        TMCItem.CANE_OF_PACCI,
-                        TMCItem.ROCS_CAPE,
-                        TMCItem.BIG_KEY_POW,
-                        TMCItem.LANTERN
-                    ]),
-                    self.has(TMCItem.SMALL_KEY_POW,6),
-                ]),
-            TMCLocation.PALACE_PRIZE:
-                self.logic_and([
-                    self.has_all([
-                        TMCItem.CANE_OF_PACCI,
-                        TMCItem.ROCS_CAPE,
-                        TMCItem.BIG_KEY_POW,
-                        TMCItem.LANTERN
-                    ]),
-                    self.has(TMCItem.SMALL_KEY_POW,6),
-                ]),
             #endregion
 
             #region Sanctuary
@@ -1921,8 +1896,6 @@ class MinishCapRules():
                 self.has_group("Elements", 3),
             TMCLocation.SANCTUARY_PEDESTAL_ITEM3:
                 self.has_group("Elements", 4),
-            TMCEvent.CLEAR_PED:
-                self.has_all([TMCItem.EARTH_ELEMENT, TMCItem.FIRE_ELEMENT, TMCItem.WATER_ELEMENT, TMCItem.WIND_ELEMENT]),
             #endregion
 
             #region Dungeon DHC
@@ -2120,11 +2093,14 @@ class MinishCapRules():
     def has(self, item: TMCItem, count: int = 1) -> CollectionRule:
         return lambda state: state.has(item, self.player, count)
 
-    def has_all(self, items: [TMCItem]) -> CollectionRule:
+    def has_all(self, items: list[TMCItem | TMCEvent]) -> CollectionRule:
         return lambda state: state.has_all(items, self.player)
 
-    def has_any(self, items: [TMCItem]) -> CollectionRule:
+    def has_any(self, items: list[TMCItem | TMCEvent]) -> CollectionRule:
         return lambda state: state.has_any(items, self.player)
+
+    def has_from_list(self, items: list[TMCItem | TMCEvent], count: int = 1) -> CollectionRule:
+        return lambda state: state.has_from_list(items, self.player, count)
 
     def can_reach(self, locations: [TMCLocation]) -> CollectionRule:
         return lambda state: all(state.can_reach(loc, "Location", self.player) for loc in locations)
