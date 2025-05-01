@@ -1049,9 +1049,9 @@ all_locations: typing.List[LocationData] = [
     LocationData(
         6029323, TMCLocation.VALLEY_GRAVEYARD_RIGHT_GRAVE_FUSION_CHEST, TMCRegion.GRAVEYARD, None,
         (0x0D8B6E, None), (0x2D27, 0x40), 0x0134),
-    LocationData(
-        6029324, TMCLocation.RC_ENTRANCE, TMCRegion.GRAVEYARD, None,
-        (0x0D8B6E, None), (None, None), 0x0009),
+    # LocationData(
+    #     6029324, TMCLocation.RC_ENTRANCE, TMCRegion.GRAVEYARD, None,
+    #     (0x0D8B6E, None), (None, None), 0x0009),
     #endregion
     #region Dungeon RC
     LocationData(

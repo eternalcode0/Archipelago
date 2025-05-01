@@ -2081,7 +2081,7 @@ class MinishCapRules():
     def can_spin(self) -> CollectionRule:
         return self.logic_and([
             self.has(TMCItem.PROGRESSIVE_SWORD),
-            self.has_any([TMCItem.SPIN_ATTACK, TMCItem.FAST_SPIN_SCROLL])
+            self.has_any([TMCItem.SPIN_ATTACK, TMCItem.FAST_SPIN_SCROLL, TMCItem.FAST_SPLIT_SCROLL, TMCItem.GREATSPIN, TMCItem.LONG_SPIN])
         ])
 
     def split_rule(self, link_count: int = 2) -> CollectionRule:
