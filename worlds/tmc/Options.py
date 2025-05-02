@@ -149,9 +149,9 @@ def get_option_data(options: MinishCapOptions):
     Intended for trackers to properly match the logic between the standalone randomizer (TMCR) and AP
     """
     return {
-        "goal_dungeons": 0, # 0-6
-        "goal_swords": 0, # 0-5
-        "goal_elements": 4, # 0-4
+        "goal_dungeons": options.ped_dungeons.value, # 0-6
+        "goal_swords": options.ped_swords.value, # 0-5
+        "goal_elements": options.ped_elements.value, # 0-4
         "goal_figurines": 0, # 0-136
         "dungeon_small_keys": DungeonItem.option_anywhere,
         "dungeon_big_keys": DungeonItem.option_anywhere,
