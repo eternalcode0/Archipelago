@@ -155,6 +155,15 @@ class WeaponBomb(Choice):
     alias_true = 1
     alias_false = 0
 
+class WeaponBow(Toggle):
+    """
+    Bow can damage most enemies, many enemies are very resiliant to damage. Chu Bosses and Darknuts are Immune.
+    'false': Bows are not considered as Weapons.
+    'true': Bows are considered as weapons for most enemy fights. 
+    Bows are never considered for Chu Bossfights, Darknuts, Scissor Beetles, Madderpillar, Wizrobes, Simon Simulations, and Golden Enemies.
+    """
+    display_name = "Bows are considered Weapons"
+
 class Tricks(OptionSet):
     """
     bombable_dust: Bombs may be required to blow away dust instead of Gust Jar
@@ -176,6 +185,7 @@ class MinishCapOptions(PerGameCommonOptions):
     # figurine_amount: FigurineAmount
     shuffle_elements: ShuffleElements
     weapon_bomb: WeaponBomb
+    weapon_bow: WeaponBow
     tricks: Tricks
     rupeesanity: Rupeesanity
     obscure_spots: ObscureSpots
@@ -229,7 +239,7 @@ def get_option_data(options: MinishCapOptions):
         "wind_crest_south_field": 0,
         "wind_crest_minish_woods": 0,
         "weapon_bombs": options.weapon_bomb.value, # No, Yes, Yes + Bosses
-        "weapon_bows": 0,
+        "weapon_bows": options.weapon_bow.value,
         "weapon_gust_jar": 0, # No, Yes
         "weapon_lantern": 0,
         "trick_mitts_farm_rupees": 0, # No, Yes

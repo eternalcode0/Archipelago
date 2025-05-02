@@ -343,7 +343,13 @@ def get_item_pool(world: "MinishCapWorld") -> [MinishCapItem]:
     ]
 
     if world.options.early_weapon.value:
-        multiworld.local_early_items[player][PROGRESSIVE_SWORD.item_name] = 1
+        weapon_pool = [PROGRESSIVE_SWORD.item_name]
+        if world.options.weapon_bomb.value == 1 or 2:
+            weapon_pool.extend([BOMB_BAG.item_name])
+        if world.options.weapon_bow.value:
+            weapon_pool.extend([PROGRESSIVE_BOW.item_name])
+        weapon_choice = world.random.choice(weapon_pool)
+        multiworld.local_early_items[player][weapon_choice] = 1
 
     if world.options.shuffle_elements.value is ShuffleElements.option_anywhere:
         item_pool.extend(pool_elements())
