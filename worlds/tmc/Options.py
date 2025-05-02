@@ -138,6 +138,23 @@ class DeathLinkGameover(Toggle):
     """
     display_name = "Deathlink is Gameover"
 
+class WeaponBomb(Choice):
+    """
+    Bombs can damage nearly every enemy, Bombs are never considered for Simon Simulations, and Golden Enemies.
+    'No': Bombs are not considered as Weapons.
+    'Yes': Bombs are considered as weapons for most regular enemy fights.
+    'Yes + Bosses': Bombs are considered as weapons for most enemy fights. Fighting Green/Blu Chu, Madderpillars 
+    and Darknuts require only 10 bomb bag. Gleerok, Mazaal and Scissor Beetles require at least 30 bomb bag. 
+    Octo and Gyorg cannot be defeated with bombs.
+    """
+    display_name = "Bombs are considered Weapons"
+    default = 0
+    option_no = 0
+    option_yes = 1
+    option_yes_boss = 2
+    alias_true = 1
+    alias_false = 0
+
 class Tricks(OptionSet):
     """
     bombable_dust: Bombs may be required to blow away dust instead of Gust Jar
@@ -158,6 +175,7 @@ class MinishCapOptions(PerGameCommonOptions):
     # goal_figurines: GoalFigurines
     # figurine_amount: FigurineAmount
     shuffle_elements: ShuffleElements
+    weapon_bomb: WeaponBomb
     tricks: Tricks
     rupeesanity: Rupeesanity
     obscure_spots: ObscureSpots
@@ -210,7 +228,7 @@ def get_option_data(options: MinishCapOptions):
         "wind_crest_falls": 0,
         "wind_crest_south_field": 0,
         "wind_crest_minish_woods": 0,
-        "weapon_bombs": 0, # No, Yes, Yes + Bosses
+        "weapon_bombs": options.weapon_bomb.value, # No, Yes, Yes + Bosses
         "weapon_bows": 0,
         "weapon_gust_jar": 0, # No, Yes
         "weapon_lantern": 0,
