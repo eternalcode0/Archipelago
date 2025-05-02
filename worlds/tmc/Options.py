@@ -186,7 +186,9 @@ class Tricks(OptionSet):
     mitts_farm_rupees: Mole Mitts may be required to farm rupees by digging an infinitely respawning red rupee next to link's house
     bombable_dust: Bombs may be required to blow away dust instead of Gust Jar
     crenel_mushroom_gust_jar: The mushroom near the edge of a cliff on Mt Crenel may be required to be grabbed with the gust jar to climb higher
+    light_arrows_break_objects: A charged light arrows shot may be required to destroy obstacles like pots or small trees
     bobombs_destroy_walls: Either a Sword or the Gust Jar may be required to blow up walls near Bobombs
+    like_like_cave_no_sword: Opening the chests in the digging cave in Minish Woods, guarded by a pair of likelikes, may be required without a weapon
     """
     display_name = "Tricks"
     valid_keys = ALL_TRICKS

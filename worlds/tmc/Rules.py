@@ -130,14 +130,14 @@ class MinishCapRules():
                                 TMCItem.GUST_JAR,
                                 TMCItem.ROCS_CAPE
                             ]),
-                            self.has_lightarrows(),
+                            self.arrow_break(),
                         ]),
                         self.logic_or([
                             self.has_bow(),
+                            self.has_boomerang(),
                             self.has_any([
                                 TMCItem.BOMB_BAG,
-                                TMCItem.PROGRESSIVE_BOOMERANG,
-                                TMCItem.ROCS_CAPE
+                                TMCItem.ROCS_CAPE,
                             ])
                         ]),
                     ]),
@@ -154,9 +154,9 @@ class MinishCapRules():
                             TMCItem.DOWNTHRUST,
                             TMCItem.ROCS_CAPE,
                         ]),
+                        self.can_shield(),
                         self.has_any([
                             TMCItem.CANE_OF_PACCI,
-                            TMCItem.PROGRESSIVE_SHIELD,
                             TMCItem.BOMB_BAG
                         ])
                     ])
@@ -170,7 +170,10 @@ class MinishCapRules():
                 ]),
             (TMCRegion.WIND_TRIBE, TMCRegion.DUNGEON_POW):
                 self.logic_and([
-                    self.has_any([TMCItem.ROCS_CAPE, TMCItem.PROGRESSIVE_BOOMERANG, TMCItem.BOMB_BAG]),
+                    self.logic_or([
+                        self.has_boomerang(),
+                        self.has_any([TMCItem.ROCS_CAPE, TMCItem.BOMB_BAG]),
+                    ]),
                     self.split_rule(3),
                 ]),
 
@@ -563,12 +566,12 @@ class MinishCapRules():
             TMCLocation.MINISH_WOODS_LIKE_LIKE_DIGGING_CAVE_LEFT_CHEST:
                 self.logic_and([
                     self.has(TMCItem.MOLE_MITTS),
-                    self.has_weapon(),
+                    self.likelike(),
                 ]),
             TMCLocation.MINISH_WOODS_LIKE_LIKE_DIGGING_CAVE_RIGHT_CHEST:
                 self.logic_and([
                     self.has(TMCItem.MOLE_MITTS),
-                    self.has_weapon(),
+                    self.likelike(),
                 ]),
             # TMCLocation.MINISH_WOODS_EAST_FUSION_CHEST: None, # fusion 46
             # TMCLocation.MINISH_WOODS_SOUTH_FUSION_CHEST: None, # fusion 39
@@ -1048,7 +1051,10 @@ class MinishCapRules():
             TMCLocation.TOWN_DOJO_NPC_1:
                 self.has_sword(),
             TMCLocation.TOWN_DOJO_NPC_2:
+            self.logic_or([
+                self.has(TMCItem.WHITE_SWORD_GREEN),
                 self.has(TMCItem.PROGRESSIVE_SWORD, 2),
+            ]),
             TMCLocation.TOWN_DOJO_NPC_3:
                 self.logic_and([
                     self.has_sword(),
@@ -1109,7 +1115,10 @@ class MinishCapRules():
                     self.has_bottle(),
                 ]),
             TMCLocation.TOWN_SIMULATION_CHEST:
-                self.has_sword(),
+                self.logic_and([
+                    self.has_sword(),
+                    self.mitts_farm(),
+                ]),
             TMCLocation.TOWN_SHOE_SHOP_NPC:
                 self.has(TMCItem.WAKEUP_MUSHROOM),
             TMCLocation.TOWN_MUSIC_HOUSE_LEFT_CHEST:
@@ -2049,7 +2058,7 @@ class MinishCapRules():
                     ]),
                     self.logic_or([
                         self.has_bow(),
-                        self.has(TMCItem.PROGRESSIVE_BOOMERANG,2),
+                        self.has_magic_boomerang(),
                         self.has_any([
                             TMCItem.PERIL_BEAM,
                             TMCItem.SWORD_BEAM,
@@ -2069,7 +2078,7 @@ class MinishCapRules():
                     ]),
                     self.logic_or([
                         self.has_bow(),
-                        self.has(TMCItem.PROGRESSIVE_BOOMERANG,2),
+                        self.has_magic_boomerang(),
                         self.has_any([
                             TMCItem.PERIL_BEAM,
                             TMCItem.SWORD_BEAM,
@@ -2088,7 +2097,7 @@ class MinishCapRules():
                     ]),
                     self.logic_or([
                         self.has_bow(),
-                        self.has(TMCItem.PROGRESSIVE_BOOMERANG,2),
+                        self.has_magic_boomerang(),
                         self.has_any([
                             TMCItem.PERIL_BEAM,
                             TMCItem.SWORD_BEAM,
@@ -2107,7 +2116,7 @@ class MinishCapRules():
                     ]),
                     self.logic_or([
                         self.has_bow(),
-                        self.has(TMCItem.PROGRESSIVE_BOOMERANG,2),
+                        self.has_magic_boomerang(),
                         self.has_any([
                             TMCItem.PERIL_BEAM,
                             TMCItem.SWORD_BEAM,
@@ -2157,22 +2166,51 @@ class MinishCapRules():
         ])
 
     def split_rule(self, link_count: int = 2) -> CollectionRule:
+        ordered_swords = [
+            TMCItem.SMITHS_SWORD,
+            TMCItem.WHITE_SWORD_GREEN,
+            TMCItem.WHITE_SWORD_RED,
+            TMCItem.WHITE_SWORD_BLUE,
+            TMCItem.FOUR_SWORD,
+        ]
         return self.logic_and([
-            self.has(TMCItem.PROGRESSIVE_SWORD, link_count + 1),
-            self.can_spin()
+            self.can_spin(),
+            self.logic_or([
+                self.has(TMCItem.PROGRESSIVE_SWORD, link_count + 1),
+                self.has(ordered_swords[link_count])
+            ])
         ])
 
     def can_shield(self) -> CollectionRule:
-        return self.has_any([TMCItem.SHIELD, TMCItem.MIRROR_SHIELD])
+        return self.has_any([TMCItem.SHIELD, TMCItem.MIRROR_SHIELD, TMCItem.PROGRESSIVE_SHIELD])
 
     def has_sword(self) -> CollectionRule:
-        return self.has(TMCItem.PROGRESSIVE_SWORD)
+        return self.has_any([
+            TMCItem.SMITHS_SWORD,
+            TMCItem.WHITE_SWORD_GREEN,
+            TMCItem.WHITE_SWORD_RED,
+            TMCItem.WHITE_SWORD_BLUE,
+            TMCItem.FOUR_SWORD,
+            TMCItem.PROGRESSIVE_SWORD,
+            ])
     
     def has_bow(self) -> CollectionRule:
-        return self.has(TMCItem.PROGRESSIVE_BOW)
+        return self.has_any([TMCItem.BOW, TMCItem.LIGHT_ARROW, TMCItem.PROGRESSIVE_BOW])
     
     def has_lightarrows(self) -> CollectionRule:
-        return self.has(TMCItem.PROGRESSIVE_BOW, 2)
+        return self.logic_or([
+            self.has(TMCItem.LIGHT_ARROW),
+            self.has(TMCItem.PROGRESSIVE_BOW, 2),
+        ])
+    
+    def has_boomerang(self) -> CollectionRule:
+        return self.has_any([TMCItem.BOOMERANG, TMCItem.MAGIC_BOOMERANG, TMCItem.PROGRESSIVE_BOOMERANG])
+    
+    def has_magic_boomerang(self) -> CollectionRule:
+        return self.logic_or([
+            self.has(TMCItem.MAGIC_BOOMERANG),
+            self.has(TMCItem.PROGRESSIVE_BOOMERANG, 2),
+        ])
 
     def has_weapon(self) -> CollectionRule:
         return self.logic_or([
@@ -2286,12 +2324,22 @@ class MinishCapRules():
             self.has_any([TMCItem.GUST_JAR, TMCItem.BOMB_BAG, TMCItem.GRIP_RING]),
             self.has(TMCItem.GUST_JAR)
         )
+    
+    def arrow_break(self) -> CollectionRule:
+        return self.logic_option(TMCTricks.ARROWS_BREAK in self.world.options.tricks,
+            self.has_lightarrows()
+        )
+    
+    def likelike(self) -> CollectionRule:
+        return self.logic_option(TMCTricks.LIKELIKE_SWORDLESS in self.world.options.tricks,
+            self.has_weapon()
+        )
 
     def can_pass_trees(self) -> CollectionRule:
         return self.logic_or([
             self.has_any([TMCItem.BOMB_BAG, TMCItem.LANTERN]),
             self.has_sword(),
-            self.has_lightarrows(),
+            self.arrow_break(),
         ])
 
     def access_town_left(self) -> CollectionRule:
