@@ -197,7 +197,7 @@ class MinishCapClient(BizHawkClient):
                 write_result = await bizhawk.guarded_write(
                     ctx.bizhawk_ctx,
                     [(0x3FF10, [item.byte_ids[0], item.byte_ids[1]], "EWRAM")],
-                    [(0x3FF10, [0x0, 0x0], "EWRAM")]
+                    [(0x3FF10, [0x0, 0x0], "EWRAM"), (0x2A4A, [1], "EWRAM")]
                 )
 
                 await asyncio.sleep(0.05)
