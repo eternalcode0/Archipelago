@@ -223,7 +223,7 @@ class MinishCapClient(BizHawkClient):
                     continue
                 loc_bytes = await bizhawk.read(ctx.bizhawk_ctx, [(loc.ram_addr[0], 1, "EWRAM")])
                 if loc_bytes[0][0] | loc.ram_addr[1] == loc_bytes[0][0]:
-                    # Add the the pending send list and the local checked locations to skip checking again
+                    # Add the pending send list and the local checked locations to skip checking again
                     locs_to_send.add(loc.id)
                     self.local_checked_locations.add(loc.id)
         # Send location checks

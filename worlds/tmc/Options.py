@@ -62,7 +62,7 @@ class DungeonCompasses(DungeonItem):
 class GoalVaati(DefaultOnToggle):
     """
     If enabled, DHC will open after completing Pedestal. Kill Vaati to goal.
-    If disabled, complete Pedestal to goal. DHC/Vaati is unecessary.
+    If disabled, complete Pedestal to goal. DHC/Vaati is unnecessary.
     """
     display_name = "Vaati Goal"
 
@@ -107,8 +107,8 @@ class GoalSword(Choice):
 class GoalFigurines(Range):
     """
     How many figurines are required to goal?
-    If GoalVatti is on then you need at least this many figurines before DHC opens,
-    otherwise you goal immediately upon having this many figurines (and other goal conditons) and entering sanctuary
+    If GoalVaati is on then you need at least this many figurines before DHC opens,
+    otherwise you goal immediately upon having this many figurines (and other goal conditions) and entering sanctuary
     """
     display_name = "Required Figurines to Goal"
     default = 0
@@ -118,7 +118,7 @@ class GoalFigurines(Range):
 class FigurineAmount(Range):
     """
     How many figurines are added to the pool?
-    Should not be lower than GoalFigurines, otherwise it will be overriden to match GoalFigurines.
+    Should not be lower than GoalFigurines, otherwise it will be overridden to match GoalFigurines.
     """
     display_name = "Figurines in Pool"
     default = 0
@@ -157,10 +157,10 @@ class WeaponBomb(Choice):
 
 class WeaponBow(Toggle):
     """
-    Bow can damage most enemies, many enemies are very resiliant to damage. Chu Bosses and Darknuts are Immune.
+    Bow can damage most enemies, many enemies are very resilient to damage. Chu Bosses and Darknuts are Immune.
     'false': Bows are not considered as Weapons.
     'true': Bows are considered as weapons for most enemy fights. 
-    Bows are never considered for Chu Bossfights, Darknuts, Scissor Beetles, Madderpillar, Wizrobes, Simon Simulations, and Golden Enemies.
+    Bows are never considered for Chu Bossfights, Darknuts, Scissor Beetles, Madderpillar, Wizzrobes, Simon Simulations, and Golden Enemies.
     """
     display_name = "Bows are considered Weapons"
 
@@ -175,9 +175,9 @@ class WeaponGust(Toggle):
     
 class WeaponLamp(Toggle):
     """
-    The lit Lantern can instantly kill wizrobes by walking through them.
+    The lit Lantern can instantly kill Wizzrobes by walking through them.
     'false': Lantern is not considered as a Weapon.
-    'true': Lantern is considered as a weapon for fighting Wizrobes.
+    'true': Lantern is considered as a weapon for fighting Wizzrobes.
     """
     display_name = "Lantern is considered a Weapon"
 
@@ -188,10 +188,11 @@ class Tricks(OptionSet):
     crenel_mushroom_gust_jar: The mushroom near the edge of a cliff on Mt Crenel may be required to be grabbed with the gust jar to climb higher
     light_arrows_break_objects: A charged light arrows shot may be required to destroy obstacles like pots or small trees
     bobombs_destroy_walls: Either a Sword or the Gust Jar may be required to blow up walls near Bobombs
-    like_like_cave_no_sword: Opening the chests in the digging cave in Minish Woods, guarded by a pair of likelikes, may be required without a weapon
+    like_like_cave_no_sword: Opening the chests in the digging cave in Minish Woods, guarded by a pair of LikeLikes, may be required without a weapon
     boots_skip_town_guard: A very precise boot dash may be required to skip past the guard blocking the west exit of town
     beam_crenel_switch: A switch across a gap on Mt Crenel must be hit to extend a bridge to reach cave of flames, hitting it with a sword beam may be required
     down_thrust_spikey_beetle: Blue Spikey Beetles can be flipped over with a down thrust, which may be required to kill them
+    dark_rooms_no_lantern: Dark rooms may require being traversed without the lantern. Link always has a small light source revealing his surroundings.
     """
     display_name = "Tricks"
     valid_keys = ALL_TRICKS
