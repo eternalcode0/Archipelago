@@ -3,7 +3,7 @@ from dataclasses import dataclass
 
 from BaseClasses import ItemClassification
 from .Options import ShuffleElements
-from .constants import TMCLocation, TMCItem, MinishCapItem
+from .constants import TMCLocation, MinishCapItem
 
 if TYPE_CHECKING:
     from . import MinishCapWorld
@@ -54,7 +54,7 @@ OCARINA               = ItemData("Ocarina",                      ItemClassificat
 # BOTTLE_2              = ItemData("Bottle 2",                     ItemClassification.progression, (0x1D, 0x00))
 # BOTTLE_3              = ItemData("Bottle 3",                     ItemClassification.progression, (0x1E, 0x00))
 # BOTTLE_4              = ItemData("Bottle 4",                     ItemClassification.progression, (0x1F, 0x00))
-EMPTY_BOTTLE          = ItemData("Empty Bottle",           ItemClassification.progression, (0x1C, 0x00)) # 2nd byte should be 20, not making it that yet bc it breaks the tracker
+EMPTY_BOTTLE          = ItemData("Bottle (Empty)",               ItemClassification.progression, (0x1C, 0x00))
 # LON_LON_BUTTER      = ItemData("Lon Lon Butter",               ItemClassification.progression, (0x21, 0x00))
 LON_LON_MILK          = ItemData("Lon Lon Milk",                 ItemClassification.progression, (0x22, 0x00))
 LON_LON_MILK_HALF     = ItemData("Lon Lon Milk (1/2)",           ItemClassification.progression, (0x23, 0x00))
@@ -418,4 +418,5 @@ item_groups: dict[str, set[str]] = {
         LONG_SPIN.item_name },
     "Elements": { EARTH_ELEMENT.item_name, FIRE_ELEMENT.item_name, WATER_ELEMENT.item_name, WIND_ELEMENT.item_name },
     "Health": { HEART_CONTAINER.item_name, HEART_PIECE.item_name },
+    "Bottle": { EMPTY_BOTTLE.item_name }
 }
