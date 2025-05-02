@@ -8,7 +8,7 @@ from .Options import DungeonItem
 if TYPE_CHECKING:
     from . import MinishCapWorld
 
-class MinishCapRules():
+class MinishCapRules:
     player: int
     world: "MinishCapWorld"
     connection_rules: dict[(str, str), CollectionRule]
@@ -720,7 +720,7 @@ class MinishCapRules():
             #region Western Woods
             TMCLocation.TRILBY_BOMB_CAVE_CHEST:
                 self.has(TMCItem.BOMB_BAG),
-            # All of the below require Fusion 3F
+            # Everything below require Fusion 3F
             # They also are part of the western wood region
             # TMCLocation.TRILBY_PUDDLE_FUSION_ITEM1: None,
             # TMCLocation.TRILBY_PUDDLE_FUSION_ITEM2: None,
@@ -2051,10 +2051,10 @@ class MinishCapRules():
         }
 
 
-    def logic_or(self, rules: [CollectionRule]) -> CollectionRule:
+    def logic_or(self, rules: list[CollectionRule]) -> CollectionRule:
         return lambda state: any(rule(state) for rule in rules)
 
-    def logic_and(self, rules: [CollectionRule]) -> CollectionRule:
+    def logic_and(self, rules: list[CollectionRule]) -> CollectionRule:
         return lambda state: all(rule(state) for rule in rules)
 
     def droplet_right_lever(self) -> CollectionRule:
@@ -2158,19 +2158,19 @@ class MinishCapRules():
             return self.has(TMCItem.SMALL_KEY_TOD, 1)
         return None
 
-    def has(self, item: TMCItem, count: int = 1) -> CollectionRule:
+    def has(self, item: str, count: int = 1) -> CollectionRule:
         return lambda state: state.has(item, self.player, count)
 
-    def has_all(self, items: [TMCItem]) -> CollectionRule:
+    def has_all(self, items: list[str]) -> CollectionRule:
         return lambda state: state.has_all(items, self.player)
 
-    def has_any(self, items: [TMCItem]) -> CollectionRule:
+    def has_any(self, items: list[str]) -> CollectionRule:
         return lambda state: state.has_any(items, self.player)
 
-    def can_reach(self, locations: [TMCLocation]) -> CollectionRule:
+    def can_reach(self, locations: list[str]) -> CollectionRule:
         return lambda state: all(state.can_reach(loc, "Location", self.player) for loc in locations)
 
-    def set_rules(self, disabled_locations: set[int], location_name_to_id: dict[str, id]) -> None:
+    def set_rules(self, disabled_locations: set[int], location_name_to_id: dict[str, int]) -> None:
         multiworld = self.world.multiworld
 
         for region_pair, rule in self.connection_rules.items():
