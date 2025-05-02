@@ -732,10 +732,6 @@ class TMCRegion:
     VAATI_FIGHT = "Vaati Fight"
 
 class TMCTricks:
-    WEAPON_BOMB = "weapon_bombs"
-    WEAPON_BOW = "weapon_bows"
-    WEAPON_GUST = "weapon_gust_jar"
-    WEAPON_LAMP = "weapon_lantern"
     MITTS_FARM = "mitts_farm_rupees"
     BOMB_DUST = "bombable_dust"
     MUSHROOM = "crenel_mushroom_gust_jar"
@@ -758,10 +754,6 @@ class TMCTricks:
     DHC_SPIN = "dhc_switches_no_four_sword"
 
 ALL_TRICKS = [
-    TMCTricks.WEAPON_BOMB,
-    TMCTricks.WEAPON_BOW,
-    TMCTricks.WEAPON_GUST,
-    TMCTricks.WEAPON_LAMP,
     TMCTricks.MITTS_FARM,
     TMCTricks.BOMB_DUST,
     TMCTricks.MUSHROOM,

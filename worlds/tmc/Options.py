@@ -183,7 +183,9 @@ class WeaponLamp(Toggle):
 
 class Tricks(OptionSet):
     """
+    mitts_farm_rupees: Mole Mitts may be required to farm rupees by digging an infinitely respawning red rupee next to link's house
     bombable_dust: Bombs may be required to blow away dust instead of Gust Jar
+    crenel_mushroom_gust_jar: The mushroom near the edge of a cliff on Mt Crenel may be required to be grabbed with the gust jar to climb higher
     bobombs_destroy_walls: Either a Sword or the Gust Jar may be required to blow up walls near Bobombs
     """
     display_name = "Tricks"
@@ -261,24 +263,24 @@ def get_option_data(options: MinishCapOptions):
         "weapon_bows": options.weapon_bow.value,
         "weapon_gust_jar": options.weapon_gust.value, # No, Yes
         "weapon_lantern": options.weapon_lamp.value,
-        "trick_mitts_farm_rupees": ALL_TRICKS[4] in options.tricks, # No, Yes
-        "trick_bombable_dust": ALL_TRICKS[5] in options.tricks,
-        "trick_crenel_mushroom_gust_jar": ALL_TRICKS[6] in options.tricks,
-        "trick_light_arrows_break_objects": ALL_TRICKS[7] in options.tricks,
-        "trick_bobombs_destroy_walls": ALL_TRICKS[8] in options.tricks,
-        "trick_like_like_cave_no_sword": ALL_TRICKS[9] in options.tricks,
-        "trick_boots_skip_town_guard": ALL_TRICKS[10] in options.tricks,
-        "trick_beam_crenel_switch": ALL_TRICKS[11] in options.tricks,
-        "trick_down_thrust_spikey_beetle": ALL_TRICKS[12] in options.tricks,
-        "trick_dark_rooms_no_lantern": ALL_TRICKS[13] in options.tricks,
-        "trick_cape_extensions": ALL_TRICKS[14] in options.tricks,
-        "trick_lake_minish_no_boots": ALL_TRICKS[15] in options.tricks,
-        "trick_cabin_swim_no_lilypad": ALL_TRICKS[16] in options.tricks,
-        "trick_cloud_sharks_no_weapons": ALL_TRICKS[17] in options.tricks,
-        "trick_pow_2f_no_cane": ALL_TRICKS[18] in options.tricks,
-        "trick_pot_puzzle_no_bracelets": ALL_TRICKS[19] in options.tricks,
-        "trick_fow_pot_gust_jar": ALL_TRICKS[20] in options.tricks,
-        "trick_dhc_cannons_no_four_sword": ALL_TRICKS[21] in options.tricks,
-        "trick_dhc_pads_no_four_sword": ALL_TRICKS[22] in options.tricks,
-        "trick_dhc_switches_no_four_sword": ALL_TRICKS[23] in options.tricks,
+        "trick_mitts_farm_rupees": ALL_TRICKS[0] in options.tricks, # No, Yes
+        "trick_bombable_dust": ALL_TRICKS[1] in options.tricks,
+        "trick_crenel_mushroom_gust_jar": ALL_TRICKS[2] in options.tricks,
+        "trick_light_arrows_break_objects": ALL_TRICKS[3] in options.tricks,
+        "trick_bobombs_destroy_walls": ALL_TRICKS[4] in options.tricks,
+        "trick_like_like_cave_no_sword": ALL_TRICKS[5] in options.tricks,
+        "trick_boots_skip_town_guard": ALL_TRICKS[6] in options.tricks,
+        "trick_beam_crenel_switch": ALL_TRICKS[7] in options.tricks,
+        "trick_down_thrust_spikey_beetle": ALL_TRICKS[8] in options.tricks,
+        "trick_dark_rooms_no_lantern": ALL_TRICKS[9] in options.tricks,
+        "trick_cape_extensions": ALL_TRICKS[10] in options.tricks,
+        "trick_lake_minish_no_boots": ALL_TRICKS[11] in options.tricks,
+        "trick_cabin_swim_no_lilypad": ALL_TRICKS[12] in options.tricks,
+        "trick_cloud_sharks_no_weapons": ALL_TRICKS[13] in options.tricks,
+        "trick_pow_2f_no_cane": ALL_TRICKS[14] in options.tricks,
+        "trick_pot_puzzle_no_bracelets": ALL_TRICKS[15] in options.tricks,
+        "trick_fow_pot_gust_jar": ALL_TRICKS[16] in options.tricks,
+        "trick_dhc_cannons_no_four_sword": ALL_TRICKS[17] in options.tricks,
+        "trick_dhc_pads_no_four_sword": ALL_TRICKS[18] in options.tricks,
+        "trick_dhc_switches_no_four_sword": ALL_TRICKS[19] in options.tricks,
     }

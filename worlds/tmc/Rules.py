@@ -119,13 +119,9 @@ class MinishCapRules():
                 ]),
             (TMCRegion.CRENEL, TMCRegion.MELARI):
                 self.logic_or([
-                    self.has_all([
-                        TMCItem.CANE_OF_PACCI,
-                        TMCItem.GRIP_RING,
-                    ]),
-                    self.has_all([
-                        TMCItem.CANE_OF_PACCI,
-                        TMCItem.BOMB_BAG
+                    self.logic_and([
+                        self.mushroom(),
+                        self.has(TMCItem.CANE_OF_PACCI),
                     ]),
                     self.logic_and([
                         self.has(TMCItem.GRIP_RING),
@@ -148,8 +144,10 @@ class MinishCapRules():
                 ]),
             (TMCRegion.MELARI, TMCRegion.DUNGEON_COF):
                 self.logic_and([
-                    self.logic_option(TMCTricks.BOBOMB_WALLS not in self.world.options.tricks,
-                        self.has(TMCItem.BOMB_BAG)),
+                    self.logic_option(TMCTricks.BOBOMB_WALLS in self.world.options.tricks,
+                        self.logic_or([self.has_sword(),self.has(TMCItem.GUST_JAR)]),
+                        self.has(TMCItem.BOMB_BAG),
+                        ),
                     self.has_weapon(),  # Spike Beetle Fight
                     self.logic_or([
                         self.has_all([
@@ -546,7 +544,11 @@ class MinishCapRules():
                     self.has_sword()
                 ]),
             TMCLocation.MINISH_WOODS_WITCH_HUT_ITEM:
-                self.access_minish_woods_top_left(),
+                self.logic_and([
+                    self.access_minish_woods_top_left(),
+                    self.has(TMCItem.BIG_WALLET),
+                    self.mitts_farm(),
+                ]),
             TMCLocation.WITCH_DIGGING_CAVE_CHEST:
                 self.logic_and([
                     self.access_minish_woods_top_left(),
@@ -617,7 +619,11 @@ class MinishCapRules():
                     self.has_any([TMCItem.ROCS_CAPE, TMCItem.FLIPPERS]),
                 ]),
             TMCLocation.TRILBY_SCRUB_NPC:
-                self.has_all([TMCItem.BOMB_BAG, TMCItem.PROGRESSIVE_SHIELD]),
+                self.logic_and([
+                    self.can_shield(),
+                    self.has(TMCItem.BOMB_BAG),
+                    self.mitts_farm(),
+                ]),
             #endregion
 
             #region Crenel
@@ -642,14 +648,12 @@ class MinishCapRules():
             TMCLocation.CRENEL_BASE_MINISH_VINE_HOLE_CHEST:
                 self.logic_and([
                     self.has_any([TMCItem.BOMB_BAG, TMCItem.ROCS_CAPE]),
-                    self.logic_option(TMCTricks.BOMB_DUST not in self.world.options.tricks,
-                        self.has(TMCItem.GUST_JAR))
+                    self.blow_dust(),
                 ]),
             TMCLocation.CRENEL_BASE_MINISH_CRACK_CHEST:
                 self.logic_and([
                     self.has_any([TMCItem.BOMB_BAG, TMCItem.ROCS_CAPE]),
-                    self.logic_option(TMCTricks.BOMB_DUST not in self.world.options.tricks,
-                        self.has(TMCItem.GUST_JAR))
+                    self.blow_dust(),
                 ]),
             TMCLocation.CRENEL_VINE_TOP_GOLDEN_TEKTITE: # Fusion 3B
                 self.has_sword(),
@@ -660,17 +664,14 @@ class MinishCapRules():
             TMCLocation.CRENEL_BELOW_COF_GOLDEN_TEKTITE: # Fusion 0D
                 self.logic_and([
                     self.has_sword(),
-                    self.logic_or([
-                        self.has_any([TMCItem.GRIP_RING, TMCItem.BOMB_BAG, TMCItem.ROCS_CAPE]), # Gust Mushroom trick
-                    ])
+                    self.mushroom(),
                 ]),
             TMCLocation.CRENEL_SCRUB_NPC:
                 self.logic_and([
-                    self.has_all([TMCItem.BOMB_BAG, TMCItem.PROGRESSIVE_SHIELD]),
-                    # self.logic_or([
-                    #     self.has(TMCItem.GRIP_RING),
-                    #     self.has_any([TMCItem.GUST_JAR, TMCItem.ROCS_CAPE]), # Gust Mushroom trick
-                    # ])
+                    self.has(TMCItem.BOMB_BAG),
+                    self.can_shield(),
+                    self.mitts_farm(),
+                    self.mushroom(),
                 ]),
             TMCLocation.CRENEL_DOJO_LEFT_CHEST:
                 self.logic_and([
@@ -1010,11 +1011,18 @@ class MinishCapRules():
 
             #region Hyrule Town
             # TMCLocation.TOWN_CAFE_LADY_NPC: None,
-            # TMCLocation.TOWN_SHOP_80_ITEM: None,
+            TMCLocation.TOWN_SHOP_80_ITEM: 
+                self.mitts_farm(),
             TMCLocation.TOWN_SHOP_300_ITEM:
-                self.has(TMCItem.BIG_WALLET),
+                self.logic_and([
+                    self.has(TMCItem.BIG_WALLET),
+                    self.mitts_farm(),
+                ]),
             TMCLocation.TOWN_SHOP_600_ITEM:
-                self.has(TMCItem.BIG_WALLET, 3),
+                self.logic_and([
+                    self.has(TMCItem.BIG_WALLET, 3),
+                    self.mitts_farm(),
+                ]),
             TMCLocation.TOWN_SHOP_BEHIND_COUNTER_ITEM:
                 self.access_town_left(),
             TMCLocation.TOWN_SHOP_ATTIC_CHEST:
@@ -1028,10 +1036,15 @@ class MinishCapRules():
             # TMCLocation.TOWN_INN_POT: None,
             # TMCLocation.TOWN_WELL_RIGHT_CHEST: None,
 
-            TMCLocation.TOWN_GORON_MERCHANT_1_LEFT:
-                self.has(TMCItem.BIG_WALLET),   # Fusion 33
-            TMCLocation.TOWN_GORON_MERCHANT_1_MIDDLE: None, # Fusion 33
-            TMCLocation.TOWN_GORON_MERCHANT_1_RIGHT: None,  # Fusion 33
+            TMCLocation.TOWN_GORON_MERCHANT_1_LEFT: # Fusion 33
+                self.logic_and([
+                    self.has(TMCItem.BIG_WALLET),
+                    self.mitts_farm(),
+                ]),
+            TMCLocation.TOWN_GORON_MERCHANT_1_MIDDLE: 
+                self.mitts_farm(),  # Fusion 33
+            TMCLocation.TOWN_GORON_MERCHANT_1_RIGHT: 
+                self.mitts_farm(),  # Fusion 33
             TMCLocation.TOWN_DOJO_NPC_1:
                 self.has_sword(),
             TMCLocation.TOWN_DOJO_NPC_2:
@@ -1181,9 +1194,7 @@ class MinishCapRules():
             TMCLocation.DEEPWOOD_1F_BARREL_ROOM_CHEST:
                 self.logic_and([
                     self.has(TMCItem.SMALL_KEY_DWS, 1),
-                    self.logic_option(TMCTricks.BOMB_DUST in self.world.options.tricks,
-                        self.has_any([TMCItem.GUST_JAR, TMCItem.BOMB_BAG]), # bomb dust trick
-                        self.has(TMCItem.GUST_JAR))
+                    self.blow_dust(),
                 ]),
             TMCLocation.DEEPWOOD_1F_WEST_BIG_CHEST:
                 self.has(TMCItem.SMALL_KEY_DWS,1),
@@ -1195,16 +1206,17 @@ class MinishCapRules():
                     self.has_weapon()
                 ]),
             TMCLocation.DEEPWOOD_1F_NORTH_EAST_CHEST:
-                self.logic_option(TMCTricks.BOMB_DUST in self.world.options.tricks,
-                    self.logic_and([
-                        self.has(TMCItem.SMALL_KEY_DWS,2),
-                        self.has(TMCItem.BOMB_BAG)     # bomb dust trick
-                    ]),
+                self.logic_or([
                     self.logic_and([
                         self.has(TMCItem.GUST_JAR),
                         self.has(TMCItem.SMALL_KEY_DWS,1)
+                    ]),
+                    self.logic_and([
+                        self.blow_dust(),
+                        self.has(TMCItem.SMALL_KEY_DWS,2)
                     ])
-                ),
+                    
+                ]),
             TMCLocation.DEEPWOOD_B1_SWITCH_ROOM_BIG_CHEST:
                 self.logic_or([
                     self.has(TMCItem.SMALL_KEY_DWS,2),
@@ -2257,6 +2269,23 @@ class MinishCapRules():
                 self.has_sword(),
             ),
         ])
+    
+    def mitts_farm(self) -> CollectionRule:
+        return self.logic_option(TMCTricks.MITTS_FARM in self.world.options.tricks,
+            self.has(TMCItem.MOLE_MITTS)
+        )
+
+    def blow_dust(self) -> CollectionRule:
+        return self.logic_option(TMCTricks.BOMB_DUST in self.world.options.tricks,
+            self.has_any([TMCItem.GUST_JAR, TMCItem.BOMB_BAG]),
+            self.has(TMCItem.GUST_JAR)
+        )
+    
+    def mushroom(self) -> CollectionRule:
+        return self.logic_option(TMCTricks.MUSHROOM in self.world.options.tricks,
+            self.has_any([TMCItem.GUST_JAR, TMCItem.BOMB_BAG, TMCItem.GRIP_RING]),
+            self.has(TMCItem.GUST_JAR)
+        )
 
     def can_pass_trees(self) -> CollectionRule:
         return self.logic_or([
