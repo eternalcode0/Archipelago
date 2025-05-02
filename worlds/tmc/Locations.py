@@ -147,7 +147,7 @@ all_locations: typing.List[LocationData] = [
         6029030, TMCLocation.HILLS_GOLDEN_ROPE, TMCRegion.EASTERN_HILLS, TMCItem.RUPEES_100,
         (None, None), (0x2CA2, 0x10), None, pools={POOL_ENEMY}),
     LocationData(
-        6029031, TMCLocation.HILLS_FUSION_CHEST, TMCRegion.EASTERN_HILLS, TMCItem.BOTTLE,
+        6029031, TMCLocation.HILLS_FUSION_CHEST, TMCRegion.EASTERN_HILLS, TMCItem.EMPTY_BOTTLE,
         (0x0FE05E, None), (0x2CD2, 0x04), 0x0403),
     LocationData(
         6029032, TMCLocation.HILLS_BEANSTALK_FUSION_LEFT_CHEST, TMCRegion.EASTERN_HILLS, None,
@@ -197,7 +197,7 @@ all_locations: typing.List[LocationData] = [
         6029046, TMCLocation.LON_LON_GORON_CAVE_FUSION_SMALL_CHEST, TMCRegion.LONLON, TMCItem.RUPEES_200,
         (0x0D8302, None), (0x2D2A, 0x80), 0x012F),
     LocationData(
-        6029047, TMCLocation.LON_LON_GORON_CAVE_FUSION_BIG_CHEST, TMCRegion.LONLON, TMCItem.BOTTLE,
+        6029047, TMCLocation.LON_LON_GORON_CAVE_FUSION_BIG_CHEST, TMCRegion.LONLON, TMCItem.EMPTY_BOTTLE,
         (0x0D830A, None), (0x2D2A, 0x40), 0x012F),
     #endregion
     #region Lower Falls
@@ -231,7 +231,7 @@ all_locations: typing.List[LocationData] = [
         6029056, TMCLocation.HYLIA_SUNKEN_HP, TMCRegion.LAKE_HYLIA_NORTH, TMCItem.HEART_PIECE,
         (0x0F323B, None), (0x2CBD, 0x02), 0x000B, pools={POOL_HP}),
     LocationData(
-        6029057, TMCLocation.HYLIA_DOG_NPC, TMCRegion.LAKE_HYLIA_NORTH, TMCItem.BOTTLE,
+        6029057, TMCLocation.HYLIA_DOG_NPC, TMCRegion.LAKE_HYLIA_NORTH, TMCItem.EMPTY_BOTTLE,
         (0x094908, 0x09490A), (0x2B3F, 0x20), 0x1422),
     LocationData(
         6029058, TMCLocation.HYLIA_SMALL_ISLAND_HP, TMCRegion.LAKE_HYLIA_NORTH, TMCItem.HEART_PIECE,
@@ -382,7 +382,7 @@ all_locations: typing.List[LocationData] = [
         6029105, TMCLocation.TRILBY_DIG_CAVE_WATER_FUSION_CHEST, TMCRegion.TRILBY_HIGHLANDS, TMCItem.KINSTONE,
         (0x0F3D8E, None), (0x2D05, 0x01), 0x0313),
     LocationData(
-        6029106, TMCLocation.TRILBY_SCRUB_NPC, TMCRegion.TRILBY_HIGHLANDS, TMCItem.BOTTLE,
+        6029106, TMCLocation.TRILBY_SCRUB_NPC, TMCRegion.TRILBY_HIGHLANDS, TMCItem.EMPTY_BOTTLE,
         (0xFF000C, None), (0x2CA7, 0x04), 0x1432, pools={POOL_SCRUB}),
     LocationData(
         6029107, TMCLocation.TRILBY_BOMB_CAVE_CHEST, TMCRegion.WESTERN_WOODS, TMCItem.KINSTONE,
