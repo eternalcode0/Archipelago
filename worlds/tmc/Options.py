@@ -164,6 +164,23 @@ class WeaponBow(Toggle):
     """
     display_name = "Bows are considered Weapons"
 
+class WeaponGust(Toggle):
+    """
+    Gust Jar can suck up various enemies like Ghini(Ghosts) and Beetles (The things that grab onto link). 
+    It can also grab objects and fire them like projectiles to kill enemies, some enemies or parts of enemies can be used as projectiles such as Helmasaurs and Stalfos.
+    'false': Gust Jar is never considered for killing enemies.
+    'true': Gust Jar is considered as weapons for all enemies that get sucked up by it, you are never expected to use objects as projectiles to kill enemies.
+    """
+    display_name = "Gust jar is considered a Weapon"
+    
+class WeaponLamp(Toggle):
+    """
+    The lit Lantern can instantly kill wizrobes by walking through them.
+    'false': Lantern is not considered as a Weapon.
+    'true': Lantern is considered as a weapon for fighting Wizrobes.
+    """
+    display_name = "Lantern is considered a Weapon"
+
 class Tricks(OptionSet):
     """
     bombable_dust: Bombs may be required to blow away dust instead of Gust Jar
@@ -186,6 +203,8 @@ class MinishCapOptions(PerGameCommonOptions):
     shuffle_elements: ShuffleElements
     weapon_bomb: WeaponBomb
     weapon_bow: WeaponBow
+    weapon_gust: WeaponGust
+    weapon_lamp: WeaponLamp
     tricks: Tricks
     rupeesanity: Rupeesanity
     obscure_spots: ObscureSpots
@@ -240,26 +259,26 @@ def get_option_data(options: MinishCapOptions):
         "wind_crest_minish_woods": 0,
         "weapon_bombs": options.weapon_bomb.value, # No, Yes, Yes + Bosses
         "weapon_bows": options.weapon_bow.value,
-        "weapon_gust_jar": 0, # No, Yes
-        "weapon_lantern": 0,
-        "trick_mitts_farm_rupees": 0, # No, Yes
-        "trick_bombable_dust": "bombable_dust" in options.tricks,
-        "trick_crenel_mushroom_gust_jar": 0,
-        "trick_light_arrows_break_objects": 1,
-        "trick_bobombs_destroy_walls": "bobombs_destroy_walls" in options.tricks,
-        "trick_like_like_cave_no_sword": 0,
-        "trick_boots_skip_town_guard": 0,
-        "trick_beam_crenel_switch": 0,
-        "trick_down_thrust_spikey_beetle": 1,
-        "trick_dark_rooms_no_lantern": 0,
-        "trick_cape_extensions": 0,
-        "trick_lake_minish_no_boots": 0,
-        "trick_cabin_swim_no_lilypad": 0,
-        "trick_cloud_sharks_no_weapons": 0,
-        "trick_pow_2f_no_cane": 0,
-        "trick_pot_puzzle_no_bracelets": 0,
-        "trick_fow_pot_gust_jar": 0,
-        "trick_dhc_cannons_no_four_sword": 0,
-        "trick_dhc_pads_no_four_sword": 0,
-        "trick_dhc_switches_no_four_sword": 0,
+        "weapon_gust_jar": options.weapon_gust.value, # No, Yes
+        "weapon_lantern": options.weapon_lamp.value,
+        "trick_mitts_farm_rupees": ALL_TRICKS[4] in options.tricks, # No, Yes
+        "trick_bombable_dust": ALL_TRICKS[5] in options.tricks,
+        "trick_crenel_mushroom_gust_jar": ALL_TRICKS[6] in options.tricks,
+        "trick_light_arrows_break_objects": ALL_TRICKS[7] in options.tricks,
+        "trick_bobombs_destroy_walls": ALL_TRICKS[8] in options.tricks,
+        "trick_like_like_cave_no_sword": ALL_TRICKS[9] in options.tricks,
+        "trick_boots_skip_town_guard": ALL_TRICKS[10] in options.tricks,
+        "trick_beam_crenel_switch": ALL_TRICKS[11] in options.tricks,
+        "trick_down_thrust_spikey_beetle": ALL_TRICKS[12] in options.tricks,
+        "trick_dark_rooms_no_lantern": ALL_TRICKS[13] in options.tricks,
+        "trick_cape_extensions": ALL_TRICKS[14] in options.tricks,
+        "trick_lake_minish_no_boots": ALL_TRICKS[15] in options.tricks,
+        "trick_cabin_swim_no_lilypad": ALL_TRICKS[16] in options.tricks,
+        "trick_cloud_sharks_no_weapons": ALL_TRICKS[17] in options.tricks,
+        "trick_pow_2f_no_cane": ALL_TRICKS[18] in options.tricks,
+        "trick_pot_puzzle_no_bracelets": ALL_TRICKS[19] in options.tricks,
+        "trick_fow_pot_gust_jar": ALL_TRICKS[20] in options.tricks,
+        "trick_dhc_cannons_no_four_sword": ALL_TRICKS[21] in options.tricks,
+        "trick_dhc_pads_no_four_sword": ALL_TRICKS[22] in options.tricks,
+        "trick_dhc_switches_no_four_sword": ALL_TRICKS[23] in options.tricks,
     }

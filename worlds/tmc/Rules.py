@@ -2186,12 +2186,24 @@ class MinishCapRules():
                 self.logic_or([self.has(TMCItem.BOMB_BAG), self.has_sword()]),
                 self.has_sword(),
             ),
+            self.logic_option(self.world.options.weapon_bow.value == 1,
+                self.logic_or([self.has_bow(), self.has_sword()]),
+                self.has_sword(),
+            ),
+            self.logic_option(self.world.options.weapon_gust.value == 1,
+                self.logic_or([self.has(TMCItem.GUST_JAR), self.has_sword()]),
+                self.has_sword(),
+            ),
         ])
 
     def has_weapon_gleerok(self) -> CollectionRule:
         return self.logic_or([
             self.logic_option(self.world.options.weapon_bomb.value == 2,
                 self.logic_or([self.has(TMCItem.BOMB_BAG, 2), self.has_sword()]),
+                self.has_sword(),
+            ),
+            self.logic_option(self.world.options.weapon_bow.value == 1,
+                self.logic_or([self.has_bow(), self.has_sword()]),
                 self.has_sword(),
             ),
         ])
@@ -2202,12 +2214,24 @@ class MinishCapRules():
                 self.logic_or([self.has(TMCItem.BOMB_BAG), self.has_sword()]),
                 self.has_sword(),
             ),
+            self.logic_option(self.world.options.weapon_bow.value == 1,
+                self.logic_or([self.has_bow(), self.has_sword()]),
+                self.has_sword(),
+            ),
+            self.logic_option(self.world.options.weapon_lamp.value == 1,
+                self.logic_or([self.has(TMCItem.LANTERN), self.has_sword()]),
+                self.has_sword(),
+            ),
         ])
 
     def has_weapon_mazaal(self) -> CollectionRule:
         return self.logic_or([
             self.logic_option(self.world.options.weapon_bomb.value == 2,
                 self.logic_or([self.has(TMCItem.BOMB_BAG, 2), self.has_sword()]),
+                self.has_sword(),
+            ),
+            self.logic_option(self.world.options.weapon_bow.value == 1,
+                self.logic_or([self.has_bow(), self.has_sword()]),
                 self.has_sword(),
             ),
         ])
@@ -2222,6 +2246,14 @@ class MinishCapRules():
         return self.logic_or([
             self.logic_option(self.world.options.weapon_bomb.value == 1 or 2,
                 self.logic_or([self.has(TMCItem.BOMB_BAG), self.has_sword()]),
+                self.has_sword(),
+            ),
+            self.logic_option(self.world.options.weapon_bow.value == 1,
+                self.logic_or([self.has_bow(), self.has_sword()]),
+                self.has_sword(),
+            ),
+            self.logic_option(self.world.options.weapon_gust.value == 1,
+                self.logic_or([self.has(TMCItem.GUST_JAR), self.has_sword()]),
                 self.has_sword(),
             ),
         ])
