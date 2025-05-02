@@ -189,6 +189,9 @@ class Tricks(OptionSet):
     light_arrows_break_objects: A charged light arrows shot may be required to destroy obstacles like pots or small trees
     bobombs_destroy_walls: Either a Sword or the Gust Jar may be required to blow up walls near Bobombs
     like_like_cave_no_sword: Opening the chests in the digging cave in Minish Woods, guarded by a pair of likelikes, may be required without a weapon
+    boots_skip_town_guard: A very precise boot dash may be required to skip past the guard blocking the west exit of town
+    beam_crenel_switch: A switch across a gap on Mt Crenel must be hit to extend a bridge to reach cave of flames, hitting it with a sword beam may be required
+    down_thrust_spikey_beetle: Blue Spikey Beetles can be flipped over with a down thrust, which may be required to kill them
     """
     display_name = "Tricks"
     valid_keys = ALL_TRICKS

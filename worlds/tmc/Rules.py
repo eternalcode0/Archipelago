@@ -38,7 +38,10 @@ class MinishCapRules():
             (TMCRegion.NORTH_FIELD, TMCRegion.LONLON):
                 self.can_pass_trees(),
             (TMCRegion.NORTH_FIELD, TMCRegion.TRILBY_HIGHLANDS):
-                self.has_any([TMCItem.FLIPPERS, TMCItem.ROCS_CAPE]),
+                self.logic_option(TMCTricks.BOOTS_GUARDS in self.world.options.tricks,
+                    self.has_any([TMCItem.FLIPPERS, TMCItem.ROCS_CAPE, TMCItem.PEGASUS_BOOTS]),
+                    self.has_any([TMCItem.FLIPPERS, TMCItem.ROCS_CAPE]),
+                ),
             (TMCRegion.NORTH_FIELD, TMCRegion.UPPER_FALLS):
                 self.has_all([TMCItem.BOMB_BAG, TMCItem.KINSTONE_GOLD_FALLS, TMCItem.LANTERN]),
             (TMCRegion.NORTH_FIELD, TMCRegion.ROYAL_VALLEY):
@@ -133,12 +136,13 @@ class MinishCapRules():
                             self.arrow_break(),
                         ]),
                         self.logic_or([
+                            self.logic_option(TMCTricks.BEAM_CRENEL_SWITCH in self.world.options.tricks,
+                                self.logic_or([self.can_beam(),self.has(TMCItem.ROCS_CAPE)]),
+                                self.has(TMCItem.ROCS_CAPE),
+                            ),
                             self.has_bow(),
                             self.has_boomerang(),
-                            self.has_any([
-                                TMCItem.BOMB_BAG,
-                                TMCItem.ROCS_CAPE,
-                            ])
+                            self.has(TMCItem.BOMB_BAG),
                         ]),
                     ]),
                 ]),
@@ -149,17 +153,10 @@ class MinishCapRules():
                         self.has(TMCItem.BOMB_BAG),
                         ),
                     self.has_weapon(),  # Spike Beetle Fight
-                    self.logic_or([
-                        self.has_all([
-                            TMCItem.DOWNTHRUST,
-                            TMCItem.ROCS_CAPE,
-                        ]),
-                        self.can_shield(),
-                        self.has_any([
-                            TMCItem.CANE_OF_PACCI,
-                            TMCItem.BOMB_BAG
-                        ])
-                    ])
+                    self.logic_option(TMCTricks.DOWNTHRUST_BEETLE in self.world.options.tricks,
+                        self.logic_or([self.can_shield(), self.has_any([TMCItem.CANE_OF_PACCI,TMCItem.BOMB_BAG]), self.downthrust()]),
+                        self.logic_or([self.can_shield(), self.has_any([TMCItem.CANE_OF_PACCI,TMCItem.BOMB_BAG])])
+                    ),
                 ]),
             (TMCRegion.UPPER_FALLS, TMCRegion.CLOUDS):
                 self.has(TMCItem.GRIP_RING),
@@ -2059,10 +2056,7 @@ class MinishCapRules():
                     self.logic_or([
                         self.has_bow(),
                         self.has_magic_boomerang(),
-                        self.has_any([
-                            TMCItem.PERIL_BEAM,
-                            TMCItem.SWORD_BEAM,
-                        ]),
+                        self.can_beam(),
                     ]),
                 ]),
             TMCLocation.DHC_3F_SOUTH_WEST_CHEST:
@@ -2079,10 +2073,7 @@ class MinishCapRules():
                     self.logic_or([
                         self.has_bow(),
                         self.has_magic_boomerang(),
-                        self.has_any([
-                            TMCItem.PERIL_BEAM,
-                            TMCItem.SWORD_BEAM,
-                        ]),
+                        self.can_beam(),
                     ]),
                 ]),
             TMCLocation.DHC_3F_SOUTH_EAST_CHEST:
@@ -2098,10 +2089,7 @@ class MinishCapRules():
                     self.logic_or([
                         self.has_bow(),
                         self.has_magic_boomerang(),
-                        self.has_any([
-                            TMCItem.PERIL_BEAM,
-                            TMCItem.SWORD_BEAM,
-                        ]),
+                        self.can_beam(),
                     ]),
                 ]),
             TMCLocation.DHC_2F_BLUE_WARP_BIG_CHEST:
@@ -2117,10 +2105,7 @@ class MinishCapRules():
                     self.logic_or([
                         self.has_bow(),
                         self.has_magic_boomerang(),
-                        self.has_any([
-                            TMCItem.PERIL_BEAM,
-                            TMCItem.SWORD_BEAM,
-                        ]),
+                        self.can_beam(),
                     ]),
                 ]),
             #endregion
@@ -2179,6 +2164,19 @@ class MinishCapRules():
                 self.has(TMCItem.PROGRESSIVE_SWORD, link_count + 1),
                 self.has(ordered_swords[link_count])
             ])
+        ])
+    
+    def can_beam(self) -> CollectionRule:
+        return self.logic_and([
+            self.has_sword(),
+            self.has_any([TMCItem.SWORD_BEAM, TMCItem.PERIL_BEAM]),
+            self.has_bottle(),
+        ])
+    
+    def downthrust(self) -> CollectionRule:
+        return self.logic_and([
+            self.has_sword(),
+            self.has_all([TMCItem.ROCS_CAPE, TMCItem.DOWNTHRUST]),
         ])
 
     def can_shield(self) -> CollectionRule:
