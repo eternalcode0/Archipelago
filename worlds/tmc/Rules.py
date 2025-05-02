@@ -2,7 +2,7 @@ from typing import TYPE_CHECKING
 from worlds.generic.Rules import add_rule, CollectionRule
 from BaseClasses import CollectionState
 
-from .constants import TMCLocation, TMCRegion, TMCItem, TMCEvent
+from .constants import TMCLocation, TMCRegion, TMCItem, TMCEvent, TMCTricks
 
 if TYPE_CHECKING:
     from . import MinishCapWorld
@@ -145,7 +145,7 @@ class MinishCapRules():
                 ]),
             (TMCRegion.MELARI, TMCRegion.DUNGEON_COF):
                 self.logic_and([
-                    self.logic_option("bobombs_destroy_walls" not in self.world.options.tricks,
+                    self.logic_option(TMCTricks.BOBOMB_WALLS not in self.world.options.tricks,
                         self.has(TMCItem.BOMB_BAG)),
                     self.can_attack(),
                     self.logic_or([
@@ -630,13 +630,13 @@ class MinishCapRules():
             TMCLocation.CRENEL_BASE_MINISH_VINE_HOLE_CHEST:
                 self.logic_and([
                     self.has_any([TMCItem.BOMB_BAG, TMCItem.ROCS_CAPE]),
-                    self.logic_option("bombable_dust" not in self.world.options.tricks,
+                    self.logic_option(TMCTricks.BOMB_DUST not in self.world.options.tricks,
                         self.has(TMCItem.GUST_JAR))
                 ]),
             TMCLocation.CRENEL_BASE_MINISH_CRACK_CHEST:
                 self.logic_and([
                     self.has_any([TMCItem.BOMB_BAG, TMCItem.ROCS_CAPE]),
-                    self.logic_option("bombable_dust" not in self.world.options.tricks,
+                    self.logic_option(TMCTricks.BOMB_DUST not in self.world.options.tricks,
                         self.has(TMCItem.GUST_JAR))
                 ]),
             TMCLocation.CRENEL_VINE_TOP_GOLDEN_TEKTITE: # Fusion 3B
@@ -1136,7 +1136,7 @@ class MinishCapRules():
             TMCLocation.DEEPWOOD_1F_BARREL_ROOM_CHEST:
                 self.logic_and([
                     self.has(TMCItem.SMALL_KEY_DWS, 1),
-                    self.logic_option("bombable_dust" in self.world.options.tricks,
+                    self.logic_option(TMCTricks.BOMB_DUST in self.world.options.tricks,
                         self.has_any([TMCItem.GUST_JAR, TMCItem.BOMB_BAG]), # bomb dust trick
                         self.has(TMCItem.GUST_JAR))
                 ]),
@@ -1150,18 +1150,16 @@ class MinishCapRules():
                     self.can_attack()
                 ]),
             TMCLocation.DEEPWOOD_1F_NORTH_EAST_CHEST:
-                self.logic_or([
-                    self.logic_option("bombable_dust" in self.world.options.tricks,
-                        self.logic_and([
-                            self.has(TMCItem.SMALL_KEY_DWS,2),
-                            self.has(TMCItem.BOMB_BAG)     # bomb dust trick
-                        ])
-                    ),
+                self.logic_option(TMCTricks.BOMB_DUST in self.world.options.tricks,
+                    self.logic_and([
+                        self.has(TMCItem.SMALL_KEY_DWS,2),
+                        self.has(TMCItem.BOMB_BAG)     # bomb dust trick
+                    ]),
                     self.logic_and([
                         self.has(TMCItem.GUST_JAR),
                         self.has(TMCItem.SMALL_KEY_DWS,1)
-                    ]),
-                ]),
+                    ])
+                ),
             TMCLocation.DEEPWOOD_B1_SWITCH_ROOM_BIG_CHEST:
                 self.logic_or([
                     self.has(TMCItem.SMALL_KEY_DWS,2),

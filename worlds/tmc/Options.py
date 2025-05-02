@@ -10,6 +10,8 @@ from Options import (
     OptionSet
 )
 
+from .constants import ALL_TRICKS
+
 class DungeonItem(Choice):
     value: int
     option_removed = 0
@@ -142,7 +144,7 @@ class Tricks(OptionSet):
     bobombs_destroy_walls: Either a Sword or the Gust Jar may be required to blow up walls near Bobombs
     """
     display_name = "Tricks"
-    valid_keys = ["bombable_dust", "bobombs_destroy_walls"]
+    valid_keys = ALL_TRICKS
 
 @dataclass
 class MinishCapOptions(PerGameCommonOptions):
