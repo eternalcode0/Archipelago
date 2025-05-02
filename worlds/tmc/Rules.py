@@ -3,6 +3,7 @@ from worlds.generic.Rules import add_rule, CollectionRule
 from BaseClasses import CollectionState
 
 from .constants import TMCLocation, TMCRegion, TMCItem, TMCEvent
+from .Options import DungeonItem
 
 if TYPE_CHECKING:
     from . import MinishCapWorld
@@ -383,7 +384,7 @@ class MinishCapRules():
             # TMCLocation.TOWN_CUCCOS_LV_6_NPC: None,
             # TMCLocation.TOWN_CUCCOS_LV_7_NPC: None,
             # TMCLocation.TOWN_CUCCOS_LV_8_NPC: None,
-            # TMCLocation.TOWN_CUCCOS_LV_9_NPC: None,            
+            # TMCLocation.TOWN_CUCCOS_LV_9_NPC: None,
             TMCLocation.TOWN_CUCCOS_LV_10_NPC:
                 self.has_any([TMCItem.ROCS_CAPE, TMCItem.FLIPPERS]),
             TMCLocation.TOWN_JULLIETA_ITEM:
@@ -481,7 +482,7 @@ class MinishCapRules():
             TMCLocation.CASTLE_LEFT_FOUNTAIN_FUSION_MINISH_HOLE_CHEST: # Fusion 35
                 self.has(TMCItem.PEGASUS_BOOTS),
             # TMCLocation.DHC_MAIN_ENTRANCE: # Entrance Rando
-            #     self.has_4_elements(),    
+            #     self.has_4_elements(),
             # TMCLocation.DHC_SIDE_ENTRANCE: None,    # Entrance Rando
             #endregion
 
@@ -1522,7 +1523,7 @@ class MinishCapRules():
             #region Dungeon TOD
             #TMCLocation.DROPLETS_ENTRANCE_B2_EAST_ICEBLOCK: none
             TMCLocation.DROPLETS_ENTRANCE_B2_WEST_ICEBLOCK:
-                self.has(TMCItem.SMALL_KEY_TOD,4),
+                self.tod_west_iceblock_rule(),
             #endregion
 
             #region Dungeon TOD after Big Key
@@ -2145,6 +2146,18 @@ class MinishCapRules():
             self.has_all([TMCItem.FLIPPERS, TMCItem.MOLE_MITTS]),
         ])
 
+    def tod_west_iceblock_rule(self) -> CollectionRule | None:
+        """
+        ToD is stupid, getting to the west ice block needs special access rules based off what got placed at it.
+        Item placement for this location only occurs in create_items stage.
+        """
+        west_item = self.world.get_location(TMCLocation.DROPLETS_ENTRANCE_B2_WEST_ICEBLOCK).item
+        if west_item is None or west_item.name is not TMCItem.BIG_KEY_TOD:
+            return self.has(TMCItem.SMALL_KEY_TOD, 4)
+        if west_item.name is TMCItem.BIG_KEY_TOD and self.world.options.dungeon_small_keys.value is DungeonItem.option_own_dungeon:
+            return self.has(TMCItem.SMALL_KEY_TOD, 1)
+        return None
+
     def has(self, item: TMCItem, count: int = 1) -> CollectionRule:
         return lambda state: state.has(item, self.player, count)
 
@@ -2160,7 +2173,6 @@ class MinishCapRules():
     def set_rules(self, disabled_locations: set[int], location_name_to_id: dict[str, id]) -> None:
         multiworld = self.world.multiworld
 
-        # menu_region = multiworld.get_region("Menu", self.player)
         for region_pair, rule in self.connection_rules.items():
             region_one = multiworld.get_region(region_pair[0], self.player)
             region_two = multiworld.get_region(region_pair[1], self.player)
