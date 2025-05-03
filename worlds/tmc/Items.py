@@ -2,8 +2,8 @@ from typing import TYPE_CHECKING
 from dataclasses import dataclass
 
 from BaseClasses import ItemClassification
-from .Options import ShuffleElements
-from .constants import TMCLocation, MinishCapItem
+from .Options import ShuffleElements, DungeonItem
+from .constants import TMCLocation, MinishCapItem, TMCItem
 
 if TYPE_CHECKING:
     from . import MinishCapWorld
@@ -260,6 +260,8 @@ def pool_baseitems() -> [ItemData]:
         RED_BOOK,
         GREEN_BOOK,
         BLUE_BOOK,
+
+        *(pool_kinstone_gold()),
     ]
 
 def pool_dungeonmaps() -> [ItemData]:
@@ -287,7 +289,7 @@ def pool_bigkeys() -> [ItemData]:
         BIG_KEY_DWS,
         BIG_KEY_COF,
         BIG_KEY_FOW,
-        BIG_KEY_TOD,
+        # BIG_KEY_TOD, # ToD key is always placed manually
         BIG_KEY_POW,
         BIG_KEY_DHC,
     ]
@@ -330,51 +332,52 @@ def pool_kinstone_green() -> [ItemData]:
         *[*[KINSTONE_GREEN_P] * 16],
     ]
 
-def get_item_pool(world: "MinishCapWorld") -> [MinishCapItem]:
+def get_item_pool(world: "MinishCapWorld") -> (list[MinishCapItem], list[MinishCapItem]):
     player = world.player
     multiworld = world.multiworld
-    item_pool = [
-        *(pool_baseitems()),
-        *(pool_bigkeys()),
-        *(pool_smallkeys()),
-        *(pool_dungeonmaps()),
-        *(pool_compass()),
-        *(pool_kinstone_gold()),
-    ]
+    item_pool = pool_baseitems()
+    pre_fill_pool = []
 
     if world.options.early_weapon.value:
         multiworld.local_early_items[player][PROGRESSIVE_SWORD.item_name] = 1
 
+    if world.options.dungeon_big_keys.value == DungeonItem.option_own_dungeon:
+        pre_fill_pool.extend(pool_bigkeys())
+    else:
+        item_pool.extend(pool_bigkeys())
+        item_pool.append(BIG_KEY_TOD)
+    if world.options.dungeon_small_keys.value == DungeonItem.option_own_dungeon:
+        pre_fill_pool.extend(pool_smallkeys())
+    else:
+        item_pool.extend(pool_smallkeys())
+    if world.options.dungeon_compasses.value == DungeonItem.option_own_dungeon:
+        pre_fill_pool.extend(pool_compass())
+    else:
+        item_pool.extend(pool_compass())
+    if world.options.dungeon_maps.value == DungeonItem.option_own_dungeon:
+        pre_fill_pool.extend(pool_dungeonmaps())
+    else:
+        item_pool.extend(pool_dungeonmaps())
+
+    # ToD is stupid, need to place the big key manually
+    if world.options.dungeon_big_keys.value == DungeonItem.option_own_dungeon:
+        location = world.random.choice([
+            TMCLocation.DROPLETS_ENTRANCE_B2_EAST_ICEBLOCK,
+            TMCLocation.DROPLETS_ENTRANCE_B2_WEST_ICEBLOCK,
+        ])
+        world.get_location(location).place_locked_item(world.create_item(TMCItem.BIG_KEY_TOD))
+
     if world.options.shuffle_elements.value is ShuffleElements.option_anywhere:
         item_pool.extend(pool_elements())
-    elif world.options.shuffle_elements.value is ShuffleElements.option_original_dungeon:
-        placements = {
-            TMCLocation.DEEPWOOD_PRIZE: EARTH_ELEMENT,
-            TMCLocation.COF_PRIZE: FIRE_ELEMENT,
-            TMCLocation.DROPLETS_PRIZE: WATER_ELEMENT,
-            TMCLocation.PALACE_PRIZE: WIND_ELEMENT,
-        }
-        for loc, element in placements.items():
-            multiworld.get_location(loc, player).place_locked_item(world.create_item(element.item_name))
-    elif world.options.shuffle_elements.value is ShuffleElements.option_own_dungeon:
-        dungeons = [
-            TMCLocation.DEEPWOOD_PRIZE,
-            TMCLocation.COF_PRIZE,
-            TMCLocation.DROPLETS_PRIZE,
-            TMCLocation.PALACE_PRIZE,
-            TMCLocation.FORTRESS_PRIZE,
-            TMCLocation.CRYPT_PRIZE
-        ]
-        elements = [EARTH_ELEMENT, FIRE_ELEMENT, WATER_ELEMENT, WIND_ELEMENT]
-        world.random.shuffle(dungeons)
+    else:
+        pre_fill_pool.extend(pool_elements())
 
-        for i, element in enumerate(elements):
-            multiworld.get_location(dungeons[i], player).place_locked_item(world.create_item(element.item_name))
-            world.options.start_hints.value.add(element.item_name)
+    return (
+        [world.create_item(item.item_name) for item in item_pool],
+        [world.create_item(item.item_name) for item in pre_fill_pool]
+    )
 
-    return [world.create_item(item.item_name) for item in item_pool]
-
-itemList: list[ItemData] = [
+item_list: list[ItemData] = [
     *(pool_baseitems()),
     *(pool_elements()),
     *(pool_bigkeys()),
@@ -382,6 +385,7 @@ itemList: list[ItemData] = [
     *(pool_dungeonmaps()),
     *(pool_compass()),
     *(pool_kinstone_gold()),
+    BIG_KEY_TOD,
     # *(pool_kinstone_red()),
     # *(pool_kinstone_blue()),
     # *(pool_kinstone_green()),
@@ -404,8 +408,8 @@ item_frequencies: dict[str, int] = {
 }
 
 filler_item_selection: list[str] = [name for name, count in item_frequencies.items() for _ in range(count)]
-item_table: dict[str, ItemData] = {item.item_name: item for item in itemList}
-items_by_id: dict[int, ItemData] = {item.item_id: item for item in itemList}
+item_table: dict[str, ItemData] = {item.item_name: item for item in item_list}
+items_by_id: dict[int, ItemData] = {item.item_id: item for item in item_list}
 item_groups: dict[str, set[str]] = {
     "Scrolls": {
         SPIN_ATTACK.item_name,
