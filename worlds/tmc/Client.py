@@ -64,8 +64,9 @@ class MinishCapClient(BizHawkClient):
     location_by_room_area: Dict[int, List[LocationData]]
     room: int
     previous_death_link = 0
+    """Timestamp of when the last deathlink was processed"""
     death_link_ready = False
-    ignore_next_death_link = False
+    """Whether the player is expected to be in a death state"""
     event_data = list(map(lambda e: (e[0], 1, "EWRAM"), events.keys()))
     events_sent = set()
     player_name: Optional[str]
@@ -196,7 +197,7 @@ class MinishCapClient(BizHawkClient):
                 write_result = await bizhawk.guarded_write(
                     ctx.bizhawk_ctx,
                     [(0x3FF10, [item.byte_ids[0], item.byte_ids[1]], "EWRAM")],
-                    [(0x3FF10, [0x0, 0x0], "EWRAM")]
+                    [(0x3FF10, [0x0, 0x0], "EWRAM"), (0x2A4A, [1], "EWRAM")]
                 )
 
                 await asyncio.sleep(0.05)
@@ -244,37 +245,40 @@ class MinishCapClient(BizHawkClient):
             return
 
         gameover_mode = ctx.slot_data.get("DeathLinkGameover", 0) == 1
-        # If a new death link has come in different from the last
-        if self.previous_death_link != ctx.last_death_link and (link_health > 0 or not game_over):
-            self.previous_death_link = ctx.last_death_link # record the newest death link
-            if self.ignore_next_death_link:
-                self.ignore_next_death_link = False
+
+        # If a new death link has come in
+        if self.previous_death_link != ctx.last_death_link:
+            write_list = []
+            if gameover_mode:
+                write_list = [(RAM_ADDRS["gameover"][0], [1], "IWRAM")]
             else:
-                if gameover_mode:
-                    # Death should gameover, do not pass go, do not collect 200 rupees.
-                    await bizhawk.write(
-                        ctx.bizhawk_ctx,
-                        [(RAM_ADDRS["gameover"][0], [1], "IWRAM")]
-                    )
-                    self.death_link_ready = False
-                elif not gameover_mode:
-                    # Death should not gameover, give an opportunity for fairy revive.
-                    await bizhawk.write(
-                        ctx.bizhawk_ctx,
-                        [(RAM_ADDRS["link_health"][0], [0], "IWRAM")]
-                    )
-                    self.death_link_ready = False
+                write_list = [(RAM_ADDRS["link_health"][0], [0], "IWRAM")]
+
+            # Attempt to kill them if they're safe
+            if await bizhawk.guarded_write(
+                ctx.bizhawk_ctx,
+                write_list,
+                [(0x2A4A, [1], "EWRAM")] # Custom "Player safe" address
+            ):
+                # The kill was successful, record the player is dead for the next loop
+                self.death_link_ready = False
+                # and save the fact that we successfully killed for that deathlink
+                self.previous_death_link = ctx.last_death_link
+            else:
+                # The player wasn't safe, do nothing and wait for the next death
+                pass
+
         # Not receiving death, decide if we send death
-        if gameover_mode and action_state == 0x0A:
-            if game_over:
-                await ctx.send_death(f"{ctx.player_names[ctx.slot]} ran out of fairies!")
-                self.death_link_ready = False
-                self.ignore_next_death_link = True
-        elif action_state == 0x0A:
-            if link_health == 0:
-                await ctx.send_death(f"{ctx.player_names[ctx.slot]} ran out of hearts!")
-                self.death_link_ready = False
-                self.ignore_next_death_link = True
+        if action_state != 0x0A:
+            return
+        if gameover_mode and game_over:
+            await ctx.send_death(f"{ctx.player_names[ctx.slot]} ran out of fairies!")
+            self.previous_death_link = ctx.last_death_link
+            self.death_link_ready = False
+        elif not gameover_mode and link_health == 0:
+            await ctx.send_death(f"{ctx.player_names[ctx.slot]} ran out of hearts!")
+            self.previous_death_link = ctx.last_death_link
+            self.death_link_ready = False
 
     async def handle_room_change(self, ctx: "BizHawkClientContext", room_area_id) -> None:
         # Location Scouting
