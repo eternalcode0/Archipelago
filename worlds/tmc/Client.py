@@ -97,7 +97,7 @@ class MinishCapClient(BizHawkClient):
             return False
 
         ctx.game = self.game
-        ctx.items_handling = 0b101
+        ctx.items_handling = 0b111
         ctx.want_slot_data = True
         ctx.watcher_timeout = 0.5
         name_bytes = (await bizhawk.read(ctx.bizhawk_ctx, [(0x000600, 16, "ROM")]))[0]

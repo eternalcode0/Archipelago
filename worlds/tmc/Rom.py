@@ -58,11 +58,7 @@ def item_inject(world: "MinishCapWorld", patch: MinishCapProcedurePatch, locatio
     item_byte_first  = 0x00
     item_byte_second = 0x00
 
-    if item.player == world.player:
-        # The item belongs to this player's world, it should use local item ids
-        item_byte_first = item_table[item.name].byte_ids[0]
-        item_byte_second = item_table[item.name].byte_ids[1]
-    elif item.classification not in EXTERNAL_ITEM_MAP:
+    if item.classification not in EXTERNAL_ITEM_MAP:
         # The item belongs to an external player's world but we don't recognize the classification
         # default to green clock sprite, also used for progression item
         item_byte_first = 0x18
