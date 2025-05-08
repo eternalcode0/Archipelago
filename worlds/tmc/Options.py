@@ -194,6 +194,9 @@ class Tricks(OptionSet):
     down_thrust_spikey_beetle: Blue Spikey Beetles can be flipped over with a down thrust, which may be required to kill them
     dark_rooms_no_lantern: Dark rooms may require being traversed without the lantern. Link always has a small light source revealing his surroundings.
     cape_extensions: Some larger gaps across water can be crossed by extending the distance you can jump (Release cape after the hop, then press and hold the glide).
+    lake_minish_no_boots: Lake hylia can be explored as minish without using the boots to bonk a tree by jumping down from the middle island.
+    cabin_swim_no_lilypad: Lake Cabin has a path used to enter as minish, the screen transition can be touched by swimming into it.
+    cloud_sharks_no_weapons: The Sharks in cloud tops can be killed by standing near the edge and watching them jump off.
     """
     display_name = "Tricks"
     valid_keys = ALL_TRICKS
