@@ -1,16 +1,16 @@
 from typing import TYPE_CHECKING
 from dataclasses import dataclass
 
-from BaseClasses import ItemClassification
+from BaseClasses import ItemClassification, Item
 from .Options import ShuffleElements
-from .constants import TMCLocation, MinishCapItem
+from .constants import TMCLocation
 
 if TYPE_CHECKING:
     from . import MinishCapWorld
 
 @dataclass
 class ItemData:
-    item_name: str
+    item_name: Item.name
     classification: ItemClassification
     byte_ids: tuple[int, int]
 
@@ -177,7 +177,7 @@ SMALL_KEY_POW = ItemData("Small Key (PoW)",                      ItemClassificat
 SMALL_KEY_DHC = ItemData("Small Key (DHC)",                      ItemClassification.progression, (0x53, 0x1D))
 SMALL_KEY_RC  = ItemData("Small Key (RC)",                       ItemClassification.progression, (0x53, 0x1E))
 
-def pool_elements() -> [ItemData]:
+def pool_elements() -> list[ItemData]:
     return [
         EARTH_ELEMENT,
         FIRE_ELEMENT,
@@ -185,7 +185,7 @@ def pool_elements() -> [ItemData]:
         WIND_ELEMENT,
     ]
 
-def pool_baseitems() -> [ItemData]:
+def pool_baseitems() -> list[ItemData]:
     return [
         *[PROGRESSIVE_SWORD] * 5,
         *[PROGRESSIVE_SHIELD] * 2,
@@ -262,7 +262,7 @@ def pool_baseitems() -> [ItemData]:
         BLUE_BOOK,
     ]
 
-def pool_dungeonmaps() -> [ItemData]:
+def pool_dungeonmaps() -> list[ItemData]:
     return [
         DUNGEON_MAP_DWS,
         DUNGEON_MAP_COF,
@@ -272,7 +272,7 @@ def pool_dungeonmaps() -> [ItemData]:
         DUNGEON_MAP_DHC,
     ]
 
-def pool_compass() -> [ItemData]:
+def pool_compass() -> list[ItemData]:
     return [
         DUNGEON_COMPASS_DWS,
         DUNGEON_COMPASS_COF,
@@ -282,7 +282,7 @@ def pool_compass() -> [ItemData]:
         DUNGEON_COMPASS_DHC,
     ]
 
-def pool_bigkeys() -> [ItemData]:
+def pool_bigkeys() -> list[ItemData]:
     return [
         BIG_KEY_DWS,
         BIG_KEY_COF,
@@ -292,7 +292,7 @@ def pool_bigkeys() -> [ItemData]:
         BIG_KEY_DHC,
     ]
 
-def pool_smallkeys() -> [ItemData]:
+def pool_smallkeys() -> list[ItemData]:
     return [
         *[*[SMALL_KEY_DWS] * 4],
         *[*[SMALL_KEY_COF] * 2],
@@ -303,34 +303,34 @@ def pool_smallkeys() -> [ItemData]:
         *[*[SMALL_KEY_RC] * 3],
     ]
 
-def pool_kinstone_gold() -> [ItemData]:
+def pool_kinstone_gold() -> list[ItemData]:
     return [
         *[*[KINSTONE_GOLD_CLOUD] * 5],
         *[*[KINSTONE_GOLD_SWAMP] * 3],
         *[*[KINSTONE_GOLD_FALLS] * 1],
     ]
 
-def pool_kinstone_red() -> [ItemData]:
+def pool_kinstone_red() -> list[ItemData]:
     return [
         *[*[KINSTONE_RED_W] * 9],
         *[*[KINSTONE_RED_ANGLE] * 7],
         *[*[KINSTONE_RED_E] * 8],
     ]
 
-def pool_kinstone_blue() -> [ItemData]:
+def pool_kinstone_blue() -> list[ItemData]:
     return [
         *[*[KINSTONE_BLUE_L] * 9],
         *[*[KINSTONE_BLUE_6] * 9],
     ]
 
-def pool_kinstone_green() -> [ItemData]:
+def pool_kinstone_green() -> list[ItemData]:
     return [
         *[*[KINSTONE_GREEN_ANGLE] * 17],
         *[*[KINSTONE_GREEN_SQUARE] * 16],
         *[*[KINSTONE_GREEN_P] * 16],
     ]
 
-def get_item_pool(world: "MinishCapWorld") -> [MinishCapItem]:
+def get_item_pool(world: "MinishCapWorld") -> list[Item]:
     player = world.player
     multiworld = world.multiworld
     item_pool = [
@@ -376,7 +376,7 @@ def get_item_pool(world: "MinishCapWorld") -> [MinishCapItem]:
 
         for i, element in enumerate(elements):
             multiworld.get_location(dungeons[i], player).place_locked_item(world.create_item(element.item_name))
-            multiworld.start_hints[player].value.add(element.item_name)
+            world.options.start_hints.value.add(element.item_name)
 
     return [world.create_item(item.item_name) for item in item_pool]
 
@@ -393,7 +393,7 @@ itemList: list[ItemData] = [
     # *(pool_kinstone_green()),
 ]
 
-item_frequencies: dict[str, int] = {
+item_frequencies: dict[Item, int] = {
     RUPEES_1.item_name: 36,
     RUPEES_5.item_name: 49,
     RUPEES_20.item_name: 53,
@@ -409,7 +409,7 @@ item_frequencies: dict[str, int] = {
     ARROW_REFILL_30.item_name: 16,
 }
 
-filler_item_selection: list[str] = [name for name, count in item_frequencies.items() for _ in range(count)]
+filler_item_selection: list[Item] = [name for name, count in item_frequencies.items() for _ in range(count)]
 item_table: dict[str, ItemData] = {item.item_name: item for item in itemList}
 items_by_id: dict[int, ItemData] = {item.item_id: item for item in itemList}
 item_groups: dict[str, set[str]] = {

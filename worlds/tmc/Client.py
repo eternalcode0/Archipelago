@@ -60,7 +60,7 @@ class MinishCapClient(BizHawkClient):
     system = "GBA"
     patch_suffix = ".aptmc"
     local_checked_locations: Set[int]
-    location_name_to_id: Dict[str, int]
+    location_name_to_id: Dict[str, tuple[int,int]]
     location_by_room_area: Dict[int, List[LocationData]]
     room: int
     previous_death_link = 0
@@ -173,7 +173,7 @@ class MinishCapClient(BizHawkClient):
                 await self.handle_location_sending(ctx, room_area_id)
                 await self.handle_event_setting(ctx)
 
-            # Death link handling only if in normal gameplay (0x02) or gamemover (0x03)
+            # Death link handling only if in normal gameplay (0x02) or gameover (0x03)
             if game_task in range(0x02, 0x04) and ctx.slot_data.get("DeathLink", 0) == 1:
                 await self.handle_death_link(ctx, link_health, gameover, action_state)
 

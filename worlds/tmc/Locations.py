@@ -31,11 +31,11 @@ class LocationData:
     id: int
     name: str
     region: str
-    vanilla_item: str
+    vanilla_item: str | None
     """The item name of what is normally given in this location"""
-    rom_addr: typing.Tuple[int, int]
+    rom_addr: typing.Tuple[list[int | None] | int | None, list[int | None] | int | None]
     """The address in the rom for placing items"""
-    ram_addr: typing.Tuple[int, int]
+    ram_addr: typing.Tuple[list[int | None] | int | None, list[int | None] | int | None]
     """1st = The address in EWRAM to read/write to, 2nd = The bit mask for the address"""
     room_area: int
     """
@@ -1674,7 +1674,7 @@ all_locations: typing.List[LocationData] = [
 GOAL_PED = LocationData(None, TMCEvent.CLEAR_PED, TMCRegion.DUNGEON_DHC, None, None, (0x2D0B, 0x01), None)
 GOAL_VAATI = LocationData(None, TMCEvent.CLEAR_DHC, TMCRegion.VAATI_FIGHT, None, None, (0x2CA6, 0x02), 0x008B)
 
-events: typing.Dict[str, typing.Tuple[int, int]] = {
+events: typing.Dict[typing.Tuple[int, int], str] = {
     (0x2B44, 0x01): "scroll_spin",
     (0x2B4E, 0x40): "scroll_fast_spin",
     (0x2B4F, 0x01): "scroll_fast_split",

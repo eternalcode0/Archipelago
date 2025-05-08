@@ -95,7 +95,8 @@ class MinishCapWorld(World):
             "GoalVaati": self.options.goal_vaati.value,
         }
         data |= self.options.as_dict("death_link", "death_link_gameover", "rupeesanity", "obscure_spots", "goal_vaati",
-            casing="snake")
+                                     "weapon_bomb", "weapon_bow", "weapon_gust", "weapon_lamp", "tricks",
+                                     casing="snake")
         data |= get_option_data(self.options)
         return data
 
@@ -110,14 +111,14 @@ class MinishCapWorld(World):
         goal_region.locations.append(goal_location)
         # self.get_location(TMCEvent.CLEAR_PED).place_locked_item(self.create_event(TMCEvent.CLEAR_PED))
 
-    def create_item(self, name: str) -> MinishCapItem:
+    def create_item(self, name: str) -> Item:
         item = item_table[name]
         return MinishCapItem(name, item.classification, self.item_name_to_id[name], self.player)
 
     def create_event(self, name: str) -> MinishCapItem:
         return MinishCapItem(name, ItemClassification.progression, None, self.player)
 
-    def get_filler_item_name(self) -> str:
+    def get_filler_item_name(self) -> Item:
         return self.random.choice(filler_item_selection)
 
     def create_items(self):

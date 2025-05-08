@@ -1,5 +1,4 @@
 from collections.abc import Callable
-from enum import Enum
 
 from BaseClasses import Item, Location, ItemClassification
 

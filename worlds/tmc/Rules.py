@@ -7,7 +7,7 @@ from .constants import TMCLocation, TMCRegion, TMCItem, TMCEvent, TMCTricks
 if TYPE_CHECKING:
     from . import MinishCapWorld
 
-class MinishCapRules():
+class MinishCapRules:
     player: int
     world: "MinishCapWorld"
     connection_rules: dict[(str, str), CollectionRule]
@@ -31,23 +31,26 @@ class MinishCapRules():
             (TMCRegion.HYRULE_TOWN, TMCRegion.LONLON):
                 self.has(TMCItem.BOMB_BAG),
             (TMCRegion.HYRULE_TOWN, TMCRegion.TRILBY_HIGHLANDS):
-                self.can_spin(),
+                self.logic_option(TMCTricks.BOOTS_GUARDS in self.world.options.tricks,
+                    self.logic_or([self.can_spin(), self.has(TMCItem.PEGASUS_BOOTS)]),
+                    self.can_spin(),
+                ),
 
             (TMCRegion.NORTH_FIELD, TMCRegion.CASTLE_EXTERIOR): None,
             # (TMCRegion.NORTH_FIELD, TMCRegion.HYRULE_TOWN): Already connected
             (TMCRegion.NORTH_FIELD, TMCRegion.LONLON):
                 self.can_pass_trees(),
             (TMCRegion.NORTH_FIELD, TMCRegion.TRILBY_HIGHLANDS):
-                self.logic_option(TMCTricks.BOOTS_GUARDS in self.world.options.tricks,
-                    self.has_any([TMCItem.FLIPPERS, TMCItem.ROCS_CAPE, TMCItem.PEGASUS_BOOTS]),
                     self.has_any([TMCItem.FLIPPERS, TMCItem.ROCS_CAPE]),
-                ),
             (TMCRegion.NORTH_FIELD, TMCRegion.UPPER_FALLS):
                 self.logic_and([self.has(TMCItem.BOMB_BAG), self.has(TMCItem.KINSTONE_GOLD_FALLS), self.dark_room()]),
             (TMCRegion.NORTH_FIELD, TMCRegion.ROYAL_VALLEY):
                 self.logic_and([
                     self.split_rule(3),
-                    self.has_any([TMCItem.FLIPPERS, TMCItem.BOMB_BAG]),
+                    self.logic_or([
+                        self.cape_extend(),
+                        self.has_any([TMCItem.FLIPPERS, TMCItem.BOMB_BAG]),
+                    ]),
                 ]),
 
             # (TMCRegion.CASTLE_EXTERIOR, TMCRegion.NORTH_FIELD): Already connected
@@ -197,9 +200,15 @@ class MinishCapRules():
 
             (TMCRegion.LAKE_HYLIA_NORTH, TMCRegion.LONLON): None, # allows Ocarina warp access to lonlon and minish woods
             (TMCRegion.LAKE_HYLIA_NORTH, TMCRegion.LAKE_HYLIA_SOUTH):
-                self.has(TMCItem.FLIPPERS),
+                self.logic_and([
+                    self.has(TMCItem.FLIPPERS),
+                    self.cape_extend(),
+                ]),
             (TMCRegion.LAKE_HYLIA_NORTH, TMCRegion.DUNGEON_TOD):
-                self.has(TMCItem.FLIPPERS),
+                self.logic_and([
+                    self.has(TMCItem.FLIPPERS),
+                    self.cape_extend(),
+                ]),
             # (TMCRegion.LAKE_HYLIA_SOUTH, TMCRegion.MINISH_WOODS): # Already connected
             (TMCRegion.DUNGEON_TOD, TMCRegion.DUNGEON_TOD_MAIN):
                 self.has(TMCItem.BIG_KEY_TOD),
@@ -417,11 +426,29 @@ class MinishCapRules():
             #region Upper Falls
             # The first 3 are part of North Field logic, doesn't require falls fusion stone or lantern
             TMCLocation.FALLS_ENTRANCE_HP:
-                self.has_all([TMCItem.FLIPPERS, TMCItem.BOMB_BAG]),
+                self.logic_and([
+                    self.has(TMCItem.BOMB_BAG),
+                    self.logic_or([
+                        self.has(TMCItem.FLIPPERS),
+                        self.cape_extend(),
+                    ])
+                ]),
             TMCLocation.FALLS_WATER_DIG_CAVE_FUSION_HP: # Fusion 1F
-                self.has_all([TMCItem.FLIPPERS, TMCItem.BOMB_BAG, TMCItem.MOLE_MITTS]),
+                self.logic_and([
+                    self.has_all([TMCItem.BOMB_BAG, TMCItem.MOLE_MITTS]),
+                    self.logic_or([
+                        self.has(TMCItem.FLIPPERS),
+                        self.cape_extend(),
+                    ])
+                ]),
             TMCLocation.FALLS_WATER_DIG_CAVE_FUSION_CHEST: # Fusion 1F
-                self.has_all([TMCItem.FLIPPERS, TMCItem.BOMB_BAG, TMCItem.MOLE_MITTS]),
+                self.logic_and([
+                    self.has_all([TMCItem.BOMB_BAG, TMCItem.MOLE_MITTS]),
+                    self.logic_or([
+                        self.has(TMCItem.FLIPPERS),
+                        self.cape_extend(),
+                    ])
+                ]),
             # Fusion 09
             # TMCLocation.FALLS_1ST_CAVE_CHEST: None,
             TMCLocation.FALLS_CLIFF_CHEST:
@@ -843,15 +870,30 @@ class MinishCapRules():
                 self.has_all([TMCItem.MOLE_MITTS, TMCItem.ROCS_CAPE]),
             TMCLocation.HYLIA_MIDDLE_ISLAND_FUSION_DIG_CAVE_CHEST:
                 # Fusion 34
-                self.has_all([TMCItem.MOLE_MITTS, TMCItem.FLIPPERS]),
+                self.logic_and([
+                    self.has(TMCItem.MOLE_MITTS),
+                    self.logic_or([
+                        self.has(TMCItem.FLIPPERS),
+                        self.cape_extend(),
+                    ])
+                ]),
             TMCLocation.HYLIA_BOTTOM_HP:
-                self.has(TMCItem.FLIPPERS),
+                    self.logic_or([
+                        self.has(TMCItem.FLIPPERS),
+                        self.cape_extend(),
+                    ]),
             TMCLocation.HYLIA_DOJO_HP:
-                self.has(TMCItem.FLIPPERS),
+                    self.logic_or([
+                        self.has(TMCItem.FLIPPERS),
+                        self.cape_extend(),
+                    ]),
             TMCLocation.HYLIA_DOJO_NPC:
                 self.logic_and([
+                    self.logic_or([
+                        self.has(TMCItem.FLIPPERS),
+                        self.cape_extend(),
+                    ]),
                     self.has_max_health(10),
-                    self.has(TMCItem.FLIPPERS),
                     self.has_sword(),
                 ]),
             TMCLocation.HYLIA_CRACK_FUSION_LIBRARI_NPC: # fusion 12
@@ -1157,21 +1199,21 @@ class MinishCapRules():
             TMCLocation.TOWN_LIBRARY_YELLOW_MINISH_NPC:
                 self.complete_book_quest(),
             TMCLocation.TOWN_UNDER_LIBRARY_FROZEN_CHEST:
-                self.has_all([TMCItem.FLIPPERS, TMCItem.LANTERN, TMCItem.OCARINA, TMCItem.CANE_OF_PACCI]),
+                self.has_all([TMCItem.OCARINA, TMCItem.CANE_OF_PACCI, TMCItem.FLIPPERS, TMCItem.LANTERN]),
             TMCLocation.TOWN_UNDER_LIBRARY_BIG_CHEST:
                 self.logic_and([
-                    self.has_weapon_scissor(),
                     self.logic_or([
                         self.logic_and([
                             self.complete_book_quest(),
                             self.has(TMCItem.GRIP_RING),
                             self.has_any([TMCItem.GUST_JAR,TMCItem.ROCS_CAPE]),
                         ]),
-                        self.has_all([TMCItem.FLIPPERS, TMCItem.OCARINA, TMCItem.CANE_OF_PACCI]),
+                        self.has_all([TMCItem.OCARINA, TMCItem.CANE_OF_PACCI, TMCItem.FLIPPERS]),
                     ]),
+                    self.has_weapon_scissor(),
                 ]),
             TMCLocation.TOWN_UNDER_LIBRARY_UNDERWATER:
-                self.has_all([TMCItem.FLIPPERS, TMCItem.OCARINA, TMCItem.CANE_OF_PACCI]),
+                self.has_all([TMCItem.OCARINA, TMCItem.CANE_OF_PACCI, TMCItem.FLIPPERS]),
             TMCLocation.TOWN_CUCCOS_LV_10_NPC:
                 self.has_any([TMCItem.ROCS_CAPE, TMCItem.FLIPPERS]),
             #endregion
@@ -1185,7 +1227,10 @@ class MinishCapRules():
             TMCLocation.NORTH_FIELD_DIG_SPOT:
                 self.has(TMCItem.MOLE_MITTS),
             TMCLocation.NORTH_FIELD_HP:
-                self.has_any([TMCItem.BOMB_BAG, TMCItem.FLIPPERS]),
+                self.logic_or([
+                    self.has_any([TMCItem.BOMB_BAG, TMCItem.FLIPPERS]),
+                    self.cape_extend(),
+                ]),
             TMCLocation.NORTH_FIELD_WATERFALL_FUSION_DOJO_NPC:  # Fusion 15
                 self.logic_and([
                     self.has(TMCItem.FLIPPERS),
@@ -1618,10 +1663,11 @@ class MinishCapRules():
                 self.logic_and([
                     self.has(TMCItem.SMALL_KEY_TOD,4),
                     self.has_weapon_boss(),
-                    self.has_all([
-                        TMCItem.FLIPPERS,
-                        TMCItem.GUST_JAR
-                    ])
+                    self.has(TMCItem.GUST_JAR),
+                    self.logic_or([
+                        self.has(TMCItem.FLIPPERS),
+                        self.has_all([TMCItem.LANTERN, TMCItem.ROCS_CAPE]),
+                    ]),
                 ]),
             TMCLocation.DROPLETS_LEFT_PATH_B2_ICE_PLAIN_FROZEN_CHEST:
                 self.logic_and([
@@ -1656,11 +1702,14 @@ class MinishCapRules():
             TMCLocation.DROPLETS_LEFT_PATH_B2_LILYPAD_CORNER_FROZEN_CHEST:
                 self.logic_and([
                     self.has(TMCItem.SMALL_KEY_TOD,4),
-                    self.has_all([
-                        TMCItem.FLIPPERS,
-                        TMCItem.GUST_JAR,
-                        TMCItem.LANTERN
-                    ])
+                    self.has_all([TMCItem.GUST_JAR, TMCItem.LANTERN]),
+                    self.logic_or([
+                        self.has(TMCItem.FLIPPERS),
+                        self.logic_and([
+                            self.has_weapon_scissor(),
+                            self.has(TMCItem.ROCS_CAPE),
+                        ])
+                    ]),
                 ]),
             TMCLocation.DROPLETS_RIGHT_PATH_B1_1ST_CHEST:
                 self.logic_or([
@@ -2112,10 +2161,10 @@ class MinishCapRules():
         }
 
 
-    def logic_or(self, rules: [CollectionRule | None]) -> CollectionRule:
+    def logic_or(self, rules: list[CollectionRule | None]) -> CollectionRule:
         return lambda state: any(rule(state) for rule in rules if rule is not None)
 
-    def logic_and(self, rules: [CollectionRule | None]) -> CollectionRule:
+    def logic_and(self, rules: list[CollectionRule | None]) -> CollectionRule:
         return lambda state: all(rule(state) for rule in rules if rule is not None)
 
     def logic_option(self, option: bool, rule_true: CollectionRule,
@@ -2338,6 +2387,11 @@ class MinishCapRules():
             self.has(TMCItem.LANTERN)
         )
 
+    def cape_extend(self) -> CollectionRule:
+        return self.logic_option(TMCTricks.CAPE_EXTENSIONS in self.world.options.tricks,
+            self.has(TMCItem.ROCS_CAPE)
+        )
+
     def can_pass_trees(self) -> CollectionRule:
         return self.logic_or([
             self.has_any([TMCItem.BOMB_BAG, TMCItem.LANTERN]),
@@ -2388,19 +2442,19 @@ class MinishCapRules():
             self.has_all([TMCItem.FLIPPERS, TMCItem.MOLE_MITTS]),
         ])
 
-    def has(self, item: TMCItem, count: int = 1) -> CollectionRule:
+    def has(self, item: str, count: int = 1) -> CollectionRule:
         return lambda state: state.has(item, self.player, count)
 
-    def has_all(self, items: [TMCItem]) -> CollectionRule:
+    def has_all(self, items: list[str]) -> CollectionRule:
         return lambda state: state.has_all(items, self.player)
 
-    def has_any(self, items: [TMCItem]) -> CollectionRule:
+    def has_any(self, items: list[str]) -> CollectionRule:
         return lambda state: state.has_any(items, self.player)
 
-    def can_reach(self, locations: [TMCLocation]) -> CollectionRule:
+    def can_reach(self, locations: list[str]) -> CollectionRule:
         return lambda state: all(state.can_reach(loc, "Location", self.player) for loc in locations)
 
-    def set_rules(self, disabled_locations: set[int], location_name_to_id: dict[str, id]) -> None:
+    def set_rules(self, disabled_locations: set[str], location_name_to_id: dict[str, int]) -> None:
         multiworld = self.world.multiworld
 
         # menu_region = multiworld.get_region("Menu", self.player)

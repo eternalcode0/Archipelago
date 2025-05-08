@@ -193,6 +193,7 @@ class Tricks(OptionSet):
     beam_crenel_switch: A switch across a gap on Mt Crenel must be hit to extend a bridge to reach cave of flames, hitting it with a sword beam may be required
     down_thrust_spikey_beetle: Blue Spikey Beetles can be flipped over with a down thrust, which may be required to kill them
     dark_rooms_no_lantern: Dark rooms may require being traversed without the lantern. Link always has a small light source revealing his surroundings.
+    cape_extensions: Some larger gaps across water can be crossed by extending the distance you can jump (Release cape after the hop, then press and hold the glide).
     """
     display_name = "Tricks"
     valid_keys = ALL_TRICKS
