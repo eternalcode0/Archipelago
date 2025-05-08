@@ -197,6 +197,9 @@ class Tricks(OptionSet):
     lake_minish_no_boots: Lake hylia can be explored as minish without using the boots to bonk a tree by jumping down from the middle island.
     cabin_swim_no_lilypad: Lake Cabin has a path used to enter as minish, the screen transition can be touched by swimming into it.
     cloud_sharks_no_weapons: The Sharks in cloud tops can be killed by standing near the edge and watching them jump off.
+    fow_pot_gust_jar: A pot near the end of Fortress can be grabbed with the gust jar through a wall from near the beginning of the dungeon.
+    pow_2f_no_cane: After climbing the first clouds of Palace, a moving platform can be reached with a precise jump.
+    pot_puzzle_no_bracelets: The Minish sized pot puzzle in Palace can be avoided by hitting the switch that drops the item at a later point in the dungeon.
     """
     display_name = "Tricks"
     valid_keys = ALL_TRICKS

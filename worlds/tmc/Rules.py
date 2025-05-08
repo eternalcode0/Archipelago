@@ -1519,10 +1519,13 @@ class MinishCapRules:
                     self.has(TMCItem.MOLE_MITTS),
                 ]),
             TMCLocation.FORTRESS_BACK_RIGHT_DIG_ROOM_BOTTOM_POT:
-                self.logic_and([
-                    self.has_bow(),
-                    self.has(TMCItem.SMALL_KEY_FOW,3),
-                    self.has(TMCItem.MOLE_MITTS),
+                self.logic_or([
+                    self.fow_pot(),
+                    self.logic_and([
+                        self.has_bow(),
+                        self.has(TMCItem.SMALL_KEY_FOW,3),
+                        self.has(TMCItem.MOLE_MITTS),
+                    ]),
                 ]),
             TMCLocation.FORTRESS_BACK_RIGHT_BIG_CHEST:
                 self.logic_and([
@@ -1812,211 +1815,147 @@ class MinishCapRules:
             TMCLocation.PALACE_1ST_HALF_1F_WIZZROBE_BIG_CHEST:
                 self.has_weapon_wizzrobe(),
             TMCLocation.PALACE_1ST_HALF_2F_ITEM1:
-                self.has_all([
-                    TMCItem.CANE_OF_PACCI,
-                    TMCItem.ROCS_CAPE
-                ]),
+                self.pow_jump(),
             TMCLocation.PALACE_1ST_HALF_2F_ITEM2:
-                self.has_all([
-                    TMCItem.CANE_OF_PACCI,
-                    TMCItem.ROCS_CAPE
-                ]),
+                self.pow_jump(),
             TMCLocation.PALACE_1ST_HALF_2F_ITEM3:
-                self.has_all([
-                    TMCItem.CANE_OF_PACCI,
-                    TMCItem.ROCS_CAPE
-                ]),
+                self.pow_jump(),
             TMCLocation.PALACE_1ST_HALF_2F_ITEM4:
-                self.has_all([
-                    TMCItem.CANE_OF_PACCI,
-                    TMCItem.ROCS_CAPE
-                ]),
+                self.pow_jump(),
             TMCLocation.PALACE_1ST_HALF_2F_ITEM5:
-                self.has_all([
-                    TMCItem.CANE_OF_PACCI,
-                    TMCItem.ROCS_CAPE
-                ]),
+                self.pow_jump(),
             TMCLocation.PALACE_1ST_HALF_3F_POT_PUZZLE_ITEM_DROP:
                 self.logic_and([
-                    self.logic_or([
-                        self.has(TMCItem.POWER_BRACELETS),
-                    #    self.logic_and([
-                    #        self.has(TMCItem.SMALL_KEY_POW,4),
-                    #        self.has_all([TMCItem.LANTERN,TMCItem.BIG_KEY_POW])    # pot push without bracelets
-                    #    ])
-                    ]),
                     self.has_all([
                         TMCItem.CANE_OF_PACCI,
                         TMCItem.ROCS_CAPE
                     ]),
+                    self.pow_pot(),
                 ]),
             TMCLocation.PALACE_1ST_HALF_4F_BOW_MOBLINS_CHEST:
                 self.logic_and([
-                    self.has_all([
-                        TMCItem.CANE_OF_PACCI,
-                        TMCItem.ROCS_CAPE
-                    ]),
+                    self.pow_jump(),
                     self.has(TMCItem.SMALL_KEY_POW,1)
                 ]),
             TMCLocation.PALACE_1ST_HALF_5F_BALL_AND_CHAIN_SOLDIERS_ITEM_DROP:
                 self.logic_and([
-                    self.has_all([
-                        TMCItem.CANE_OF_PACCI,
-                        TMCItem.ROCS_CAPE
-                    ]),
+                    self.pow_jump(),
                     self.has(TMCItem.SMALL_KEY_POW,1)
                 ]),
             TMCLocation.PALACE_1ST_HALF_5F_FAN_LOOP_CHEST:
                 self.logic_and([
-                    self.has_all([
-                        TMCItem.CANE_OF_PACCI,
-                        TMCItem.ROCS_CAPE
-                    ]),
+                    self.pow_jump(),
                     self.has(TMCItem.SMALL_KEY_POW,5)
                 ]),
             TMCLocation.PALACE_1ST_HALF_5F_BIG_CHEST:
                 self.logic_and([
-                    self.has_all([
-                        TMCItem.CANE_OF_PACCI,
-                        TMCItem.ROCS_CAPE
-                    ]),
+                    self.pow_jump(),
                     self.has(TMCItem.SMALL_KEY_POW,6)
                 ]),
             TMCLocation.PALACE_2ND_HALF_1F_DARK_ROOM_BIG_CHEST:
                 self.logic_and([
-                    self.has_all([
-                        TMCItem.CANE_OF_PACCI,
-                        TMCItem.ROCS_CAPE,
-                        TMCItem.BIG_KEY_POW,
-                    ]),
-                    self.dark_room(),
-                    self.has(TMCItem.SMALL_KEY_POW,4),
+                    self.pow_jump(),
+                    self.has(TMCItem.SMALL_KEY_POW,3),
+                    self.has(TMCItem.BIG_KEY_POW),
                     self.has_weapon_boss(),   # Darknut
+                    self.dark_room(),
                 ]),
             TMCLocation.PALACE_2ND_HALF_1F_DARK_ROOM_SMALL_CHEST:
                 self.logic_and([
-                    self.has_all([
-                        TMCItem.CANE_OF_PACCI,
-                        TMCItem.ROCS_CAPE,
-                        TMCItem.BIG_KEY_POW,
-                    ]),
-                    self.dark_room(),
-                    self.has(TMCItem.SMALL_KEY_POW,4),
+                    self.pow_jump(),
+                    self.has(TMCItem.SMALL_KEY_POW,3),
+                    self.has(TMCItem.BIG_KEY_POW),
                     self.has_weapon_boss(),   # Darknut
+                    self.dark_room(),
                 ]),
             TMCLocation.PALACE_2ND_HALF_2F_MANY_ROLLERS_CHEST:
                 self.logic_and([
-                    self.has_all([
-                        TMCItem.CANE_OF_PACCI,
-                        TMCItem.ROCS_CAPE,
-                        TMCItem.BIG_KEY_POW,
-                    ]),
-                    self.dark_room(),
-                    self.has(TMCItem.SMALL_KEY_POW,4),
+                    self.pow_jump(),
+                    self.has(TMCItem.SMALL_KEY_POW,3),
+                    self.has(TMCItem.BIG_KEY_POW),
                     self.has_weapon_boss(),   # Darknut
+                    self.dark_room(),
                 ]),
             TMCLocation.PALACE_2ND_HALF_2F_TWIN_WIZZROBES_CHEST:
                 self.logic_and([
-                    self.has_all([
-                        TMCItem.CANE_OF_PACCI,
-                        TMCItem.ROCS_CAPE,
-                        TMCItem.BIG_KEY_POW,
-                    ]),
-                    self.dark_room(),
+                    self.pow_jump(),
                     self.has(TMCItem.SMALL_KEY_POW,4),
+                    self.has(TMCItem.BIG_KEY_POW),
                     self.has_weapon_boss(),   # Darknut
+                    self.dark_room(),
                     self.has_weapon_wizzrobe(),
                 ]),
             TMCLocation.PALACE_2ND_HALF_3F_FIRE_WIZZROBES_BIG_CHEST:
                 self.logic_and([
-                    self.has_all([
-                        TMCItem.CANE_OF_PACCI,
-                        TMCItem.ROCS_CAPE,
-                        TMCItem.BIG_KEY_POW,
-                    ]),
-                    self.dark_room(),
+                    self.pow_jump(),
                     self.has(TMCItem.SMALL_KEY_POW,4),
+                    self.has(TMCItem.BIG_KEY_POW),
                     self.has_weapon_boss(),   # Darknut
+                    self.dark_room(),
                     self.has_weapon_wizzrobe(),
                 ]),
             TMCLocation.PALACE_2ND_HALF_4F_HP:
                 self.logic_and([
-                    self.has_weapon(),  # wallmaster room
-                    self.has_weapon_boss(),   # Darknut
-                    self.has_all([
-                        TMCItem.CANE_OF_PACCI,
-                        TMCItem.ROCS_CAPE,
-                        TMCItem.BIG_KEY_POW,
-                    ]),
-                    self.dark_room(),
+                    self.pow_jump(),
                     self.has(TMCItem.SMALL_KEY_POW,4),
+                    self.has(TMCItem.BIG_KEY_POW),
+                    self.has_weapon_boss(),   # Darknut
+                    self.dark_room(),
+                    self.has_weapon(),  # wallmaster room
                 ]),
             TMCLocation.PALACE_2ND_HALF_4F_SWITCH_HIT_CHEST:
                 self.logic_and([
-                    self.has_weapon(),  # wallmaster room
-                    self.has_weapon_boss(),   # Darknut
-                    self.has_all([
-                        TMCItem.CANE_OF_PACCI,
-                        TMCItem.ROCS_CAPE,
-                        TMCItem.BIG_KEY_POW,
-                    ]),
-                    self.dark_room(),
+                    self.pow_jump(),
                     self.has(TMCItem.SMALL_KEY_POW,4),
+                    self.has(TMCItem.BIG_KEY_POW),
+                    self.has_weapon_boss(),   # Darknut
+                    self.dark_room(),
+                    self.has_weapon(),  # wallmaster room
                 ]),
             TMCLocation.PALACE_2ND_HALF_5F_BOMBAROSSA_CHEST:
                 self.logic_and([
-                    self.has_weapon(),  # wallmaster room
-                    self.has_all([
-                        TMCItem.CANE_OF_PACCI,
-                        TMCItem.ROCS_CAPE,
-                        TMCItem.BIG_KEY_POW,
-                    ]),
-                    self.dark_room(),
+                    self.pow_jump(),
                     self.has(TMCItem.SMALL_KEY_POW,5),
+                    self.has(TMCItem.BIG_KEY_POW),
+                    self.has_weapon_boss(),   # Darknut
+                    self.dark_room(),
+                    self.has_weapon(),  # wallmaster room
                 ]),
             TMCLocation.PALACE_2ND_HALF_4F_BLOCK_MAZE_CHEST:
                 self.logic_and([
-                    self.has_weapon(),  # wallmaster room
-                    self.has_all([
-                        TMCItem.CANE_OF_PACCI,
-                        TMCItem.ROCS_CAPE,
-                        TMCItem.BIG_KEY_POW,
-                    ]),
-                    self.dark_room(),
+                    self.pow_jump(),
                     self.has(TMCItem.SMALL_KEY_POW,6),
+                    self.has(TMCItem.BIG_KEY_POW),
+                    self.has_weapon_boss(),   # Darknut
+                    self.dark_room(),
+                    self.has_weapon(),  # wallmaster room
                 ]),
             TMCLocation.PALACE_2ND_HALF_5F_RIGHT_SIDE_CHEST:
                 self.logic_and([
-                    self.has_weapon(),  # wallmaster room
-                    self.has_all([
-                        TMCItem.CANE_OF_PACCI,
-                        TMCItem.ROCS_CAPE,
-                        TMCItem.BIG_KEY_POW,
-                    ]),
-                    self.dark_room(),
+                    self.pow_jump(),
                     self.has(TMCItem.SMALL_KEY_POW,6),
+                    self.has(TMCItem.BIG_KEY_POW),
+                    self.has_weapon_boss(),   # Darknut
+                    self.dark_room(),
+                    self.has_weapon(),  # wallmaster room
                 ]),
             TMCLocation.PALACE_BOSS_ITEM:
                 self.logic_and([
-                    self.has_weapon(),  # wallmaster room
-                    self.has_all([
-                        TMCItem.CANE_OF_PACCI,
-                        TMCItem.ROCS_CAPE,
-                        TMCItem.BIG_KEY_POW,
-                    ]),
-                    self.dark_room(),
+                    self.pow_jump(),
                     self.has(TMCItem.SMALL_KEY_POW,6),
+                    self.has(TMCItem.BIG_KEY_POW),
+                    self.has_weapon_boss(),   # Darknut
+                    self.dark_room(),
+                    self.has_weapon(),  # wallmaster room
                 ]),
             TMCLocation.PALACE_PRIZE:
                 self.logic_and([
-                    self.has_weapon(),  # wallmaster room
-                    self.has_all([
-                        TMCItem.CANE_OF_PACCI,
-                        TMCItem.ROCS_CAPE,
-                        TMCItem.BIG_KEY_POW,
-                    ]),
-                    self.dark_room(),
+                    self.pow_jump(),
                     self.has(TMCItem.SMALL_KEY_POW,6),
+                    self.has(TMCItem.BIG_KEY_POW),
+                    self.has_weapon_boss(),   # Darknut
+                    self.dark_room(),
+                    self.has_weapon(),  # wallmaster room
                 ]),
             #endregion
 
@@ -2379,6 +2318,23 @@ class MinishCapRules:
         return self.logic_option(TMCTricks.SHARKS_SWORDLESS in self.world.options.tricks,
             None,
             self.has_weapon(),
+        )
+
+    def fow_pot(self) -> CollectionRule:
+        return self.logic_option(TMCTricks.FOW_POT in self.world.options.tricks,
+            self.has(TMCItem.GUST_JAR),
+        )
+
+    def pow_jump(self) -> CollectionRule:
+        return self.logic_option(TMCTricks.POW_NOCANE in self.world.options.tricks,
+            self.has(TMCItem.ROCS_CAPE),
+            self.has_all([TMCItem.CANE_OF_PACCI,TMCItem.ROCS_CAPE]),
+        )
+
+    def pow_pot(self) -> CollectionRule:
+        return self.logic_option(TMCTricks.POT_PUZZLE in self.world.options.tricks,
+            self.can_reach([TMCLocation.PALACE_2ND_HALF_2F_TWIN_WIZZROBES_CHEST]),
+            self.has(TMCItem.POWER_BRACELETS),
         )
 
     def can_pass_trees(self) -> CollectionRule:
