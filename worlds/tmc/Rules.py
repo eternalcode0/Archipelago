@@ -7,6 +7,7 @@ from .constants import TMCLocation, TMCRegion, TMCItem, TMCEvent, TMCTricks
 if TYPE_CHECKING:
     from . import MinishCapWorld
 
+
 class MinishCapRules:
     player: int
     world: "MinishCapWorld"
@@ -32,16 +33,16 @@ class MinishCapRules:
                 self.has(TMCItem.BOMB_BAG),
             (TMCRegion.HYRULE_TOWN, TMCRegion.TRILBY_HIGHLANDS):
                 self.logic_option(TMCTricks.BOOTS_GUARDS in self.world.options.tricks,
-                    self.logic_or([self.can_spin(), self.has(TMCItem.PEGASUS_BOOTS)]),
-                    self.can_spin(),
-                ),
+                                  self.logic_or([self.can_spin(), self.has(TMCItem.PEGASUS_BOOTS)]),
+                                  self.can_spin(),
+                                  ),
 
             (TMCRegion.NORTH_FIELD, TMCRegion.CASTLE_EXTERIOR): None,
             # (TMCRegion.NORTH_FIELD, TMCRegion.HYRULE_TOWN): Already connected
             (TMCRegion.NORTH_FIELD, TMCRegion.LONLON):
                 self.can_pass_trees(),
             (TMCRegion.NORTH_FIELD, TMCRegion.TRILBY_HIGHLANDS):
-                    self.has_any([TMCItem.FLIPPERS, TMCItem.ROCS_CAPE]),
+                self.has_any([TMCItem.FLIPPERS, TMCItem.ROCS_CAPE]),
             (TMCRegion.NORTH_FIELD, TMCRegion.UPPER_FALLS):
                 self.logic_and([self.has(TMCItem.BOMB_BAG), self.has(TMCItem.KINSTONE_GOLD_FALLS), self.dark_room()]),
             (TMCRegion.NORTH_FIELD, TMCRegion.ROYAL_VALLEY):
@@ -69,10 +70,10 @@ class MinishCapRules:
                         TMCItem.GUST_JAR,
                         TMCItem.CANE_OF_PACCI,
                     ]),
-                    self.dark_room(), # Don't make people do the final boss in the dark
+                    self.dark_room(),  # Don't make people do the final boss in the dark
                     self.has_bow(),
                     self.split_rule(4),
-                    self.has_weapon_boss(), # Darknut
+                    self.has_weapon_boss(),  # Darknut
                 ]),
 
             # (TMCRegion.LONLON, TMCRegion.HYRULE_TOWN): Already connected
@@ -81,7 +82,8 @@ class MinishCapRules:
             #     self.can_pass_trees(),
             (TMCRegion.LONLON, TMCRegion.EASTERN_HILLS):
                 self.has(TMCItem.BOMB_BAG),
-            (TMCRegion.LONLON, TMCRegion.MINISH_WOODS): None, # Doesn't directly connect, but it does through eastern hills with no logic in between
+            (TMCRegion.LONLON, TMCRegion.MINISH_WOODS): None,
+            # Doesn't directly connect, but it does through eastern hills with no logic in between
             (TMCRegion.LONLON, TMCRegion.LOWER_FALLS):
                 self.has(TMCItem.CANE_OF_PACCI),
             (TMCRegion.LONLON, TMCRegion.LAKE_HYLIA_NORTH):
@@ -139,9 +141,9 @@ class MinishCapRules:
                         ]),
                         self.logic_or([
                             self.logic_option(TMCTricks.BEAM_CRENEL_SWITCH in self.world.options.tricks,
-                                self.logic_or([self.can_beam(),self.has(TMCItem.ROCS_CAPE)]),
-                                self.has(TMCItem.ROCS_CAPE),
-                            ),
+                                              self.logic_or([self.can_beam(), self.has(TMCItem.ROCS_CAPE)]),
+                                              self.has(TMCItem.ROCS_CAPE),
+                                              ),
                             self.has_bow(),
                             self.has_boomerang(),
                             self.has(TMCItem.BOMB_BAG),
@@ -151,14 +153,17 @@ class MinishCapRules:
             (TMCRegion.MELARI, TMCRegion.DUNGEON_COF):
                 self.logic_and([
                     self.logic_option(TMCTricks.BOBOMB_WALLS in self.world.options.tricks,
-                        self.logic_or([self.has_sword(),self.has(TMCItem.GUST_JAR)]),
-                        self.has(TMCItem.BOMB_BAG),
-                        ),
+                                      self.logic_or([self.has_sword(), self.has(TMCItem.GUST_JAR)]),
+                                      self.has(TMCItem.BOMB_BAG),
+                                      ),
                     self.has_weapon(),  # Spike Beetle Fight
                     self.logic_option(TMCTricks.DOWNTHRUST_BEETLE in self.world.options.tricks,
-                        self.logic_or([self.can_shield(), self.has_any([TMCItem.CANE_OF_PACCI,TMCItem.BOMB_BAG]), self.downthrust()]),
-                        self.logic_or([self.can_shield(), self.has_any([TMCItem.CANE_OF_PACCI,TMCItem.BOMB_BAG])])
-                    ),
+                                      self.logic_or(
+                                          [self.can_shield(), self.has_any([TMCItem.CANE_OF_PACCI, TMCItem.BOMB_BAG]),
+                                           self.downthrust()]),
+                                      self.logic_or(
+                                          [self.can_shield(), self.has_any([TMCItem.CANE_OF_PACCI, TMCItem.BOMB_BAG])])
+                                      ),
                 ]),
             (TMCRegion.UPPER_FALLS, TMCRegion.CLOUDS):
                 self.has(TMCItem.GRIP_RING),
@@ -188,16 +193,17 @@ class MinishCapRules:
                     self.logic_or([
                         self.has(TMCItem.ROCS_CAPE),
                         self.has_all([TMCItem.FLIPPERS, TMCItem.PEGASUS_BOOTS]),
-                        self.logic_and([self.has_bow(),self.has(TMCItem.PEGASUS_BOOTS)]),
+                        self.logic_and([self.has_bow(), self.has(TMCItem.PEGASUS_BOOTS)]),
                     ])
                 ]),
             (TMCRegion.WIND_RUINS, TMCRegion.DUNGEON_FOW):
                 self.logic_and([
                     self.has_sword(),
                     self.has_weapon(),
-                ]),    # redundancy for later logic improvements
+                ]),  # redundancy for later logic improvements
 
-            (TMCRegion.LAKE_HYLIA_NORTH, TMCRegion.LONLON): None, # allows Ocarina warp access to lonlon and minish woods
+            (TMCRegion.LAKE_HYLIA_NORTH, TMCRegion.LONLON): None,
+            # allows Ocarina warp access to lonlon and minish woods
             (TMCRegion.LAKE_HYLIA_NORTH, TMCRegion.LAKE_HYLIA_SOUTH): self.cape_extend(),
             (TMCRegion.LAKE_HYLIA_NORTH, TMCRegion.DUNGEON_TOD): self.cape_extend(),
             # (TMCRegion.LAKE_HYLIA_SOUTH, TMCRegion.MINISH_WOODS): # Already connected
@@ -206,7 +212,7 @@ class MinishCapRules:
         }
 
         self.location_rules = {
-            #region South Field
+            # region South Field
             # TMCLocation.SMITH_HOUSE_RUPEE: None,
             # TMCLocation.SMITH_HOUSE_SWORD: None,
             # TMCLocation.SMITH_HOUSE_SHIELD: None,
@@ -300,14 +306,14 @@ class MinishCapRules:
                     self.can_pass_trees(),
                     self.has_all([TMCItem.CANE_OF_PACCI, TMCItem.TINGLE_TROPHY]),
                 ]),
-            #endregion
+            # endregion
 
-            #region Castle Gardens
+            # region Castle Gardens
             TMCLocation.CASTLE_MOAT_LEFT_CHEST:
                 self.has(TMCItem.FLIPPERS),
             TMCLocation.CASTLE_MOAT_RIGHT_CHEST:
                 self.has(TMCItem.FLIPPERS),
-            TMCLocation.CASTLE_GOLDEN_ROPE: # Fusion 3C
+            TMCLocation.CASTLE_GOLDEN_ROPE:  # Fusion 3C
                 self.has_sword(),
             # TMCLocation.CASTLE_RIGHT_FOUNTAIN_FUSION_HP: # Fusion 18
             # TMCLocation.CASTLE_DOJO_HP: None,
@@ -316,29 +322,29 @@ class MinishCapRules:
                     self.has(TMCItem.LANTERN),
                     self.has_sword(),
                 ]),
-            TMCLocation.CASTLE_RIGHT_FOUNTAIN_FUSION_MINISH_HOLE_CHEST: # Fusion 18
+            TMCLocation.CASTLE_RIGHT_FOUNTAIN_FUSION_MINISH_HOLE_CHEST:  # Fusion 18
                 self.has(TMCItem.PEGASUS_BOOTS),
-            TMCLocation.CASTLE_LEFT_FOUNTAIN_FUSION_MINISH_HOLE_CHEST: # Fusion 35
+            TMCLocation.CASTLE_LEFT_FOUNTAIN_FUSION_MINISH_HOLE_CHEST:  # Fusion 35
                 self.has(TMCItem.PEGASUS_BOOTS),
-            #endregion
+            # endregion
 
-            #region Eastern Hills TODO
+            # region Eastern Hills TODO
             # Can Pass Trees
-            TMCLocation.HILLS_GOLDEN_ROPE: # Fusion 55
+            TMCLocation.HILLS_GOLDEN_ROPE:  # Fusion 55
                 self.has_sword(),
-            TMCLocation.HILLS_FUSION_CHEST: None,   # Fusion 16
-            TMCLocation.HILLS_BEANSTALK_FUSION_LEFT_CHEST: None,    # Fusion 2E
-            TMCLocation.HILLS_BEANSTALK_FUSION_HP: None,    # Fusion 2E
-            TMCLocation.HILLS_BEANSTALK_FUSION_RIGHT_CHEST: None,   # Fusion 2E
+            TMCLocation.HILLS_FUSION_CHEST: None,  # Fusion 16
+            TMCLocation.HILLS_BEANSTALK_FUSION_LEFT_CHEST: None,  # Fusion 2E
+            TMCLocation.HILLS_BEANSTALK_FUSION_HP: None,  # Fusion 2E
+            TMCLocation.HILLS_BEANSTALK_FUSION_RIGHT_CHEST: None,  # Fusion 2E
             TMCLocation.HILLS_BOMB_CAVE_CHEST:
                 self.has(TMCItem.BOMB_BAG),
-            #endregion
+            # endregion
 
-            #region LonLon
+            # region LonLon
             # Can Pass Trees
             # TMCLocation.LON_LON_RANCH_POT: None,
             TMCLocation.LON_LON_PUDDLE_FUSION_BIG_CHEST:
-                # Fusion 1E
+            # Fusion 1E
                 self.access_lonlon_right(),
             TMCLocation.LON_LON_CAVE_CHEST:
                 self.logic_and([
@@ -374,11 +380,11 @@ class MinishCapRules:
                     self.has_any([TMCItem.CANE_OF_PACCI, TMCItem.ROCS_CAPE]),
                 ]),
             TMCLocation.LON_LON_GORON_CAVE_FUSION_SMALL_CHEST:
-                # 4 of Fusion 25, 26, 29, 2A, 2B, 2F
+            # 4 of Fusion 25, 26, 29, 2A, 2B, 2F
                 self.access_minish_woods_top_left(),
 
             TMCLocation.LON_LON_GORON_CAVE_FUSION_BIG_CHEST:
-                # 6 of Fusion 25, 26, 29, 2A, 2B, 2F
+            # 6 of Fusion 25, 26, 29, 2A, 2B, 2F
                 self.access_minish_woods_top_left(),
 
             TMCLocation.MINISH_GREAT_FAIRY_NPC:
@@ -386,12 +392,12 @@ class MinishCapRules:
 
             TMCLocation.HILLS_FARM_DIG_CAVE_ITEM:
                 self.has(TMCItem.MOLE_MITTS),
-            #endregion
+            # endregion
 
-            #region Lower Falls
+            # region Lower Falls
             # TMCLocation.FALLS_LOWER_LON_LON_FUSION_CHEST: None, # Fusion 60
             # TMCLocation.FALLS_LOWER_HP: None,
-            TMCLocation.FALLS_LOWER_WATERFALL_FUSION_DOJO_NPC: # Fusion 1D
+            TMCLocation.FALLS_LOWER_WATERFALL_FUSION_DOJO_NPC:  # Fusion 1D
                 self.logic_and([
                     self.has(TMCItem.FLIPPERS),
                     self.has_sword(),
@@ -412,21 +418,21 @@ class MinishCapRules:
                     self.has_any([TMCItem.FLIPPERS, TMCItem.ROCS_CAPE]),
                     self.has(TMCItem.MOLE_MITTS),
                 ]),
-            #endregion
+            # endregion
 
-            #region Upper Falls
+            # region Upper Falls
             # The first 3 are part of North Field logic, doesn't require falls fusion stone or lantern
             TMCLocation.FALLS_ENTRANCE_HP:
                 self.logic_and([
                     self.has(TMCItem.BOMB_BAG),
                     self.cape_extend(),
                 ]),
-            TMCLocation.FALLS_WATER_DIG_CAVE_FUSION_HP: # Fusion 1F
+            TMCLocation.FALLS_WATER_DIG_CAVE_FUSION_HP:  # Fusion 1F
                 self.logic_and([
                     self.has_all([TMCItem.BOMB_BAG, TMCItem.MOLE_MITTS]),
                     self.cape_extend(),
                 ]),
-            TMCLocation.FALLS_WATER_DIG_CAVE_FUSION_CHEST: # Fusion 1F
+            TMCLocation.FALLS_WATER_DIG_CAVE_FUSION_CHEST:  # Fusion 1F
                 self.logic_and([
                     self.has_all([TMCItem.BOMB_BAG, TMCItem.MOLE_MITTS]),
                     self.cape_extend(),
@@ -437,16 +443,16 @@ class MinishCapRules:
                 self.split_rule(3),
             TMCLocation.FALLS_SOUTH_DIG_SPOT:
                 self.has(TMCItem.MOLE_MITTS),
-            TMCLocation.FALLS_GOLDEN_TEKTITE: # Fusion 4A
+            TMCLocation.FALLS_GOLDEN_TEKTITE:  # Fusion 4A
                 self.logic_and([
                     self.has_sword(),
                     self.has(TMCItem.GRIP_RING),
                 ]),
             TMCLocation.FALLS_NORTH_DIG_SPOT:
                 self.has_all([TMCItem.GRIP_RING, TMCItem.MOLE_MITTS]),
-            TMCLocation.FALLS_ROCK_FUSION_CHEST: # Fusion 61
+            TMCLocation.FALLS_ROCK_FUSION_CHEST:  # Fusion 61
                 self.has(TMCItem.GRIP_RING),
-            TMCLocation.FALLS_WATERFALL_FUSION_HP: # Fusion 13
+            TMCLocation.FALLS_WATERFALL_FUSION_HP:  # Fusion 13
                 self.has_all([TMCItem.GRIP_RING, TMCItem.FLIPPERS]),
             TMCLocation.FALLS_RUPEE_CAVE_TOP_TOP:
                 self.has(TMCItem.GRIP_RING),
@@ -482,9 +488,9 @@ class MinishCapRules:
                 self.has_all([TMCItem.GRIP_RING, TMCItem.BOMB_BAG]),
             TMCLocation.FALLS_TOP_CAVE_CHEST:
                 self.has(TMCItem.GRIP_RING),
-            #endregion
+            # endregion
 
-            #region Cloud Tops
+            # region Cloud Tops
             # TMCLocation.CLOUDS_FREE_CHEST: None,
             TMCLocation.CLOUDS_NORTH_EAST_DIG_SPOT:
                 self.has(TMCItem.MOLE_MITTS),
@@ -522,9 +528,9 @@ class MinishCapRules:
                 self.has(TMCItem.MOLE_MITTS),
             TMCLocation.CLOUDS_SOUTH_EAST_TOP_DIG_SPOT:
                 self.has(TMCItem.MOLE_MITTS),
-            #endregion
+            # endregion
 
-            #region Wind Tribe
+            # region Wind Tribe
             # Doesn't require many special access rules *yet*
             # 1F-2F is accessible due to open fusions
             # Fusion 0F
@@ -542,12 +548,12 @@ class MinishCapRules:
             # TMCLocation.WIND_TRIBE_3F_RIGHT_CHEST: None,
             # TMCLocation.WIND_TRIBE_4F_LEFT_CHEST: None,
             # TMCLocation.WIND_TRIBE_4F_RIGHT_CHEST: None,
-            #endregion
+            # endregion
 
-            #region Minish Woods TODO
+            # region Minish Woods TODO
             # Can Pass Trees
             TMCLocation.MINISH_WOODS_GOLDEN_OCTO:
-                # fusion 56
+            # fusion 56
                 self.logic_and([
                     self.access_minish_woods_top_left(),
                     self.has_sword()
@@ -564,7 +570,7 @@ class MinishCapRules:
                     self.has(TMCItem.MOLE_MITTS),
                 ]),
             TMCLocation.MINISH_WOODS_NORTH_FUSION_CHEST:
-                # fusion 44
+            # fusion 44
                 self.access_minish_woods_top_left(),
             TMCLocation.MINISH_WOODS_TOP_HP:
                 self.access_minish_woods_top_left(),
@@ -588,10 +594,10 @@ class MinishCapRules:
             # TMCLocation.MINISH_VILLAGE_HP: None,
             TMCLocation.MINISH_WOODS_BOMB_MINISH_NPC_1:
                 self.access_belari(),
-            TMCLocation.MINISH_WOODS_BOMB_MINISH_NPC_2: # fusion 1C
+            TMCLocation.MINISH_WOODS_BOMB_MINISH_NPC_2:  # fusion 1C
                 self.access_belari(),
             TMCLocation.MINISH_WOODS_POST_VILLAGE_FUSION_CHEST:
-                self.access_belari(), # Fusion 38
+                self.access_belari(),  # Fusion 38
             TMCLocation.MINISH_WOODS_FLIPPER_HOLE_MIDDLE_CHEST:
                 self.logic_and([
                     self.access_belari(),
@@ -612,9 +618,9 @@ class MinishCapRules:
                     self.access_belari(),
                     self.has(TMCItem.FLIPPERS),
                 ]),
-            #endregion
+            # endregion
 
-            #region Trilby Highlands
+            # region Trilby Highlands
             # Can Spin / Flippers / Roc's Cape
             # TMCLocation.TRILBY_MIDDLE_FUSION_CHEST: None, # fusion 5E
             # TMCLocation.TRILBY_TOP_FUSION_CHEST: None, # fusion 52
@@ -622,7 +628,7 @@ class MinishCapRules:
                 self.has(TMCItem.MOLE_MITTS),
             TMCLocation.TRILBY_DIG_CAVE_RIGHT_CHEST:
                 self.has(TMCItem.MOLE_MITTS),
-            TMCLocation.TRILBY_DIG_CAVE_WATER_FUSION_CHEST: # fusion 22
+            TMCLocation.TRILBY_DIG_CAVE_WATER_FUSION_CHEST:  # fusion 22
                 self.logic_and([
                     self.has(TMCItem.MOLE_MITTS),
                     self.has_any([TMCItem.ROCS_CAPE, TMCItem.FLIPPERS]),
@@ -633,9 +639,9 @@ class MinishCapRules:
                     self.has(TMCItem.BOMB_BAG),
                     self.mitts_farm(),
                 ]),
-            #endregion
+            # endregion
 
-            #region Crenel
+            # region Crenel
             # Crenel Base = bottle
             # TMCLocation.CRENEL_BASE_ENTRANCE_VINE: None, # Assigned to Trilby so it doesn't require bottle
             TMCLocation.CRENEL_BASE_FAIRY_CAVE_ITEM1:
@@ -644,16 +650,16 @@ class MinishCapRules:
                 self.has(TMCItem.BOMB_BAG),
             TMCLocation.CRENEL_BASE_FAIRY_CAVE_ITEM3:
                 self.has(TMCItem.BOMB_BAG),
-            TMCLocation.CRENEL_BASE_GREEN_WATER_FUSION_CHEST: # Fusion 4F
+            TMCLocation.CRENEL_BASE_GREEN_WATER_FUSION_CHEST:  # Fusion 4F
                 self.has(TMCItem.BOMB_BAG),
-            TMCLocation.CRENEL_BASE_WEST_FUSION_CHEST: # Fusion 63
+            TMCLocation.CRENEL_BASE_WEST_FUSION_CHEST:  # Fusion 63
                 self.has_any([TMCItem.BOMB_BAG, TMCItem.ROCS_CAPE]),
             TMCLocation.CRENEL_BASE_WATER_CAVE_LEFT_CHEST:
-                self.has(TMCItem.BOMB_BAG), # can alternatively require cape if the bomb wall is broken
+                self.has(TMCItem.BOMB_BAG),  # can alternatively require cape if the bomb wall is broken
             TMCLocation.CRENEL_BASE_WATER_CAVE_RIGHT_CHEST:
-                self.has(TMCItem.BOMB_BAG), # can alternatively require cape if the bomb wall is broken
+                self.has(TMCItem.BOMB_BAG),  # can alternatively require cape if the bomb wall is broken
             TMCLocation.CRENEL_BASE_WATER_CAVE_HP:
-                self.has(TMCItem.BOMB_BAG), # can alternatively require cape/flippers if the bomb wall is broken
+                self.has(TMCItem.BOMB_BAG),  # can alternatively require cape/flippers if the bomb wall is broken
             TMCLocation.CRENEL_BASE_MINISH_VINE_HOLE_CHEST:
                 self.logic_and([
                     self.has_any([TMCItem.BOMB_BAG, TMCItem.ROCS_CAPE]),
@@ -664,13 +670,13 @@ class MinishCapRules:
                     self.has_any([TMCItem.BOMB_BAG, TMCItem.ROCS_CAPE]),
                     self.blow_dust(),
                 ]),
-            TMCLocation.CRENEL_VINE_TOP_GOLDEN_TEKTITE: # Fusion 3B
+            TMCLocation.CRENEL_VINE_TOP_GOLDEN_TEKTITE:  # Fusion 3B
                 self.has_sword(),
             TMCLocation.CRENEL_BRIDGE_CAVE_CHEST:
                 self.has(TMCItem.BOMB_BAG),
             TMCLocation.CRENEL_FAIRY_CAVE_HP:
                 self.has(TMCItem.BOMB_BAG),
-            TMCLocation.CRENEL_BELOW_COF_GOLDEN_TEKTITE: # Fusion 0D
+            TMCLocation.CRENEL_BELOW_COF_GOLDEN_TEKTITE:  # Fusion 0D
                 self.logic_and([
                     self.has_sword(),
                     self.mushroom(),
@@ -704,33 +710,33 @@ class MinishCapRules:
                 ]),
             TMCLocation.CRENEL_GREAT_FAIRY_NPC:
                 self.has_all([TMCItem.GRIP_RING, TMCItem.BOMB_BAG]),
-            TMCLocation.CRENEL_CLIMB_FUSION_CHEST: # Fusion 62
+            TMCLocation.CRENEL_CLIMB_FUSION_CHEST:  # Fusion 62
                 self.has_all([TMCItem.GRIP_RING, TMCItem.BOMB_BAG]),
             TMCLocation.CRENEL_DIG_CAVE_HP:
                 self.has_all([TMCItem.GRIP_RING, TMCItem.MOLE_MITTS]),
-            TMCLocation.CRENEL_BEANSTALK_FUSION_HP: # Fusion 1A
+            TMCLocation.CRENEL_BEANSTALK_FUSION_HP:  # Fusion 1A
                 self.has(TMCItem.GRIP_RING),
-            TMCLocation.CRENEL_BEANSTALK_FUSION_ITEM1: # Fusion 1A
+            TMCLocation.CRENEL_BEANSTALK_FUSION_ITEM1:  # Fusion 1A
                 self.has(TMCItem.GRIP_RING),
-            TMCLocation.CRENEL_BEANSTALK_FUSION_ITEM2: # Fusion 1A
+            TMCLocation.CRENEL_BEANSTALK_FUSION_ITEM2:  # Fusion 1A
                 self.has(TMCItem.GRIP_RING),
-            TMCLocation.CRENEL_BEANSTALK_FUSION_ITEM3: # Fusion 1A
+            TMCLocation.CRENEL_BEANSTALK_FUSION_ITEM3:  # Fusion 1A
                 self.has(TMCItem.GRIP_RING),
-            TMCLocation.CRENEL_BEANSTALK_FUSION_ITEM4: # Fusion 1A
+            TMCLocation.CRENEL_BEANSTALK_FUSION_ITEM4:  # Fusion 1A
                 self.has(TMCItem.GRIP_RING),
-            TMCLocation.CRENEL_BEANSTALK_FUSION_ITEM5: # Fusion 1A
+            TMCLocation.CRENEL_BEANSTALK_FUSION_ITEM5:  # Fusion 1A
                 self.has(TMCItem.GRIP_RING),
-            TMCLocation.CRENEL_BEANSTALK_FUSION_ITEM6: # Fusion 1A
+            TMCLocation.CRENEL_BEANSTALK_FUSION_ITEM6:  # Fusion 1A
                 self.has(TMCItem.GRIP_RING),
-            TMCLocation.CRENEL_BEANSTALK_FUSION_ITEM7: # Fusion 1A
+            TMCLocation.CRENEL_BEANSTALK_FUSION_ITEM7:  # Fusion 1A
                 self.has(TMCItem.GRIP_RING),
-            TMCLocation.CRENEL_BEANSTALK_FUSION_ITEM8: # Fusion 1A
+            TMCLocation.CRENEL_BEANSTALK_FUSION_ITEM8:  # Fusion 1A
                 self.has(TMCItem.GRIP_RING),
-            TMCLocation.CRENEL_RAIN_PATH_FUSION_CHEST: # Fusion 43
+            TMCLocation.CRENEL_RAIN_PATH_FUSION_CHEST:  # Fusion 43
                 self.has(TMCItem.GRIP_RING),
-            #endregion
+            # endregion
 
-            #region Melari
+            # region Melari
             # TMCLocation.CRENEL_UPPER_BLOCK_CHEST: None
             # TMCLocation.CRENEL_MINES_PATH_FUSION_CHEST: None, # Fusion 45
             TMCLocation.CRENEL_MELARI_MIDDLE_LEFT_DIG:
@@ -751,9 +757,9 @@ class MinishCapRules:
                 self.has(TMCItem.MOLE_MITTS),
             TMCLocation.CRENEL_MELARI_NPC_COF:
                 self.can_reach([TMCLocation.COF_PRIZE]),
-            #endregion
+            # endregion
 
-            #region Western Woods
+            # region Western Woods
             TMCLocation.TRILBY_BOMB_CAVE_CHEST:
                 self.has(TMCItem.BOMB_BAG),
             # everything below require Fusion 3F
@@ -777,27 +783,27 @@ class MinishCapRules:
             # TMCLocation.WESTERN_WOODS_FUSION_CHEST: None, # fusion 3A
             # TMCLocation.WESTERN_WOODS_TREE_FUSION_HP: None, # fusion 11
             TMCLocation.WESTERN_WOODS_TOP_DIG1:
-                self.has(TMCItem.MOLE_MITTS), # fusion 48
+                self.has(TMCItem.MOLE_MITTS),  # fusion 48
             TMCLocation.WESTERN_WOODS_TOP_DIG2:
-                self.has(TMCItem.MOLE_MITTS), # fusion 48
+                self.has(TMCItem.MOLE_MITTS),  # fusion 48
             TMCLocation.WESTERN_WOODS_TOP_DIG3:
-                self.has(TMCItem.MOLE_MITTS), # fusion 48
+                self.has(TMCItem.MOLE_MITTS),  # fusion 48
             TMCLocation.WESTERN_WOODS_TOP_DIG4:
-                self.has(TMCItem.MOLE_MITTS), # fusion 48
+                self.has(TMCItem.MOLE_MITTS),  # fusion 48
             TMCLocation.WESTERN_WOODS_TOP_DIG5:
-                self.has(TMCItem.MOLE_MITTS), # fusion 48
+                self.has(TMCItem.MOLE_MITTS),  # fusion 48
             TMCLocation.WESTERN_WOODS_TOP_DIG6:
-                self.has(TMCItem.MOLE_MITTS), # fusion 48
+                self.has(TMCItem.MOLE_MITTS),  # fusion 48
             TMCLocation.WESTERN_WOODS_PERCY_FUSION_MOBLIN:
                 self.has(TMCItem.LANTERN),  # fusion 21
             TMCLocation.WESTERN_WOODS_PERCY_FUSION_PERCY:
                 self.has(TMCItem.LANTERN),  # fusion 21
             TMCLocation.WESTERN_WOODS_BOTTOM_DIG1:
-                self.has(TMCItem.MOLE_MITTS), # fusion 4C
+                self.has(TMCItem.MOLE_MITTS),  # fusion 4C
             TMCLocation.WESTERN_WOODS_BOTTOM_DIG2:
-                self.has(TMCItem.MOLE_MITTS), # fusion 4C
+                self.has(TMCItem.MOLE_MITTS),  # fusion 4C
             TMCLocation.WESTERN_WOODS_GOLDEN_OCTO:
-                self.has_sword(), # fusion 3D
+                self.has_sword(),  # fusion 3D
             # All of the following require Fusion 24
             # TMCLocation.WESTERN_WOODS_BEANSTALK_FUSION_CHEST: None,
             # TMCLocation.WESTERN_WOODS_BEANSTALK_FUSION_ITEM1: None,
@@ -816,9 +822,9 @@ class MinishCapRules:
             # TMCLocation.WESTERN_WOODS_BEANSTALK_FUSION_ITEM14: None,
             # TMCLocation.WESTERN_WOODS_BEANSTALK_FUSION_ITEM15: None,
             # TMCLocation.WESTERN_WOODS_BEANSTALK_FUSION_ITEM16: None,
-            #endregion
+            # endregion
 
-            #region Lake Hylia
+            # region Lake Hylia
             TMCLocation.HYLIA_SUNKEN_HP:
                 self.has(TMCItem.FLIPPERS),
             TMCLocation.HYLIA_DOG_NPC:
@@ -842,19 +848,19 @@ class MinishCapRules:
             TMCLocation.HYLIA_CAPE_CAVE_LON_LON_HP:
                 self.has_all([TMCItem.MOLE_MITTS, TMCItem.ROCS_CAPE]),
             TMCLocation.HYLIA_BEANSTALK_FUSION_LEFT_CHEST:
-                # Fusion 23
+            # Fusion 23
                 self.has_all([TMCItem.MOLE_MITTS, TMCItem.ROCS_CAPE]),
             TMCLocation.HYLIA_BEANSTALK_FUSION_HP:
-                # Fusion 23
+            # Fusion 23
                 self.has_all([TMCItem.MOLE_MITTS, TMCItem.ROCS_CAPE]),
             TMCLocation.HYLIA_BEANSTALK_FUSION_RIGHT_CHEST:
-                # Fusion 23
+            # Fusion 23
                 self.has_all([TMCItem.MOLE_MITTS, TMCItem.ROCS_CAPE]),
             TMCLocation.HYLIA_MIDDLE_ISLAND_FUSION_DIG_CAVE_CHEST:
-                # Fusion 34
+            # Fusion 34
                 self.logic_and([
                     self.has(TMCItem.MOLE_MITTS),
-                        self.cape_extend(),
+                    self.cape_extend(),
                 ]),
             TMCLocation.HYLIA_BOTTOM_HP: self.cape_extend(),
             TMCLocation.HYLIA_DOJO_HP: self.cape_extend(),
@@ -864,7 +870,7 @@ class MinishCapRules:
                     self.has_max_health(10),
                     self.has_sword(),
                 ]),
-            TMCLocation.HYLIA_CRACK_FUSION_LIBRARI_NPC: # fusion 12
+            TMCLocation.HYLIA_CRACK_FUSION_LIBRARI_NPC:  # fusion 12
                 self.logic_and([
                     self.has(TMCItem.OCARINA),
                     self.has_any([TMCItem.FLIPPERS, TMCItem.ROCS_CAPE]),
@@ -874,26 +880,26 @@ class MinishCapRules:
             TMCLocation.HYLIA_SOUTH_MINISH_HOLE_CHEST:
                 self.logic_and([self.lake_minish(), self.has(TMCItem.FLIPPERS)]),
             TMCLocation.HYLIA_CABIN_PATH_FUSION_CHEST:
-                self.logic_and([self.lake_minish(), self.cabin_swim()]), # fusion 51
+                self.logic_and([self.lake_minish(), self.cabin_swim()]),  # fusion 51
             TMCLocation.HYLIA_MAYOR_CABIN_ITEM:
                 self.logic_and([self.lake_minish(), self.cabin_swim(), self.has(TMCItem.POWER_BRACELETS)]),
-            #endregion
+            # endregion
 
-            #region Castor Wilds
+            # region Castor Wilds
             # TMCLocation.SWAMP_BUTTERFLY_FUSION_ITEM: None, # Fusion 10
             TMCLocation.SWAMP_CENTER_CAVE_DARKNUT_CHEST:
                 self.has_weapon_boss(),
             TMCLocation.SWAMP_CENTER_CHEST:
                 self.has_bow(),
-            TMCLocation.SWAMP_GOLDEN_ROPE: # Fusion 49
+            TMCLocation.SWAMP_GOLDEN_ROPE:  # Fusion 49
                 self.has_sword(),
             TMCLocation.SWAMP_NEAR_WATERFALL_CAVE_HP:
                 self.logic_and([
                     self.has_bow(),
                     self.has_any([TMCItem.ROCS_CAPE, TMCItem.FLIPPERS]),
                 ]),
-            TMCLocation.SWAMP_WATERFALL_FUSION_DOJO_NPC: # Fusion 0C
-                self.logic_and([self.has_bow(),self.has(TMCItem.FLIPPERS)]),
+            TMCLocation.SWAMP_WATERFALL_FUSION_DOJO_NPC:  # Fusion 0C
+                self.logic_and([self.has_bow(), self.has(TMCItem.FLIPPERS)]),
             TMCLocation.SWAMP_NORTH_CAVE_CHEST:
                 self.has_bow(),
             TMCLocation.SWAMP_DIGGING_CAVE_LEFT_CHEST:
@@ -909,7 +915,7 @@ class MinishCapRules:
             TMCLocation.SWAMP_SOUTH_CAVE_CHEST:
                 self.logic_or([
                     self.has_any([TMCItem.ROCS_CAPE, TMCItem.FLIPPERS]),
-                    self.logic_and([self.has_bow(),self.has(TMCItem.PEGASUS_BOOTS)]),
+                    self.logic_and([self.has_bow(), self.has(TMCItem.PEGASUS_BOOTS)]),
                 ]),
             TMCLocation.SWAMP_DOJO_HP:
                 self.logic_or([
@@ -927,82 +933,82 @@ class MinishCapRules:
                     self.has_sword(),
                     self.has_group("Scrolls", 7),
                 ]),
-            TMCLocation.SWAMP_MINISH_FUSION_NORTH_CRACK_CHEST: # Fusion 4B
-                self.logic_or([self.has_any([TMCItem.PEGASUS_BOOTS, TMCItem.ROCS_CAPE]),self.has_bow()]),
+            TMCLocation.SWAMP_MINISH_FUSION_NORTH_CRACK_CHEST:  # Fusion 4B
+                self.logic_or([self.has_any([TMCItem.PEGASUS_BOOTS, TMCItem.ROCS_CAPE]), self.has_bow()]),
             TMCLocation.SWAMP_MINISH_MULLDOZER_BIG_CHEST:
                 self.logic_and([
-                    self.logic_or([self.has_any([TMCItem.PEGASUS_BOOTS, TMCItem.ROCS_CAPE]),self.has_bow()]),
+                    self.logic_or([self.has_any([TMCItem.PEGASUS_BOOTS, TMCItem.ROCS_CAPE]), self.has_bow()]),
                     self.has_any([TMCItem.FLIPPERS, TMCItem.GUST_JAR]),
                     self.has_weapon(),
                 ]),
-            TMCLocation.SWAMP_MINISH_FUSION_NORTH_WEST_CRACK_CHEST: # Fusion 5B
+            TMCLocation.SWAMP_MINISH_FUSION_NORTH_WEST_CRACK_CHEST:  # Fusion 5B
                 self.logic_and([
-                    self.logic_or([self.has_any([TMCItem.PEGASUS_BOOTS, TMCItem.ROCS_CAPE]),self.has_bow()]),
+                    self.logic_or([self.has_any([TMCItem.PEGASUS_BOOTS, TMCItem.ROCS_CAPE]), self.has_bow()]),
                     self.has_any([TMCItem.FLIPPERS, TMCItem.GUST_JAR]),
                 ]),
-            TMCLocation.SWAMP_MINISH_FUSION_WEST_CRACK_CHEST: # Fusion 57
-                self.logic_or([self.has_any([TMCItem.PEGASUS_BOOTS, TMCItem.ROCS_CAPE]),self.has_bow()]),
-            TMCLocation.SWAMP_MINISH_FUSION_VINE_CRACK_CHEST: # Fusion 57 & 3E
-                self.logic_or([self.has_any([TMCItem.PEGASUS_BOOTS, TMCItem.ROCS_CAPE]),self.has_bow()]),
-            TMCLocation.SWAMP_MINISH_FUSION_WATER_HOLE_CHEST: # Fusion 57
+            TMCLocation.SWAMP_MINISH_FUSION_WEST_CRACK_CHEST:  # Fusion 57
+                self.logic_or([self.has_any([TMCItem.PEGASUS_BOOTS, TMCItem.ROCS_CAPE]), self.has_bow()]),
+            TMCLocation.SWAMP_MINISH_FUSION_VINE_CRACK_CHEST:  # Fusion 57 & 3E
+                self.logic_or([self.has_any([TMCItem.PEGASUS_BOOTS, TMCItem.ROCS_CAPE]), self.has_bow()]),
+            TMCLocation.SWAMP_MINISH_FUSION_WATER_HOLE_CHEST:  # Fusion 57
                 self.logic_and([
-                    self.logic_or([self.has_any([TMCItem.PEGASUS_BOOTS, TMCItem.ROCS_CAPE]),self.has_bow()]),
+                    self.logic_or([self.has_any([TMCItem.PEGASUS_BOOTS, TMCItem.ROCS_CAPE]), self.has_bow()]),
                     self.has(TMCItem.FLIPPERS),
                 ]),
-            TMCLocation.SWAMP_MINISH_FUSION_WATER_HOLE_HP: # Fusion 57
+            TMCLocation.SWAMP_MINISH_FUSION_WATER_HOLE_HP:  # Fusion 57
                 self.logic_and([
-                    self.logic_or([self.has_any([TMCItem.PEGASUS_BOOTS, TMCItem.ROCS_CAPE]),self.has_bow()]),
+                    self.logic_or([self.has_any([TMCItem.PEGASUS_BOOTS, TMCItem.ROCS_CAPE]), self.has_bow()]),
                     self.has(TMCItem.FLIPPERS),
                 ]),
-            #endregion
+            # endregion
 
-            #region Wind Ruins
+            # region Wind Ruins
             # Fusion 06 07 08
             # TMCLocation.RUINS_BUTTERFLY_FUSION_ITEM: None, # Fusion 20
             TMCLocation.RUINS_BOMB_CAVE_CHEST:
                 self.has(TMCItem.BOMB_BAG),
             # TMCLocation.RUINS_MINISH_HOME_CHEST: None,
             # Everything beyond here requires at least 1 sword to pass the first armos
-            TMCLocation.RUINS_PILLARS_FUSION_CHEST: # Fusion 64
+            TMCLocation.RUINS_PILLARS_FUSION_CHEST:  # Fusion 64
                 self.has_sword(),
-            TMCLocation.RUINS_BEAN_STALK_FUSION_BIG_CHEST: # Fusion 17
+            TMCLocation.RUINS_BEAN_STALK_FUSION_BIG_CHEST:  # Fusion 17
                 self.logic_and([
-                    self.has_sword(),    # Armos Switch
-                    self.has_weapon(),                      # Tektite fight
+                    self.has_sword(),  # Armos Switch
+                    self.has_weapon(),  # Tektite fight
                 ]),
-            TMCLocation.RUINS_CRACK_FUSION_CHEST: # Fusion 41
+            TMCLocation.RUINS_CRACK_FUSION_CHEST:  # Fusion 41
                 self.logic_and([
-                    self.has_sword(),    # Armos Switch
-                    self.has_weapon(),                      # Tektite fight
+                    self.has_sword(),  # Armos Switch
+                    self.has_weapon(),  # Tektite fight
                 ]),
             TMCLocation.RUINS_MINISH_CAVE_HP:
                 self.logic_and([
-                    self.has_sword(),    # Armos Switch
-                    self.has_weapon(),                      # Tektite fight
+                    self.has_sword(),  # Armos Switch
+                    self.has_weapon(),  # Tektite fight
                 ]),
             TMCLocation.RUINS_ARMOS_KILL_LEFT_CHEST:
                 self.logic_and([
-                    self.has_sword(),    # Armos Switch
-                    self.has_weapon(),                      # Tektite fight and Armos Kill
+                    self.has_sword(),  # Armos Switch
+                    self.has_weapon(),  # Tektite fight and Armos Kill
                 ]),
             TMCLocation.RUINS_ARMOS_KILL_RIGHT_CHEST:
                 self.logic_and([
-                    self.has_sword(),    # Armos Switch
-                    self.has_weapon(),                      # Tektite fight and Armos Kill
+                    self.has_sword(),  # Armos Switch
+                    self.has_weapon(),  # Tektite fight and Armos Kill
                 ]),
-            TMCLocation.RUINS_GOLDEN_OCTO: # Fusion 54
+            TMCLocation.RUINS_GOLDEN_OCTO:  # Fusion 54
                 self.logic_and([
-                    self.has_sword(),    # Armos Switch and Octo kill
-                    self.has_weapon(),                      # Tektite fight
+                    self.has_sword(),  # Armos Switch and Octo kill
+                    self.has_weapon(),  # Tektite fight
                 ]),
-            TMCLocation.RUINS_NEAR_FOW_FUSION_CHEST: # Fusion 0A
+            TMCLocation.RUINS_NEAR_FOW_FUSION_CHEST:  # Fusion 0A
                 self.logic_and([
-                    self.has_sword(),    # Armos Switch
-                    self.has_weapon(),                      # Tektite fight
+                    self.has_sword(),  # Armos Switch
+                    self.has_weapon(),  # Tektite fight
                 ]),
-            #endregion
+            # endregion
 
-            #region Royal Valley
+            # region Royal Valley
             # TMCLocation.VALLEY_PRE_VALLEY_FUSION_CHEST: None, # Fusion 5F
             TMCLocation.VALLEY_GREAT_FAIRY_NPC:
                 self.has(TMCItem.BOMB_BAG),
@@ -1017,9 +1023,9 @@ class MinishCapRules:
                 self.split_rule(3),
             # TMCLocation.VALLEY_GRAVEYARD_RIGHT_FUSION_CHEST: None, # Fusion 5D
             # TMCLocation.VALLEY_GRAVEYARD_RIGHT_GRAVE_FUSION_CHEST: None, # Fusion 30
-            #endregion
+            # endregion
 
-            #region Hyrule Town
+            # region Hyrule Town
             # TMCLocation.TOWN_CAFE_LADY_NPC: None,
             TMCLocation.TOWN_SHOP_80_ITEM:
                 self.mitts_farm(),
@@ -1046,7 +1052,7 @@ class MinishCapRules:
             # TMCLocation.TOWN_INN_POT: None,
             # TMCLocation.TOWN_WELL_RIGHT_CHEST: None,
 
-            TMCLocation.TOWN_GORON_MERCHANT_1_LEFT: # Fusion 33
+            TMCLocation.TOWN_GORON_MERCHANT_1_LEFT:  # Fusion 33
                 self.logic_and([
                     self.has(TMCItem.BIG_WALLET),
                     self.mitts_farm(),
@@ -1058,10 +1064,10 @@ class MinishCapRules:
             TMCLocation.TOWN_DOJO_NPC_1:
                 self.has_sword(),
             TMCLocation.TOWN_DOJO_NPC_2:
-            self.logic_or([
-                self.has(TMCItem.WHITE_SWORD_GREEN),
-                self.has(TMCItem.PROGRESSIVE_SWORD, 2),
-            ]),
+                self.logic_or([
+                    self.has(TMCItem.WHITE_SWORD_GREEN),
+                    self.has(TMCItem.PROGRESSIVE_SWORD, 2),
+                ]),
             TMCLocation.TOWN_DOJO_NPC_3:
                 self.logic_and([
                     self.has_sword(),
@@ -1077,7 +1083,7 @@ class MinishCapRules:
             TMCLocation.TOWN_SCHOOL_ROOF_CHEST:
                 self.has(TMCItem.CANE_OF_PACCI),
             TMCLocation.TOWN_SCHOOL_PATH_FUSION_CHEST:
-                self.has(TMCItem.CANE_OF_PACCI), # Fusion 36
+                self.has(TMCItem.CANE_OF_PACCI),  # Fusion 36
             TMCLocation.TOWN_SCHOOL_PATH_LEFT_CHEST:
                 self.logic_and([
                     self.has(TMCItem.CANE_OF_PACCI),
@@ -1108,7 +1114,7 @@ class MinishCapRules:
                 self.has(TMCItem.MOLE_MITTS),
             TMCLocation.TOWN_BELL_HP:
                 self.has(TMCItem.ROCS_CAPE),
-            TMCLocation.TOWN_WATERFALL_FUSION_CHEST: # fusion 42
+            TMCLocation.TOWN_WATERFALL_FUSION_CHEST:  # fusion 42
                 self.has(TMCItem.FLIPPERS),
             TMCLocation.TOWN_CARLOV_NPC:
                 self.access_town_left(),
@@ -1174,7 +1180,7 @@ class MinishCapRules:
                         self.logic_and([
                             self.complete_book_quest(),
                             self.has(TMCItem.GRIP_RING),
-                            self.has_any([TMCItem.GUST_JAR,TMCItem.ROCS_CAPE]),
+                            self.has_any([TMCItem.GUST_JAR, TMCItem.ROCS_CAPE]),
                         ]),
                         self.has_all([TMCItem.OCARINA, TMCItem.CANE_OF_PACCI, TMCItem.FLIPPERS]),
                     ]),
@@ -1184,9 +1190,9 @@ class MinishCapRules:
                 self.has_all([TMCItem.OCARINA, TMCItem.CANE_OF_PACCI, TMCItem.FLIPPERS]),
             TMCLocation.TOWN_CUCCOS_LV_10_NPC:
                 self.has_any([TMCItem.ROCS_CAPE, TMCItem.FLIPPERS]),
-            #endregion
+            # endregion
 
-            #region North Field
+            # region North Field
             # TMCLocation.NORTH_FIELD_TREE_FUSION_BOTTOM_RIGHT_CHEST: None, # Fusion 5A
             # TMCLocation.NORTH_FIELD_TREE_FUSION_BOTTOM_LEFT_CHEST: None,  # Fusion 4D
             # TMCLocation.NORTH_FIELD_TREE_FUSION_TOP_RIGHT_CHEST: None,    # Fusion 40
@@ -1204,124 +1210,124 @@ class MinishCapRules:
                     self.has(TMCItem.FLIPPERS),
                     self.has_sword(),
                 ]),
-            #endregion
+            # endregion
 
-            #region Dungeon DWS
+            # region Dungeon DWS
             TMCLocation.DEEPWOOD_2F_CHEST:
                 self.has_any([TMCItem.LANTERN, TMCItem.GUST_JAR]),
-            #TMCLocation.DEEPWOOD_1F_SLUG_TORCHES_CHEST : None,
+            # TMCLocation.DEEPWOOD_1F_SLUG_TORCHES_CHEST : None,
             TMCLocation.DEEPWOOD_1F_BARREL_ROOM_CHEST:
                 self.logic_and([
                     self.has(TMCItem.SMALL_KEY_DWS, 1),
                     self.blow_dust(),
                 ]),
             TMCLocation.DEEPWOOD_1F_WEST_BIG_CHEST:
-                self.has(TMCItem.SMALL_KEY_DWS,1),
+                self.has(TMCItem.SMALL_KEY_DWS, 1),
             TMCLocation.DEEPWOOD_1F_WEST_STATUE_PUZZLE_CHEST:
-                self.has(TMCItem.SMALL_KEY_DWS,1),
+                self.has(TMCItem.SMALL_KEY_DWS, 1),
             TMCLocation.DEEPWOOD_1F_EAST_MULLDOZER_FIGHT_ITEM:
                 self.logic_and([
-                    self.has(TMCItem.SMALL_KEY_DWS,4),
+                    self.has(TMCItem.SMALL_KEY_DWS, 4),
                     self.has_weapon()
                 ]),
             TMCLocation.DEEPWOOD_1F_NORTH_EAST_CHEST:
                 self.logic_or([
                     self.logic_and([
                         self.has(TMCItem.GUST_JAR),
-                        self.has(TMCItem.SMALL_KEY_DWS,1)
+                        self.has(TMCItem.SMALL_KEY_DWS, 1)
                     ]),
                     self.logic_and([
                         self.blow_dust(),
-                        self.has(TMCItem.SMALL_KEY_DWS,2)
+                        self.has(TMCItem.SMALL_KEY_DWS, 2)
                     ])
 
                 ]),
             TMCLocation.DEEPWOOD_B1_SWITCH_ROOM_BIG_CHEST:
                 self.logic_or([
-                    self.has(TMCItem.SMALL_KEY_DWS,2),
+                    self.has(TMCItem.SMALL_KEY_DWS, 2),
                     self.logic_and([
                         self.has(TMCItem.GUST_JAR),
-                        self.has(TMCItem.SMALL_KEY_DWS,1)
+                        self.has(TMCItem.SMALL_KEY_DWS, 1)
                     ])
                 ]),
             TMCLocation.DEEPWOOD_B1_SWITCH_ROOM_CHEST:
                 self.logic_or([
                     self.logic_and([
-                        self.has(TMCItem.SMALL_KEY_DWS,2),
+                        self.has(TMCItem.SMALL_KEY_DWS, 2),
                         self.has(TMCItem.ROCS_CAPE)
                     ]),
                     self.logic_and([
                         self.has(TMCItem.GUST_JAR),
-                        self.has(TMCItem.SMALL_KEY_DWS,1)
+                        self.has(TMCItem.SMALL_KEY_DWS, 1)
                     ])
                 ]),
 
             TMCLocation.DEEPWOOD_1F_BLUE_WARP_HP:
-                #self.logic_or([
-                #    self.logic_and([
-                #        self.has(TMCItem.SMALL_KEY_DWS,2),
-                #        self.has(TMCItem.BOMB_BAG)     # bomb dust trick
-                #    ]),
-                    self.logic_and([
-                        self.has(TMCItem.GUST_JAR),
-                        self.has(TMCItem.SMALL_KEY_DWS,1)
-                    ]),
-                #]),
+            # self.logic_or([
+            #    self.logic_and([
+            #        self.has(TMCItem.SMALL_KEY_DWS,2),
+            #        self.has(TMCItem.BOMB_BAG)     # bomb dust trick
+            #    ]),
+                self.logic_and([
+                    self.has(TMCItem.GUST_JAR),
+                    self.has(TMCItem.SMALL_KEY_DWS, 1)
+                ]),
+            # ]),
             TMCLocation.DEEPWOOD_1F_BLUE_WARP_LEFT_CHEST:
-                #self.logic_or([
-                #    self.logic_and([
-                #        self.has(TMCItem.SMALL_KEY_DWS,2),
-                #        self.has(TMCItem.BOMB_BAG)         # bomb dust trick
-                #    ]),
-                    self.logic_and([
-                        self.has(TMCItem.GUST_JAR),
-                        self.has(TMCItem.SMALL_KEY_DWS,1)
-                #    ])
+            # self.logic_or([
+            #    self.logic_and([
+            #        self.has(TMCItem.SMALL_KEY_DWS,2),
+            #        self.has(TMCItem.BOMB_BAG)         # bomb dust trick
+            #    ]),
+                self.logic_and([
+                    self.has(TMCItem.GUST_JAR),
+                    self.has(TMCItem.SMALL_KEY_DWS, 1)
+                    #    ])
                 ]),
             TMCLocation.DEEPWOOD_1F_BLUE_WARP_RIGHT_CHEST:
-                #self.logic_or([
-                #    self.logic_and([
-                #        self.has(TMCItem.SMALL_KEY_DWS,2),
-                #        self.has(TMCItem.BOMB_BAG)         # bomb dust trick
-                #    ]),
-                    self.logic_and([
-                        self.has(TMCItem.GUST_JAR),
-                        self.has(TMCItem.SMALL_KEY_DWS,1)
-                #    ])
+            # self.logic_or([
+            #    self.logic_and([
+            #        self.has(TMCItem.SMALL_KEY_DWS,2),
+            #        self.has(TMCItem.BOMB_BAG)         # bomb dust trick
+            #    ]),
+                self.logic_and([
+                    self.has(TMCItem.GUST_JAR),
+                    self.has(TMCItem.SMALL_KEY_DWS, 1)
+                    #    ])
                 ]),
             TMCLocation.DEEPWOOD_1F_MADDERPILLAR_BIG_CHEST:
                 self.logic_and([
                     self.has_weapon_boss(),
                     self.logic_or([
-                        self.has(TMCItem.SMALL_KEY_DWS,4),
+                        self.has(TMCItem.SMALL_KEY_DWS, 4),
                         self.logic_and([
-                            self.has(TMCItem.SMALL_KEY_DWS,2),
+                            self.has(TMCItem.SMALL_KEY_DWS, 2),
                             self.has(TMCItem.LANTERN)
                         ]),
                         self.logic_and([
-                            self.has_all([TMCItem.GUST_JAR,TMCItem.LANTERN]),
-                            self.has(TMCItem.SMALL_KEY_DWS,1)
+                            self.has_all([TMCItem.GUST_JAR, TMCItem.LANTERN]),
+                            self.has(TMCItem.SMALL_KEY_DWS, 1)
                         ])
                     ])
                 ]),
             TMCLocation.DEEPWOOD_1F_MADDERPILLAR_HP:
-                    self.logic_or([
-                        self.has(TMCItem.SMALL_KEY_DWS,4),
-                        self.logic_and([
-                            self.has(TMCItem.SMALL_KEY_DWS,2),
-                            self.has(TMCItem.LANTERN)
-                        ]),
-                        self.logic_and([
-                            self.has_all([
-                                TMCItem.GUST_JAR,
-                                TMCItem.LANTERN
-                            ]),
-                            self.has(TMCItem.SMALL_KEY_DWS,1)
-                        ])
+                self.logic_or([
+                    self.has(TMCItem.SMALL_KEY_DWS, 4),
+                    self.logic_and([
+                        self.has(TMCItem.SMALL_KEY_DWS, 2),
+                        self.has(TMCItem.LANTERN)
                     ]),
+                    self.logic_and([
+                        self.has_all([
+                            TMCItem.GUST_JAR,
+                            TMCItem.LANTERN
+                        ]),
+                        self.has(TMCItem.SMALL_KEY_DWS, 1)
+                    ])
+                ]),
             TMCLocation.DEEPWOOD_B1_WEST_BIG_CHEST:
                 self.logic_and([
-                    self.has(TMCItem.SMALL_KEY_DWS,4),
+                    self.has(TMCItem.SMALL_KEY_DWS, 4),
                     self.has(TMCItem.GUST_JAR),
                 ]),
             TMCLocation.DEEPWOOD_BOSS_ITEM:
@@ -1336,15 +1342,15 @@ class MinishCapRules:
                     self.has(TMCItem.GUST_JAR),
                     self.has(TMCItem.BIG_KEY_DWS)
                 ]),
-             #endregion
+            # endregion
 
-            #region Dungeon CoF
-            #TMCLocation.COF_1F_SPIKE_BEETLE_BIG_CHEST: none
-            #TMCLocation.COF_1F_ITEM1: none
-            #TMCLocation.COF_1F_ITEM2: none
-            #TMCLocation.COF_1F_ITEM3: none
-            #TMCLocation.COF_1F_ITEM4: none
-            #TMCLocation.COF_1F_ITEM5: none
+            # region Dungeon CoF
+            # TMCLocation.COF_1F_SPIKE_BEETLE_BIG_CHEST: none
+            # TMCLocation.COF_1F_ITEM1: none
+            # TMCLocation.COF_1F_ITEM2: none
+            # TMCLocation.COF_1F_ITEM3: none
+            # TMCLocation.COF_1F_ITEM4: none
+            # TMCLocation.COF_1F_ITEM5: none
             TMCLocation.COF_B1_HAZY_ROOM_BIG_CHEST:
                 self.has_weapon_helm(),
             TMCLocation.COF_B1_HAZY_ROOM_SMALL_CHEST:
@@ -1355,75 +1361,75 @@ class MinishCapRules:
                 self.has_weapon_helm(),
             TMCLocation.COF_B1_SPIKEY_CHUS_PILLAR_CHEST:
                 self.logic_and([
-                    self.has_sword(),   # Switch
+                    self.has_sword(),  # Switch
                     self.has(TMCItem.CANE_OF_PACCI),
-                    self.has(TMCItem.SMALL_KEY_COF,1)
+                    self.has(TMCItem.SMALL_KEY_COF, 1)
                 ]),
             TMCLocation.COF_B1_HP:
                 self.logic_and([
-                    self.has_sword(),   # Switch
+                    self.has_sword(),  # Switch
                     self.has(TMCItem.BOMB_BAG),
-                    self.has(TMCItem.SMALL_KEY_COF,1)
+                    self.has(TMCItem.SMALL_KEY_COF, 1)
                 ]),
             TMCLocation.COF_B1_SPIKEY_CHUS_BIG_CHEST:
                 self.logic_and([
-                    self.has_sword(),   # Switch
+                    self.has_sword(),  # Switch
                     self.has_weapon(),
-                    self.has(TMCItem.SMALL_KEY_COF,1)
+                    self.has(TMCItem.SMALL_KEY_COF, 1)
                 ]),
             TMCLocation.COF_B2_PRE_LAVA_NORTH_CHEST:
                 self.logic_and([
-                    self.has_sword(),   # Switch
+                    self.has_sword(),  # Switch
                     self.has(TMCItem.CANE_OF_PACCI),
-                    self.has(TMCItem.SMALL_KEY_COF,2)
+                    self.has(TMCItem.SMALL_KEY_COF, 2)
                 ]),
             TMCLocation.COF_B2_PRE_LAVA_SOUTH_CHEST:
                 self.logic_and([
-                    self.has_sword(),   # Switch
+                    self.has_sword(),  # Switch
                     self.has(TMCItem.CANE_OF_PACCI),
-                    self.has(TMCItem.SMALL_KEY_COF,2)
+                    self.has(TMCItem.SMALL_KEY_COF, 2)
                 ]),
             TMCLocation.COF_B2_LAVA_ROOM_BLADE_CHEST:
                 self.logic_and([
-                    self.has_sword(),   # Switch
+                    self.has_sword(),  # Switch
                     self.has(TMCItem.CANE_OF_PACCI),
-                    self.has(TMCItem.SMALL_KEY_COF,2),
+                    self.has(TMCItem.SMALL_KEY_COF, 2),
                 ]),
             TMCLocation.COF_B2_LAVA_ROOM_RIGHT_CHEST:
                 self.logic_and([
-                    self.has_sword(),   # Switch
+                    self.has_sword(),  # Switch
                     self.has(TMCItem.CANE_OF_PACCI),
-                    self.has(TMCItem.SMALL_KEY_COF,2),
+                    self.has(TMCItem.SMALL_KEY_COF, 2),
                 ]),
             TMCLocation.COF_B2_LAVA_ROOM_LEFT_CHEST:
                 self.logic_and([
-                    self.has_sword(),   # Switch
+                    self.has_sword(),  # Switch
                     self.has(TMCItem.CANE_OF_PACCI),
-                    self.has(TMCItem.SMALL_KEY_COF,2),
+                    self.has(TMCItem.SMALL_KEY_COF, 2),
                 ]),
             TMCLocation.COF_B2_LAVA_ROOM_BIG_CHEST:
                 self.logic_and([
-                    self.has_sword(),   # Switch
+                    self.has_sword(),  # Switch
                     self.has(TMCItem.CANE_OF_PACCI),
-                    self.has(TMCItem.SMALL_KEY_COF,2),
+                    self.has(TMCItem.SMALL_KEY_COF, 2),
                 ]),
             TMCLocation.COF_BOSS_ITEM:
                 self.logic_and([
-                    self.has_sword(),   # Switch
+                    self.has_sword(),  # Switch
                     self.has_weapon_gleerok(),
-                    self.has_all([TMCItem.CANE_OF_PACCI,TMCItem.BIG_KEY_COF]),
-                    self.has(TMCItem.SMALL_KEY_COF,2),
+                    self.has_all([TMCItem.CANE_OF_PACCI, TMCItem.BIG_KEY_COF]),
+                    self.has(TMCItem.SMALL_KEY_COF, 2),
                 ]),
             TMCLocation.COF_PRIZE:
                 self.logic_and([
-                    self.has_sword(),   # Switch
+                    self.has_sword(),  # Switch
                     self.has_weapon_gleerok(),
-                    self.has_all([TMCItem.CANE_OF_PACCI,TMCItem.BIG_KEY_COF]),
-                    self.has(TMCItem.SMALL_KEY_COF,2),
+                    self.has_all([TMCItem.CANE_OF_PACCI, TMCItem.BIG_KEY_COF]),
+                    self.has(TMCItem.SMALL_KEY_COF, 2),
                 ]),
-            #endregion
+            # endregion
 
-            #region Dungeon FOW
+            # region Dungeon FOW
             TMCLocation.FORTRESS_ENTRANCE_1F_LEFT_CHEST:
                 self.has(TMCItem.MOLE_MITTS),
             TMCLocation.FORTRESS_ENTRANCE_1F_LEFT_WIZZROBE_CHEST:
@@ -1440,19 +1446,19 @@ class MinishCapRules:
                     self.has(TMCItem.MOLE_MITTS),
                 ]),
             TMCLocation.FORTRESS_LEFT_2F_ITEM1:
-                self.logic_and([self.has_bow(),self.has_weapon()]),
+                self.logic_and([self.has_bow(), self.has_weapon()]),
             TMCLocation.FORTRESS_LEFT_2F_ITEM2:
-                self.logic_and([self.has_bow(),self.has_weapon()]),
+                self.logic_and([self.has_bow(), self.has_weapon()]),
             TMCLocation.FORTRESS_LEFT_2F_ITEM3:
-                self.logic_and([self.has_bow(),self.has_weapon()]),
+                self.logic_and([self.has_bow(), self.has_weapon()]),
             TMCLocation.FORTRESS_LEFT_2F_ITEM4:
-                self.logic_and([self.has_bow(),self.has_weapon()]),
+                self.logic_and([self.has_bow(), self.has_weapon()]),
             TMCLocation.FORTRESS_LEFT_2F_ITEM5:
-                self.logic_and([self.has_bow(),self.has_weapon()]),
+                self.logic_and([self.has_bow(), self.has_weapon()]),
             TMCLocation.FORTRESS_LEFT_2F_ITEM6:
-                self.logic_and([self.has_bow(),self.has_weapon()]),
+                self.logic_and([self.has_bow(), self.has_weapon()]),
             TMCLocation.FORTRESS_LEFT_2F_ITEM7:
-                self.logic_and([self.has_bow(),self.has_weapon()]),
+                self.logic_and([self.has_bow(), self.has_weapon()]),
             TMCLocation.FORTRESS_LEFT_3F_SWITCH_CHEST:
                 self.logic_and([
                     self.has_weapon(),
@@ -1460,7 +1466,7 @@ class MinishCapRules:
                     self.has(TMCItem.MOLE_MITTS),
                 ]),
             TMCLocation.FORTRESS_LEFT_3F_EYEGORE_BIG_CHEST:
-                self.logic_and([self.has_bow(),self.has_weapon()]),
+                self.logic_and([self.has_bow(), self.has_weapon()]),
             TMCLocation.FORTRESS_LEFT_3F_ITEM_DROP:
                 self.logic_and([
                     self.has_bow(),
@@ -1474,26 +1480,26 @@ class MinishCapRules:
                 self.has_bow(),
             TMCLocation.FORTRESS_MIDDLE_2F_STATUE_CHEST:
                 self.has(TMCItem.MOLE_MITTS),
-            #TMCLocation.FORTRESS_RIGHT_2F_LEFT_CHEST: none
-            #TMCLocation.FORTRESS_RIGHT_2F_RIGHT_CHEST: none
+            # TMCLocation.FORTRESS_RIGHT_2F_LEFT_CHEST: none
+            # TMCLocation.FORTRESS_RIGHT_2F_RIGHT_CHEST: none
             TMCLocation.FORTRESS_RIGHT_2F_DIG_CHEST:
                 self.has(TMCItem.MOLE_MITTS),
             TMCLocation.FORTRESS_RIGHT_3F_DIG_CHEST:
                 self.has(TMCItem.MOLE_MITTS),
-            #TMCLocation.FORTRESS_RIGHT_3F_ITEM_DROP: self.split_rule(2),
-            #TMCLocation.FORTRESS_ENTRANCE_1F_RIGHT_HP: self.split_rule(2),
+            # TMCLocation.FORTRESS_RIGHT_3F_ITEM_DROP: self.split_rule(2),
+            # TMCLocation.FORTRESS_ENTRANCE_1F_RIGHT_HP: self.split_rule(2),
             TMCLocation.FORTRESS_BACK_LEFT_BIG_CHEST:
                 self.logic_and([
                     self.has_bow(),
-                    self.has(TMCItem.SMALL_KEY_FOW,4),
-                    self.has_weapon_boss(),   # Darknut
+                    self.has(TMCItem.SMALL_KEY_FOW, 4),
+                    self.has_weapon_boss(),  # Darknut
                     self.has(TMCItem.BOMB_BAG),
                 ]),
             TMCLocation.FORTRESS_BACK_LEFT_SMALL_CHEST:
                 self.logic_and([
                     self.has_bow(),
-                    self.has(TMCItem.SMALL_KEY_FOW,4),
-                    self.has_weapon_boss(),   # Darknut
+                    self.has(TMCItem.SMALL_KEY_FOW, 4),
+                    self.has_weapon_boss(),  # Darknut
                     self.has_all([
                         TMCItem.BOMB_BAG,
                         TMCItem.MOLE_MITTS,
@@ -1502,20 +1508,20 @@ class MinishCapRules:
             TMCLocation.FORTRESS_BACK_RIGHT_STATUE_ITEM_DROP:
                 self.logic_and([
                     self.has_bow(),
-                    self.has(TMCItem.SMALL_KEY_FOW,2),
+                    self.has(TMCItem.SMALL_KEY_FOW, 2),
                     self.split_rule(2),
                 ]),
             TMCLocation.FORTRESS_BACK_RIGHT_MINISH_ITEM_DROP:
                 self.logic_and([
                     self.has_bow(),
-                    self.has(TMCItem.SMALL_KEY_FOW,3),
-                    self.has_weapon(),                      # Wallmaster fight
+                    self.has(TMCItem.SMALL_KEY_FOW, 3),
+                    self.has_weapon(),  # Floormaster fight
                     self.has(TMCItem.MOLE_MITTS),
                 ]),
             TMCLocation.FORTRESS_BACK_RIGHT_DIG_ROOM_TOP_POT:
                 self.logic_and([
                     self.has_bow(),
-                    self.has(TMCItem.SMALL_KEY_FOW,3),
+                    self.has(TMCItem.SMALL_KEY_FOW, 3),
                     self.has(TMCItem.MOLE_MITTS),
                 ]),
             TMCLocation.FORTRESS_BACK_RIGHT_DIG_ROOM_BOTTOM_POT:
@@ -1523,14 +1529,14 @@ class MinishCapRules:
                     self.fow_pot(),
                     self.logic_and([
                         self.has_bow(),
-                        self.has(TMCItem.SMALL_KEY_FOW,3),
+                        self.has(TMCItem.SMALL_KEY_FOW, 3),
                         self.has(TMCItem.MOLE_MITTS),
                     ]),
                 ]),
             TMCLocation.FORTRESS_BACK_RIGHT_BIG_CHEST:
                 self.logic_and([
                     self.has_bow(),
-                    self.has(TMCItem.SMALL_KEY_FOW,4),
+                    self.has(TMCItem.SMALL_KEY_FOW, 4),
                     self.has(TMCItem.MOLE_MITTS),
                 ]),
             TMCLocation.FORTRESS_BOSS_ITEM:
@@ -1547,21 +1553,21 @@ class MinishCapRules:
                     self.has(TMCItem.BIG_KEY_FOW),
                     self.has_weapon_mazaal(),
                 ]),
-            #endregion
+            # endregion
 
-            #region Dungeon TOD
-            #TMCLocation.DROPLETS_ENTRANCE_B2_EAST_ICEBLOCK: none
+            # region Dungeon TOD
+            # TMCLocation.DROPLETS_ENTRANCE_B2_EAST_ICEBLOCK: none
             TMCLocation.DROPLETS_ENTRANCE_B2_WEST_ICEBLOCK:
-                self.has(TMCItem.SMALL_KEY_TOD,4),
-            #endregion
+                self.has(TMCItem.SMALL_KEY_TOD, 4),
+            # endregion
 
-            #region Dungeon TOD after Big Key
-            #TMCLocation.DROPLETS_LEFT_PATH_B1_UNDERPASS_ITEM1: None,
-            #TMCLocation.DROPLETS_LEFT_PATH_B1_UNDERPASS_ITEM2: None,
-            #TMCLocation.DROPLETS_LEFT_PATH_B1_UNDERPASS_ITEM3: None,
-            #TMCLocation.DROPLETS_LEFT_PATH_B1_UNDERPASS_ITEM4: None,
-            #TMCLocation.DROPLETS_LEFT_PATH_B1_UNDERPASS_ITEM5: None,
-            #TMCLocation.DROPLETS_LEFT_PATH_B1_WATERFALL_BIG_CHEST: None,
+            # region Dungeon TOD after Big Key
+            # TMCLocation.DROPLETS_LEFT_PATH_B1_UNDERPASS_ITEM1: None,
+            # TMCLocation.DROPLETS_LEFT_PATH_B1_UNDERPASS_ITEM2: None,
+            # TMCLocation.DROPLETS_LEFT_PATH_B1_UNDERPASS_ITEM3: None,
+            # TMCLocation.DROPLETS_LEFT_PATH_B1_UNDERPASS_ITEM4: None,
+            # TMCLocation.DROPLETS_LEFT_PATH_B1_UNDERPASS_ITEM5: None,
+            # TMCLocation.DROPLETS_LEFT_PATH_B1_WATERFALL_BIG_CHEST: None,
             TMCLocation.DROPLETS_LEFT_PATH_B1_WATERFALL_UNDERWATER1:
                 self.has(TMCItem.FLIPPERS),
             TMCLocation.DROPLETS_LEFT_PATH_B1_WATERFALL_UNDERWATER2:
@@ -1632,7 +1638,7 @@ class MinishCapRules:
                 ]),
             TMCLocation.DROPLETS_LEFT_PATH_B2_ICE_MADDERPILLAR_BIG_CHEST:
                 self.logic_and([
-                    self.has(TMCItem.SMALL_KEY_TOD,4),
+                    self.has(TMCItem.SMALL_KEY_TOD, 4),
                     self.has_weapon_boss(),
                     self.has(TMCItem.GUST_JAR),
                     self.logic_or([
@@ -1642,7 +1648,7 @@ class MinishCapRules:
                 ]),
             TMCLocation.DROPLETS_LEFT_PATH_B2_ICE_PLAIN_FROZEN_CHEST:
                 self.logic_and([
-                    self.has(TMCItem.SMALL_KEY_TOD,4),
+                    self.has(TMCItem.SMALL_KEY_TOD, 4),
                     self.has(TMCItem.LANTERN),
                     self.logic_or([
                         self.has_all([
@@ -1657,7 +1663,7 @@ class MinishCapRules:
                 ]),
             TMCLocation.DROPLETS_LEFT_PATH_B2_ICE_PLAIN_CHEST:
                 self.logic_and([
-                    self.has(TMCItem.SMALL_KEY_TOD,4),
+                    self.has(TMCItem.SMALL_KEY_TOD, 4),
                     self.logic_or([
                         self.has_all([
                             TMCItem.FLIPPERS,
@@ -1672,7 +1678,7 @@ class MinishCapRules:
                 ]),
             TMCLocation.DROPLETS_LEFT_PATH_B2_LILYPAD_CORNER_FROZEN_CHEST:
                 self.logic_and([
-                    self.has(TMCItem.SMALL_KEY_TOD,4),
+                    self.has(TMCItem.SMALL_KEY_TOD, 4),
                     self.has_all([TMCItem.GUST_JAR, TMCItem.LANTERN]),
                     self.logic_or([
                         self.has(TMCItem.FLIPPERS),
@@ -1708,12 +1714,12 @@ class MinishCapRules:
                         self.droplet_right_lever(),
                         self.has(TMCItem.LANTERN)
                     ]),
-                    self.has(TMCItem.SMALL_KEY_TOD,4),
+                    self.has(TMCItem.SMALL_KEY_TOD, 4),
                     self.has(TMCItem.GUST_JAR),
                     self.has_weapon_boss()
                 ]),
             TMCLocation.DROPLETS_RIGHT_PATH_B2_FROZEN_CHEST:
-                    self.has(TMCItem.LANTERN),
+                self.has(TMCItem.LANTERN),
             TMCLocation.DROPLETS_RIGHT_PATH_B2_DARK_MAZE_BOTTOM_CHEST:
                 self.logic_and([
                     self.has_weapon_scissor(),
@@ -1722,7 +1728,7 @@ class MinishCapRules:
             TMCLocation.DROPLETS_RIGHT_PATH_B2_MULLDOZERS_ITEM_DROP:
                 self.logic_and([
                     self.has_weapon_scissor(),
-                    self.has_weapon(),          # redundancy for future settings
+                    self.has_weapon(),  # redundancy for future settings
                     self.has_all([
                         TMCItem.LANTERN,
                         TMCItem.BOMB_BAG
@@ -1742,31 +1748,31 @@ class MinishCapRules:
                 self.logic_and([
                     self.has_weapon_scissor(),
                     self.has(TMCItem.LANTERN),
-                    self.has(TMCItem.SMALL_KEY_TOD,4)
+                    self.has(TMCItem.SMALL_KEY_TOD, 4)
                 ]),
             TMCLocation.DROPLETS_RIGHT_PATH_B2_UNDERPASS_ITEM2:
                 self.logic_and([
                     self.has_weapon_scissor(),
                     self.has(TMCItem.LANTERN),
-                    self.has(TMCItem.SMALL_KEY_TOD,4)
+                    self.has(TMCItem.SMALL_KEY_TOD, 4)
                 ]),
             TMCLocation.DROPLETS_RIGHT_PATH_B2_UNDERPASS_ITEM3:
                 self.logic_and([
                     self.has_weapon_scissor(),
                     self.has(TMCItem.LANTERN),
-                    self.has(TMCItem.SMALL_KEY_TOD,4)
+                    self.has(TMCItem.SMALL_KEY_TOD, 4)
                 ]),
             TMCLocation.DROPLETS_RIGHT_PATH_B2_UNDERPASS_ITEM4:
                 self.logic_and([
                     self.has_weapon_scissor(),
                     self.has(TMCItem.LANTERN),
-                    self.has(TMCItem.SMALL_KEY_TOD,4)
+                    self.has(TMCItem.SMALL_KEY_TOD, 4)
                 ]),
             TMCLocation.DROPLETS_RIGHT_PATH_B2_UNDERPASS_ITEM5:
                 self.logic_and([
                     self.has_weapon_scissor(),
                     self.has(TMCItem.LANTERN),
-                    self.has(TMCItem.SMALL_KEY_TOD,4)
+                    self.has(TMCItem.SMALL_KEY_TOD, 4)
                 ]),
             TMCLocation.DROPLETS_BOSS_ITEM:
                 self.logic_and([
@@ -1778,9 +1784,9 @@ class MinishCapRules:
                     self.droplet_right_lever(),
                     self.droplet_left_lever()
                 ]),
-            #endregion
+            # endregion
 
-            #region Dungeon RC
+            # region Dungeon RC
             TMCLocation.CRYPT_GIBDO_LEFT_ITEM:
                 self.logic_or([
                     self.has(TMCItem.LANTERN),
@@ -1794,22 +1800,22 @@ class MinishCapRules:
             TMCLocation.CRYPT_LEFT_ITEM:
                 self.logic_and([
                     self.split_rule(3),
-                    self.has(TMCItem.SMALL_KEY_RC,1),
+                    self.has(TMCItem.SMALL_KEY_RC, 1),
                 ]),
             TMCLocation.CRYPT_RIGHT_ITEM:
                 self.logic_and([
                     self.split_rule(3),
-                    self.has(TMCItem.SMALL_KEY_RC,1),
+                    self.has(TMCItem.SMALL_KEY_RC, 1),
                 ]),
             TMCLocation.CRYPT_PRIZE:
                 self.logic_and([
                     self.has_weapon(),  # Gibdo fight
-                    self.has(TMCItem.SMALL_KEY_RC,3),
+                    self.has(TMCItem.SMALL_KEY_RC, 3),
                     self.has(TMCItem.LANTERN)
                 ]),
-            #endregion
+            # endregion
 
-            #region Dungeon POW
+            # region Dungeon POW
             TMCLocation.PALACE_1ST_HALF_1F_GRATE_CHEST:
                 self.has(TMCItem.ROCS_CAPE),
             TMCLocation.PALACE_1ST_HALF_1F_WIZZROBE_BIG_CHEST:
@@ -1835,131 +1841,131 @@ class MinishCapRules:
             TMCLocation.PALACE_1ST_HALF_4F_BOW_MOBLINS_CHEST:
                 self.logic_and([
                     self.pow_jump(),
-                    self.has(TMCItem.SMALL_KEY_POW,1)
+                    self.has(TMCItem.SMALL_KEY_POW, 1)
                 ]),
             TMCLocation.PALACE_1ST_HALF_5F_BALL_AND_CHAIN_SOLDIERS_ITEM_DROP:
                 self.logic_and([
                     self.pow_jump(),
-                    self.has(TMCItem.SMALL_KEY_POW,1)
+                    self.has(TMCItem.SMALL_KEY_POW, 1)
                 ]),
             TMCLocation.PALACE_1ST_HALF_5F_FAN_LOOP_CHEST:
                 self.logic_and([
                     self.pow_jump(),
-                    self.has(TMCItem.SMALL_KEY_POW,5)
+                    self.has(TMCItem.SMALL_KEY_POW, 5)
                 ]),
             TMCLocation.PALACE_1ST_HALF_5F_BIG_CHEST:
                 self.logic_and([
                     self.pow_jump(),
-                    self.has(TMCItem.SMALL_KEY_POW,6)
+                    self.has(TMCItem.SMALL_KEY_POW, 6)
                 ]),
             TMCLocation.PALACE_2ND_HALF_1F_DARK_ROOM_BIG_CHEST:
                 self.logic_and([
                     self.pow_jump(),
-                    self.has(TMCItem.SMALL_KEY_POW,3),
+                    self.has(TMCItem.SMALL_KEY_POW, 3),
                     self.has(TMCItem.BIG_KEY_POW),
-                    self.has_weapon_boss(),   # Darknut
+                    self.has_weapon_boss(),  # Darknut
                     self.dark_room(),
                 ]),
             TMCLocation.PALACE_2ND_HALF_1F_DARK_ROOM_SMALL_CHEST:
                 self.logic_and([
                     self.pow_jump(),
-                    self.has(TMCItem.SMALL_KEY_POW,3),
+                    self.has(TMCItem.SMALL_KEY_POW, 3),
                     self.has(TMCItem.BIG_KEY_POW),
-                    self.has_weapon_boss(),   # Darknut
+                    self.has_weapon_boss(),  # Darknut
                     self.dark_room(),
                 ]),
             TMCLocation.PALACE_2ND_HALF_2F_MANY_ROLLERS_CHEST:
                 self.logic_and([
                     self.pow_jump(),
-                    self.has(TMCItem.SMALL_KEY_POW,3),
+                    self.has(TMCItem.SMALL_KEY_POW, 3),
                     self.has(TMCItem.BIG_KEY_POW),
-                    self.has_weapon_boss(),   # Darknut
+                    self.has_weapon_boss(),  # Darknut
                     self.dark_room(),
                 ]),
             TMCLocation.PALACE_2ND_HALF_2F_TWIN_WIZZROBES_CHEST:
                 self.logic_and([
                     self.pow_jump(),
-                    self.has(TMCItem.SMALL_KEY_POW,4),
+                    self.has(TMCItem.SMALL_KEY_POW, 4),
                     self.has(TMCItem.BIG_KEY_POW),
-                    self.has_weapon_boss(),   # Darknut
+                    self.has_weapon_boss(),  # Darknut
                     self.dark_room(),
                     self.has_weapon_wizzrobe(),
                 ]),
             TMCLocation.PALACE_2ND_HALF_3F_FIRE_WIZZROBES_BIG_CHEST:
                 self.logic_and([
                     self.pow_jump(),
-                    self.has(TMCItem.SMALL_KEY_POW,4),
+                    self.has(TMCItem.SMALL_KEY_POW, 4),
                     self.has(TMCItem.BIG_KEY_POW),
-                    self.has_weapon_boss(),   # Darknut
+                    self.has_weapon_boss(),  # Darknut
                     self.dark_room(),
                     self.has_weapon_wizzrobe(),
                 ]),
             TMCLocation.PALACE_2ND_HALF_4F_HP:
                 self.logic_and([
                     self.pow_jump(),
-                    self.has(TMCItem.SMALL_KEY_POW,4),
+                    self.has(TMCItem.SMALL_KEY_POW, 4),
                     self.has(TMCItem.BIG_KEY_POW),
-                    self.has_weapon_boss(),   # Darknut
+                    self.has_weapon_boss(),  # Darknut
                     self.dark_room(),
-                    self.has_weapon(),  # wallmaster room
+                    self.has_weapon(),  # Floormaster room
                 ]),
             TMCLocation.PALACE_2ND_HALF_4F_SWITCH_HIT_CHEST:
                 self.logic_and([
                     self.pow_jump(),
-                    self.has(TMCItem.SMALL_KEY_POW,4),
+                    self.has(TMCItem.SMALL_KEY_POW, 4),
                     self.has(TMCItem.BIG_KEY_POW),
-                    self.has_weapon_boss(),   # Darknut
+                    self.has_weapon_boss(),  # Darknut
                     self.dark_room(),
-                    self.has_weapon(),  # wallmaster room
+                    self.has_weapon(),  # Floormaster room
                 ]),
             TMCLocation.PALACE_2ND_HALF_5F_BOMBAROSSA_CHEST:
                 self.logic_and([
                     self.pow_jump(),
-                    self.has(TMCItem.SMALL_KEY_POW,5),
+                    self.has(TMCItem.SMALL_KEY_POW, 5),
                     self.has(TMCItem.BIG_KEY_POW),
-                    self.has_weapon_boss(),   # Darknut
+                    self.has_weapon_boss(),  # Darknut
                     self.dark_room(),
-                    self.has_weapon(),  # wallmaster room
+                    self.has_weapon(),  # Floormaster room
                 ]),
             TMCLocation.PALACE_2ND_HALF_4F_BLOCK_MAZE_CHEST:
                 self.logic_and([
                     self.pow_jump(),
-                    self.has(TMCItem.SMALL_KEY_POW,6),
+                    self.has(TMCItem.SMALL_KEY_POW, 6),
                     self.has(TMCItem.BIG_KEY_POW),
-                    self.has_weapon_boss(),   # Darknut
+                    self.has_weapon_boss(),  # Darknut
                     self.dark_room(),
-                    self.has_weapon(),  # wallmaster room
+                    self.has_weapon(),  # Floormaster room
                 ]),
             TMCLocation.PALACE_2ND_HALF_5F_RIGHT_SIDE_CHEST:
                 self.logic_and([
                     self.pow_jump(),
-                    self.has(TMCItem.SMALL_KEY_POW,6),
+                    self.has(TMCItem.SMALL_KEY_POW, 6),
                     self.has(TMCItem.BIG_KEY_POW),
-                    self.has_weapon_boss(),   # Darknut
+                    self.has_weapon_boss(),  # Darknut
                     self.dark_room(),
-                    self.has_weapon(),  # wallmaster room
+                    self.has_weapon(),  # Floormaster room
                 ]),
             TMCLocation.PALACE_BOSS_ITEM:
                 self.logic_and([
                     self.pow_jump(),
-                    self.has(TMCItem.SMALL_KEY_POW,6),
+                    self.has(TMCItem.SMALL_KEY_POW, 6),
                     self.has(TMCItem.BIG_KEY_POW),
-                    self.has_weapon_boss(),   # Darknut
+                    self.has_weapon_boss(),  # Darknut
                     self.dark_room(),
-                    self.has_weapon(),  # wallmaster room
+                    self.has_weapon(),  # Floormaster room
                 ]),
             TMCLocation.PALACE_PRIZE:
                 self.logic_and([
                     self.pow_jump(),
-                    self.has(TMCItem.SMALL_KEY_POW,6),
+                    self.has(TMCItem.SMALL_KEY_POW, 6),
                     self.has(TMCItem.BIG_KEY_POW),
-                    self.has_weapon_boss(),   # Darknut
+                    self.has_weapon_boss(),  # Darknut
                     self.dark_room(),
-                    self.has_weapon(),  # wallmaster room
+                    self.has_weapon(),  # Floormaster room
                 ]),
-            #endregion
+            # endregion
 
-            #region Sanctuary
+            # region Sanctuary
             TMCLocation.SANCTUARY_PEDESTAL_ITEM1:
                 self.has_group("Elements", 2),
             TMCLocation.SANCTUARY_PEDESTAL_ITEM2:
@@ -1967,28 +1973,30 @@ class MinishCapRules:
             TMCLocation.SANCTUARY_PEDESTAL_ITEM3:
                 self.has_group("Elements", 4),
             TMCEvent.CLEAR_PED:
-                self.has_all([TMCItem.EARTH_ELEMENT, TMCItem.FIRE_ELEMENT, TMCItem.WATER_ELEMENT, TMCItem.WIND_ELEMENT]),
-            #endregion
+                self.has_all(
+                    [TMCItem.EARTH_ELEMENT, TMCItem.FIRE_ELEMENT, TMCItem.WATER_ELEMENT, TMCItem.WIND_ELEMENT]
+                ),
+            # endregion
 
-            #region Dungeon DHC
+            # region Dungeon DHC
             TMCLocation.DHC_B2_KING:
                 self.logic_and([
                     self.split_rule(4),
                     self.has(TMCItem.BOMB_BAG)
                 ]),
-            #TMCLocation.DHC_B1_BIG_CHEST: none
+            # TMCLocation.DHC_B1_BIG_CHEST: none
             TMCLocation.DHC_1F_BLADE_CHEST:
-                self.split_rule(4),
+                self.logic_and([self.dhc_cannons(), self.dhc_pads()]),
             TMCLocation.DHC_1F_THRONE_BIG_CHEST:
                 self.logic_and([
-                    self.split_rule(4),
-                    self.has_all([TMCItem.SMALL_KEY_DHC,TMCItem.BOMB_BAG]),
-                    self.has_weapon_boss(), # Darknut
+                    self.dhc_cannons(),
+                    self.has_all([TMCItem.SMALL_KEY_DHC, TMCItem.BOMB_BAG]),
+                    self.has_weapon_boss(),  # Darknut
                 ]),
             TMCLocation.DHC_3F_NORTH_WEST_CHEST:
                 self.logic_and([
                     self.split_rule(4),
-                    self.has_weapon_boss(), # Darknut
+                    self.has_weapon_boss(),  # Darknut
                     self.has_weapon(),  # chainsoldier
                     self.has_bow(),
                     self.has_all([
@@ -2000,7 +2008,7 @@ class MinishCapRules:
             TMCLocation.DHC_3F_NORTH_EAST_CHEST:
                 self.logic_and([
                     self.split_rule(4),
-                    self.has_weapon_boss(), # Darknut
+                    self.has_weapon_boss(),  # Darknut
                     self.has_weapon(),  # chainsoldier
                     self.has_weapon_ghini(),
                     self.has_all([
@@ -2018,7 +2026,7 @@ class MinishCapRules:
             TMCLocation.DHC_3F_SOUTH_WEST_CHEST:
                 self.logic_and([
                     self.split_rule(4),
-                    self.has_weapon_boss(), # Darknut
+                    self.has_weapon_boss(),  # Darknut
                     self.has_weapon(),  # chainsoldier
                     self.has_weapon_ghini(),
                     self.has_all([
@@ -2035,7 +2043,7 @@ class MinishCapRules:
             TMCLocation.DHC_3F_SOUTH_EAST_CHEST:
                 self.logic_and([
                     self.split_rule(4),
-                    self.has_weapon_boss(), # Darknut
+                    self.has_weapon_boss(),  # Darknut
                     self.has_weapon(),  # chainsoldier
                     self.has_all([
                         TMCItem.SMALL_KEY_DHC,
@@ -2047,13 +2055,14 @@ class MinishCapRules:
                         self.has_magic_boomerang(),
                         self.can_beam(),
                     ]),
+                    self.dhc_spin(),
                 ]),
             TMCLocation.DHC_2F_BLUE_WARP_BIG_CHEST:
                 self.logic_and([
                     self.split_rule(4),
-                    self.has_weapon_boss(), # Darknut
+                    self.has_weapon_boss(),  # Darknut
                     self.has_weapon(),  # chainsoldier
-                    self.has(TMCItem.SMALL_KEY_DHC,5),
+                    self.has(TMCItem.SMALL_KEY_DHC, 5),
                     self.has_all([
                         TMCItem.BOMB_BAG,
                         TMCItem.ROCS_CAPE,
@@ -2064,9 +2073,8 @@ class MinishCapRules:
                         self.can_beam(),
                     ]),
                 ]),
-            #endregion
+            # endregion
         }
-
 
     def logic_or(self, rules: list[CollectionRule | None]) -> CollectionRule:
         return lambda state: any(rule(state) for rule in rules if rule is not None)
@@ -2075,14 +2083,17 @@ class MinishCapRules:
         return lambda state: all(rule(state) for rule in rules if rule is not None)
 
     def logic_option(self, option: bool, rule_true: CollectionRule | None = None,
-        rule_false: CollectionRule | None = None) -> CollectionRule | None:
+                     rule_false: CollectionRule | None = None) -> CollectionRule | None:
         return rule_true if option else rule_false
 
     def droplet_right_lever(self) -> CollectionRule:
-        return self.logic_and([self.has_weapon_scissor(), self.split_rule(2), self.has(TMCItem.SMALL_KEY_TOD,4), self.has_all([TMCItem.LANTERN,TMCItem.BOMB_BAG,TMCItem.FLIPPERS])])
+        return self.logic_and([self.has_weapon_scissor(), self.split_rule(2), self.has(TMCItem.SMALL_KEY_TOD, 4),
+                               self.has_all([TMCItem.LANTERN, TMCItem.BOMB_BAG, TMCItem.FLIPPERS])])
 
     def droplet_left_lever(self) -> CollectionRule:
-        return self.logic_and([self.has(TMCItem.SMALL_KEY_TOD,4),self.logic_or([self.has_all([TMCItem.FLIPPERS,TMCItem.GUST_JAR]),self.logic_and([self.has_weapon_scissor(),self.has(TMCItem.LANTERN),self.has(TMCItem.ROCS_CAPE),]),]),])
+        return self.logic_and([self.has(TMCItem.SMALL_KEY_TOD, 4), self.logic_or(
+            [self.has_all([TMCItem.FLIPPERS, TMCItem.GUST_JAR]), self.logic_and(
+                [self.has_weapon_scissor(), self.has(TMCItem.LANTERN), self.has(TMCItem.ROCS_CAPE), ]), ]), ])
 
     def has_4_elements(self) -> CollectionRule:
         return self.has_all([TMCItem.EARTH_ELEMENT, TMCItem.WATER_ELEMENT, TMCItem.FIRE_ELEMENT, TMCItem.WIND_ELEMENT])
@@ -2090,7 +2101,7 @@ class MinishCapRules:
     def has_group(self, item_group_name: str, count: int = 1) -> CollectionRule:
         return lambda state: state.has_group(item_group_name, self.player, count)
 
-    def has_max_health(self, hearts = 3) -> CollectionRule:
+    def has_max_health(self, hearts=3) -> CollectionRule:
         def heart_count(state: CollectionState) -> bool:
             heart_containers = state.count(TMCItem.HEART_CONTAINER, self.player)
             heart_pieces = state.count(TMCItem.HEART_PIECE, self.player)
@@ -2146,7 +2157,7 @@ class MinishCapRules:
             TMCItem.WHITE_SWORD_BLUE,
             TMCItem.FOUR_SWORD,
             TMCItem.PROGRESSIVE_SWORD,
-            ])
+        ])
 
     def has_bow(self) -> CollectionRule:
         return self.has_any([TMCItem.BOW, TMCItem.LIGHT_ARROW, TMCItem.PROGRESSIVE_BOW])
@@ -2169,173 +2180,192 @@ class MinishCapRules:
     def has_weapon(self) -> CollectionRule:
         return self.logic_or([
             self.logic_option(self.world.options.weapon_bomb.value in {1, 2},
-                self.logic_or([self.has(TMCItem.BOMB_BAG), self.has_sword()]),
-                self.has_sword(),
-            ),
+                              self.logic_or([self.has(TMCItem.BOMB_BAG), self.has_sword()]),
+                              self.has_sword(),
+                              ),
             self.logic_option(self.world.options.weapon_bow.value == 1,
-                self.logic_or([self.has_bow(), self.has_sword()]),
-                self.has_sword(),
-            ),
+                              self.logic_or([self.has_bow(), self.has_sword()]),
+                              self.has_sword(),
+                              ),
         ])
 
     def has_weapon_boss(self) -> CollectionRule:
         return self.logic_option(self.world.options.weapon_bomb.value == 2,
-            self.logic_or([self.has(TMCItem.BOMB_BAG), self.has_sword()]),
-            self.has_sword(),
-        )
+                                 self.logic_or([self.has(TMCItem.BOMB_BAG), self.has_sword()]),
+                                 self.has_sword(),
+                                 )
 
     def has_weapon_helm(self) -> CollectionRule:
         return self.logic_or([
             self.logic_option(self.world.options.weapon_bomb.value in {1, 2},
-                self.logic_or([self.has(TMCItem.BOMB_BAG), self.has_sword()]),
-                self.has_sword(),
-            ),
+                              self.logic_or([self.has(TMCItem.BOMB_BAG), self.has_sword()]),
+                              self.has_sword(),
+                              ),
             self.logic_option(self.world.options.weapon_bow.value == 1,
-                self.logic_or([self.has_bow(), self.has_sword()]),
-                self.has_sword(),
-            ),
+                              self.logic_or([self.has_bow(), self.has_sword()]),
+                              self.has_sword(),
+                              ),
             self.logic_option(self.world.options.weapon_gust.value == 1,
-                self.logic_or([self.has(TMCItem.GUST_JAR), self.has_sword()]),
-                self.has_sword(),
-            ),
+                              self.logic_or([self.has(TMCItem.GUST_JAR), self.has_sword()]),
+                              self.has_sword(),
+                              ),
         ])
 
     def has_weapon_gleerok(self) -> CollectionRule:
         return self.logic_or([
             self.logic_option(self.world.options.weapon_bomb.value == 2,
-                self.logic_or([self.has(TMCItem.BOMB_BAG, 2), self.has_sword()]),
-                self.has_sword(),
-            ),
+                              self.logic_or([self.has(TMCItem.BOMB_BAG, 2), self.has_sword()]),
+                              self.has_sword(),
+                              ),
             self.logic_option(self.world.options.weapon_bow.value == 1,
-                self.logic_or([self.has_bow(), self.has_sword()]),
-                self.has_sword(),
-            ),
+                              self.logic_or([self.has_bow(), self.has_sword()]),
+                              self.has_sword(),
+                              ),
         ])
 
     def has_weapon_wizzrobe(self) -> CollectionRule:
         return self.logic_or([
             self.logic_option(self.world.options.weapon_bomb.value in {1, 2},
-                self.logic_or([self.has(TMCItem.BOMB_BAG), self.has_sword()]),
-                self.has_sword(),
-            ),
+                              self.logic_or([self.has(TMCItem.BOMB_BAG), self.has_sword()]),
+                              self.has_sword(),
+                              ),
             self.logic_option(self.world.options.weapon_bow.value == 1,
-                self.logic_or([self.has_bow(), self.has_sword()]),
-                self.has_sword(),
-            ),
+                              self.logic_or([self.has_bow(), self.has_sword()]),
+                              self.has_sword(),
+                              ),
             self.logic_option(self.world.options.weapon_lamp.value == 1,
-                self.logic_or([self.has(TMCItem.LANTERN), self.has_sword()]),
-                self.has_sword(),
-            ),
+                              self.logic_or([self.has(TMCItem.LANTERN), self.has_sword()]),
+                              self.has_sword(),
+                              ),
         ])
 
     def has_weapon_mazaal(self) -> CollectionRule:
         return self.logic_or([
             self.logic_option(self.world.options.weapon_bomb.value == 2,
-                self.logic_or([self.has(TMCItem.BOMB_BAG, 2), self.has_sword()]),
-                self.has_sword(),
-            ),
+                              self.logic_or([self.has(TMCItem.BOMB_BAG, 2), self.has_sword()]),
+                              self.has_sword(),
+                              ),
             self.logic_option(self.world.options.weapon_bow.value == 1,
-                self.logic_or([self.has_bow(), self.has_sword()]),
-                self.has_sword(),
-            ),
+                              self.logic_or([self.has_bow(), self.has_sword()]),
+                              self.has_sword(),
+                              ),
         ])
 
     def has_weapon_scissor(self) -> CollectionRule:
         return self.logic_option(self.world.options.weapon_bomb.value == 2,
-            self.logic_or([self.has(TMCItem.BOMB_BAG, 2), self.has_sword()]),
-            self.has_sword(),
-        )
+                                 self.logic_or([self.has(TMCItem.BOMB_BAG, 2), self.has_sword()]),
+                                 self.has_sword(),
+                                 )
 
     def has_weapon_ghini(self) -> CollectionRule:
         return self.logic_or([
             self.logic_option(self.world.options.weapon_bomb.value in {1, 2},
-                self.logic_or([self.has(TMCItem.BOMB_BAG), self.has_sword()]),
-                self.has_sword(),
-            ),
+                              self.logic_or([self.has(TMCItem.BOMB_BAG), self.has_sword()]),
+                              self.has_sword(),
+                              ),
             self.logic_option(self.world.options.weapon_bow.value == 1,
-                self.logic_or([self.has_bow(), self.has_sword()]),
-                self.has_sword(),
-            ),
+                              self.logic_or([self.has_bow(), self.has_sword()]),
+                              self.has_sword(),
+                              ),
             self.logic_option(self.world.options.weapon_gust.value == 1,
-                self.logic_or([self.has(TMCItem.GUST_JAR), self.has_sword()]),
-                self.has_sword(),
-            ),
+                              self.logic_or([self.has(TMCItem.GUST_JAR), self.has_sword()]),
+                              self.has_sword(),
+                              ),
         ])
 
     def mitts_farm(self) -> CollectionRule:
         return self.logic_option(TMCTricks.MITTS_FARM in self.world.options.tricks,
-            self.has(TMCItem.MOLE_MITTS)
-        )
+                                 self.has(TMCItem.MOLE_MITTS)
+                                 )
 
     def blow_dust(self) -> CollectionRule:
         return self.logic_option(TMCTricks.BOMB_DUST in self.world.options.tricks,
-            self.has_any([TMCItem.GUST_JAR, TMCItem.BOMB_BAG]),
-            self.has(TMCItem.GUST_JAR)
-        )
+                                 self.has_any([TMCItem.GUST_JAR, TMCItem.BOMB_BAG]),
+                                 self.has(TMCItem.GUST_JAR)
+                                 )
 
     def mushroom(self) -> CollectionRule:
         return self.logic_option(TMCTricks.MUSHROOM in self.world.options.tricks,
-            self.has_any([TMCItem.GUST_JAR, TMCItem.BOMB_BAG, TMCItem.GRIP_RING]),
-            self.has_any([TMCItem.BOMB_BAG, TMCItem.GRIP_RING]),
-        )
+                                 self.has_any([TMCItem.GUST_JAR, TMCItem.BOMB_BAG, TMCItem.GRIP_RING]),
+                                 self.has_any([TMCItem.BOMB_BAG, TMCItem.GRIP_RING]),
+                                 )
 
     def arrow_break(self) -> CollectionRule:
         return self.logic_option(TMCTricks.ARROWS_BREAK in self.world.options.tricks,
-            self.has_lightarrows()
-        )
+                                 self.has_lightarrows()
+                                 )
 
     def likelike(self) -> CollectionRule:
         return self.logic_option(TMCTricks.LIKELIKE_SWORDLESS in self.world.options.tricks,
-            self.has(TMCItem.MOLE_MITTS),
-            self.logic_and([self.has_weapon(), self.has(TMCItem.MOLE_MITTS)]),
-        )
+                                 self.has(TMCItem.MOLE_MITTS),
+                                 self.logic_and([self.has_weapon(), self.has(TMCItem.MOLE_MITTS)]),
+                                 )
 
     def dark_room(self) -> CollectionRule:
         return self.logic_option(TMCTricks.DARK_ROOMS in self.world.options.tricks,
-            None,
-            self.has(TMCItem.LANTERN),
-        )
+                                 None,
+                                 self.has(TMCItem.LANTERN),
+                                 )
 
     def cape_extend(self) -> CollectionRule:
         return self.logic_option(TMCTricks.CAPE_EXTENSIONS in self.world.options.tricks,
-            self.has_any([TMCItem.ROCS_CAPE, TMCItem.FLIPPERS]),
-            self.has(TMCItem.FLIPPERS)
-        )
+                                 self.has_any([TMCItem.ROCS_CAPE, TMCItem.FLIPPERS]),
+                                 self.has(TMCItem.FLIPPERS)
+                                 )
 
     def lake_minish(self) -> CollectionRule:
         return self.logic_option(TMCTricks.LAKE_MINISH in self.world.options.tricks,
-            self.logic_or([self.has_all([TMCItem.OCARINA, TMCItem.FLIPPERS]), self.has(TMCItem.PEGASUS_BOOTS)]),
-            self.has(TMCItem.PEGASUS_BOOTS)
-        )
+                                 self.logic_or([self.has_all([TMCItem.OCARINA, TMCItem.FLIPPERS]),
+                                                self.has(TMCItem.PEGASUS_BOOTS)]),
+                                 self.has(TMCItem.PEGASUS_BOOTS)
+                                 )
 
     def cabin_swim(self) -> CollectionRule:
         return self.logic_option(TMCTricks.CABIN_SWIM in self.world.options.tricks,
-            self.has_any([TMCItem.FLIPPERS, TMCItem.GUST_JAR]),
-            self.has(TMCItem.GUST_JAR)
-        )
+                                 self.has_any([TMCItem.FLIPPERS, TMCItem.GUST_JAR]),
+                                 self.has(TMCItem.GUST_JAR)
+                                 )
 
     def shark_kill(self) -> CollectionRule:
         return self.logic_option(TMCTricks.SHARKS_SWORDLESS in self.world.options.tricks,
-            None,
-            self.has_weapon(),
-        )
+                                 None,
+                                 self.has_weapon(),
+                                 )
 
     def fow_pot(self) -> CollectionRule:
         return self.logic_option(TMCTricks.FOW_POT in self.world.options.tricks,
-            self.has(TMCItem.GUST_JAR),
-        )
+                                 self.has(TMCItem.GUST_JAR),
+                                 )
 
     def pow_jump(self) -> CollectionRule:
         return self.logic_option(TMCTricks.POW_NOCANE in self.world.options.tricks,
-            self.has(TMCItem.ROCS_CAPE),
-            self.has_all([TMCItem.CANE_OF_PACCI,TMCItem.ROCS_CAPE]),
-        )
+                                 self.has(TMCItem.ROCS_CAPE),
+                                 self.has_all([TMCItem.CANE_OF_PACCI, TMCItem.ROCS_CAPE]),
+                                 )
 
     def pow_pot(self) -> CollectionRule:
         return self.logic_option(TMCTricks.POT_PUZZLE in self.world.options.tricks,
-            self.can_reach([TMCLocation.PALACE_2ND_HALF_2F_TWIN_WIZZROBES_CHEST]),
-            self.has(TMCItem.POWER_BRACELETS),
-        )
+                                 self.can_reach([TMCLocation.PALACE_2ND_HALF_2F_TWIN_WIZZROBES_CHEST]),
+                                 self.has(TMCItem.POWER_BRACELETS),
+                                 )
+
+    def dhc_cannons(self) -> CollectionRule:
+        return self.logic_option(TMCTricks.DHC_CANNONS in self.world.options.tricks,
+                                 self.logic_and([self.has_sword(), self.has(TMCItem.BOMB_BAG)]),
+                                 self.split_rule(4)
+                                 )
+
+    def dhc_pads(self) -> CollectionRule:
+        return self.logic_option(TMCTricks.DHC_CLONES in self.world.options.tricks,
+                                 self.split_rule(2),
+                                 self.split_rule(4)
+                                 )
+
+    def dhc_spin(self) -> CollectionRule:
+        return self.logic_option(TMCTricks.DHC_SPIN in self.world.options.tricks,
+                                 self.can_spin(),
+                                 self.split_rule(4)
+                                 )
 
     def can_pass_trees(self) -> CollectionRule:
         return self.logic_or([
