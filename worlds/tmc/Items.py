@@ -55,23 +55,23 @@ OCARINA               = ItemData("Ocarina",                      ItemClassificat
 # BOTTLE_3              = ItemData("Bottle 3",                     ItemClassification.progression, (0x1E, 0x00))
 # BOTTLE_4              = ItemData("Bottle 4",                     ItemClassification.progression, (0x1F, 0x00))
 EMPTY_BOTTLE          = ItemData("Bottle (Empty)",               ItemClassification.progression, (0x1C, 0x00))
-# LON_LON_BUTTER      = ItemData("Lon Lon Butter",               ItemClassification.progression, (0x21, 0x00))
-LON_LON_MILK          = ItemData("Lon Lon Milk",                 ItemClassification.progression, (0x22, 0x00))
-LON_LON_MILK_HALF     = ItemData("Lon Lon Milk (1/2)",           ItemClassification.progression, (0x23, 0x00))
-RED_POTION            = ItemData("Red Potion",                   ItemClassification.progression, (0x24, 0x00))
-BLUE_POTION           = ItemData("Blue Potion",                  ItemClassification.progression, (0x25, 0x00))
-WATER                 = ItemData("Water",                        ItemClassification.progression, (0x26, 0x00))
-MINERAL_WATER         = ItemData("Mineral Water",                ItemClassification.progression, (0x27, 0x00))
-BOTTLED_FAIRY         = ItemData("Bottled Fairy",                ItemClassification.progression, (0x28, 0x00))
-RED_PICOLYTE          = ItemData("Red Picolyte",                 ItemClassification.progression, (0x29, 0x00))
-ORANGE_PICOLYTE       = ItemData("Orange Picolyte",              ItemClassification.progression, (0x2A, 0x00))
-YELLOW_PICOLYTE       = ItemData("Yellow Picolyte",              ItemClassification.progression, (0x2B, 0x00))
-GREEN_PICOLYTE        = ItemData("Green Picolyte",               ItemClassification.progression, (0x2C, 0x00))
-BLUE_PICOLYTE         = ItemData("Blue Picolyte",                ItemClassification.progression, (0x2D, 0x00))
-WHITE_PICOLYTE        = ItemData("White Picolyte",               ItemClassification.progression, (0x2E, 0x00))
-NAYRU_CHARM           = ItemData("Nayru Charm",                  ItemClassification.progression, (0x2F, 0x00))
-FARORE_CHARM          = ItemData("Farore Charm",                 ItemClassification.progression, (0x30, 0x00))
-DINS_CHARM            = ItemData("Dins Charm",                   ItemClassification.progression, (0x31, 0x00))
+LON_LON_BUTTER        = ItemData("Bottle (Lon Lon Butter)",      ItemClassification.progression, (0x21, 0x00))
+LON_LON_MILK          = ItemData("Bottle (Lon Lon Milk)",        ItemClassification.progression, (0x22, 0x00))
+LON_LON_MILK_HALF     = ItemData("Bottle (Lon Lon Milk half)",   ItemClassification.progression, (0x23, 0x00))
+RED_POTION            = ItemData("Bottle (Red Potion)",          ItemClassification.progression, (0x24, 0x00))
+BLUE_POTION           = ItemData("Bottle (Blue Potion)",         ItemClassification.progression, (0x25, 0x00))
+WATER                 = ItemData("Bottle (Water)",               ItemClassification.progression, (0x26, 0x00))
+MINERAL_WATER         = ItemData("Bottle (Mineral Water)",       ItemClassification.progression, (0x27, 0x00))
+BOTTLED_FAIRY         = ItemData("Bottle (Fairy)",               ItemClassification.progression, (0x28, 0x00))
+RED_PICOLYTE          = ItemData("Bottle (Red Picolyte)",        ItemClassification.progression, (0x29, 0x00))
+ORANGE_PICOLYTE       = ItemData("Bottle (Orange Picolyte)",     ItemClassification.progression, (0x2A, 0x00))
+YELLOW_PICOLYTE       = ItemData("Bottle (Yellow Picolyte)",     ItemClassification.progression, (0x2B, 0x00))
+GREEN_PICOLYTE        = ItemData("Bottle (Green Picolyte)",      ItemClassification.progression, (0x2C, 0x00))
+BLUE_PICOLYTE         = ItemData("Bottle (Blue Picolyte)",       ItemClassification.progression, (0x2D, 0x00))
+WHITE_PICOLYTE        = ItemData("Bottle (White Picolyte)",      ItemClassification.progression, (0x2E, 0x00))
+NAYRU_CHARM           = ItemData("Bottle (Nayru Charm)",         ItemClassification.progression, (0x2F, 0x00))
+FARORE_CHARM          = ItemData("Bottle (Farore Charm)",        ItemClassification.progression, (0x30, 0x00))
+DINS_CHARM            = ItemData("Bottle (Dins Charm)",          ItemClassification.progression, (0x31, 0x00))
 # UNUSED              = ItemData("Unused",                       ItemClassification.progression, (0x32, 0x00))
 # UNUSED              = ItemData("Unused",                       ItemClassification.progression, (0x33, 0x00))
 # SMITH_SWORD_QUEST   = ItemData("Smith Sword (Quest)",          ItemClassification.filler, (0x34, 0x00))
@@ -185,6 +185,36 @@ def pool_elements() -> [ItemData]:
         WIND_ELEMENT,
     ]
 
+
+def pool_random_bottle_contents() -> [ItemData]:
+    return [
+        EMPTY_BOTTLE,
+        LON_LON_BUTTER,
+        LON_LON_MILK,
+        LON_LON_MILK_HALF,
+        RED_POTION,
+        BLUE_POTION,
+        WATER,
+        MINERAL_WATER,
+        BOTTLED_FAIRY,
+        RED_PICOLYTE,
+        ORANGE_PICOLYTE,
+        YELLOW_PICOLYTE,
+        GREEN_PICOLYTE,
+        BLUE_PICOLYTE,
+        WHITE_PICOLYTE,
+        NAYRU_CHARM,
+        FARORE_CHARM,
+        DINS_CHARM,
+    ]
+
+
+def pool_bottles() -> [ItemData]:
+    return [
+        *[EMPTY_BOTTLE] * 4,
+    ]
+
+
 def pool_baseitems() -> [ItemData]:
     return [
         *[PROGRESSIVE_SWORD] * 5,
@@ -210,7 +240,6 @@ def pool_baseitems() -> [ItemData]:
         MOLE_MITTS,
         DIG_BUTTERFLY,
 
-        *[EMPTY_BOTTLE] * 4,
         DOG_FOOD,
 
         *[HEART_PIECE] * 44,
@@ -342,6 +371,18 @@ def get_item_pool(world: "MinishCapWorld") -> [MinishCapItem]:
     if world.options.early_weapon.value:
         multiworld.local_early_items[player][PROGRESSIVE_SWORD.item_name] = 1
 
+    if not world.options.random_bottle_contents.value:
+        item_pool.extend(pool_bottles())
+    else:
+        selected_bottles = []
+        random_bottles = pool_random_bottle_contents()
+        world.random.shuffle(random_bottles)
+
+        for i in {1, 2, 3, 4}:
+            selected_bottles.append(random_bottles[i])
+
+        item_pool.extend(selected_bottles)
+
     if world.options.shuffle_elements.value is ShuffleElements.option_anywhere:
         item_pool.extend(pool_elements())
     elif world.options.shuffle_elements.value is ShuffleElements.option_original_dungeon:
@@ -373,6 +414,7 @@ def get_item_pool(world: "MinishCapWorld") -> [MinishCapItem]:
 
 itemList: list[ItemData] = [
     *(pool_baseitems()),
+    *(pool_random_bottle_contents()),
     *(pool_elements()),
     *(pool_bigkeys()),
     *(pool_smallkeys()),
@@ -418,5 +460,23 @@ item_groups: dict[str, set[str]] = {
         LONG_SPIN.item_name },
     "Elements": { EARTH_ELEMENT.item_name, FIRE_ELEMENT.item_name, WATER_ELEMENT.item_name, WIND_ELEMENT.item_name },
     "Health": { HEART_CONTAINER.item_name, HEART_PIECE.item_name },
-    "Bottle": { EMPTY_BOTTLE.item_name }
+    "Bottles": {
+        EMPTY_BOTTLE.item_name,
+        LON_LON_BUTTER.item_name,
+        LON_LON_MILK.item_name,
+        LON_LON_MILK_HALF.item_name,
+        RED_POTION.item_name,
+        BLUE_POTION.item_name,
+        WATER.item_name,
+        MINERAL_WATER.item_name,
+        BOTTLED_FAIRY.item_name,
+        RED_PICOLYTE.item_name,
+        ORANGE_PICOLYTE.item_name,
+        YELLOW_PICOLYTE.item_name,
+        GREEN_PICOLYTE.item_name,
+        BLUE_PICOLYTE.item_name,
+        WHITE_PICOLYTE.item_name,
+        NAYRU_CHARM.item_name,
+        FARORE_CHARM.item_name,
+        DINS_CHARM.item_name},
 }

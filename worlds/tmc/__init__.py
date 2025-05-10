@@ -93,6 +93,7 @@ class MinishCapWorld(World):
             "RupeeSpot": self.options.rupeesanity.value,
             "ObscureSpot": self.options.obscure_spots.value,
             "GoalVaati": self.options.goal_vaati.value,
+            "RandomBottleContents": self.options.random_bottle_contents.value,
         }
         data |= self.options.as_dict("death_link", "death_link_gameover", "rupeesanity", "obscure_spots", "goal_vaati",
             casing="snake")
