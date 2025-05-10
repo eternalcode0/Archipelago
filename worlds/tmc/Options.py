@@ -1,15 +1,7 @@
 from dataclasses import dataclass
-from Options import (
-    Choice,
-    DefaultOnToggle,
-    Toggle,
-    StartInventoryPool,
-    PerGameCommonOptions,
-    Range,
-    DeathLink,
-    OptionSet
-)
 
+from Options import (Choice, DeathLink, DefaultOnToggle, OptionSet, PerGameCommonOptions, Range, StartInventoryPool,
+                     Toggle)
 from .constants import ALL_TRICKS
 
 
@@ -160,8 +152,8 @@ class WeaponBomb(Choice):
     Bombs can damage nearly every enemy, Bombs are never considered for Simon Simulations, and Golden Enemies.
     'No': Bombs are not considered as Weapons.
     'Yes': Bombs are considered as weapons for most regular enemy fights.
-    'Yes + Bosses': Bombs are considered as weapons for most enemy fights. Fighting Green/Blu Chu, Madderpillars 
-    and Darknuts require only 10 bomb bag. Gleerok, Mazaal and Scissor Beetles require at least 30 bomb bag. 
+    'Yes + Bosses': Bombs are considered as weapons for most enemy fights. Fighting Green/Blu Chu, Madderpillars
+    and Darknuts require only 10 bomb bag. Gleerok, Mazaal and Scissor Beetles require at least 30 bomb bag.
     Octo and Gyorg cannot be defeated with bombs.
     """
     display_name = "Bombs are considered Weapons"
@@ -177,7 +169,7 @@ class WeaponBow(Toggle):
     """
     Bow can damage most enemies, many enemies are very resilient to damage. Chu Bosses and Darknuts are Immune.
     'false': Bows are not considered as Weapons.
-    'true': Bows are considered as weapons for most enemy fights. 
+    'true': Bows are considered as weapons for most enemy fights.
     Bows are never considered for Chu Bossfights, Darknuts, Scissor Beetles, Madderpillar, Wizzrobes, Simon Simulations,
     and Golden Enemies.
     """
@@ -186,7 +178,7 @@ class WeaponBow(Toggle):
 
 class WeaponGust(Toggle):
     """
-    Gust Jar can suck up various enemies like Ghini(Ghosts) and Beetles (The things that grab onto link). 
+    Gust Jar can suck up various enemies like Ghini(Ghosts) and Beetles (The things that grab onto link).
     It can also grab objects and fire them like projectiles to kill enemies, some enemies or parts of enemies can be
     used as projectiles such as Helmasaurs and Stalfos.
     'false': Gust Jar is never considered for killing enemies.
@@ -196,7 +188,7 @@ class WeaponGust(Toggle):
     display_name = "Gust jar is considered a Weapon"
 
 
-class WeaponLamp(Toggle):
+class WeaponLantern(Toggle):
     """
     The lit Lantern can instantly kill Wizzrobes by walking through them.
     'false': Lantern is not considered as a Weapon.
@@ -260,7 +252,7 @@ class MinishCapOptions(PerGameCommonOptions):
     weapon_bomb: WeaponBomb
     weapon_bow: WeaponBow
     weapon_gust: WeaponGust
-    weapon_lamp: WeaponLamp
+    weapon_lantern: WeaponLantern
     tricks: Tricks
     rupeesanity: Rupeesanity
     obscure_spots: ObscureSpots
@@ -317,7 +309,7 @@ def get_option_data(options: MinishCapOptions):
         "weapon_bombs": options.weapon_bomb.value,  # No, Yes, Yes + Bosses
         "weapon_bows": options.weapon_bow.value,
         "weapon_gust_jar": options.weapon_gust.value,  # No, Yes
-        "weapon_lantern": options.weapon_lamp.value,
+        "weapon_lantern": options.weapon_lantern.value,
         "trick_mitts_farm_rupees": ALL_TRICKS[0] in options.tricks,  # No, Yes
         "trick_bombable_dust": ALL_TRICKS[1] in options.tricks,
         "trick_crenel_mushroom_gust_jar": ALL_TRICKS[2] in options.tricks,

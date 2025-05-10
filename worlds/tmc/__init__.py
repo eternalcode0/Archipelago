@@ -4,21 +4,22 @@ Handles the Web page for yaml generation, saving rom file and high-level generat
 """
 
 import logging
+import os
 import pkgutil
 import typing
-from typing import Set, Dict
-import os
+from typing import Dict, Set
+
 import settings
-from BaseClasses import Tutorial, Item, ItemClassification
+from BaseClasses import Item, ItemClassification, Tutorial
 from worlds.AutoWorld import WebWorld, World
-from .Options import MinishCapOptions, DungeonItem, get_option_data
-from .Items import ItemData, item_frequencies, item_table, itemList, item_groups, filler_item_selection, get_item_pool
-from .Locations import all_locations, DEFAULT_SET, OBSCURE_SET, POOL_RUPEE, location_groups, GOAL_VAATI, GOAL_PED
-from .constants import TMCEvent, MinishCapItem, MinishCapLocation
 from .Client import MinishCapClient
+from .Items import ItemData, filler_item_selection, get_item_pool, itemList, item_frequencies, item_groups, item_table
+from .Locations import DEFAULT_SET, GOAL_PED, GOAL_VAATI, OBSCURE_SET, POOL_RUPEE, all_locations, location_groups
+from .Options import DungeonItem, MinishCapOptions, get_option_data
 from .Regions import create_regions
 from .Rom import MinishCapProcedurePatch, write_tokens
 from .Rules import MinishCapRules
+from .constants import MinishCapItem, MinishCapLocation, TMCEvent
 
 tmc_logger = logging.getLogger("The Minish Cap")
 
@@ -100,7 +101,7 @@ class MinishCapWorld(World):
             "GoalVaati": self.options.goal_vaati.value,
         }
         data |= self.options.as_dict("death_link", "death_link_gameover", "rupeesanity", "obscure_spots", "goal_vaati",
-                                     "weapon_bomb", "weapon_bow", "weapon_gust", "weapon_lamp", "tricks",
+            "weapon_bomb", "weapon_bow", "weapon_gust", "weapon_lantern", "tricks",
                                      casing="snake")
         data |= get_option_data(self.options)
         return data

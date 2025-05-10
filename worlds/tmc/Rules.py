@@ -1,8 +1,8 @@
 from typing import TYPE_CHECKING
-from worlds.generic.Rules import add_rule, CollectionRule
-from BaseClasses import CollectionState
 
-from .constants import TMCLocation, TMCRegion, TMCItem, TMCEvent, TMCTricks
+from BaseClasses import CollectionState
+from worlds.generic.Rules import CollectionRule, add_rule
+from .constants import TMCEvent, TMCItem, TMCLocation, TMCRegion, TMCTricks
 
 if TYPE_CHECKING:
     from . import MinishCapWorld
@@ -2233,7 +2233,8 @@ class MinishCapRules:
                               self.logic_or([self.has_bow(), self.has_sword()]),
                               self.has_sword(),
                               ),
-            self.logic_option(self.world.options.weapon_lamp.value == 1,
+            self.logic_option(
+                self.world.options.weapon_lantern.value == 1,
                               self.logic_or([self.has(TMCItem.LANTERN), self.has_sword()]),
                               self.has_sword(),
                               ),
