@@ -1551,19 +1551,19 @@ all_locations: typing.List[LocationData] = [
         (0x0E520E, None), (0x2D8F, 0x40), 0x2B60),
     LocationData(
         6029510, TMCLocation.DROPLETS_RIGHT_PATH_B2_UNDERPASS_ITEM1, TMCRegion.DUNGEON_TOD_MAIN, TMCItem.RUPEES_1,
-        (0x0E483F, None), (0x2D95, 0x10), 0x2560, pools={POOL_WATER}),
+        (0x0E483F, None), (0x2D95, 0x10), 0x2560, pools={POOL_RUPEE}),
     LocationData(
         6029511, TMCLocation.DROPLETS_RIGHT_PATH_B2_UNDERPASS_ITEM2, TMCRegion.DUNGEON_TOD_MAIN, TMCItem.RUPEES_1,
-        (0x0E484F, None), (0x2D95, 0x20), 0x2560, pools={POOL_WATER}),
+        (0x0E484F, None), (0x2D95, 0x20), 0x2560, pools={POOL_RUPEE}),
     LocationData(
         6029512, TMCLocation.DROPLETS_RIGHT_PATH_B2_UNDERPASS_ITEM3, TMCRegion.DUNGEON_TOD_MAIN, TMCItem.RUPEES_1,
-        (0x0E485F, None), (0x2D95, 0x40), 0x2560, pools={POOL_WATER}),
+        (0x0E485F, None), (0x2D95, 0x40), 0x2560, pools={POOL_RUPEE}),
     LocationData(
         6029513, TMCLocation.DROPLETS_RIGHT_PATH_B2_UNDERPASS_ITEM4, TMCRegion.DUNGEON_TOD_MAIN, TMCItem.RUPEES_1,
-        (0x0E486F, None), (0x2D95, 0x04), 0x2560, pools={POOL_WATER}),
+        (0x0E486F, None), (0x2D95, 0x04), 0x2560, pools={POOL_RUPEE}),
     LocationData(
         6029514, TMCLocation.DROPLETS_RIGHT_PATH_B2_UNDERPASS_ITEM5, TMCRegion.DUNGEON_TOD_MAIN, TMCItem.RUPEES_1,
-        (0x0E487F, None), (0x2D95, 0x08), 0x2560, pools={POOL_WATER}),
+        (0x0E487F, None), (0x2D95, 0x08), 0x2560, pools={POOL_RUPEE}),
     LocationData(
         6029515, TMCLocation.DROPLETS_BOSS_ITEM, TMCRegion.DUNGEON_TOD_MAIN, TMCItem.HEART_CONTAINER,
         (0x0E4103, None), (0x2D8C, 0x01), 0x0E60, pools={POOL_HP}),
