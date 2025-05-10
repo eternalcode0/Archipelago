@@ -9,7 +9,7 @@ import typing
 from typing import Set, Dict
 import os
 import settings
-from BaseClasses import Tutorial, Item, Region, Location, LocationProgressType, ItemClassification
+from BaseClasses import Tutorial, Item, ItemClassification
 from worlds.AutoWorld import WebWorld, World
 from .Options import MinishCapOptions, DungeonItem, get_option_data
 from .Items import ItemData, item_frequencies, item_table, itemList, item_groups, filler_item_selection, get_item_pool
@@ -47,6 +47,7 @@ class MinishCapWebWorld(WebWorld):
         )
     ]
 
+
 class MinishCapSettings(settings.Group):
     """ Settings for the launcher """
 
@@ -59,6 +60,7 @@ class MinishCapSettings(settings.Group):
 
     rom_file: RomFile = RomFile(RomFile.copy_to)
     rom_start: bool = True
+
 
 class MinishCapWorld(World):
     """ Randomizer methods/data for generation """
@@ -75,8 +77,11 @@ class MinishCapWorld(World):
     disabled_locations: Set[str]
 
     def generate_early(self) -> None:
-        tmc_logger.warning("INCOMPLETE WORLD! Slot '%s' is using an unfinished alpha world that doesn't have all logic yet!", self.player_name)
-        tmc_logger.warning("INCOMPLETE WORLD! Slot '%s' will require send_location/send_item for completion!", self.player_name)
+        tmc_logger.warning(
+            "INCOMPLETE WORLD! Slot '%s' is using an unfinished alpha world that doesn't have all logic yet!",
+            self.player_name)
+        tmc_logger.warning("INCOMPLETE WORLD! Slot '%s' will require send_location/send_item for completion!",
+                           self.player_name)
 
         enabled_pools = set(DEFAULT_SET)
         if self.options.rupeesanity.value:
@@ -146,7 +151,7 @@ class MinishCapWorld(World):
         # visualize_regions(self.multiworld.get_region("Menu", self.player), "tmc_world.puml")
 
     def generate_output(self, output_directory: str) -> None:
-        patch = MinishCapProcedurePatch(player = self.player, player_name = self.multiworld.player_name[self.player])
+        patch = MinishCapProcedurePatch(player=self.player, player_name=self.multiworld.player_name[self.player])
         patch.write_file("base_patch.bsdiff4", pkgutil.get_data(__name__, "data/basepatch.bsdiff"))
         write_tokens(self, patch)
         out_file_name = self.multiworld.get_out_file_name_base(self.player)

@@ -328,7 +328,7 @@ class MinishCapRules:
                 self.has(TMCItem.PEGASUS_BOOTS),
             # endregion
 
-            # region Eastern Hills TODO
+            # region Eastern Hills
             # Can Pass Trees
             TMCLocation.HILLS_GOLDEN_ROPE:  # Fusion 55
                 self.has_sword(),
@@ -550,7 +550,7 @@ class MinishCapRules:
             # TMCLocation.WIND_TRIBE_4F_RIGHT_CHEST: None,
             # endregion
 
-            # region Minish Woods TODO
+            # region Minish Woods
             # Can Pass Trees
             TMCLocation.MINISH_WOODS_GOLDEN_OCTO:
             # fusion 56
