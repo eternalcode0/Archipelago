@@ -4,21 +4,22 @@ Handles the Web page for yaml generation, saving rom file and high-level generat
 """
 
 import logging
+import os
 import pkgutil
 import typing
-from typing import Set, Dict
-import os
+from typing import Dict, Set
+
 import settings
-from BaseClasses import Tutorial, Item, Region, Location, LocationProgressType, ItemClassification
+from BaseClasses import Item, ItemClassification, Tutorial
 from worlds.AutoWorld import WebWorld, World
-from .Options import MinishCapOptions, DungeonItem, get_option_data
-from .Items import ItemData, item_frequencies, item_table, itemList, item_groups, filler_item_selection, get_item_pool
-from .Locations import all_locations, DEFAULT_SET, OBSCURE_SET, POOL_RUPEE, location_groups, GOAL_VAATI, GOAL_PED
-from .constants import TMCEvent, MinishCapItem, MinishCapLocation
 from .Client import MinishCapClient
+from .Items import ItemData, filler_item_selection, get_item_pool, itemList, item_frequencies, item_groups, item_table
+from .Locations import DEFAULT_SET, GOAL_PED, GOAL_VAATI, OBSCURE_SET, POOL_RUPEE, all_locations, location_groups
+from .Options import DungeonItem, MinishCapOptions, get_option_data
 from .Regions import create_regions
 from .Rom import MinishCapProcedurePatch, write_tokens
 from .Rules import MinishCapRules
+from .constants import MinishCapItem, MinishCapLocation, TMCEvent
 
 tmc_logger = logging.getLogger("The Minish Cap")
 
@@ -47,6 +48,7 @@ class MinishCapWebWorld(WebWorld):
         )
     ]
 
+
 class MinishCapSettings(settings.Group):
     """ Settings for the launcher """
 
@@ -59,6 +61,7 @@ class MinishCapSettings(settings.Group):
 
     rom_file: RomFile = RomFile(RomFile.copy_to)
     rom_start: bool = True
+
 
 class MinishCapWorld(World):
     """ Randomizer methods/data for generation """
@@ -75,8 +78,11 @@ class MinishCapWorld(World):
     disabled_locations: Set[str]
 
     def generate_early(self) -> None:
-        tmc_logger.warning("INCOMPLETE WORLD! Slot '%s' is using an unfinished alpha world that doesn't have all logic yet!", self.player_name)
-        tmc_logger.warning("INCOMPLETE WORLD! Slot '%s' will require send_location/send_item for completion!", self.player_name)
+        tmc_logger.warning(
+            "INCOMPLETE WORLD! Slot '%s' is using an unfinished alpha world that doesn't have all logic yet!",
+            self.player_name)
+        tmc_logger.warning("INCOMPLETE WORLD! Slot '%s' will require send_location/send_item for completion!",
+                           self.player_name)
 
         enabled_pools = set(DEFAULT_SET)
         if self.options.rupeesanity.value:
@@ -95,7 +101,8 @@ class MinishCapWorld(World):
             "GoalVaati": self.options.goal_vaati.value,
         }
         data |= self.options.as_dict("death_link", "death_link_gameover", "rupeesanity", "obscure_spots", "goal_vaati",
-            casing="snake")
+            "weapon_bomb", "weapon_bow", "weapon_gust", "weapon_lantern", "tricks",
+                                     casing="snake")
         data |= get_option_data(self.options)
         return data
 
@@ -110,14 +117,14 @@ class MinishCapWorld(World):
         goal_region.locations.append(goal_location)
         # self.get_location(TMCEvent.CLEAR_PED).place_locked_item(self.create_event(TMCEvent.CLEAR_PED))
 
-    def create_item(self, name: str) -> MinishCapItem:
+    def create_item(self, name: str) -> Item:
         item = item_table[name]
         return MinishCapItem(name, item.classification, self.item_name_to_id[name], self.player)
 
     def create_event(self, name: str) -> MinishCapItem:
         return MinishCapItem(name, ItemClassification.progression, None, self.player)
 
-    def get_filler_item_name(self) -> str:
+    def get_filler_item_name(self) -> Item:
         return self.random.choice(filler_item_selection)
 
     def create_items(self):
@@ -145,7 +152,7 @@ class MinishCapWorld(World):
         # visualize_regions(self.multiworld.get_region("Menu", self.player), "tmc_world.puml")
 
     def generate_output(self, output_directory: str) -> None:
-        patch = MinishCapProcedurePatch(player = self.player, player_name = self.multiworld.player_name[self.player])
+        patch = MinishCapProcedurePatch(player=self.player, player_name=self.multiworld.player_name[self.player])
         patch.write_file("base_patch.bsdiff4", pkgutil.get_data(__name__, "data/basepatch.bsdiff"))
         write_tokens(self, patch)
         out_file_name = self.multiworld.get_out_file_name_base(self.player)
