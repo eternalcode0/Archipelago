@@ -1,7 +1,7 @@
 import typing
 from dataclasses import dataclass
 
-from .constants import TMCLocation, TMCRegion, TMCEvent, TMCItem
+from .constants import TMCLocation, TMCRegion, TMCEvent, TMCItem, DUNGEON_REGIONS
 
 
 BASE_LOCATION_ID = 6_029_000
@@ -1700,13 +1700,13 @@ events: typing.Dict[str, typing.Tuple[int, int]] = {
 
 location_table_by_name: typing.Dict[str, LocationData] = {location.name: location for location in all_locations}
 location_groups: dict[str, set[str]] = {
-    "DWS": set(loc.name for loc in all_locations if loc.region == TMCRegion.DUNGEON_DWS),
-    "CoF": set(loc.name for loc in all_locations if loc.region == TMCRegion.DUNGEON_COF),
-    "FoW": set(loc.name for loc in all_locations if loc.region == TMCRegion.DUNGEON_FOW),
-    "ToD": set(loc.name for loc in all_locations if loc.region in { TMCRegion.DUNGEON_TOD, TMCRegion.DUNGEON_TOD_MAIN }),
-    "PoW": set(loc.name for loc in all_locations if loc.region == TMCRegion.DUNGEON_POW),
-    "RC": set(loc.name for loc in all_locations if loc.region == TMCRegion.DUNGEON_RC),
-    "DHC": set(loc.name for loc in all_locations if loc.region == TMCRegion.DUNGEON_DHC),
+    "DWS": set(loc.name for loc in all_locations if loc.region in DUNGEON_REGIONS["DWS"]),
+    "CoF": set(loc.name for loc in all_locations if loc.region in DUNGEON_REGIONS["CoF"]),
+    "FoW": set(loc.name for loc in all_locations if loc.region in DUNGEON_REGIONS["FoW"]),
+    "ToD": set(loc.name for loc in all_locations if loc.region in DUNGEON_REGIONS["ToD"]),
+    "PoW": set(loc.name for loc in all_locations if loc.region in DUNGEON_REGIONS["PoW"]),
+    "RC": set(loc.name for loc in all_locations if loc.region in DUNGEON_REGIONS["RC"]),
+    "DHC": set(loc.name for loc in all_locations if loc.region in DUNGEON_REGIONS["DHC"]),
     "Graveyard": set(loc.name for loc in all_locations if loc.region == TMCRegion.GRAVEYARD),
     "Obscure": set(loc.name for loc in all_locations if loc.pools.issubset(OBSCURE_SET) and len(loc.pools)),
     "Shop": set(loc.name for loc in all_locations if loc.pools.issubset(SHOP_SET) and len(loc.pools)),
