@@ -1,8 +1,8 @@
 from typing import TYPE_CHECKING
-from Fill import fill_restrictive
-from BaseClasses import CollectionState
 
-from .constants import DUNGEON_ABBR, TMCItem, MinishCapItem, DUNGEON_REGIONS, TMCLocation
+from BaseClasses import CollectionState
+from Fill import fill_restrictive
+from .constants import DUNGEON_ABBR, DUNGEON_REGIONS, MinishCapItem, TMCItem, TMCLocation
 from .Options import DungeonItem, ShuffleElements
 
 if TYPE_CHECKING:
@@ -28,7 +28,7 @@ DUNGEON_ITEMS = {
         "dungeon_maps": [TMCItem.DUNGEON_MAP_FOW],
     },
     "ToD": {
-        "dungeon_big_keys": [], # ToD big key is placed manually
+        "dungeon_big_keys": [],  # ToD big key is placed manually
         "dungeon_small_keys": [TMCItem.SMALL_KEY_TOD] * 4,
         "dungeon_compasses": [TMCItem.DUNGEON_COMPASS_TOD],
         "dungeon_maps": [TMCItem.DUNGEON_MAP_TOD],
@@ -75,6 +75,7 @@ A set of locations that dungeon filling should never place dungeon items at.
 Nobody wants to receive their Dungeon Map/Compass as the boss item.
 """
 
+
 def fill_dungeons(world: "MinishCapWorld"):
     multiworld = world.multiworld
     # settings are in this order because `fill_restrictive` `pop`s them for the placement order.
@@ -101,27 +102,33 @@ def fill_dungeons(world: "MinishCapWorld"):
 
     # Element Shuffle
     # Place after the first 6 dungeons so that the prize locations are guaranteed reachable from the dungeon fill
-    elements = list(map(world.create_item,
+    elements = list(
+        map(
+            world.create_item,
         [TMCItem.EARTH_ELEMENT, TMCItem.FIRE_ELEMENT, TMCItem.WATER_ELEMENT, TMCItem.WIND_ELEMENT])) # Order matters
     if world.options.shuffle_elements.value is ShuffleElements.option_dungeon_prize:
         # Place elements into any "prize" location, shuffle locations
         locations = [loc for loc in world.get_locations() if loc.name in ELEMENT_LOCATIONS]
         world.random.shuffle(locations)
         # Don't allow excluded locations so that players can ban specific dungeons
-        fill_restrictive(multiworld, all_state, locations, elements,
-            single_player_placement=True, lock=True, allow_excluded=False, name="TMC Element Fill")
+        fill_restrictive(multiworld, all_state, locations, elements, single_player_placement=True, lock=True,
+            allow_excluded=False, name="TMC Element Fill"
+        )
     elif world.options.shuffle_elements.value is ShuffleElements.option_vanilla:
         # Place elements into ordered locations, don't shuffle
-        locations = []
-        locations.append(world.get_location(TMCLocation.PALACE_PRIZE))
-        locations.append(world.get_location(TMCLocation.DROPLETS_PRIZE))
-        locations.append(world.get_location(TMCLocation.COF_PRIZE))
-        locations.append(world.get_location(TMCLocation.DEEPWOOD_PRIZE))
-        fill_restrictive(multiworld, all_state, locations, elements,
-            single_player_placement=True, lock=True, allow_excluded=True, name="TMC Element Fill")
+        locations = [
+            world.get_location(TMCLocation.PALACE_PRIZE),
+            world.get_location(TMCLocation.DROPLETS_PRIZE),
+            world.get_location(TMCLocation.COF_PRIZE),
+            world.get_location(TMCLocation.DEEPWOOD_PRIZE),
+        ]
+        fill_restrictive(multiworld, all_state, locations, elements, single_player_placement=True, lock=True,
+            allow_excluded=True, name="TMC Element Fill"
+        )
 
     # Fill DHC last since it needs the elements to be reachable
     fill_dungeon(world, "DHC", items["DHC"], all_state)
+
 
 def fill_dungeon(world: "MinishCapWorld", dungeon: str, items: list[MinishCapItem], all_state: CollectionState):
     multiworld = world.multiworld
@@ -134,6 +141,12 @@ def fill_dungeon(world: "MinishCapWorld", dungeon: str, items: list[MinishCapIte
                 continue
             locations.append(loc)
     world.random.shuffle(locations)
-    # locations = [loc for region in world.get_regions() for loc in region.get_locations() if region in DUNGEON_REGIONS[dungeon]]
-    fill_restrictive(multiworld, all_state, locations, items,
-        single_player_placement=True, lock=True, allow_excluded=True, name=f"TMC Dungeon Fill: {dungeon}")
+    # locations = [
+    #     loc
+    #     for region in world.get_regions()
+    #     for loc in region.get_locations()
+    #     if region in DUNGEON_REGIONS[dungeon]
+    # ]
+    fill_restrictive(multiworld, all_state, locations, items, single_player_placement=True, lock=True,
+        allow_excluded=True, name=f"TMC Dungeon Fill: {dungeon}"
+    )

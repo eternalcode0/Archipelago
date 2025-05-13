@@ -4,19 +4,20 @@ Handles the Web page for yaml generation, saving rom file and high-level generat
 """
 
 import logging
+import os
 import pkgutil
 import typing
-from typing import Set, Dict
-import os
+from typing import Dict, Set
+
 import settings
-from BaseClasses import Tutorial, Item, Region, Location, LocationProgressType, ItemClassification
+from BaseClasses import ItemClassification, Tutorial
 from worlds.AutoWorld import WebWorld, World
-from .Options import MinishCapOptions, DungeonItem, ShuffleElements, get_option_data
-from .Items import ItemData, item_frequencies, item_table, item_list, item_groups, filler_item_selection, get_item_pool
-from .Locations import all_locations, DEFAULT_SET, OBSCURE_SET, POOL_RUPEE, location_groups, GOAL_VAATI, GOAL_PED
-from .constants import TMCLocation, TMCEvent, TMCItem, MinishCapItem, MinishCapLocation
-from .dungeons import fill_dungeons
 from .Client import MinishCapClient
+from .constants import MinishCapItem, MinishCapLocation, TMCEvent, TMCItem, TMCLocation
+from .dungeons import fill_dungeons
+from .Items import filler_item_selection, get_item_pool, item_frequencies, item_groups, item_list, item_table, ItemData
+from .Locations import all_locations, DEFAULT_SET, GOAL_PED, GOAL_VAATI, location_groups, OBSCURE_SET, POOL_RUPEE
+from .Options import DungeonItem, get_option_data, MinishCapOptions, ShuffleElements
 from .Regions import create_regions
 from .Rom import MinishCapProcedurePatch, write_tokens
 from .Rules import MinishCapRules
@@ -48,6 +49,7 @@ class MinishCapWebWorld(WebWorld):
         )
     ]
 
+
 class MinishCapSettings(settings.Group):
     """ Settings for the launcher """
 
@@ -60,6 +62,7 @@ class MinishCapSettings(settings.Group):
 
     rom_file: RomFile = RomFile(RomFile.copy_to)
     rom_start: bool = True
+
 
 class MinishCapWorld(World):
     """ Randomizer methods/data for generation """
@@ -78,8 +81,11 @@ class MinishCapWorld(World):
     disabled_locations: Set[str]
 
     def generate_early(self) -> None:
-        tmc_logger.warning("INCOMPLETE WORLD! Slot '%s' is using an unfinished alpha world that doesn't have all logic yet!", self.player_name)
-        tmc_logger.warning("INCOMPLETE WORLD! Slot '%s' will require send_location/send_item for completion!", self.player_name)
+        tmc_logger.warning(
+            "INCOMPLETE WORLD! Slot '%s' is using an unfinished alpha world that doesn't have all logic yet!",
+            self.player_name, )
+        tmc_logger.warning(
+            "INCOMPLETE WORLD! Slot '%s' will require send_location/send_item for completion!", self.player_name, )
 
         enabled_pools = set(DEFAULT_SET)
         if self.options.rupeesanity.value:
@@ -103,9 +109,9 @@ class MinishCapWorld(World):
             "ObscureSpot": self.options.obscure_spots.value,
             "GoalVaati": self.options.goal_vaati.value,
         }
-        data |= self.options.as_dict("death_link", "death_link_gameover", "rupeesanity", "obscure_spots", "goal_vaati",
-            "dungeon_small_keys", "dungeon_big_keys", "dungeon_compasses", "dungeon_maps",
-            casing="snake")
+        data |= self.options.as_dict(
+            "death_link", "death_link_gameover", "rupeesanity", "obscure_spots", "goal_vaati", "dungeon_small_keys",
+            "dungeon_big_keys", "dungeon_compasses", "dungeon_maps", casing="snake", )
         data |= get_option_data(self.options)
         # If Element location should be known, add locations to slot data for tracker
         if self.options.shuffle_elements.value != ShuffleElements.option_anywhere:

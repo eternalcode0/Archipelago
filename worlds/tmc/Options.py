@@ -1,13 +1,17 @@
 from dataclasses import dataclass
-from Options import Choice, DefaultOnToggle, Toggle, StartInventoryPool, PerGameCommonOptions, Range, DeathLink
+
+from Options import Choice, DeathLink, DefaultOnToggle, PerGameCommonOptions, Range, StartInventoryPool, Toggle
+
 
 class DungeonItem(Choice):
     value: int
     # EternalCode's note: I want to experiment with a `closed` for small/big keys to actually remove them from the pool
-    # entirely and keep the doors closed. All locations behind them would be removed & inaccessible.
+    #   entirely and keep the doors closed. All locations behind them would be removed & inaccessible.
     # Elements would need to be forced to be anywhere under this setting.
-    # option_closed = 0 # New compared to TMCR (compass/map removed from pool, locations behind keys inaccessible, I doubt many would use this but it'd be relatively simple to implement)
-    # option_open = 1 # TMCR Removed (compass/map start_inventory, keys removed from pool, doors are open at the start of the save)
+    # option_closed = 0 # New compared to TMCR (compass/map removed from pool, locations behind keys inaccessible,
+    #   I doubt many would use this but it'd be relatively simple to implement)
+    # option_open = 1 # TMCR Removed (compass/map start_inventory, keys removed from pool, doors are open at the
+    #   start of the save)
     # option_vanilla = 2
     option_own_dungeon = 3
     # option_own_region = 4
@@ -18,13 +22,16 @@ class DungeonItem(Choice):
     alias_true = 8
     alias_false = 3
 
+
 class Rupeesanity(Toggle):
     """Add all rupees locations to the pool to be randomized."""
     display_name = "Rupee-sanity"
 
+
 class ObscureSpots(Toggle):
     """Add all special pots, dig spots, etc. that drop a unique item to the pool."""
     display_name = "Obscure Spots"
+
 
 class ShuffleElements(Choice):
     # EternalCode's Note: I'd like to experiment with ElementShuffle extending DungeonItem choice, just for consistency.
@@ -52,6 +59,7 @@ class ShuffleElements(Choice):
     alias_true = 8
     alias_false = 7
 
+
 class SmallKeys(DungeonItem):
     """
     Own Dungeon (false/default): Randomized within the dungeon they're normally found in
@@ -59,6 +67,7 @@ class SmallKeys(DungeonItem):
     """
     display_name = "Small Key Shuffle"
     default = 3
+
 
 class BigKeys(DungeonItem):
     """
@@ -68,6 +77,7 @@ class BigKeys(DungeonItem):
     display_name = "Big Key Shuffle"
     default = 3
 
+
 class DungeonMaps(DungeonItem):
     """
     Own Dungeon (default/false): Randomized within the dungeon they're normally found in
@@ -75,6 +85,7 @@ class DungeonMaps(DungeonItem):
     """
     display_name = "Dungeon Maps Shuffle"
     default = 3
+
 
 class DungeonCompasses(DungeonItem):
     """
@@ -84,12 +95,14 @@ class DungeonCompasses(DungeonItem):
     display_name = "Dungeon Compasses Shuffle"
     default = 3
 
+
 class GoalVaati(DefaultOnToggle):
     """
     If enabled, DHC will open after completing Pedestal. Kill Vaati to goal.
     If disabled, complete Pedestal to goal. DHC/Vaati is unnecessary.
     """
     display_name = "Vaati Goal"
+
 
 class GoalDungeons(Range):
     """
@@ -103,6 +116,7 @@ class GoalDungeons(Range):
     range_start = 0
     range_end = 6
 
+
 class GoalElements(Range):
     """
     How many elements are required to goal?
@@ -113,6 +127,7 @@ class GoalElements(Range):
     default = 4
     range_start = 0
     range_end = 4
+
 
 class GoalSword(Choice):
     """
@@ -129,6 +144,7 @@ class GoalSword(Choice):
     option_blue_sword = 4
     option_four_sword = 5
 
+
 class GoalFigurines(Range):
     """
     How many figurines are required to goal?
@@ -140,6 +156,7 @@ class GoalFigurines(Range):
     range_start = 0
     range_end = 136
 
+
 class FigurineAmount(Range):
     """
     How many figurines are added to the pool?
@@ -150,9 +167,11 @@ class FigurineAmount(Range):
     range_start = 0
     range_end = 136
 
+
 class EarlyWeapon(Toggle):
     """Force a weapon to be in your sphere 1"""
     display_name = "Early Weapon"
+
 
 class DeathLinkGameover(Toggle):
     """
@@ -162,6 +181,7 @@ class DeathLinkGameover(Toggle):
     straight to a gameover, fairy or not.
     """
     display_name = "Deathlink is Gameover"
+
 
 @dataclass
 class MinishCapOptions(PerGameCommonOptions):
@@ -183,24 +203,25 @@ class MinishCapOptions(PerGameCommonOptions):
     dungeon_maps: DungeonMaps
     dungeon_compasses: DungeonCompasses
 
+
 def get_option_data(options: MinishCapOptions):
     """
     Template for the options that will likely be added in the future.
     Intended for trackers to properly match the logic between the standalone randomizer (TMCR) and AP
     """
     return {
-        "goal_dungeons": 0, # 0-6
-        "goal_swords": 0, # 0-5
-        "goal_elements": 4, # 0-4
-        "goal_figurines": 0, # 0-136
-        "dungeon_warp_dws": 0, # 0 = None, 1 = Blue, 2 = Red, 3 = Both
+        "goal_dungeons": 0,  # 0-6
+        "goal_swords": 0,  # 0-5
+        "goal_elements": 4,  # 0-4
+        "goal_figurines": 0,  # 0-136
+        "dungeon_warp_dws": 0,  # 0 = None, 1 = Blue, 2 = Red, 3 = Both
         "dungeon_warp_cof": 0,
         "dungeon_warp_fow": 0,
         "dungeon_warp_tod": 0,
         "dungeon_warp_pow": 0,
         "dungeon_warp_dhc": 0,
-        "cucco_rounds": 1, # 0-10
-        "goron_sets": 0, # 0-5
+        "cucco_rounds": 1,  # 0-10
+        "goron_sets": 0,  # 0-5
         "shuffle_heart_pieces": 1,
         "shuffle_rupees": options.rupeesanity.value,
         "shuffle_pots": options.obscure_spots.value,
@@ -208,12 +229,12 @@ def get_option_data(options: MinishCapOptions):
         "shuffle_underwater": options.obscure_spots.value,
         "shuffle_gold_enemies": 0,
         "shuffle_pedestal": 0,
-        "kinstones_gold": 1, # 0 = Closed, 1 = Vanilla, 2 = Combined, 3 = Open
-        "kinstones_red": 3, # 0 = Closed, 1 = Vanilla, 2 = Combined, 3 = Open
-        "kinstones_blue": 3, # 0 = Closed, 1 = Vanilla, 2 = Combined, 3 = Open
-        "kinstones_green": 3, # 0 = Closed, 1 = Vanilla, 2 = Combined, 3 = Open
-        "grabbables": 0, # 0 = Not Allowed, 1 = Allowed, 2 = Required, 3 = Required (Hard)
-        "open_world": 0, # No, Yes
+        "kinstones_gold": 1,  # 0 = Closed, 1 = Vanilla, 2 = Combined, 3 = Open
+        "kinstones_red": 3,  # 0 = Closed, 1 = Vanilla, 2 = Combined, 3 = Open
+        "kinstones_blue": 3,  # 0 = Closed, 1 = Vanilla, 2 = Combined, 3 = Open
+        "kinstones_green": 3,  # 0 = Closed, 1 = Vanilla, 2 = Combined, 3 = Open
+        "grabbables": 0,  # 0 = Not Allowed, 1 = Allowed, 2 = Required, 3 = Required (Hard)
+        "open_world": 0,  # No, Yes
         "extra_shop_item": 0,
         "wind_crest_crenel": 0,
         "wind_crest_castor": 0,
@@ -223,11 +244,11 @@ def get_option_data(options: MinishCapOptions):
         "wind_crest_falls": 0,
         "wind_crest_south_field": 0,
         "wind_crest_minish_woods": 0,
-        "weapon_bombs": 0, # No, Yes, Yes + Bosses
+        "weapon_bombs": 0,  # No, Yes, Yes + Bosses
         "weapon_bows": 0,
-        "weapon_gust_jar": 0, # No, Yes
+        "weapon_gust_jar": 0,  # No, Yes
         "weapon_lantern": 0,
-        "trick_mitts_farm_rupees": 0, # No, Yes
+        "trick_mitts_farm_rupees": 0,  # No, Yes
         "trick_bombable_dust": 0,
         "trick_crenel_mushroom_gust_jar": 0,
         "trick_light_arrows_break_objects": 1,
