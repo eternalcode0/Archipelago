@@ -31,22 +31,18 @@ class MinishCapWebWorld(WebWorld):
     theme = "grassFlowers"
     bug_report_page = "https://github.com/eternalcode0/Archipelago/issues"
     tutorials = [
-        Tutorial(
-            tutorial_name="Setup Guide",
-            description="A guide to setting up The Legend of Zelda: The Minish Cap for Archipelago.",
-            language="English",
-            file_name="setup_en.md",
-            link="setup/en",
-            authors=["eternalcode"],
-        ),
-        Tutorial(
-            tutorial_name="Setup Guide",
-            description="A guide to setting up The Legend of Zelda: The Minish Cap for Archipelago.",
-            language="Français",
-            file_name="setup_fr.md",
-            link="setup/fr",
-            authors=["Deoxis9001"],
-        )
+        Tutorial(tutorial_name="Setup Guide",
+                 description="A guide to setting up The Legend of Zelda: The Minish Cap for Archipelago.",
+                 language="English",
+                 file_name="setup_en.md",
+                 link="setup/en",
+                 authors=["eternalcode"]),
+        Tutorial(tutorial_name="Setup Guide",
+                 description="A guide to setting up The Legend of Zelda: The Minish Cap for Archipelago.",
+                 language="Français",
+                 file_name="setup_fr.md",
+                 link="setup/fr",
+                 authors=["Deoxis9001"])
     ]
 
 
@@ -82,10 +78,13 @@ class MinishCapWorld(World):
 
     def generate_early(self) -> None:
         tmc_logger.warning(
-            "INCOMPLETE WORLD! Slot '%s' is using an unfinished alpha world that doesn't have all logic yet!",
-            self.player_name, )
+                "INCOMPLETE WORLD! Slot '%s' is using an unfinished alpha world that doesn't have all logic yet!",
+                self.player_name,
+        )
         tmc_logger.warning(
-            "INCOMPLETE WORLD! Slot '%s' will require send_location/send_item for completion!", self.player_name, )
+                "INCOMPLETE WORLD! Slot '%s' will require send_location/send_item for completion!",
+                self.player_name,
+        )
 
         enabled_pools = set(DEFAULT_SET)
         if self.options.rupeesanity.value:
@@ -102,27 +101,18 @@ class MinishCapWorld(World):
         self.disabled_locations = set(loc.name for loc in all_locations if not loc.pools.issubset(enabled_pools))
 
     def fill_slot_data(self) -> Dict[str, any]:
-        data = {
-            "DeathLink": self.options.death_link.value,
-            "DeathLinkGameover": self.options.death_link_gameover.value,
-            "RupeeSpot": self.options.rupeesanity.value,
-            "ObscureSpot": self.options.obscure_spots.value,
-            "GoalVaati": self.options.goal_vaati.value,
-        }
-        data |= self.options.as_dict(
-            "death_link", "death_link_gameover", "rupeesanity", "obscure_spots", "goal_vaati", "dungeon_small_keys",
-            "dungeon_big_keys", "dungeon_compasses", "dungeon_maps", casing="snake", )
+        data = {"DeathLink": self.options.death_link.value, "DeathLinkGameover": self.options.death_link_gameover.value,
+                "RupeeSpot": self.options.rupeesanity.value, "ObscureSpot": self.options.obscure_spots.value,
+                "GoalVaati": self.options.goal_vaati.value}
+        data |= self.options.as_dict("death_link", "death_link_gameover", "rupeesanity", "obscure_spots", "goal_vaati",
+                                     "dungeon_small_keys", "dungeon_big_keys", "dungeon_compasses", "dungeon_maps",
+                                     casing="snake")
         data |= get_option_data(self.options)
         # If Element location should be known, add locations to slot data for tracker
         if self.options.shuffle_elements.value != ShuffleElements.option_anywhere:
-            prizes = {
-                TMCLocation.COF_PRIZE: "prize_cof",
-                TMCLocation.CRYPT_PRIZE: "prize_rc",
-                TMCLocation.PALACE_PRIZE: "prize_pow",
-                TMCLocation.DEEPWOOD_PRIZE: "prize_dws",
-                TMCLocation.DROPLETS_PRIZE: "prize_tod",
-                TMCLocation.FORTRESS_PRIZE: "prize_fow",
-            }
+            prizes = {TMCLocation.COF_PRIZE: "prize_cof", TMCLocation.CRYPT_PRIZE: "prize_rc",
+                      TMCLocation.PALACE_PRIZE: "prize_pow", TMCLocation.DEEPWOOD_PRIZE: "prize_dws",
+                      TMCLocation.DROPLETS_PRIZE: "prize_tod", TMCLocation.FORTRESS_PRIZE: "prize_fow"}
             for loc_name, data_name in prizes.items():
                 placed_item = self.get_location(loc_name).item.name
                 if placed_item in self.item_name_groups["Elements"]:
@@ -180,7 +170,7 @@ class MinishCapWorld(World):
         fill_dungeons(self)
 
     def generate_output(self, output_directory: str) -> None:
-        patch = MinishCapProcedurePatch(player = self.player, player_name = self.multiworld.player_name[self.player])
+        patch = MinishCapProcedurePatch(player=self.player, player_name=self.multiworld.player_name[self.player])
         patch.write_file("base_patch.bsdiff4", pkgutil.get_data(__name__, "data/basepatch.bsdiff"))
         write_tokens(self, patch)
         out_file_name = self.multiworld.get_out_file_name_base(self.player)

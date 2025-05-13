@@ -267,36 +267,18 @@ def pool_dungeonmaps() -> list[ItemData]:
 
 
 def pool_compass() -> list[ItemData]:
-    return [
-        DUNGEON_COMPASS_DWS,
-        DUNGEON_COMPASS_COF,
-        DUNGEON_COMPASS_FOW,
-        DUNGEON_COMPASS_TOD,
-        DUNGEON_COMPASS_POW,
-        DUNGEON_COMPASS_DHC,
-    ]
+    return [DUNGEON_COMPASS_DWS, DUNGEON_COMPASS_COF, DUNGEON_COMPASS_FOW, DUNGEON_COMPASS_TOD, DUNGEON_COMPASS_POW,
+            DUNGEON_COMPASS_DHC]
 
 
 def pool_bigkeys() -> list[ItemData]:
-    return [
-        BIG_KEY_DWS,
-        BIG_KEY_COF,
-        BIG_KEY_FOW,
-        BIG_KEY_POW,
-        BIG_KEY_DHC,
-    ]  # BIG_KEY_TOD # ToD key is always placed manually
+    return [BIG_KEY_DWS, BIG_KEY_COF, BIG_KEY_FOW, BIG_KEY_POW, BIG_KEY_DHC]
+    # BIG_KEY_TOD # ToD key is always placed manually
 
 
 def pool_smallkeys() -> list[ItemData]:
-    return [
-        *[*[SMALL_KEY_DWS] * 4],
-        *[*[SMALL_KEY_COF] * 2],
-        *[*[SMALL_KEY_FOW] * 4],
-        *[*[SMALL_KEY_TOD] * 4],
-        *[*[SMALL_KEY_POW] * 6],
-        *[*[SMALL_KEY_DHC] * 5],
-        *[*[SMALL_KEY_RC] * 3],
-    ]
+    return [*[*[SMALL_KEY_DWS] * 4], *[*[SMALL_KEY_COF] * 2], *[*[SMALL_KEY_FOW] * 4], *[*[SMALL_KEY_TOD] * 4],
+            *[*[SMALL_KEY_POW] * 6], *[*[SMALL_KEY_DHC] * 5], *[*[SMALL_KEY_RC] * 3]]
 
 
 def pool_kinstone_gold() -> list[ItemData]:
@@ -344,8 +326,8 @@ def get_item_pool(world: "MinishCapWorld") -> (list[MinishCapItem], list[MinishC
 
     # ToD is stupid, need to place the big key manually
     if world.options.dungeon_big_keys.value == DungeonItem.option_own_dungeon:
-        location = world.random.choice(
-            [TMCLocation.DROPLETS_ENTRANCE_B2_EAST_ICEBLOCK, TMCLocation.DROPLETS_ENTRANCE_B2_WEST_ICEBLOCK], )
+        location = world.random.choice([TMCLocation.DROPLETS_ENTRANCE_B2_EAST_ICEBLOCK,
+                                        TMCLocation.DROPLETS_ENTRANCE_B2_WEST_ICEBLOCK])
         world.get_location(location).place_locked_item(world.create_item(TMCItem.BIG_KEY_TOD))
 
     if world.options.shuffle_elements.value is ShuffleElements.option_anywhere:
@@ -353,58 +335,32 @@ def get_item_pool(world: "MinishCapWorld") -> (list[MinishCapItem], list[MinishC
     else:
         pre_fill_pool.extend(pool_elements())
 
-    return (
-        [world.create_item(item.item_name) for item in item_pool],
-        [world.create_item(item.item_name) for item in pre_fill_pool]
-    )
+    return ([world.create_item(item.item_name) for item in item_pool],
+            [world.create_item(item.item_name) for item in pre_fill_pool])
 
 
 item_list: list[ItemData] = [
-    *(pool_baseitems()),
-    *(pool_elements()),
-    *(pool_bigkeys()),
-    *(pool_smallkeys()),
-    *(pool_dungeonmaps()),
-    *(pool_compass()),
-    *(pool_kinstone_gold()),
-    BIG_KEY_TOD,
-    # *(pool_kinstone_red()),
-    # *(pool_kinstone_blue()),
-    # *(pool_kinstone_green()),
+    *(pool_baseitems()), *(pool_elements()),
+    *(pool_smallkeys()), *(pool_bigkeys()), BIG_KEY_TOD,
+    *(pool_dungeonmaps()), *(pool_compass()),
+    *(pool_kinstone_gold()),  # *(pool_kinstone_red()), *(pool_kinstone_blue()), *(pool_kinstone_green()),
 ]
 
 item_frequencies: dict[str, int] = {
-    RUPEES_1.item_name: 36,
-    RUPEES_5.item_name: 49,
-    RUPEES_20.item_name: 53,
-    RUPEES_50.item_name: 25,
-    RUPEES_100.item_name: 18,
-    RUPEES_200.item_name: 15,
+    RUPEES_1.item_name: 36, RUPEES_5.item_name: 49, RUPEES_20.item_name: 53,
+    RUPEES_50.item_name: 25, RUPEES_100.item_name: 18, RUPEES_200.item_name: 15,
     HEART_REFILL.item_name: 29,
-    BOMB_REFILL_5.item_name: 34,
-    BOMB_REFILL_10.item_name: 22,
-    BOMB_REFILL_30.item_name: 16,
-    ARROW_REFILL_5.item_name: 34,
-    ARROW_REFILL_10.item_name: 22,
-    ARROW_REFILL_30.item_name: 16,
+    BOMB_REFILL_5.item_name: 34, BOMB_REFILL_10.item_name: 22, BOMB_REFILL_30.item_name: 16,
+    ARROW_REFILL_5.item_name: 34, ARROW_REFILL_10.item_name: 22, ARROW_REFILL_30.item_name: 16,
 }
 
 filler_item_selection: list[str] = [name for name, count in item_frequencies.items() for _ in range(count)]
 item_table: dict[str, ItemData] = {item.item_name: item for item in item_list}
 items_by_id: dict[int, ItemData] = {item.item_id: item for item in item_list}
 item_groups: dict[str, set[str]] = {
-    "Scrolls": {
-        SPIN_ATTACK.item_name,
-        ROLL_ATTACK.item_name,
-        DASH_ATTACK.item_name,
-        ROCK_BREAKER.item_name,
-        SWORD_BEAM.item_name,
-        GREATSPIN.item_name,
-        DOWNTHRUST.item_name,
-        PERIL_BEAM.item_name,
-        FAST_SPIN_SCROLL.item_name,
-        FAST_SPLIT_SCROLL.item_name, LONG_SPIN.item_name,
-    },
+    "Scrolls": {SPIN_ATTACK.item_name, ROLL_ATTACK.item_name, DASH_ATTACK.item_name, ROCK_BREAKER.item_name,
+                SWORD_BEAM.item_name, GREATSPIN.item_name, DOWNTHRUST.item_name, PERIL_BEAM.item_name,
+                FAST_SPIN_SCROLL.item_name, FAST_SPLIT_SCROLL.item_name, LONG_SPIN.item_name},
     "Elements": {EARTH_ELEMENT.item_name, FIRE_ELEMENT.item_name, WATER_ELEMENT.item_name, WIND_ELEMENT.item_name},
     "Health": {HEART_CONTAINER.item_name, HEART_PIECE.item_name},
 }

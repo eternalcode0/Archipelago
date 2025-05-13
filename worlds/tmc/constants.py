@@ -100,7 +100,7 @@ class TMCItem:
     KINSTONE_RED_E = "Kinstone Red E"
     KINSTONE_BLUE_L = "Kinstone Blue L"
     KINSTONE_BLUE_6 = "Kinstone Blue 6"
-    KINSTONE_GREEN_ANGLE  = "Kinstone Green <"
+    KINSTONE_GREEN_ANGLE = "Kinstone Green <"
     KINSTONE_GREEN_SQUARE = "Kinstone Green ["
     KINSTONE_GREEN_P = "Kinstone Green P"
     SHELLS_30 = "30 Shells"
@@ -162,7 +162,7 @@ class TMCItem:
     SMALL_KEY_TOD = "Small Key (ToD)"
     SMALL_KEY_POW = "Small Key (PoW)"
     SMALL_KEY_DHC = "Small Key (DHC)"
-    SMALL_KEY_RC  = "Small Key (RC)"
+    SMALL_KEY_RC = "Small Key (RC)"
 
 
 class TMCLocation:
@@ -706,7 +706,7 @@ class TMCEvent:
     CLEAR_COF = "Clear Cave of Flames"
     CLEAR_FOW = "Clear Fortress of Winds"
     CLEAR_TOD = "Clear Temple of Droplets"
-    CLEAR_RC  = "Clear Royal Crypt"
+    CLEAR_RC = "Clear Royal Crypt"
     CLEAR_POW = "Clear Palace of Winds"
     CLEAR_PED = "Pedestal Complete"
     CLEAR_DHC = "Kill Vaati"

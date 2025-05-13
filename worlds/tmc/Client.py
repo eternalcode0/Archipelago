@@ -10,9 +10,7 @@ from .Locations import all_locations, events, LocationData
 if TYPE_CHECKING:
     from worlds._bizhawk.context import BizHawkClientContext
 
-ROM_ADDRS = {
-    "game_identifier": (0xA0, 8, "ROM"),
-}
+ROM_ADDRS = {"game_identifier": (0xA0, 8, "ROM")}
 
 RAM_ADDRS = {
     # 0x00: Gameplay
@@ -23,7 +21,8 @@ RAM_ADDRS = {
     # 0x05: File copy
     # 0x06: File delete
     # 0x07: File load
-    "game_task": (0x1002, 1, "IWRAM"),  # 0x00 = Initialise Room
+    "game_task": (0x1002, 1, "IWRAM"),
+    # 0x00 = Initialise Room
     # 0x01 = Change Room
     # 0x02 = Update
     # 0x03 = Change Area
@@ -35,11 +34,13 @@ RAM_ADDRS = {
     "room_area_id": (0x0BF4, 2, "IWRAM"),
     # 0x00 Denotes whether the player can input, 0x01 cannot input. Not to be confused with can move/interact.
     # Can still be set to 0x00 when the player is in confusing situations such as reading textboxes
-    "action_state": (0x116C, 1, "IWRAM"),  # 0x11: Standard gameplay
+    "action_state": (0x116C, 1, "IWRAM"),
+    # 0x11: Standard gameplay
     # 0x12: Reading dialog?
     # 0x13: Growing (yes, there's a separate state for growing from minish and none for shrinking)
     # 0x16: Watching Cutscene
-    "link_priority": (0x1171, 1, "IWRAM"),  # An arbitrary address that isn't used strictly by the game
+    "link_priority": (0x1171, 1, "IWRAM"),
+    # An arbitrary address that isn't used strictly by the game
     # We'll use it to store the index of the last processed remote item
     "received_index": (0x2A44, 2, "EWRAM"),
     "vaati_address": (0x2CA6, 1, "EWRAM"),
@@ -121,27 +122,26 @@ class MinishCapClient(BizHawkClient):
                 seed = await bizhawk.read(ctx.bizhawk_ctx, [(0x000620, len(ctx.seed_name), "ROM")])
                 seed = seed[0].decode("UTF-8")
                 if seed not in ctx.seed_name:
-                    logger.info(
-                        "ERROR: The ROM you loaded is for a different game of AP. "
-                        "Please make sure the host has sent you the correct patch file,"
-                        "and that you have opened the correct ROM."
-                    )
+                    logger.info("ERROR: The ROM you loaded is for a different game of AP. "
+                                "Please make sure the host has sent you the correct patch file,"
+                                "and that you have opened the correct ROM.")
                     raise bizhawk.ConnectorError("Loaded ROM is for Incorrect lobby.")
                 self.seed_verify = True
 
             # Handle giving the player items
             read_result = await bizhawk.read(
-                ctx.bizhawk_ctx, [
-                    RAM_ADDRS["game_task"],  # Current state of game (is the player actually in-game?)
-                    RAM_ADDRS["task_substate"],  # Is there any room transitions or anything similar
-                    RAM_ADDRS["room_area_id"],
-                    RAM_ADDRS["action_state"],
-                    RAM_ADDRS["received_index"],
-                    RAM_ADDRS["vaati_address"],
-                    RAM_ADDRS["pedestal_address"],
-                    RAM_ADDRS["link_health"],
-                    RAM_ADDRS["gameover"],
-                ], )
+                    ctx.bizhawk_ctx,
+                    [RAM_ADDRS["game_task"],  # Current state of game (is the player actually in-game?)
+                     RAM_ADDRS["task_substate"],  # Is there any room transitions or anything similar
+                     RAM_ADDRS["room_area_id"],
+                     RAM_ADDRS["action_state"],
+                     RAM_ADDRS["received_index"],
+                     RAM_ADDRS["vaati_address"],
+                     RAM_ADDRS["pedestal_address"],
+                     RAM_ADDRS["link_health"],
+                     RAM_ADDRS["gameover"],
+                     ],
+            )
             if read_result is None:
                 return
 
@@ -189,11 +189,9 @@ class MinishCapClient(BizHawkClient):
             total = 0
             while not write_result:
                 # Write to the address if it hasn't changed
-                write_result = await bizhawk.guarded_write(
-                    ctx.bizhawk_ctx,
-                    [(0x3FF10, [item.byte_ids[0], item.byte_ids[1]], "EWRAM")],
-                    [(0x3FF10, [0x0, 0x0], "EWRAM"), (0x2A4A, [1], "EWRAM")]
-                )
+                write_result = await bizhawk.guarded_write(ctx.bizhawk_ctx,
+                                                           [(0x3FF10, [item.byte_ids[0], item.byte_ids[1]], "EWRAM")],
+                                                           [(0x3FF10, [0x0, 0x0], "EWRAM"), (0x2A4A, [1], "EWRAM")])
 
                 await asyncio.sleep(0.05)
                 total += 0.05
@@ -203,16 +201,11 @@ class MinishCapClient(BizHawkClient):
                     break
             if not write_result:
                 break
-            await bizhawk.write(
-                ctx.bizhawk_ctx,
-                [
-                    (
-                        RAM_ADDRS["received_index"][0],
-                        [(received_index + i + 1) // 0x100, (received_index + i + 1) % 0x100],
-                        "EWRAM",
-                    )
-                ]
-            )
+            await bizhawk.write(ctx.bizhawk_ctx, [(
+                RAM_ADDRS["received_index"][0],
+                [(received_index + i + 1) // 0x100, (received_index + i + 1) % 0x100],
+                "EWRAM",
+            )])
 
     async def handle_location_sending(self, ctx: "BizHawkClientContext", room_area_id: int) -> None:
         locs_to_send = set()
@@ -231,7 +224,7 @@ class MinishCapClient(BizHawkClient):
             await ctx.send_msgs([{"cmd": "LocationChecks", "locations": list(locs_to_send)}])
 
     async def handle_death_link(
-        self, ctx: "BizHawkClientContext", link_health: int, game_over: bool, action_state: int, ) -> None:
+            self, ctx: "BizHawkClientContext", link_health: int, game_over: bool, action_state: int, ) -> None:
         if "DeathLink" not in ctx.tags:
             await ctx.update_death_link(True)
             self.previous_death_link = ctx.last_death_link
@@ -254,10 +247,8 @@ class MinishCapClient(BizHawkClient):
                 write_list = [(RAM_ADDRS["link_health"][0], [0], "IWRAM")]
 
             # Attempt to kill them if they're safe
-            if await bizhawk.guarded_write(
-                    ctx.bizhawk_ctx, write_list,
-                [(0x2A4A, [1], "EWRAM")] # Custom "Player safe" address
-            ):
+            if await bizhawk.guarded_write(ctx.bizhawk_ctx, write_list, [(0x2A4A, [1], "EWRAM")]):
+                # Custom "Player safe" address
                 # The kill was successful, record the player is dead for the next loop
                 self.death_link_ready = False
                 # and save the fact that we successfully killed for that deathlink
@@ -289,33 +280,18 @@ class MinishCapClient(BizHawkClient):
                 location_scouts.add(loc.id)
 
             if len(location_scouts) > 0:
-                await ctx.send_msgs(
-                    [
-                        {
-                            "cmd": "LocationScouts",
-                            "locations": list(location_scouts),
-                            "create_as_hint": 2,
-                        },
-                    ]
-                )
+                await ctx.send_msgs([{"cmd": "LocationScouts", "locations": list(location_scouts),
+                                      "create_as_hint": 2}])
 
         self.room = room_area_id
         # Room sync for poptracker tab tracking
-        await ctx.send_msgs(
-            [
-                {
-                    "cmd": "Set",
-                    "key": f"tmc_room_{ctx.team}_{ctx.slot}",
-                    "default": 0,
-                    "want_reply": False,
-                    "operations": [
-                        {
-                            "operation": "replace",
-                            "value": room_area_id,
-                        },
-                    ],
-                },
-            ], )
+        await ctx.send_msgs([{
+            "cmd": "Set",
+            "key": f"tmc_room_{ctx.team}_{ctx.slot}",
+            "default": 0,
+            "want_reply": False,
+            "operations": [{"operation": "replace", "value": room_area_id}]
+        }])
 
     async def handle_event_setting(self, ctx: "BizHawkClientContext") -> None:
         # Batch all events together into one read
@@ -328,18 +304,10 @@ class MinishCapClient(BizHawkClient):
             if event_name in self.events_sent or read_events[i][0] | address_pair[1] != read_events[i][0]:
                 continue
             self.events_sent.add(event_name)
-            await ctx.send_msgs(
-                [
-                    {
-                        "cmd": "Set",
-                        "key": f"tmc_{event_name}_{ctx.team}_{ctx.slot}",
-                        "default": 0,
-                        "want_reply": False,
-                        "operations": [
-                            {
-                                "operation": "replace",
-                                "value": 1,
-                            },
-                        ],
-                    },
-                ], )
+            await ctx.send_msgs([{
+                "cmd": "Set",
+                "key": f"tmc_{event_name}_{ctx.team}_{ctx.slot}",
+                "default": 0,
+                "want_reply": False,
+                "operations": [{"operation": "replace", "value": 1}]
+            }])
