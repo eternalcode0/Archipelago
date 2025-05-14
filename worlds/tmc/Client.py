@@ -4,7 +4,9 @@ import asyncio
 
 from NetUtils import ClientStatus
 import worlds._bizhawk as bizhawk
+import Utils
 from worlds._bizhawk.client import BizHawkClient
+from Options import Toggle
 from .Locations import all_locations, LocationData, events
 from .Items import items_by_id
 
@@ -97,7 +99,7 @@ class MinishCapClient(BizHawkClient):
             return False
 
         ctx.game = self.game
-        ctx.items_handling = 0b111
+        ctx.items_handling = 0b101
         ctx.want_slot_data = True
         ctx.watcher_timeout = 0.5
         name_bytes = (await bizhawk.read(ctx.bizhawk_ctx, [(0x000600, 16, "ROM")]))[0]
@@ -117,6 +119,20 @@ class MinishCapClient(BizHawkClient):
         from CommonClient import logger
 
         if ctx.server is None or ctx.server.socket.closed or ctx.slot_data is None:
+            return
+
+        if ctx.slot_data["remote_items"] == Toggle.option_true and not ctx.items_handling & 0b010:
+            ctx.items_handling = 0b011
+            Utils.async_start(ctx.send_msgs([{
+                "cmd": "ConnectUpdate",
+                "items_handling": ctx.items_handling
+            }]))
+
+            # Need to make sure items handling updates and we get the correct list of received items
+            # before continuing. Otherwise we might give some duplicate items and skip others.
+            # Should patch remote_items option value into the ROM in the future to guarantee we get the
+            # right item list before entering this part of the code
+            await asyncio.sleep(0.75)
             return
 
         try:

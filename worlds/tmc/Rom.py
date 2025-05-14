@@ -35,6 +35,14 @@ def write_tokens(world: "MinishCapWorld", patch: MinishCapProcedurePatch) -> Non
     # Bake seed name into ROM
     patch.write_token(APTokenTypes.WRITE, 0x000620, world.multiworld.seed_name.encode("UTF-8"))
 
+    if world.options.remote_items.value:
+        # Write remote items flag, causes the remote item pickup to be skipped.
+        # Otherwise it would cause the pickup animation will play twice, once for the remote item, then the actual item.
+        patch.write_token(APTokenTypes.WRITE, 0x000710, bytes([0x01]))
+        # Skip chest opening delay, required otherwise the player's input is awkwardly locked in front of chests with
+        # remote items in them... all of them
+        patch.write_token(APTokenTypes.WRITE, 0x0A74E2, bytes([0x00, 0x20, 0x00, 0x20]))
+
     # Patch Items into Locations
     for location_name, loc in location_table_by_name.items():
         if loc.rom_addr is None:
@@ -58,7 +66,11 @@ def item_inject(world: "MinishCapWorld", patch: MinishCapProcedurePatch, locatio
     item_byte_first  = 0x00
     item_byte_second = 0x00
 
-    if item.classification not in EXTERNAL_ITEM_MAP:
+    if item.player == world.player and not world.options.remote_items.value:
+        # The item belongs to this player's world, it should use local item ids
+        item_byte_first = item_table[item.name].byte_ids[0]
+        item_byte_second = item_table[item.name].byte_ids[1]
+    elif item.classification not in EXTERNAL_ITEM_MAP:
         # The item belongs to an external player's world but we don't recognize the classification
         # default to green clock sprite, also used for progression item
         item_byte_first = 0x18
