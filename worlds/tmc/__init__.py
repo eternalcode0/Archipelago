@@ -10,14 +10,14 @@ import typing
 from typing import Dict, Set
 
 import settings
-from BaseClasses import ItemClassification, Tutorial
+from BaseClasses import Item, ItemClassification, Tutorial
 from worlds.AutoWorld import WebWorld, World
 from .Client import MinishCapClient
+from .Items import ItemData, filler_item_selection, get_item_pool, itemList, item_frequencies, item_groups, item_table, item_list
+from .Locations import DEFAULT_SET, GOAL_PED, GOAL_VAATI, OBSCURE_SET, POOL_RUPEE, all_locations, location_groups
+from .Options import DungeonItem, MinishCapOptions, get_option_data, ShuffleElements
 from .constants import MinishCapItem, MinishCapLocation, TMCEvent, TMCItem, TMCLocation
 from .dungeons import fill_dungeons
-from .Items import filler_item_selection, get_item_pool, item_frequencies, item_groups, item_list, item_table, ItemData
-from .Locations import all_locations, DEFAULT_SET, GOAL_PED, GOAL_VAATI, location_groups, OBSCURE_SET, POOL_RUPEE
-from .Options import DungeonItem, get_option_data, MinishCapOptions, ShuffleElements
 from .Regions import create_regions
 from .Rom import MinishCapProcedurePatch, write_tokens
 from .Rules import MinishCapRules
@@ -44,6 +44,7 @@ class MinishCapWebWorld(WebWorld):
                  link="setup/fr",
                  authors=["Deoxis9001"])
     ]
+
 
 
 class MinishCapSettings(settings.Group):
@@ -79,12 +80,9 @@ class MinishCapWorld(World):
     def generate_early(self) -> None:
         tmc_logger.warning(
                 "INCOMPLETE WORLD! Slot '%s' is using an unfinished alpha world that doesn't have all logic yet!",
-                self.player_name,
-        )
-        tmc_logger.warning(
-                "INCOMPLETE WORLD! Slot '%s' will require send_location/send_item for completion!",
-                self.player_name,
-        )
+                self.player_name)
+        tmc_logger.warning("INCOMPLETE WORLD! Slot '%s' will require send_location/send_item for completion!",
+                           self.player_name)
 
         enabled_pools = set(DEFAULT_SET)
         if self.options.rupeesanity.value:
@@ -104,9 +102,10 @@ class MinishCapWorld(World):
         data = {"DeathLink": self.options.death_link.value, "DeathLinkGameover": self.options.death_link_gameover.value,
                 "RupeeSpot": self.options.rupeesanity.value, "ObscureSpot": self.options.obscure_spots.value,
                 "GoalVaati": self.options.goal_vaati.value}
-        data |= self.options.as_dict("death_link", "death_link_gameover", "rupeesanity", "obscure_spots", "goal_vaati",
-                                     "dungeon_small_keys", "dungeon_big_keys", "dungeon_compasses", "dungeon_maps",
-                                     casing="snake")
+        data |= self.options.as_dict("death_link", "death_link_gameover", "rupeesanity", "obscure_spots",
+                                     "goal_vaati", "weapon_bomb", "weapon_bow", "weapon_gust", "weapon_lantern",
+                                     "tricks", "dungeon_small_keys", "dungeon_big_keys", "dungeon_compasses",
+                                     "dungeon_maps", casing="snake")
         data |= get_option_data(self.options)
         # If Element location should be known, add locations to slot data for tracker
         if self.options.shuffle_elements.value != ShuffleElements.option_anywhere:
@@ -130,14 +129,14 @@ class MinishCapWorld(World):
         goal_region.locations.append(goal_location)
         # self.get_location(TMCEvent.CLEAR_PED).place_locked_item(self.create_event(TMCEvent.CLEAR_PED))
 
-    def create_item(self, name: str) -> MinishCapItem:
+    def create_item(self, name: str) -> Item:
         item = item_table[name]
         return MinishCapItem(name, item.classification, self.item_name_to_id[name], self.player)
 
     def create_event(self, name: str) -> MinishCapItem:
         return MinishCapItem(name, ItemClassification.progression, None, self.player)
 
-    def get_filler_item_name(self) -> str:
+    def get_filler_item_name(self) -> Item:
         return self.random.choice(filler_item_selection)
 
     def create_items(self):

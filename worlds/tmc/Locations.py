@@ -24,7 +24,8 @@ POOL_CUCCO = "cucco:"  # Meant to be used as an fstring with the round number fo
 OBSCURE_SET = frozenset({POOL_DIG, POOL_WATER, POOL_POT})
 SHOP_SET = frozenset({POOL_SHOP, POOL_SCRUB})
 DEFAULT_SET = frozenset(
-        {POOL_HP, POOL_SCROLL, POOL_FAIRY, POOL_SCRUB, POOL_BUTTERFLY, POOL_ELEMENT, "cucco:10", POOL_SHOP}, )
+        {POOL_HP, POOL_SCROLL, POOL_FAIRY, POOL_SCRUB, POOL_BUTTERFLY, POOL_ELEMENT, "cucco:10", POOL_SHOP})
+
 
 
 # noinspection PyCompatibility
@@ -35,9 +36,9 @@ class LocationData:
     region: str
     vanilla_item: str | None
     """The item name of what is normally given in this location"""
-    rom_addr: typing.Tuple[int | list[int | None], int | None | list[int | None]]
+    rom_addr: typing.Tuple[list[int | None] | int | None, list[int | None] | int | None]
     """The address in the rom for placing items"""
-    ram_addr: typing.Tuple[int, int]
+    ram_addr: typing.Tuple[list[int | None] | int | None, list[int | None] | int | None]
     """1st = The address in EWRAM to read/write to, 2nd = The bit mask for the address"""
     room_area: int
     """
@@ -57,11 +58,10 @@ all_locations: typing.List[LocationData] = [
             (0x2CDE, 0x40), 0x1122, ),
     LocationData(
             6029001, TMCLocation.SMITH_HOUSE_SWORD, TMCRegion.SOUTH_FIELD, TMCItem.PROGRESSIVE_SWORD, (0x0F252B, None),
-            (0x2CF5, 0x01), 0x1122, ),  # New location from base patch after intro skip
+            (0x2CF5, 0x01), 0x1122),  # New location from base patch after intro skip
     LocationData(
             6029002, TMCLocation.SMITH_HOUSE_SHIELD, TMCRegion.SOUTH_FIELD, TMCItem.PROGRESSIVE_SHIELD,
-            (0x0F253B, None),
-            (0x2CF5, 0x02), 0x1122, ),  # New location from base patch after intro skip
+            (0x0F253B, None), (0x2CF5, 0x02), 0x1122),  # New location from base patch after intro skip
     LocationData(
             6029003, TMCLocation.SOUTH_FIELD_PUDDLE_FUSION_ITEM1, TMCRegion.SOUTH_FIELD, TMCItem.RUPEES_5,
             (0x0F8283, None),
@@ -128,10 +128,10 @@ all_locations: typing.List[LocationData] = [
             6029020, TMCLocation.SOUTH_FIELD_MINISH_SIZE_WATER_HOLE_HP, TMCRegion.SOUTH_FIELD, TMCItem.HEART_PIECE,
             (0x0DB55F, None), (0x2D2C, 0x02), 0x0435, pools={POOL_HP}, ),
     LocationData(
-            6029021, TMCLocation.SOUTH_FIELD_TINGLE_NPC, TMCRegion.SOUTH_FIELD, TMCItem.TINGLE_TROPHY, (0x016966, None),
-            (0x2CA3, 0x04), 0x0103, ),
+        6029021, TMCLocation.SOUTH_FIELD_TINGLE_NPC, TMCRegion.SOUTH_FIELD, TMCItem.TINGLE_TROPHY,
+        (0x016966, None), (0x2CA3, 0x04), 0x0103),
     # endregion
-    # region Hyrule Town
+    # region Castle Exterior
     LocationData(
             6029022, TMCLocation.TOWN_CAFE_LADY_NPC, TMCRegion.HYRULE_TOWN,
             TMCItem.KINSTONE, (0x00EDDA, None), (0x2CD6, 0x40), 0x0002
@@ -493,7 +493,7 @@ all_locations: typing.List[LocationData] = [
     # region Eastern Hills
     LocationData(
             6029112, TMCLocation.HILLS_GOLDEN_ROPE, TMCRegion.EASTERN_HILLS,
-            TMCItem.RUPEES_100, (None, None), (0x2CA2, 0x10), None, pools={POOL_ENEMY}
+            TMCItem.RUPEES_100, (None, None), (0x2CA2, 0x10), 0x0403, pools={POOL_ENEMY}
     ),
     LocationData(
             6029113, TMCLocation.HILLS_FUSION_CHEST, TMCRegion.EASTERN_HILLS,
@@ -698,7 +698,7 @@ all_locations: typing.List[LocationData] = [
     # region Minish Woods
     LocationData(
             6029162, TMCLocation.MINISH_WOODS_GOLDEN_OCTO, TMCRegion.MINISH_WOODS,
-            TMCItem.RUPEES_100, (None, None), (0x2CA3, 0x01), None, pools={POOL_ENEMY}
+            TMCItem.RUPEES_100, (None, None), (0x2CA3, 0x01), 0x0000, pools={POOL_ENEMY}
     ),
     LocationData(
             6029163, TMCLocation.MINISH_WOODS_WITCH_HUT_ITEM, TMCRegion.MINISH_WOODS,
@@ -1045,7 +1045,7 @@ all_locations: typing.List[LocationData] = [
     ),
     LocationData(
             6029248, TMCLocation.CRENEL_VINE_TOP_GOLDEN_TEKTITE, TMCRegion.CRENEL,
-            TMCItem.RUPEES_100, (None, None), (0x2CA2, 0x80), None, pools={POOL_ENEMY}
+            TMCItem.RUPEES_100, (None, None), (0x2CA2, 0x80), 0x0306, pools={POOL_ENEMY}
     ),
     LocationData(
             6029249, TMCLocation.CRENEL_BRIDGE_CAVE_CHEST, TMCRegion.CRENEL,
@@ -1057,7 +1057,7 @@ all_locations: typing.List[LocationData] = [
     ),
     LocationData(
             6029251, TMCLocation.CRENEL_BELOW_COF_GOLDEN_TEKTITE, TMCRegion.CRENEL,
-            TMCItem.RUPEES_100, (None, None), (0x2CA2, 0x04), None, pools={POOL_ENEMY}
+            TMCItem.RUPEES_100, (None, None), (0x2CA2, 0x04), 0x0206, pools={POOL_ENEMY}
     ),
     LocationData(
             6029252, TMCLocation.CRENEL_SCRUB_NPC, TMCRegion.CRENEL,
@@ -2151,15 +2151,15 @@ all_locations: typing.List[LocationData] = [
     # region Sanctuary
     LocationData(
             6029541, TMCLocation.SANCTUARY_PEDESTAL_ITEM1, TMCRegion.SANCTUARY,
-            TMCItem.PROGRESSIVE_SWORD, (None, None), (0x2EA7, 0x80), None, pools={POOL_PED}
+            TMCItem.PROGRESSIVE_SWORD, (None, None), (0x2EA7, 0x80), 0x0178, pools={POOL_PED}
     ),
     LocationData(
             6029542, TMCLocation.SANCTUARY_PEDESTAL_ITEM2, TMCRegion.SANCTUARY,
-            TMCItem.PROGRESSIVE_SWORD, (None, None), (0x2EA8, 0x01), None, pools={POOL_PED}
+            TMCItem.PROGRESSIVE_SWORD, (None, None), (0x2EA8, 0x01), 0x0178, pools={POOL_PED}
     ),
     LocationData(
             6029543, TMCLocation.SANCTUARY_PEDESTAL_ITEM3, TMCRegion.SANCTUARY,
-            TMCItem.PROGRESSIVE_SWORD, (None, None), (0x2EA8, 0x02), None, pools={POOL_PED}
+            TMCItem.PROGRESSIVE_SWORD, (None, None), (0x2EA8, 0x02), 0x0178, pools={POOL_PED}
     ),
     # endregion
     # region Dungeon DHC
@@ -2202,7 +2202,7 @@ all_locations: typing.List[LocationData] = [
     # endregion
 ]
 
-GOAL_PED = LocationData(None, TMCEvent.CLEAR_PED, TMCRegion.DUNGEON_DHC, None, None, (0x2D0B, 0x01), None)
+GOAL_PED = LocationData(None, TMCEvent.CLEAR_PED, TMCRegion.DUNGEON_DHC, None, None, (0x2D0B, 0x01), 0x0178)
 GOAL_VAATI = LocationData(None, TMCEvent.CLEAR_DHC, TMCRegion.VAATI_FIGHT, None, None, (0x2CA6, 0x02), 0x008B)
 
 events: typing.Dict[typing.Tuple[int, int], str] = {

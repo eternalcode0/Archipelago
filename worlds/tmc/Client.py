@@ -129,19 +129,17 @@ class MinishCapClient(BizHawkClient):
                 self.seed_verify = True
 
             # Handle giving the player items
-            read_result = await bizhawk.read(
-                    ctx.bizhawk_ctx,
-                    [RAM_ADDRS["game_task"],  # Current state of game (is the player actually in-game?)
-                     RAM_ADDRS["task_substate"],  # Is there any room transitions or anything similar
-                     RAM_ADDRS["room_area_id"],
-                     RAM_ADDRS["action_state"],
-                     RAM_ADDRS["received_index"],
-                     RAM_ADDRS["vaati_address"],
-                     RAM_ADDRS["pedestal_address"],
-                     RAM_ADDRS["link_health"],
-                     RAM_ADDRS["gameover"],
-                     ],
-            )
+            read_result = await bizhawk.read(ctx.bizhawk_ctx, [
+                RAM_ADDRS["game_task"],  # Current state of game (is the player actually in-game?)
+                RAM_ADDRS["task_substate"],  # Is there any room transitions or anything similar
+                RAM_ADDRS["room_area_id"],
+                RAM_ADDRS["action_state"],
+                RAM_ADDRS["received_index"],
+                RAM_ADDRS["vaati_address"],
+                RAM_ADDRS["pedestal_address"],
+                RAM_ADDRS["link_health"],
+                RAM_ADDRS["gameover"],
+            ])
             if read_result is None:
                 return
 
@@ -223,8 +221,8 @@ class MinishCapClient(BizHawkClient):
         if len(locs_to_send) > 0:
             await ctx.send_msgs([{"cmd": "LocationChecks", "locations": list(locs_to_send)}])
 
-    async def handle_death_link(
-            self, ctx: "BizHawkClientContext", link_health: int, game_over: bool, action_state: int, ) -> None:
+    async def handle_death_link(self, ctx: "BizHawkClientContext", link_health: int, game_over: bool,
+                                action_state: int) -> None:
         if "DeathLink" not in ctx.tags:
             await ctx.update_death_link(True)
             self.previous_death_link = ctx.last_death_link
@@ -239,7 +237,7 @@ class MinishCapClient(BizHawkClient):
 
         gameover_mode = ctx.slot_data.get("DeathLinkGameover", 0) == 1
 
-        # If a new death link has come in
+        # If a new death link has come in  different from the last
         if self.previous_death_link != ctx.last_death_link:
             if gameover_mode:
                 write_list = [(RAM_ADDRS["gameover"][0], [1], "IWRAM")]

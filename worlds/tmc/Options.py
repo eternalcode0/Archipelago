@@ -1,6 +1,8 @@
 from dataclasses import dataclass
 
-from Options import Choice, DeathLink, DefaultOnToggle, PerGameCommonOptions, Range, StartInventoryPool, Toggle
+from Options import (Choice, DeathLink, DefaultOnToggle, OptionSet, PerGameCommonOptions, Range, StartInventoryPool,
+                     Toggle)
+from .constants import ALL_TRICKS
 
 
 class DungeonItem(Choice):
@@ -21,6 +23,7 @@ class DungeonItem(Choice):
     option_anywhere = 8
     alias_true = 8
     alias_false = 3
+
 
 
 class Rupeesanity(Toggle):
@@ -60,6 +63,7 @@ class ShuffleElements(Choice):
     alias_false = 7
 
 
+
 class SmallKeys(DungeonItem):
     """
     Own Dungeon (false/default): Randomized within the dungeon they're normally found in
@@ -67,6 +71,7 @@ class SmallKeys(DungeonItem):
     """
     display_name = "Small Key Shuffle"
     default = 3
+
 
 
 class BigKeys(DungeonItem):
@@ -78,6 +83,7 @@ class BigKeys(DungeonItem):
     default = 3
 
 
+
 class DungeonMaps(DungeonItem):
     """
     Own Dungeon (default/false): Randomized within the dungeon they're normally found in
@@ -87,6 +93,7 @@ class DungeonMaps(DungeonItem):
     default = 3
 
 
+
 class DungeonCompasses(DungeonItem):
     """
     Own Dungeon (default/false): Randomized within the dungeon they're normally found in
@@ -94,6 +101,7 @@ class DungeonCompasses(DungeonItem):
     """
     display_name = "Dungeon Compasses Shuffle"
     default = 3
+
 
 
 class GoalVaati(DefaultOnToggle):
@@ -183,6 +191,96 @@ class DeathLinkGameover(Toggle):
     display_name = "Deathlink is Gameover"
 
 
+class WeaponBomb(Choice):
+    """
+    Bombs can damage nearly every enemy, Bombs are never considered for Simon Simulations, and Golden Enemies.
+    'No': Bombs are not considered as Weapons.
+    'Yes': Bombs are considered as weapons for most regular enemy fights.
+    'Yes + Bosses': Bombs are considered as weapons for most enemy fights. Fighting Green/Blu Chu, Madderpillars
+    and Darknuts require only 10 bomb bag. Gleerok, Mazaal and Scissor Beetles require at least 30 bomb bag.
+    Octo and Gyorg cannot be defeated with bombs.
+    """
+    display_name = "Bombs are considered Weapons"
+    default = 0
+    option_no = 0
+    option_yes = 1
+    option_yes_boss = 2
+    alias_true = 1
+    alias_false = 0
+
+
+class WeaponBow(Toggle):
+    """
+    Bow can damage most enemies, many enemies are very resilient to damage. Chu Bosses and Darknuts are Immune.
+    'false': Bows are not considered as Weapons.
+    'true': Bows are considered as weapons for most enemy fights.
+    Bows are never considered for Chu Bossfights, Darknuts, Scissor Beetles, Madderpillar, Wizzrobes, Simon Simulations,
+    and Golden Enemies.
+    """
+    display_name = "Bows are considered Weapons"
+
+
+class WeaponGust(Toggle):
+    """
+    Gust Jar can suck up various enemies like Ghini(Ghosts) and Beetles (The things that grab onto link).
+    It can also grab objects and fire them like projectiles to kill enemies, some enemies or parts of enemies can be
+    used as projectiles such as Helmasaurs and Stalfos.
+    'false': Gust Jar is never considered for killing enemies.
+    'true': Gust Jar is considered as weapons for all enemies that get sucked up by it, you are never expected to use
+        objects as projectiles to kill enemies.
+    """
+    display_name = "Gust jar is considered a Weapon"
+
+
+class WeaponLantern(Toggle):
+    """
+    The lit Lantern can instantly kill Wizzrobes by walking through them.
+    'false': Lantern is not considered as a Weapon.
+    'true': Lantern is considered as a weapon for fighting Wizzrobes.
+    """
+    display_name = "Lantern is considered a Weapon"
+
+
+class Tricks(OptionSet):
+    """
+    mitts_farm_rupees: Mole Mitts may be required to farm rupees by digging an infinitely respawning red rupee next to
+        link's house
+    bombable_dust: Bombs may be required to blow away dust instead of Gust Jar
+    crenel_mushroom_gust_jar: The mushroom near the edge of a cliff on Mt Crenel may be required to be grabbed with the
+        gust jar to climb higher
+    light_arrows_break_objects: A charged light arrow shot may be required to destroy obstacles like pots or small trees
+    bobombs_destroy_walls: Either a Sword or the Gust Jar may be required to blow up walls near Bobombs
+    like_like_cave_no_sword: Opening the chests in the digging cave in Minish Woods, guarded by a pair of LikeLikes,
+        may be required without a weapon
+    boots_skip_town_guard: A very precise boot dash may be required to skip the guard blocking the west exit of town
+    beam_crenel_switch: A switch across a gap on Mt Crenel must be hit to extend a bridge to reach cave of flames,
+        hitting it with a sword beam may be required
+    down_thrust_spikey_beetle: Spikey Beetles can be flipped over with a down thrust, which may be required to kill them
+    dark_rooms_no_lantern: Dark rooms may require being traversed without the lantern. Link always has a small light
+        source revealing his surroundings
+    cape_extensions: Some larger gaps across water can be crossed by extending the distance you can jump (Release cape
+        after the hop, then press and hold the glide)
+    lake_minish_no_boots: Lake hylia can be explored as minish without using the boots to bonk a tree by jumping down
+        from the middle island
+    cabin_swim_no_lilypad: Lake Cabin has a path used to enter as minish, the screen transition can be touched by
+        swimming into it
+    cloud_sharks_no_weapons: The Sharks in cloud tops can be killed by standing near the edge and watching them jump off
+    fow_pot_gust_jar: A pot near the end of Fortress can be grabbed with the gust jar through a wall from near the
+        beginning of the dungeon
+    pow_2f_no_cane: After climbing the first clouds of Palace, a moving platform can be reached with a precise jump
+    pot_puzzle_no_bracelets: The Minish sized pot puzzle in Palace can be avoided by hitting the switch that drops the
+        item at a later point in the dungeon
+    dhc_cannons_no_four_sword: The Cannon puzzle rooms of DHC can be completed without the four sword by using a well
+        timed bomb strat and sword slash
+    dhc_pads_no_four_sword: The clone puzzles that press down four pads in DHC can be completed with less clones by
+        shuffling across the pads
+    dhc_switches_no_four_sword: The clone puzzle that slashes 4 switches in DHC can be completed with a well placed spin
+        attack
+    """
+    display_name = "Tricks"
+    valid_keys = ALL_TRICKS
+
+
 @dataclass
 class MinishCapOptions(PerGameCommonOptions):
     start_inventory_from_pool: StartInventoryPool
@@ -195,6 +293,11 @@ class MinishCapOptions(PerGameCommonOptions):
     # goal_figurines: GoalFigurines
     # figurine_amount: FigurineAmount
     shuffle_elements: ShuffleElements
+    weapon_bomb: WeaponBomb
+    weapon_bow: WeaponBow
+    weapon_gust: WeaponGust
+    weapon_lantern: WeaponLantern
+    tricks: Tricks
     rupeesanity: Rupeesanity
     obscure_spots: ObscureSpots
     early_weapon: EarlyWeapon
@@ -202,6 +305,7 @@ class MinishCapOptions(PerGameCommonOptions):
     dungeon_big_keys: BigKeys
     dungeon_maps: DungeonMaps
     dungeon_compasses: DungeonCompasses
+
 
 
 def get_option_data(options: MinishCapOptions):
@@ -244,28 +348,28 @@ def get_option_data(options: MinishCapOptions):
         "wind_crest_falls": 0,
         "wind_crest_south_field": 0,
         "wind_crest_minish_woods": 0,
-        "weapon_bombs": 0,  # No, Yes, Yes + Bosses
-        "weapon_bows": 0,
-        "weapon_gust_jar": 0,  # No, Yes
-        "weapon_lantern": 0,
-        "trick_mitts_farm_rupees": 0,  # No, Yes
-        "trick_bombable_dust": 0,
-        "trick_crenel_mushroom_gust_jar": 0,
-        "trick_light_arrows_break_objects": 1,
-        "trick_bobombs_destroy_walls": 0,
-        "trick_like_like_cave_no_sword": 0,
-        "trick_boots_skip_town_guard": 0,
-        "trick_beam_crenel_switch": 0,
-        "trick_down_thrust_spikey_beetle": 1,
-        "trick_dark_rooms_no_lantern": 0,
-        "trick_cape_extensions": 0,
-        "trick_lake_minish_no_boots": 0,
-        "trick_cabin_swim_no_lilypad": 0,
-        "trick_cloud_sharks_no_weapons": 0,
-        "trick_pow_2f_no_cane": 0,
-        "trick_pot_puzzle_no_bracelets": 0,
-        "trick_fow_pot_gust_jar": 0,
-        "trick_dhc_cannons_no_four_sword": 0,
-        "trick_dhc_pads_no_four_sword": 0,
-        "trick_dhc_switches_no_four_sword": 0,
+        "weapon_bombs": options.weapon_bomb.value,  # No, Yes, Yes + Bosses
+        "weapon_bows": options.weapon_bow.value,
+        "weapon_gust_jar": options.weapon_gust.value,  # No, Yes
+        "weapon_lantern": options.weapon_lantern.value,
+        "trick_mitts_farm_rupees": ALL_TRICKS[0] in options.tricks,  # No, Yes
+        "trick_bombable_dust": ALL_TRICKS[1] in options.tricks,
+        "trick_crenel_mushroom_gust_jar": ALL_TRICKS[2] in options.tricks,
+        "trick_light_arrows_break_objects": ALL_TRICKS[3] in options.tricks,
+        "trick_bobombs_destroy_walls": ALL_TRICKS[4] in options.tricks,
+        "trick_like_like_cave_no_sword": ALL_TRICKS[5] in options.tricks,
+        "trick_boots_skip_town_guard": ALL_TRICKS[6] in options.tricks,
+        "trick_beam_crenel_switch": ALL_TRICKS[7] in options.tricks,
+        "trick_down_thrust_spikey_beetle": ALL_TRICKS[8] in options.tricks,
+        "trick_dark_rooms_no_lantern": ALL_TRICKS[9] in options.tricks,
+        "trick_cape_extensions": ALL_TRICKS[10] in options.tricks,
+        "trick_lake_minish_no_boots": ALL_TRICKS[11] in options.tricks,
+        "trick_cabin_swim_no_lilypad": ALL_TRICKS[12] in options.tricks,
+        "trick_cloud_sharks_no_weapons": ALL_TRICKS[13] in options.tricks,
+        "trick_pow_2f_no_cane": ALL_TRICKS[14] in options.tricks,
+        "trick_pot_puzzle_no_bracelets": ALL_TRICKS[15] in options.tricks,
+        "trick_fow_pot_gust_jar": ALL_TRICKS[16] in options.tricks,
+        "trick_dhc_cannons_no_four_sword": ALL_TRICKS[17] in options.tricks,
+        "trick_dhc_pads_no_four_sword": ALL_TRICKS[18] in options.tricks,
+        "trick_dhc_switches_no_four_sword": ALL_TRICKS[19] in options.tricks,
     }

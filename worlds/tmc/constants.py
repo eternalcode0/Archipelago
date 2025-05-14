@@ -3,6 +3,7 @@ from collections.abc import Callable
 from BaseClasses import Item, ItemClassification, Location
 
 
+
 class MinishCapItem(Item):
     game: str = "The Minish Cap"
 
@@ -746,6 +747,52 @@ class TMCRegion:
     DUNGEON_DHC = "Dark Hyrule Castle"
     VAATI_FIGHT = "Vaati Fight"
 
+
+class TMCTricks:
+    MITTS_FARM = "mitts_farm_rupees"
+    BOMB_DUST = "bombable_dust"
+    MUSHROOM = "crenel_mushroom_gust_jar"
+    ARROWS_BREAK = "light_arrows_break_objects"
+    BOBOMB_WALLS = "bobombs_destroy_walls"
+    LIKELIKE_SWORDLESS = "like_like_cave_no_sword"
+    BOOTS_GUARDS = "boots_skip_town_guard"
+    BEAM_CRENEL_SWITCH = "beam_crenel_switch"
+    DOWNTHRUST_BEETLE = "down_thrust_spikey_beetle"
+    DARK_ROOMS = "dark_rooms_no_lantern"
+    CAPE_EXTENSIONS = "cape_extensions"
+    LAKE_MINISH = "lake_minish_no_boots"
+    CABIN_SWIM = "cabin_swim_no_lilypad"
+    SHARKS_SWORDLESS = "cloud_sharks_no_weapons"
+    POW_NOCANE = "pow_2f_no_cane"
+    POT_PUZZLE = "pot_puzzle_no_bracelets"
+    FOW_POT = "fow_pot_gust_jar"
+    DHC_CANNONS = "dhc_cannons_no_four_sword"
+    DHC_CLONES = "dhc_pads_no_four_sword"
+    DHC_SPIN = "dhc_switches_no_four_sword"
+
+
+ALL_TRICKS = [
+    TMCTricks.MITTS_FARM,
+    TMCTricks.BOMB_DUST,
+    TMCTricks.MUSHROOM,
+    TMCTricks.ARROWS_BREAK,
+    TMCTricks.BOBOMB_WALLS,
+    TMCTricks.LIKELIKE_SWORDLESS,
+    TMCTricks.BOOTS_GUARDS,
+    TMCTricks.BEAM_CRENEL_SWITCH,
+    TMCTricks.DOWNTHRUST_BEETLE,
+    TMCTricks.DARK_ROOMS,
+    TMCTricks.CAPE_EXTENSIONS,
+    TMCTricks.LAKE_MINISH,
+    TMCTricks.CABIN_SWIM,
+    TMCTricks.SHARKS_SWORDLESS,
+    TMCTricks.POW_NOCANE,
+    TMCTricks.POT_PUZZLE,
+    TMCTricks.FOW_POT,
+    TMCTricks.DHC_CANNONS,
+    TMCTricks.DHC_CLONES,
+    TMCTricks.DHC_SPIN,
+]
 
 DUNGEON_ABBR = frozenset({"DWS", "CoF", "ToD", "FoW", "PoW", "RC", "DHC"})
 DUNGEON_REGIONS = {

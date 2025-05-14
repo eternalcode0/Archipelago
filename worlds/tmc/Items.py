@@ -1,9 +1,9 @@
 from dataclasses import dataclass
 from typing import TYPE_CHECKING
 
-from BaseClasses import ItemClassification
-from .constants import MinishCapItem, TMCItem, TMCLocation
+from BaseClasses import ItemClassification, Item
 from .Options import DungeonItem, ShuffleElements
+from .constants import TMCItem, TMCLocation, MinishCapItem
 
 if TYPE_CHECKING:
     from . import MinishCapWorld
@@ -11,7 +11,7 @@ if TYPE_CHECKING:
 
 @dataclass
 class ItemData:
-    item_name: str
+    item_name: Item.name
     classification: ItemClassification
     byte_ids: tuple[int, int]
 
@@ -304,7 +304,13 @@ def get_item_pool(world: "MinishCapWorld") -> (list[MinishCapItem], list[MinishC
     pre_fill_pool = []
 
     if world.options.early_weapon.value:
-        multiworld.local_early_items[player][PROGRESSIVE_SWORD.item_name] = 1
+        weapon_pool = [PROGRESSIVE_SWORD.item_name]
+        if world.options.weapon_bomb.value == 1 or 2:
+            weapon_pool.extend([BOMB_BAG.item_name])
+        if world.options.weapon_bow.value:
+            weapon_pool.extend([PROGRESSIVE_BOW.item_name])
+        weapon_choice = world.random.choice(weapon_pool)
+        multiworld.local_early_items[player][weapon_choice] = 1
 
     if world.options.dungeon_big_keys.value == DungeonItem.option_own_dungeon:
         pre_fill_pool.extend(pool_bigkeys())
