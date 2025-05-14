@@ -13,11 +13,11 @@ import settings
 from BaseClasses import Item, ItemClassification, Tutorial
 from worlds.AutoWorld import WebWorld, World
 from .Client import MinishCapClient
-from .Items import ItemData, filler_item_selection, get_item_pool, itemList, item_frequencies, item_groups, item_table, item_list
-from .Locations import DEFAULT_SET, GOAL_PED, GOAL_VAATI, OBSCURE_SET, POOL_RUPEE, all_locations, location_groups
-from .Options import DungeonItem, MinishCapOptions, get_option_data, ShuffleElements
 from .constants import MinishCapItem, MinishCapLocation, TMCEvent, TMCItem, TMCLocation
 from .dungeons import fill_dungeons
+from .Items import filler_item_selection, get_item_pool, item_frequencies, item_groups, item_list, item_table, ItemData
+from .Locations import all_locations, DEFAULT_SET, GOAL_PED, GOAL_VAATI, location_groups, OBSCURE_SET, POOL_RUPEE
+from .Options import DungeonItem, get_option_data, MinishCapOptions, ShuffleElements
 from .Regions import create_regions
 from .Rom import MinishCapProcedurePatch, write_tokens
 from .Rules import MinishCapRules
@@ -44,7 +44,6 @@ class MinishCapWebWorld(WebWorld):
                  link="setup/fr",
                  authors=["Deoxis9001"])
     ]
-
 
 
 class MinishCapSettings(settings.Group):
