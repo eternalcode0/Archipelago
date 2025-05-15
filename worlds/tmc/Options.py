@@ -32,10 +32,10 @@ class ShuffleElements(Choice):
     # `closed`: elements removed from pool, goal_elements forced to 0
     # `open`: elements added to start inventory (pretty useless all things considered)
     # `vanilla`: elements in their usual dungeon prize location
-    # `own_dungeon`: place a element anywhere in it's usual dungeon
-    # `own_region`: place element in the vacinity of it's usual dungeon
+    # `own_dungeon`: place an element anywhere in its usual dungeon
+    # `own_region`: place element in the vicinity of its usual dungeon
     # `any_dungeon`: place elements anywhere in any dungeon
-    # `any_region`: place elements anywhere in the vacinity of any dungeon
+    # `any_region`: place elements anywhere in the vicinity of any dungeon
     # `dungeon_prize` (default): Elements are shuffled between the 6 dungeon prizes
     # `anywhere`: full random
     """
@@ -128,8 +128,8 @@ class PedSword(Range):
 class PedFigurines(Range):
     """
     How many figurines are required to activate Pedestal?
-    If GoalVatti is on then you need at least this many figurines before DHC opens,
-    otherwise you goal immediately upon having this many figurines (and other goal conditons) and entering sanctuary
+    If GoalVaati is on then you need at least this many figurines before DHC opens,
+    otherwise you goal immediately upon having this many figurines (and other goal conditions) and entering sanctuary
     """
     display_name = "Required Figurines to Pedestal"
     default = 0
@@ -139,7 +139,7 @@ class PedFigurines(Range):
 class FigurineAmount(Range):
     """
     How many figurines are added to the pool?
-    Should not be lower than GoalFigurines, otherwise it will be overriden to match GoalFigurines.
+    Should not be lower than GoalFigurines, otherwise it will be overridden to match GoalFigurines.
     """
     display_name = "Figurines in Pool"
     default = 0
