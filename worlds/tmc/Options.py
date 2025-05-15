@@ -163,6 +163,14 @@ class DeathLinkGameover(Toggle):
     """
     display_name = "Deathlink is Gameover"
 
+class RemoteItems(Toggle):
+    """
+    Should all randomized items be handled through AP? This will require a connection to a server during all gameplay.
+    If you crash or lose your savefile, all items should be sent back to you.
+    When finding items placed in world, your items will use the remote item sprite instead of their usual sprite.
+    """
+    display_name = "Remote Items"
+
 @dataclass
 class MinishCapOptions(PerGameCommonOptions):
     start_inventory_from_pool: StartInventoryPool
@@ -182,6 +190,7 @@ class MinishCapOptions(PerGameCommonOptions):
     dungeon_big_keys: BigKeys
     dungeon_maps: DungeonMaps
     dungeon_compasses: DungeonCompasses
+    remote_items: RemoteItems
 
 def get_option_data(options: MinishCapOptions):
     """

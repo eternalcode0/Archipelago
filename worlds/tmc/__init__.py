@@ -104,7 +104,7 @@ class MinishCapWorld(World):
             "GoalVaati": self.options.goal_vaati.value,
         }
         data |= self.options.as_dict("death_link", "death_link_gameover", "rupeesanity", "obscure_spots", "goal_vaati",
-            "dungeon_small_keys", "dungeon_big_keys", "dungeon_compasses", "dungeon_maps",
+            "dungeon_small_keys", "dungeon_big_keys", "dungeon_compasses", "dungeon_maps", "remote_items",
             casing="snake")
         data |= get_option_data(self.options)
         # If Element location should be known, add locations to slot data for tracker
