@@ -3,7 +3,7 @@ from dataclasses import dataclass
 
 from BaseClasses import ItemClassification
 from .Options import ShuffleElements
-from .constants import TMCLocation, MinishCapItem
+from .constants import TMCLocation, MinishCapItem, TMCItem
 
 if TYPE_CHECKING:
     from . import MinishCapWorld
@@ -55,23 +55,23 @@ OCARINA               = ItemData("Ocarina",                      ItemClassificat
 # BOTTLE_3              = ItemData("Bottle 3",                     ItemClassification.progression, (0x1E, 0x00))
 # BOTTLE_4              = ItemData("Bottle 4",                     ItemClassification.progression, (0x1F, 0x00))
 EMPTY_BOTTLE          = ItemData("Bottle (Empty)",               ItemClassification.progression, (0x1C, 0x00))
-LON_LON_BUTTER        = ItemData("Bottle (Lon Lon Butter)",      ItemClassification.progression, (0x21, 0x00))
-LON_LON_MILK          = ItemData("Bottle (Lon Lon Milk)",        ItemClassification.progression, (0x22, 0x00))
-LON_LON_MILK_HALF     = ItemData("Bottle (Lon Lon Milk half)",   ItemClassification.progression, (0x23, 0x00))
-RED_POTION            = ItemData("Bottle (Red Potion)",          ItemClassification.progression, (0x24, 0x00))
-BLUE_POTION           = ItemData("Bottle (Blue Potion)",         ItemClassification.progression, (0x25, 0x00))
-WATER                 = ItemData("Bottle (Water)",               ItemClassification.progression, (0x26, 0x00))
-MINERAL_WATER         = ItemData("Bottle (Mineral Water)",       ItemClassification.progression, (0x27, 0x00))
-BOTTLED_FAIRY         = ItemData("Bottle (Fairy)",               ItemClassification.progression, (0x28, 0x00))
-RED_PICOLYTE          = ItemData("Bottle (Red Picolyte)",        ItemClassification.progression, (0x29, 0x00))
-ORANGE_PICOLYTE       = ItemData("Bottle (Orange Picolyte)",     ItemClassification.progression, (0x2A, 0x00))
-YELLOW_PICOLYTE       = ItemData("Bottle (Yellow Picolyte)",     ItemClassification.progression, (0x2B, 0x00))
-GREEN_PICOLYTE        = ItemData("Bottle (Green Picolyte)",      ItemClassification.progression, (0x2C, 0x00))
-BLUE_PICOLYTE         = ItemData("Bottle (Blue Picolyte)",       ItemClassification.progression, (0x2D, 0x00))
-WHITE_PICOLYTE        = ItemData("Bottle (White Picolyte)",      ItemClassification.progression, (0x2E, 0x00))
-NAYRU_CHARM           = ItemData("Bottle (Nayru Charm)",         ItemClassification.progression, (0x2F, 0x00))
-FARORE_CHARM          = ItemData("Bottle (Farore Charm)",        ItemClassification.progression, (0x30, 0x00))
-DINS_CHARM            = ItemData("Bottle (Dins Charm)",          ItemClassification.progression, (0x31, 0x00))
+LON_LON_BUTTER        = ItemData("Bottle (Lon Lon Butter)",      ItemClassification.progression, (0x1C, 0x21))
+LON_LON_MILK          = ItemData("Bottle (Lon Lon Milk)",        ItemClassification.progression, (0x1C, 0x22))
+LON_LON_MILK_HALF     = ItemData("Bottle (Lon Lon Milk half)",   ItemClassification.progression, (0x1C, 0x23))
+RED_POTION            = ItemData("Bottle (Red Potion)",          ItemClassification.progression, (0x1C, 0x24))
+BLUE_POTION           = ItemData("Bottle (Blue Potion)",         ItemClassification.progression, (0x1C, 0x25))
+WATER                 = ItemData("Bottle (Water)",               ItemClassification.progression, (0x1C, 0x26))
+MINERAL_WATER         = ItemData("Bottle (Mineral Water)",       ItemClassification.progression, (0x1C, 0x27))
+BOTTLED_FAIRY         = ItemData("Bottle (Fairy)",               ItemClassification.progression, (0x1C, 0x28))
+RED_PICOLYTE          = ItemData("Bottle (Red Picolyte)",        ItemClassification.progression, (0x1C, 0x29))
+ORANGE_PICOLYTE       = ItemData("Bottle (Orange Picolyte)",     ItemClassification.progression, (0x1C, 0x2A))
+YELLOW_PICOLYTE       = ItemData("Bottle (Yellow Picolyte)",     ItemClassification.progression, (0x1C, 0x2B))
+GREEN_PICOLYTE        = ItemData("Bottle (Green Picolyte)",      ItemClassification.progression, (0x1C, 0x2C))
+BLUE_PICOLYTE         = ItemData("Bottle (Blue Picolyte)",       ItemClassification.progression, (0x1C, 0x2D))
+WHITE_PICOLYTE        = ItemData("Bottle (White Picolyte)",      ItemClassification.progression, (0x1C, 0x2E))
+NAYRU_CHARM           = ItemData("Bottle (Nayru Charm)",         ItemClassification.progression, (0x1C, 0x2F))
+FARORE_CHARM          = ItemData("Bottle (Farore Charm)",        ItemClassification.progression, (0x1C, 0x30))
+DINS_CHARM            = ItemData("Bottle (Dins Charm)",          ItemClassification.progression, (0x1C, 0x31))
 # UNUSED              = ItemData("Unused",                       ItemClassification.progression, (0x32, 0x00))
 # UNUSED              = ItemData("Unused",                       ItemClassification.progression, (0x33, 0x00))
 # SMITH_SWORD_QUEST   = ItemData("Smith Sword (Quest)",          ItemClassification.filler, (0x34, 0x00))
@@ -460,23 +460,23 @@ item_groups: dict[str, set[str]] = {
         LONG_SPIN.item_name },
     "Elements": { EARTH_ELEMENT.item_name, FIRE_ELEMENT.item_name, WATER_ELEMENT.item_name, WIND_ELEMENT.item_name },
     "Health": { HEART_CONTAINER.item_name, HEART_PIECE.item_name },
-    "Bottles": {
-        EMPTY_BOTTLE.item_name,
-        LON_LON_BUTTER.item_name,
-        LON_LON_MILK.item_name,
-        LON_LON_MILK_HALF.item_name,
-        RED_POTION.item_name,
-        BLUE_POTION.item_name,
-        WATER.item_name,
-        MINERAL_WATER.item_name,
-        BOTTLED_FAIRY.item_name,
-        RED_PICOLYTE.item_name,
-        ORANGE_PICOLYTE.item_name,
-        YELLOW_PICOLYTE.item_name,
-        GREEN_PICOLYTE.item_name,
-        BLUE_PICOLYTE.item_name,
-        WHITE_PICOLYTE.item_name,
-        NAYRU_CHARM.item_name,
-        FARORE_CHARM.item_name,
-        DINS_CHARM.item_name},
+    "Bottle": {
+        TMCItem.EMPTY_BOTTLE,
+        TMCItem.LON_LON_BUTTER,
+        TMCItem.LON_LON_MILK,
+        TMCItem.LON_LON_MILK_HALF,
+        TMCItem.RED_POTION,
+        TMCItem.BLUE_POTION,
+        TMCItem.WATER,
+        TMCItem.MINERAL_WATER,
+        TMCItem.BOTTLED_FAIRY,
+        TMCItem.RED_PICOLYTE,
+        TMCItem.ORANGE_PICOLYTE,
+        TMCItem.YELLOW_PICOLYTE,
+        TMCItem.GREEN_PICOLYTE,
+        TMCItem.BLUE_PICOLYTE,
+        TMCItem.WHITE_PICOLYTE,
+        TMCItem.NAYRU_CHARM,
+        TMCItem.FARORE_CHARM,
+        TMCItem.DINS_CHARM},
 }

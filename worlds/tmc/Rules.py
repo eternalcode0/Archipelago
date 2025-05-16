@@ -2078,26 +2078,7 @@ class MinishCapRules():
         return self.has_any([TMCItem.ROCS_CAPE, TMCItem.FLIPPERS, TMCItem.CANE_OF_PACCI])
 
     def has_bottle(self) -> CollectionRule:
-        return self.has_any([
-            TMCItem.EMPTY_BOTTLE,
-            TMCItem.LON_LON_BUTTER,
-            TMCItem.LON_LON_MILK,
-            TMCItem.LON_LON_MILK_HALF,
-            TMCItem.RED_POTION,
-            TMCItem.BLUE_POTION,
-            TMCItem.WATER,
-            TMCItem.MINERAL_WATER,
-            TMCItem.BOTTLED_FAIRY,
-            TMCItem.RED_PICOLYTE,
-            TMCItem.ORANGE_PICOLYTE,
-            TMCItem.YELLOW_PICOLYTE,
-            TMCItem.GREEN_PICOLYTE,
-            TMCItem.BLUE_PICOLYTE,
-            TMCItem.WHITE_PICOLYTE,
-            TMCItem.NAYRU_CHARM,
-            TMCItem.FARORE_CHARM,
-            TMCItem.DINS_CHARM,
-        ])
+        return self.has_group("Bottle")
 
     def access_town_fountain(self) -> CollectionRule:
         return self.logic_and([
