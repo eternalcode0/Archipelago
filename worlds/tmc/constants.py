@@ -38,7 +38,7 @@ class TMCItem:
     EMPTY_BOTTLE          = "Bottle (Empty)"
     LON_LON_BUTTER        = "Bottle (Lon Lon Butter)"
     LON_LON_MILK          = "Bottle (Lon Lon Milk)"
-    LON_LON_MILK_HALF     = "Bottle (Lon Lon Milk (1/2))"
+    LON_LON_MILK_HALF     = "Bottle (Lon Lon Milk Half)"
     RED_POTION            = "Bottle (Red Potion)"
     BLUE_POTION           = "Bottle (Blue Potion)"
     WATER                 = "Bottle (Water)"

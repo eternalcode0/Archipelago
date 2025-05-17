@@ -57,7 +57,7 @@ OCARINA               = ItemData("Ocarina",                      ItemClassificat
 EMPTY_BOTTLE          = ItemData("Bottle (Empty)",               ItemClassification.progression, (0x1C, 0x00))
 LON_LON_BUTTER        = ItemData("Bottle (Lon Lon Butter)",      ItemClassification.progression, (0x1C, 0x21))
 LON_LON_MILK          = ItemData("Bottle (Lon Lon Milk)",        ItemClassification.progression, (0x1C, 0x22))
-LON_LON_MILK_HALF     = ItemData("Bottle (Lon Lon Milk half)",   ItemClassification.progression, (0x1C, 0x23))
+LON_LON_MILK_HALF     = ItemData("Bottle (Lon Lon Milk Half)",   ItemClassification.progression, (0x1C, 0x23))
 RED_POTION            = ItemData("Bottle (Red Potion)",          ItemClassification.progression, (0x1C, 0x24))
 BLUE_POTION           = ItemData("Bottle (Blue Potion)",         ItemClassification.progression, (0x1C, 0x25))
 WATER                 = ItemData("Bottle (Water)",               ItemClassification.progression, (0x1C, 0x26))
@@ -378,7 +378,7 @@ def get_item_pool(world: "MinishCapWorld") -> [MinishCapItem]:
         random_bottles = pool_random_bottle_contents()
         world.random.shuffle(random_bottles)
 
-        for i in {1, 2, 3, 4}:
+        for i in range(0, 4):
             selected_bottles.append(random_bottles[i])
 
         item_pool.extend(selected_bottles)
