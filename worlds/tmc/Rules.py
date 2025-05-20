@@ -1086,10 +1086,10 @@ class MinishCapRules:
         return heart_count
 
     def can_spin(self) -> CollectionRule:
-        return self.logic_and([
-            self.has_sword(),
-            self.has_any([TMCItem.SPIN_ATTACK, TMCItem.FAST_SPIN_SCROLL])
-        ])
+        return self.logic_and([self.has_sword(),
+                               self.has_any([TMCItem.SPIN_ATTACK, TMCItem.FAST_SPIN_SCROLL,
+                                             TMCItem.FAST_SPLIT_SCROLL, TMCItem.GREATSPIN, TMCItem.LONG_SPIN]),
+                               ])
 
     def split_rule(self, link_count: int = 2) -> CollectionRule:
         ordered_swords = [
