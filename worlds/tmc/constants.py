@@ -43,7 +43,7 @@ class TMCItem:
     BLUE_POTION           = "Bottle (Blue Potion)"
     WATER                 = "Bottle (Water)"
     MINERAL_WATER         = "Bottle (Mineral Water)"
-    BOTTLED_FAIRY         = "Bottle (Bottled Fairy)"
+    BOTTLED_FAIRY         = "Bottle (Fairy)"
     RED_PICOLYTE          = "Bottle (Red Picolyte)"
     ORANGE_PICOLYTE       = "Bottle (Orange Picolyte)"
     YELLOW_PICOLYTE       = "Bottle (Yellow Picolyte)"
