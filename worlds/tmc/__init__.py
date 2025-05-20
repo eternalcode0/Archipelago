@@ -13,13 +13,14 @@ import settings
 from BaseClasses import Item, ItemClassification, Tutorial
 from worlds.AutoWorld import WebWorld, World
 from .Client import MinishCapClient
-from .Items import ItemData, filler_item_selection, get_item_pool, itemList, item_frequencies, item_groups, item_table
-from .Locations import DEFAULT_SET, GOAL_PED, GOAL_VAATI, OBSCURE_SET, POOL_RUPEE, all_locations, location_groups
-from .Options import DungeonItem, MinishCapOptions, get_option_data
+from .constants import MinishCapItem, MinishCapLocation, TMCEvent, TMCItem, TMCLocation
+from .dungeons import fill_dungeons
+from .Items import filler_item_selection, get_item_pool, item_frequencies, item_groups, item_list, item_table, ItemData
+from .Locations import all_locations, DEFAULT_SET, GOAL_PED, GOAL_VAATI, location_groups, OBSCURE_SET, POOL_RUPEE
+from .Options import DungeonItem, get_option_data, MinishCapOptions, ShuffleElements
 from .Regions import create_regions
 from .Rom import MinishCapProcedurePatch, write_tokens
 from .Rules import MinishCapRules
-from .constants import MinishCapItem, MinishCapLocation, TMCEvent
 
 tmc_logger = logging.getLogger("The Minish Cap")
 
@@ -30,22 +31,18 @@ class MinishCapWebWorld(WebWorld):
     theme = "grassFlowers"
     bug_report_page = "https://github.com/eternalcode0/Archipelago/issues"
     tutorials = [
-        Tutorial(
-            tutorial_name="Setup Guide",
-            description="A guide to setting up The Legend of Zelda: The Minish Cap for Archipelago.",
-            language="English",
-            file_name="setup_en.md",
-            link="setup/en",
-            authors=["eternalcode"],
-        ),
-        Tutorial(
-            tutorial_name="Setup Guide",
-            description="A guide to setting up The Legend of Zelda: The Minish Cap for Archipelago.",
-            language="Français",
-            file_name="setup_fr.md",
-            link="setup/fr",
-            authors=["Deoxis9001"],
-        )
+        Tutorial(tutorial_name="Setup Guide",
+                 description="A guide to setting up The Legend of Zelda: The Minish Cap for Archipelago.",
+                 language="English",
+                 file_name="setup_en.md",
+                 link="setup/en",
+                 authors=["eternalcode"]),
+        Tutorial(tutorial_name="Setup Guide",
+                 description="A guide to setting up The Legend of Zelda: The Minish Cap for Archipelago.",
+                 language="Français",
+                 file_name="setup_fr.md",
+                 link="setup/fr",
+                 authors=["Deoxis9001"])
     ]
 
 
@@ -74,13 +71,15 @@ class MinishCapWorld(World):
     item_name_to_id = {name: data.item_id for name, data in item_table.items()}
     location_name_to_id = {loc_data.name: loc_data.id for loc_data in all_locations}
     item_name_groups = item_groups
+    item_pool = []
+    pre_fill_pool = []
     location_name_groups = location_groups
     disabled_locations: Set[str]
 
     def generate_early(self) -> None:
         tmc_logger.warning(
-            "INCOMPLETE WORLD! Slot '%s' is using an unfinished alpha world that doesn't have all logic yet!",
-            self.player_name)
+                "INCOMPLETE WORLD! Slot '%s' is using an unfinished alpha world that doesn't have all logic yet!",
+                self.player_name)
         tmc_logger.warning("INCOMPLETE WORLD! Slot '%s' will require send_location/send_item for completion!",
                            self.player_name)
 
@@ -90,20 +89,32 @@ class MinishCapWorld(World):
         if self.options.obscure_spots.value:
             enabled_pools |= OBSCURE_SET
 
+        if self.options.shuffle_elements.value == ShuffleElements.option_dungeon_prize:
+            self.options.start_hints.value.add(TMCItem.EARTH_ELEMENT)
+            self.options.start_hints.value.add(TMCItem.FIRE_ELEMENT)
+            self.options.start_hints.value.add(TMCItem.WATER_ELEMENT)
+            self.options.start_hints.value.add(TMCItem.WIND_ELEMENT)
+
         self.disabled_locations = set(loc.name for loc in all_locations if not loc.pools.issubset(enabled_pools))
 
     def fill_slot_data(self) -> Dict[str, any]:
-        data = {
-            "DeathLink": self.options.death_link.value,
-            "DeathLinkGameover": self.options.death_link_gameover.value,
-            "RupeeSpot": self.options.rupeesanity.value,
-            "ObscureSpot": self.options.obscure_spots.value,
-            "GoalVaati": self.options.goal_vaati.value,
-        }
-        data |= self.options.as_dict("death_link", "death_link_gameover", "rupeesanity", "obscure_spots", "goal_vaati",
-            "weapon_bomb", "weapon_bow", "weapon_gust", "weapon_lantern", "tricks",
-                                     casing="snake")
+        data = {"DeathLink": self.options.death_link.value, "DeathLinkGameover": self.options.death_link_gameover.value,
+                "RupeeSpot": self.options.rupeesanity.value, "ObscureSpot": self.options.obscure_spots.value,
+                "GoalVaati": self.options.goal_vaati.value}
+        data |= self.options.as_dict("death_link", "death_link_gameover", "rupeesanity", "obscure_spots",
+                                     "goal_vaati", "weapon_bomb", "weapon_bow", "weapon_gust", "weapon_lantern",
+                                     "tricks", "dungeon_small_keys", "dungeon_big_keys", "dungeon_compasses",
+                                     "dungeon_maps", casing="snake")
         data |= get_option_data(self.options)
+        # If Element location should be known, add locations to slot data for tracker
+        if self.options.shuffle_elements.value != ShuffleElements.option_anywhere:
+            prizes = {TMCLocation.COF_PRIZE: "prize_cof", TMCLocation.CRYPT_PRIZE: "prize_rc",
+                      TMCLocation.PALACE_PRIZE: "prize_pow", TMCLocation.DEEPWOOD_PRIZE: "prize_dws",
+                      TMCLocation.DROPLETS_PRIZE: "prize_tod", TMCLocation.FORTRESS_PRIZE: "prize_fow"}
+            for loc_name, data_name in prizes.items():
+                placed_item = self.get_location(loc_name).item.name
+                if placed_item in self.item_name_groups["Elements"]:
+                    data[data_name] = item_table[placed_item].byte_ids[0]
         return data
 
     def create_regions(self) -> None:
@@ -129,7 +140,9 @@ class MinishCapWorld(World):
 
     def create_items(self):
         # First add in all progression and useful items
-        item_pool = get_item_pool(self)
+        item_pool, pre_fill_pool = get_item_pool(self)
+        self.item_pool = item_pool
+        self.pre_fill_pool = pre_fill_pool
         total_locations = len(self.multiworld.get_unfilled_locations(self.player))
         required_items = []
         precollected = [item for item in item_pool if item in self.multiworld.precollected_items]
@@ -143,13 +156,16 @@ class MinishCapWorld(World):
         for item in required_items:
             self.multiworld.itempool.append(item)
 
-        for _ in range(total_locations - len(required_items)):
+        for _ in range(total_locations - len(required_items) - len(pre_fill_pool)):
             self.multiworld.itempool.append(self.create_filler())
 
     def set_rules(self) -> None:
         MinishCapRules(self).set_rules(self.disabled_locations, self.location_name_to_id)
         # from Utils import visualize_regions
         # visualize_regions(self.multiworld.get_region("Menu", self.player), "tmc_world.puml")
+
+    def pre_fill(self) -> None:
+        fill_dungeons(self)
 
     def generate_output(self, output_directory: str) -> None:
         patch = MinishCapProcedurePatch(player=self.player, player_name=self.multiworld.player_name[self.player])
