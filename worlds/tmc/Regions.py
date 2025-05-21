@@ -7,8 +7,10 @@ from .Locations import all_locations
 if typing.TYPE_CHECKING:
     from . import MinishCapWorld
 
+
 def excluded_locations_by_region(region: str, disabled_locations: set[str]):
     return (loc for loc in all_locations if loc.region == region and loc.id not in disabled_locations)
+
 
 def create_regions(world: "MinishCapWorld", disabled_locations: set[str], disabled_dungeons: set[str]):
     menu_region = Region("Menu", world.player, world.multiworld)
@@ -34,6 +36,7 @@ def create_regions(world: "MinishCapWorld", disabled_locations: set[str], disabl
         loc = MinishCapLocation(world.player, event, None, reg)
         loc.place_locked_item(world.create_event(event))
         reg.locations.append(loc)
+
 
 def create_region(world: "MinishCapWorld", name, locations):
     ret = Region(name, world.player, world.multiworld)
