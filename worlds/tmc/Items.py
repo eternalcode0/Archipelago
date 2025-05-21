@@ -382,7 +382,7 @@ def get_item_pool(world: "MinishCapWorld") -> (list[MinishCapItem], list[MinishC
             [world.create_item(item.item_name) for item in pre_fill_pool])
 
 
-itemList: list[ItemData] = [
+item_list: list[ItemData] = [
     *(pool_baseitems()),
     *(pool_random_bottle_contents()),
     *(pool_elements()),
