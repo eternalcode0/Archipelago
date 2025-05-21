@@ -1,5 +1,5 @@
 import asyncio
-from typing import Dict, List, Optional, Set, TYPE_CHECKING
+from typing import TYPE_CHECKING
 
 import worlds._bizhawk as bizhawk
 from NetUtils import ClientStatus
@@ -30,7 +30,8 @@ RAM_ADDRS = {
     # 0x05 = Barrel Update
     # 0x06 = Reserved
     # 0x07 = Subtask
-    "task_substate": (0x1004, 1, "IWRAM"),  # The room id in the 1st byte, area id in the 2nd
+    "task_substate": (0x1004, 1, "IWRAM"),
+    # The room id in the 1st byte, area id in the 2nd
     "room_area_id": (0x0BF4, 2, "IWRAM"),
     # 0x00 Denotes whether the player can input, 0x01 cannot input. Not to be confused with can move/interact.
     # Can still be set to 0x00 when the player is in confusing situations such as reading textboxes
@@ -54,9 +55,9 @@ class MinishCapClient(BizHawkClient):
     game = "The Minish Cap"
     system = "GBA"
     patch_suffix = ".aptmc"
-    local_checked_locations: Set[int]
-    location_name_to_id: Dict[str, tuple[int, int]]
-    location_by_room_area: Dict[int, List[LocationData]]
+    local_checked_locations: set[int]
+    location_name_to_id: dict[str, tuple[int, int]]
+    location_by_room_area: dict[int, list[LocationData]]
     room: int
     previous_death_link = 0
     """Timestamp of when the last deathlink was processed"""
@@ -64,7 +65,7 @@ class MinishCapClient(BizHawkClient):
     """Whether the player is expected to be in a death state"""
     event_data = list(map(lambda e: (e[0], 1, "EWRAM"), events.keys()))
     events_sent = set()
-    player_name: Optional[str]
+    player_name: str | None
     seed_verify = False
 
     def __init__(self) -> None:

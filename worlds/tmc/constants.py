@@ -3,7 +3,6 @@ from collections.abc import Callable
 from BaseClasses import Item, ItemClassification, Location
 
 
-
 class MinishCapItem(Item):
     game: str = "The Minish Cap"
 
@@ -703,12 +702,12 @@ class TMCLocation:
 
 
 class TMCEvent:
-    CLEAR_DWS = "Clear DeepWood Shrine"
-    CLEAR_COF = "Clear Cave of Flames"
-    CLEAR_FOW = "Clear Fortress of Winds"
-    CLEAR_TOD = "Clear Temple of Droplets"
-    CLEAR_RC = "Clear Royal Crypt"
-    CLEAR_POW = "Clear Palace of Winds"
+    CLEAR_DWS = "Clear DWS"
+    CLEAR_COF = "Clear CoF"
+    CLEAR_FOW = "Clear FoW"
+    CLEAR_TOD = "Clear ToD"
+    CLEAR_RC = "Clear RC"
+    CLEAR_POW = "Clear PoW"
     CLEAR_PED = "Pedestal Complete"
     CLEAR_DHC = "Kill Vaati"
 
@@ -734,15 +733,21 @@ class TMCRegion:
     ROYAL_VALLEY = "Royal Valley"
     GRAVEYARD = "Graveyard"
     DUNGEON_RC = "Dungeon RC"
+    DUNGEON_RC_CLEAR = "Dungeon RC Clear"
     UPPER_FALLS = "Upper Falls"
     CLOUDS = "Clouds"
     WIND_TRIBE = "Wind Tribe"
     DUNGEON_DWS = "Deepwood Shrine"
+    DUNGEON_DWS_CLEAR = "Deepwood Shrine Clear"
     DUNGEON_COF = "Cave of Flames"
+    DUNGEON_COF_CLEAR = "Cave of Flames Clear"
     DUNGEON_FOW = "Fortress of Winds"
+    DUNGEON_FOW_CLEAR = "Fortress of Winds Clear"
     DUNGEON_TOD = "Temple of Droplets"
+    DUNGEON_TOD_CLEAR = "Temple of Droplets Clear"
     DUNGEON_TOD_MAIN = "Temple of Droplets After Big key"
     DUNGEON_POW = "Palace of Winds"
+    DUNGEON_POW_CLEAR = "Palace of Winds Clear"
     SANCTUARY = "Sanctuary"
     DUNGEON_DHC = "Dark Hyrule Castle"
     VAATI_FIGHT = "Vaati Fight"
@@ -796,12 +801,12 @@ ALL_TRICKS = [
 
 DUNGEON_ABBR = frozenset({"DWS", "CoF", "ToD", "FoW", "PoW", "RC", "DHC"})
 DUNGEON_REGIONS = {
-    "DWS": {TMCRegion.DUNGEON_DWS},
-    "CoF": {TMCRegion.DUNGEON_COF},
-    "ToD": {TMCRegion.DUNGEON_TOD, TMCRegion.DUNGEON_TOD_MAIN},
-    "FoW": {TMCRegion.DUNGEON_FOW},
-    "PoW": {TMCRegion.DUNGEON_POW},
-    "RC": {TMCRegion.DUNGEON_RC},
+    "DWS": {TMCRegion.DUNGEON_DWS, TMCRegion.DUNGEON_DWS_CLEAR},
+    "CoF": {TMCRegion.DUNGEON_COF, TMCRegion.DUNGEON_COF_CLEAR},
+    "ToD": {TMCRegion.DUNGEON_TOD, TMCRegion.DUNGEON_TOD_CLEAR, TMCRegion.DUNGEON_TOD_MAIN},
+    "FoW": {TMCRegion.DUNGEON_FOW, TMCRegion.DUNGEON_FOW_CLEAR},
+    "PoW": {TMCRegion.DUNGEON_POW, TMCRegion.DUNGEON_POW_CLEAR},
+    "RC": {TMCRegion.DUNGEON_RC, TMCRegion.DUNGEON_RC_CLEAR},
     "DHC": {TMCRegion.DUNGEON_DHC},
 }
 EXTERNAL_ITEMS = [0x18, 0x19, 0x1A]
@@ -835,15 +840,21 @@ ALL_REGIONS = [
     TMCRegion.ROYAL_VALLEY,
     TMCRegion.GRAVEYARD,
     TMCRegion.DUNGEON_RC,
+    TMCRegion.DUNGEON_RC_CLEAR,
     TMCRegion.UPPER_FALLS,
     TMCRegion.CLOUDS,
     TMCRegion.WIND_TRIBE,
     TMCRegion.DUNGEON_DWS,
+    TMCRegion.DUNGEON_DWS_CLEAR,
     TMCRegion.DUNGEON_COF,
+    TMCRegion.DUNGEON_COF_CLEAR,
     TMCRegion.DUNGEON_FOW,
+    TMCRegion.DUNGEON_FOW_CLEAR,
     TMCRegion.DUNGEON_TOD,
+    TMCRegion.DUNGEON_TOD_CLEAR,
     TMCRegion.DUNGEON_TOD_MAIN,
     TMCRegion.DUNGEON_POW,
+    TMCRegion.DUNGEON_POW_CLEAR,
     TMCRegion.SANCTUARY,
     TMCRegion.DUNGEON_DHC,
     TMCRegion.VAATI_FIGHT,
