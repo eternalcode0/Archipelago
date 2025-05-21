@@ -1,14 +1,15 @@
 from typing import TYPE_CHECKING
-from worlds.Files import APProcedurePatch, APTokenMixin, APTokenTypes
-from settings import get_settings
-from BaseClasses import Item, ItemClassification
 
-from .Locations import location_table_by_name, LocationData
-from .Items import item_table
+from BaseClasses import Item, ItemClassification
+from settings import get_settings
+from worlds.Files import APProcedurePatch, APTokenMixin, APTokenTypes
 from .constants import EXTERNAL_ITEM_MAP
+from .Items import item_table
+from .Locations import location_table_by_name, LocationData
 
 if TYPE_CHECKING:
     from . import MinishCapWorld
+
 
 class MinishCapProcedurePatch(APProcedurePatch, APTokenMixin):
     game = "The Minish Cap"
@@ -16,10 +17,7 @@ class MinishCapProcedurePatch(APProcedurePatch, APTokenMixin):
     patch_file_ending = ".aptmc"
     result_file_ending = ".gba"
 
-    procedure = [
-        ("apply_bsdiff4", ["base_patch.bsdiff4"]),
-        ("apply_tokens", ["token_data.bin"]),
-    ]
+    procedure = [("apply_bsdiff4", ["base_patch.bsdiff4"]), ("apply_tokens", ["token_data.bin"])]
 
     @classmethod
     def get_source_data(cls) -> bytes:
@@ -27,6 +25,7 @@ class MinishCapProcedurePatch(APProcedurePatch, APTokenMixin):
             base_rom_bytes = bytes(infile.read())
 
         return base_rom_bytes
+
 
 def write_tokens(world: "MinishCapWorld", patch: MinishCapProcedurePatch) -> None:
     # Bake player name into ROM
@@ -39,7 +38,9 @@ def write_tokens(world: "MinishCapWorld", patch: MinishCapProcedurePatch) -> Non
     for location_name, loc in location_table_by_name.items():
         if loc.rom_addr is None:
             continue
-        if location_name in world.disabled_locations and (loc.vanilla_item is None or (loc.vanilla_item in item_table and item_table[loc.vanilla_item].classification != ItemClassification.filler)):
+        if location_name in world.disabled_locations and (
+                loc.vanilla_item is None or loc.vanilla_item in item_table and item_table[
+            loc.vanilla_item].classification != ItemClassification.filler):
             if loc.rom_addr[0] is None:
                 continue
             item_inject(world, patch, location_table_by_name[location_name], world.create_filler())
@@ -54,8 +55,9 @@ def write_tokens(world: "MinishCapWorld", patch: MinishCapProcedurePatch) -> Non
 
     patch.write_file("token_data.bin", patch.get_token_binary())
 
+
 def item_inject(world: "MinishCapWorld", patch: MinishCapProcedurePatch, location: LocationData, item: Item):
-    item_byte_first  = 0x00
+    item_byte_first = 0x00
     item_byte_second = 0x00
 
     if item.player == world.player:
@@ -78,6 +80,7 @@ def item_inject(world: "MinishCapWorld", patch: MinishCapProcedurePatch, locatio
         loc2 = location.rom_addr[1] or location.rom_addr[0] + 1
         write_single_byte(patch, location.rom_addr[0], item_byte_first)
         write_single_byte(patch, loc2, item_byte_second)
+
 
 def write_single_byte(patch: MinishCapProcedurePatch, address: int, byte: int):
     if address is None:

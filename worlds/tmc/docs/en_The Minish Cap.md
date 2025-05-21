@@ -35,7 +35,7 @@ Items:
 
 ## What other changes are made to the game?
 
-The game has been modified to open the world up much more than vanilla. You will start with Ezlo and all of the opening
+The game has been modified to open the world up much more than vanilla. You will start with Ezlo, and all the opening
 cutscenes along with many other story events will be skipped. Hyrule Town has also been modified to make nearly every
 location accessible at any point.
 
