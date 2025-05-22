@@ -48,7 +48,25 @@ class MinishCapRules:
             (TMCRegion.CASTLE_EXTERIOR, TMCRegion.SANCTUARY): None,
 
             # (TMCRegion.SANCTUARY, TMCRegion.CASTLE_EXTERIOR): Already connected
-            (TMCRegion.SANCTUARY, TMCRegion.DUNGEON_DHC):
+            (TMCRegion.SANCTUARY, TMCRegion.VAATI_FIGHT if self.world.options.skip_dhc.value else None):
+                self.logic_and([
+                    self.has_group("Elements", self.world.options.ped_elements.value),
+                    self.has(TMCItem.PROGRESSIVE_SWORD, self.world.options.ped_swords.value),
+                    self.has_from_list([
+                        TMCEvent.CLEAR_DWS,
+                        TMCEvent.CLEAR_COF,
+                        TMCEvent.CLEAR_FOW,
+                        TMCEvent.CLEAR_TOD,
+                        TMCEvent.CLEAR_RC,
+                        TMCEvent.CLEAR_POW,
+                    ], self.world.options.ped_dungeons.value),
+                    self.has_all([TMCItem.GUST_JAR, TMCItem.CANE_OF_PACCI]),
+                    self.dark_room(),  # Don't make people do the final boss in the dark
+                    self.has_bow(),
+                    self.split_rule(4),
+                ]),
+
+            (TMCRegion.SANCTUARY, TMCRegion.DUNGEON_DHC if not self.world.options.skip_dhc.value else None):
                 self.logic_and([
                     self.has_group("Elements", self.world.options.ped_elements.value),
                     self.has(TMCItem.PROGRESSIVE_SWORD, self.world.options.ped_swords.value),
@@ -1400,6 +1418,8 @@ class MinishCapRules:
         multiworld = self.world.multiworld
 
         for region_pair, rule in self.connection_rules.items():
+            if region_pair[0] is None or region_pair[1] is None:
+                continue
             region_one = multiworld.get_region(region_pair[0], self.player)
             region_two = multiworld.get_region(region_pair[1], self.player)
             region_one.connect(region_two, rule=rule)

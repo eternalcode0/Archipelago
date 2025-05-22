@@ -83,7 +83,8 @@ def fill_dungeons(world: "MinishCapWorld"):
                          allow_excluded=True, name="TMC Element Fill")
 
     # Fill DHC last since it needs the elements to be reachable
-    fill_dungeon(world, "DHC", items["DHC"], all_state)
+    if not world.options.skip_dhc.value:
+        fill_dungeon(world, "DHC", items["DHC"], all_state)
 
 
 def fill_dungeon(world: "MinishCapWorld", dungeon: str, items: list[MinishCapItem], all_state: CollectionState):

@@ -262,39 +262,56 @@ def pool_baseitems() -> list[ItemData]:
     ]
 
 
-def pool_dungeonmaps() -> list[ItemData]:
-    return [DUNGEON_MAP_DWS, DUNGEON_MAP_COF, DUNGEON_MAP_FOW, DUNGEON_MAP_TOD, DUNGEON_MAP_POW, DUNGEON_MAP_DHC]
+def pool_dungeonmaps(world: "MinishCapWorld") -> [ItemData]:
+    maps = [DUNGEON_MAP_DWS, DUNGEON_MAP_COF, DUNGEON_MAP_FOW, DUNGEON_MAP_TOD, DUNGEON_MAP_POW]
+    if not world.options.skip_dhc:
+        maps.append(DUNGEON_MAP_DHC)
+    return maps
 
 
-def pool_compass() -> list[ItemData]:
-    return [DUNGEON_COMPASS_DWS, DUNGEON_COMPASS_COF, DUNGEON_COMPASS_FOW, DUNGEON_COMPASS_TOD, DUNGEON_COMPASS_POW,
-            DUNGEON_COMPASS_DHC]
+def pool_compass(world: "MinishCapWorld") -> [ItemData]:
+    compasses = [DUNGEON_COMPASS_DWS, DUNGEON_COMPASS_COF, DUNGEON_COMPASS_FOW, DUNGEON_COMPASS_TOD,
+                 DUNGEON_COMPASS_POW]
+    if not world.options.skip_dhc:
+        compasses.append(DUNGEON_COMPASS_DHC)
+    return compasses
 
 
-def pool_bigkeys() -> list[ItemData]:
-    return [BIG_KEY_DWS, BIG_KEY_COF, BIG_KEY_FOW, BIG_KEY_POW, BIG_KEY_DHC]
-    # BIG_KEY_TOD # ToD key is always placed manually
+def pool_bigkeys(world: "MinishCapWorld") -> [ItemData]:
+    keys = [BIG_KEY_DWS, BIG_KEY_COF, BIG_KEY_FOW, BIG_KEY_POW]
+    if not world.options.skip_dhc:
+        keys.append(BIG_KEY_DHC)
+    return keys
 
 
-def pool_smallkeys() -> list[ItemData]:
-    return [*[*[SMALL_KEY_DWS] * 4], *[*[SMALL_KEY_COF] * 2], *[*[SMALL_KEY_FOW] * 4], *[*[SMALL_KEY_TOD] * 4],
-            *[*[SMALL_KEY_POW] * 6], *[*[SMALL_KEY_DHC] * 5], *[*[SMALL_KEY_RC] * 3]]
+def pool_smallkeys(world: "MinishCapWorld") -> [ItemData]:
+    keys = [
+        *[SMALL_KEY_DWS] * 4,
+        *[SMALL_KEY_COF] * 2,
+        *[SMALL_KEY_FOW] * 4,
+        *[SMALL_KEY_TOD] * 4,
+        *[SMALL_KEY_POW] * 6,
+        *[SMALL_KEY_RC] * 3,
+    ]
+    if not world.options.skip_dhc:
+        keys.extend([SMALL_KEY_DHC] * 5)
+    return keys
 
 
 def pool_kinstone_gold() -> list[ItemData]:
-    return [*[*[KINSTONE_GOLD_CLOUD] * 5], *[*[KINSTONE_GOLD_SWAMP] * 3], *[*[KINSTONE_GOLD_FALLS] * 1]]
+    return [*[KINSTONE_GOLD_CLOUD] * 5, *[KINSTONE_GOLD_SWAMP] * 3, *[KINSTONE_GOLD_FALLS] * 1]
 
 
 def pool_kinstone_red() -> list[ItemData]:
-    return [*[*[KINSTONE_RED_W] * 9], *[*[KINSTONE_RED_ANGLE] * 7], *[*[KINSTONE_RED_E] * 8]]
+    return [*[KINSTONE_RED_W] * 9, *[KINSTONE_RED_ANGLE] * 7, *[KINSTONE_RED_E] * 8]
 
 
 def pool_kinstone_blue() -> list[ItemData]:
-    return [*[*[KINSTONE_BLUE_L] * 9], *[*[KINSTONE_BLUE_6] * 9]]
+    return [*[KINSTONE_BLUE_L] * 9, *[KINSTONE_BLUE_6] * 9]
 
 
 def pool_kinstone_green() -> list[ItemData]:
-    return [*[*[KINSTONE_GREEN_ANGLE] * 17], *[*[KINSTONE_GREEN_SQUARE] * 16], *[*[KINSTONE_GREEN_P] * 16]]
+    return [*[KINSTONE_GREEN_ANGLE] * 17, *[KINSTONE_GREEN_SQUARE] * 16, *[KINSTONE_GREEN_P] * 16]
 
 
 def get_item_pool(world: "MinishCapWorld") -> (list[MinishCapItem], list[MinishCapItem]):
@@ -313,22 +330,22 @@ def get_item_pool(world: "MinishCapWorld") -> (list[MinishCapItem], list[MinishC
         multiworld.local_early_items[player][weapon_choice] = 1
 
     if world.options.dungeon_big_keys.value == DungeonItem.option_own_dungeon:
-        pre_fill_pool.extend(pool_bigkeys())
+        pre_fill_pool.extend(pool_bigkeys(world))
     else:
-        item_pool.extend(pool_bigkeys())
+        item_pool.extend(pool_bigkeys(world))
         item_pool.append(BIG_KEY_TOD)
     if world.options.dungeon_small_keys.value == DungeonItem.option_own_dungeon:
-        pre_fill_pool.extend(pool_smallkeys())
+        pre_fill_pool.extend(pool_smallkeys(world))
     else:
-        item_pool.extend(pool_smallkeys())
+        item_pool.extend(pool_smallkeys(world))
     if world.options.dungeon_compasses.value == DungeonItem.option_own_dungeon:
-        pre_fill_pool.extend(pool_compass())
+        pre_fill_pool.extend(pool_compass(world))
     else:
-        item_pool.extend(pool_compass())
+        item_pool.extend(pool_compass(world))
     if world.options.dungeon_maps.value == DungeonItem.option_own_dungeon:
-        pre_fill_pool.extend(pool_dungeonmaps())
+        pre_fill_pool.extend(pool_dungeonmaps(world))
     else:
-        item_pool.extend(pool_dungeonmaps())
+        item_pool.extend(pool_dungeonmaps(world))
 
     # ToD is stupid, need to place the big key manually
     if world.options.dungeon_big_keys.value == DungeonItem.option_own_dungeon:
@@ -346,10 +363,42 @@ def get_item_pool(world: "MinishCapWorld") -> (list[MinishCapItem], list[MinishC
 
 
 item_list: list[ItemData] = [
-    *(pool_baseitems()), *(pool_elements()),
-    *(pool_smallkeys()), *(pool_bigkeys()), BIG_KEY_TOD,
-    *(pool_dungeonmaps()), *(pool_compass()),
-    *(pool_kinstone_gold()),  # *(pool_kinstone_red()), *(pool_kinstone_blue()), *(pool_kinstone_green()),
+    *(pool_baseitems()),
+    *(pool_elements()),
+
+    BIG_KEY_COF,
+    BIG_KEY_DWS,
+    BIG_KEY_TOD,
+    BIG_KEY_POW,
+    BIG_KEY_FOW,
+    BIG_KEY_DHC,
+
+    SMALL_KEY_COF,
+    SMALL_KEY_DWS,
+    SMALL_KEY_TOD,
+    SMALL_KEY_POW,
+    SMALL_KEY_FOW,
+    SMALL_KEY_RC,
+    SMALL_KEY_DHC,
+
+    DUNGEON_MAP_COF,
+    DUNGEON_MAP_DWS,
+    DUNGEON_MAP_TOD,
+    DUNGEON_MAP_POW,
+    DUNGEON_MAP_FOW,
+    DUNGEON_MAP_DHC,
+
+    DUNGEON_COMPASS_COF,
+    DUNGEON_COMPASS_DWS,
+    DUNGEON_COMPASS_TOD,
+    DUNGEON_COMPASS_POW,
+    DUNGEON_COMPASS_FOW,
+    DUNGEON_COMPASS_DHC,
+
+    *(pool_kinstone_gold()),
+    # *(pool_kinstone_red()),
+    # *(pool_kinstone_blue()),
+    # *(pool_kinstone_green()),
 ]
 
 item_frequencies: dict[str, int] = {

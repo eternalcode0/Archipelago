@@ -1,11 +1,13 @@
-from typing import TYPE_CHECKING
-
+from .Locations import location_table_by_name, LocationData
+from .Items import item_table
+from .constants import EXTERNAL_ITEM_MAP
 from BaseClasses import Item, ItemClassification
 from settings import get_settings
 from worlds.Files import APProcedurePatch, APTokenMixin, APTokenTypes
-from .constants import EXTERNAL_ITEM_MAP
-from .Items import item_table
-from .Locations import location_table_by_name, LocationData
+import struct
+from dataclasses import dataclass
+from typing import TYPE_CHECKING
+
 
 if TYPE_CHECKING:
     from . import MinishCapWorld
@@ -27,6 +29,27 @@ class MinishCapProcedurePatch(APProcedurePatch, APTokenMixin):
         return base_rom_bytes
 
 
+@dataclass
+class Transition:
+    start_x: int
+    start_y: int
+    end_x: int
+    end_y: int
+    area_id: int
+    room_id: int
+    warp_type: int = 0
+    subtype: int = 0
+    shape: int = 0
+    height: int = 1
+    transition_type: int = 0
+    facing_direction: int = 0
+
+    def serialize(self) -> bytes:
+        return struct.pack("<BBHHHHBBBBBB", self.warp_type, self.subtype, self.start_x, self.start_y, self.end_x,
+                           self.end_y, self.shape, self.area_id, self.room_id, self.height, self.transition_type,
+                           self.facing_direction)
+
+
 def write_tokens(world: "MinishCapWorld", patch: MinishCapProcedurePatch) -> None:
     # Bake player name into ROM
     patch.write_token(APTokenTypes.WRITE, 0x000600, world.multiworld.player_name[world.player].encode("UTF-8"))
@@ -34,12 +57,17 @@ def write_tokens(world: "MinishCapWorld", patch: MinishCapProcedurePatch) -> Non
     # Bake seed name into ROM
     patch.write_token(APTokenTypes.WRITE, 0x000620, world.multiworld.seed_name.encode("UTF-8"))
 
-    if 1 <= world.options.ped_elements.value <= 4:
+    if 0 <= world.options.ped_elements.value <= 4:
         patch.write_token(APTokenTypes.WRITE, 0x000701, bytes([world.options.ped_elements.value]))
-    if 1 <= world.options.ped_swords.value <= 5:
+    if 0 <= world.options.ped_swords.value <= 5:
         patch.write_token(APTokenTypes.WRITE, 0x000702, bytes([world.options.ped_swords.value]))
-    if 1 <= world.options.ped_dungeons.value <= 6:
+    if 0 <= world.options.ped_dungeons.value <= 6:
         patch.write_token(APTokenTypes.WRITE, 0x000703, bytes([world.options.ped_dungeons.value]))
+
+    if world.options.skip_dhc.value and world.options.goal_vaati.value:
+        ped_to_altar = Transition(warp_type=1, start_x=0xE8, start_y=0x28, end_x=0x78, end_y=0x168,
+                                  area_id=0x89, room_id=0)
+        patch.write_token(APTokenTypes.WRITE, 0x139E80, ped_to_altar.serialize())
 
     # Patch Items into Locations
     for location_name, loc in location_table_by_name.items():

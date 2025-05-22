@@ -106,6 +106,13 @@ class GoalVaati(DefaultOnToggle):
     display_name = "Vaati Goal"
 
 
+class SkipDHC(Toggle):
+    """
+    Removes DHC and makes the entrance to sanctuary go straight to Vaati if GoalVaati is enabled.
+    """
+    display_name = "Skip DHC"
+
+
 class PedDungeons(Range):
     """
     How many dungeons are required to activate Pedestal?
@@ -282,6 +289,7 @@ class MinishCapOptions(PerGameCommonOptions):
     ped_dungeons: PedDungeons
     # ped_figurines: GoalFigurines
     # figurine_amount: FigurineAmount
+    skip_dhc: SkipDHC
     shuffle_elements: ShuffleElements
     weapon_bomb: WeaponBomb
     weapon_bow: WeaponBow
