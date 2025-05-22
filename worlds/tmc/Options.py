@@ -2,7 +2,7 @@ from dataclasses import dataclass
 
 from Options import (Choice, DeathLink, DefaultOnToggle, OptionSet, PerGameCommonOptions, Range, StartInventoryPool,
                      Toggle)
-from .constants import ALL_TRICKS
+from .constants import ALL_TRICKS, WIND_CRESTS
 
 
 class DungeonItem(Choice):
@@ -96,6 +96,29 @@ class DungeonCompasses(DungeonItem):
     """
     display_name = "Dungeon Compasses Shuffle"
     default = 3
+
+
+class DungeonWarps(OptionSet):
+    """
+    A list of which dungeon warps are available at the start. Warp name is any of the 6 dungeon abbreviations
+    (excluding Royal Crypt) followed by "Blue" or "Red". Ex.
+    - "DWS Blue"
+    - "ToD Red"
+    - "DHC Red"
+    """
+    display_name = "Starting Dungeon Warps"
+    valid_keys = [f"{dungeon} {warp}"
+                  for dungeon in ["DWS", "CoF", "FoW", "ToD", "PoW", "DHC"]
+                  for warp in ["Blue", "Red"]]
+
+
+class WindCrests(OptionSet):
+    """
+    A list of which wind crests to start with. Lake Hylia is always enabled to ensure Library is reachable
+    """
+    display_name = "Starting Wind Crests"
+    default = ["Hyrule Town"]
+    valid_keys = WIND_CRESTS.keys()
 
 
 class GoalVaati(DefaultOnToggle):
@@ -295,6 +318,8 @@ class MinishCapOptions(PerGameCommonOptions):
     dungeon_big_keys: BigKeys
     dungeon_maps: DungeonMaps
     dungeon_compasses: DungeonCompasses
+    # dungeon_warps: DungeonWarps
+    wind_crests: WindCrests
 
 
 def get_option_data(options: MinishCapOptions):
@@ -329,14 +354,14 @@ def get_option_data(options: MinishCapOptions):
         "grabbables": 0,  # 0 = Not Allowed, 1 = Allowed, 2 = Required, 3 = Required (Hard)
         "open_world": 0,  # No, Yes
         "extra_shop_item": 0,
-        "wind_crest_crenel": 0,
-        "wind_crest_castor": 0,
-        "wind_crest_clouds": 0,
+        "wind_crest_crenel": 1 if "Mount Crenel" in options.wind_crests.value else 0,
+        "wind_crest_falls": 1 if "Veil Falls" in options.wind_crests.value else 0,
+        "wind_crest_clouds": 1 if "Cloud Tops" in options.wind_crests.value else 0,
+        "wind_crest_town": 1 if "Hyrule Town" in options.wind_crests.value else 0,
         "wind_crest_lake": 1,
-        "wind_crest_town": 1,
-        "wind_crest_falls": 0,
-        "wind_crest_south_field": 0,
-        "wind_crest_minish_woods": 0,
+        "wind_crest_castor": 1 if "Castor Wilds" in options.wind_crests.value else 0,
+        "wind_crest_south_field": 1 if "South Hyrule Field" in options.wind_crests.value else 0,
+        "wind_crest_minish_woods": 1 if "Minish Woods" in options.wind_crests.value else 0,
         "weapon_bombs": options.weapon_bomb.value,  # No, Yes, Yes + Bosses
         "weapon_bows": options.weapon_bow.value,
         "weapon_gust_jar": options.weapon_gust.value,  # No, Yes

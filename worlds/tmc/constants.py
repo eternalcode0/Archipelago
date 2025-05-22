@@ -809,6 +809,16 @@ DUNGEON_REGIONS = {
     "RC": {TMCRegion.DUNGEON_RC, TMCRegion.DUNGEON_RC_CLEAR},
     "DHC": {TMCRegion.DUNGEON_DHC},
 }
+
+WIND_CRESTS = {
+    "Mount Crenel": 0x01,
+    "Veil Falls": 0x02,
+    "Cloud Tops": 0x04,
+    "Hyrule Town": 0x08,
+    # "Lake Hylia": 0x10, # Temporarily excluded to keep always enabled
+    "Castor Wilds": 0x20,
+    "South Hyrule Field": 0x40,
+    "Minish Woods": 0x80}
 EXTERNAL_ITEMS = [0x18, 0x19, 0x1A]
 EXTERNAL_ITEM_MAP: dict[ItemClassification, Callable[[object], int]] = {
     ItemClassification.filler: lambda random: 0x1A,

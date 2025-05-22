@@ -3,7 +3,7 @@ from typing import TYPE_CHECKING
 from BaseClasses import Item, ItemClassification
 from settings import get_settings
 from worlds.Files import APProcedurePatch, APTokenMixin, APTokenTypes
-from .constants import EXTERNAL_ITEM_MAP
+from .constants import EXTERNAL_ITEM_MAP, WIND_CRESTS
 from .Items import item_table
 from .Locations import location_table_by_name, LocationData
 
@@ -34,12 +34,21 @@ def write_tokens(world: "MinishCapWorld", patch: MinishCapProcedurePatch) -> Non
     # Bake seed name into ROM
     patch.write_token(APTokenTypes.WRITE, 0x000620, world.multiworld.seed_name.encode("UTF-8"))
 
-    if 1 <= world.options.ped_elements.value <= 4:
+    # Pedestal Settings
+    if 0 <= world.options.ped_elements.value <= 4:
         patch.write_token(APTokenTypes.WRITE, 0x000701, bytes([world.options.ped_elements.value]))
-    if 1 <= world.options.ped_swords.value <= 5:
+    if 0 <= world.options.ped_swords.value <= 5:
         patch.write_token(APTokenTypes.WRITE, 0x000702, bytes([world.options.ped_swords.value]))
-    if 1 <= world.options.ped_dungeons.value <= 6:
+    if 0 <= world.options.ped_dungeons.value <= 6:
         patch.write_token(APTokenTypes.WRITE, 0x000703, bytes([world.options.ped_dungeons.value]))
+
+    # Wind Crests
+    crest_value = 0x0
+    enabled_crests = [WIND_CRESTS[crest] for crest in world.options.wind_crests.value]
+    enabled_crests.append(0x10)  # Lake Hylia wind crest
+    for crest in enabled_crests:
+        crest_value |= crest
+    patch.write_token(APTokenTypes.WRITE, 0xFF1279, bytes([crest_value]))
 
     # Patch Items into Locations
     for location_name, loc in location_table_by_name.items():
