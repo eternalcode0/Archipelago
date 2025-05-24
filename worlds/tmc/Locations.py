@@ -680,7 +680,7 @@ all_locations: list[LocationData] = [
     ),
     LocationData(
         6029163, TMCLocation.MINISH_WOODS_WITCH_HUT_ITEM, TMCRegion.MINISH_WOODS,
-        TMCItem.WAKEUP_MUSHROOM, (0x0F94D7, None), (0x2EA4, 0x04), 0x0024, scoutable=True, pools={POOL_SHOP}
+        TMCItem.WAKEUP_MUSHROOM, (0x0F94D7, None), (0x2EA4, 0x04), 0x0024, pools={POOL_SHOP}
     ),
     LocationData(
         6029164, TMCLocation.WITCH_DIGGING_CAVE_CHEST, TMCRegion.MINISH_WOODS,
@@ -1315,7 +1315,7 @@ all_locations: list[LocationData] = [
     ),
     LocationData(
         6029321, TMCLocation.VALLEY_GRAVEYARD_LEFT_GRAVE_HP, TMCRegion.GRAVEYARD,
-        TMCItem.HEART_PIECE, (0x0D8AE7, None), (0x2D27, 0x20), 0x0034, scoutable=True, pools={POOL_HP}
+        TMCItem.HEART_PIECE, (0x0D8AE7, None), (0x2D27, 0x20), 0x0034, pools={POOL_HP}
     ),
     LocationData(
         6029322, TMCLocation.VALLEY_GRAVEYARD_RIGHT_FUSION_CHEST, TMCRegion.GRAVEYARD,
@@ -1330,11 +1330,11 @@ all_locations: list[LocationData] = [
     # region Dungeon RC
     LocationData(
         6029325, TMCLocation.CRYPT_GIBDO_LEFT_ITEM, TMCRegion.DUNGEON_RC,
-        TMCItem.BOMB_REFILL_5, (0x0E688B, None), (0x2D14, 0x10), 0x0868, scoutable=True
+        TMCItem.BOMB_REFILL_5, (0x0E688B, None), (0x2D14, 0x10), 0x0868
     ),
     LocationData(
         6029326, TMCLocation.CRYPT_GIBDO_RIGHT_ITEM, TMCRegion.DUNGEON_RC,
-        TMCItem.SMALL_KEY_RC, (0x0E68AB, None), (0x2D14, 0x20), 0x0868, scoutable=True
+        TMCItem.SMALL_KEY_RC, (0x0E68AB, None), (0x2D14, 0x20), 0x0868
     ),
     LocationData(
         6029327, TMCLocation.CRYPT_LEFT_ITEM, TMCRegion.DUNGEON_RC,
@@ -1689,7 +1689,7 @@ all_locations: list[LocationData] = [
     ),
     LocationData(
         6029413, TMCLocation.COF_B1_HP, TMCRegion.DUNGEON_COF,
-        TMCItem.HEART_PIECE, (0x0DFC9F, None), (0x2D5B, 0x10), 0x0650, scoutable=True, pools={POOL_HP}
+        TMCItem.HEART_PIECE, (0x0DFC9F, None), (0x2D5B, 0x10), 0x0650, pools={POOL_HP}
     ),
     LocationData(
         6029414, TMCLocation.COF_B1_SPIKEY_CHUS_BIG_CHEST, TMCRegion.DUNGEON_COF,
