@@ -118,7 +118,8 @@ class MinishCapWorld(World):
                                      "dungeon_maps", casing="snake")
         data |= get_option_data(self.options)
         # If Element location should be known, add locations to slot data for tracker
-        if self.options.shuffle_elements.value != ShuffleElements.option_anywhere:
+        if self.options.shuffle_elements.value in {ShuffleElements.option_dungeon_prize,
+                                                   ShuffleElements.option_vanilla}:
             prizes = {TMCLocation.COF_PRIZE: "prize_cof", TMCLocation.CRYPT_PRIZE: "prize_rc",
                       TMCLocation.PALACE_PRIZE: "prize_pow", TMCLocation.DEEPWOOD_PRIZE: "prize_dws",
                       TMCLocation.DROPLETS_PRIZE: "prize_tod", TMCLocation.FORTRESS_PRIZE: "prize_fow"}
@@ -174,6 +175,9 @@ class MinishCapWorld(World):
         MinishCapRules(self).set_rules(self.disabled_locations, self.location_name_to_id)
         # from Utils import visualize_regions
         # visualize_regions(self.multiworld.get_region("Menu", self.player), "tmc_world.puml")
+
+    def get_pre_fill_items(self) -> list[Item]:
+        return self.pre_fill_pool
 
     def pre_fill(self) -> None:
         fill_dungeons(self)

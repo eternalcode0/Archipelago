@@ -1345,7 +1345,7 @@ all_locations: list[LocationData] = [
         TMCItem.SMALL_KEY_RC, (0x0E63A7, None), (0x2D12, 0x80), 0x0468
     ),
     LocationData(
-        6029329, TMCLocation.CRYPT_PRIZE, TMCRegion.DUNGEON_RC,
+        6029329, TMCLocation.CRYPT_PRIZE, TMCRegion.DUNGEON_RC_CLEAR,
         TMCItem.KINSTONE_GOLD_FALLS, (0x00DA5A, None), (0x2D02, 0x04), 0x0068
     ),
     # endregion
@@ -1634,11 +1634,11 @@ all_locations: list[LocationData] = [
         TMCItem.BIG_KEY_DWS, (0x0DEB9A, None), (0x2D43, 0x80), 0x1148
     ),
     LocationData(
-        6029400, TMCLocation.DEEPWOOD_BOSS_ITEM, TMCRegion.DUNGEON_DWS,
+        6029400, TMCLocation.DEEPWOOD_BOSS_ITEM, TMCRegion.DUNGEON_DWS_CLEAR,
         TMCItem.HEART_CONTAINER, (0x0DF07B, None), (0x2D44, 0x80), 0x0049, pools={POOL_HP}
     ),
     LocationData(
-        6029401, TMCLocation.DEEPWOOD_PRIZE, TMCRegion.DUNGEON_DWS,
+        6029401, TMCLocation.DEEPWOOD_PRIZE, TMCRegion.DUNGEON_DWS_CLEAR,
         TMCItem.EARTH_ELEMENT, (0x0DF03B, None), (0x2C9C, 0x04), 0x0049, pools={POOL_ELEMENT}
     ),
     # endregion
@@ -1720,15 +1720,15 @@ all_locations: list[LocationData] = [
         TMCItem.BIG_KEY_COF, (0x0E0CCA, None), (0x2D5B, 0x02), 0x1750
     ),
     LocationData(
-        6029421, TMCLocation.COF_BOSS_ITEM, TMCRegion.DUNGEON_COF,
+        6029421, TMCLocation.COF_BOSS_ITEM, TMCRegion.DUNGEON_COF_CLEAR,
         TMCItem.HEART_CONTAINER, (0x0E0F43, None), (0x2D5B, 0x04), 0x0051, pools={POOL_HP}
     ),
     LocationData(
-        6029422, TMCLocation.COF_PRIZE, TMCRegion.DUNGEON_COF,
+        6029422, TMCLocation.COF_PRIZE, TMCRegion.DUNGEON_COF_CLEAR,
         TMCItem.FIRE_ELEMENT, (0x0E0F03, None), (0x2C9C, 0x08), 0x0051, pools={POOL_ELEMENT}
     ),
     LocationData(
-        6029423, TMCLocation.CRENEL_MELARI_NPC, TMCRegion.DUNGEON_COF,
+        6029423, TMCLocation.CRENEL_MELARI_NPC, TMCRegion.DUNGEON_COF_CLEAR,
         TMCItem.PROGRESSIVE_SWORD, (0x00D26E, None), (0x2EA4, 0x80), 0x0010
     ),  # Only attainable after COF cleared
     # endregion
@@ -1850,11 +1850,11 @@ all_locations: list[LocationData] = [
         TMCItem.BIG_KEY_FOW, (0x0E28A2, None), (0x2D73, 0x04), 0x1B58
     ),
     LocationData(
-        6029473, TMCLocation.FORTRESS_BOSS_ITEM, TMCRegion.DUNGEON_FOW,
+        6029473, TMCLocation.FORTRESS_BOSS_ITEM, TMCRegion.DUNGEON_FOW_CLEAR,
         TMCItem.HEART_CONTAINER, (0x0E22E7, None), (0x2D72, 0x04), 0x1658, pools={POOL_HP}
     ),
     LocationData(
-        6029474, TMCLocation.FORTRESS_PRIZE, TMCRegion.DUNGEON_FOW,
+        6029474, TMCLocation.FORTRESS_PRIZE, TMCRegion.DUNGEON_FOW_CLEAR,
         TMCItem.OCARINA, (0x09C9E6, 0x09C9E8), (0x2D74, 0x20), 0x0059, pools={POOL_ELEMENT}
     ),
     # endregion
@@ -2020,11 +2020,11 @@ all_locations: list[LocationData] = [
         TMCItem.RUPEES_1, (0x0E487F, None), (0x2D95, 0x08), 0x2560, pools={POOL_RUPEE}
     ),
     LocationData(
-        6029515, TMCLocation.DROPLETS_BOSS_ITEM, TMCRegion.DUNGEON_TOD_MAIN,
+        6029515, TMCLocation.DROPLETS_BOSS_ITEM, TMCRegion.DUNGEON_TOD_CLEAR,
         TMCItem.HEART_CONTAINER, (0x0E4103, None), (0x2D8C, 0x01), 0x0E60, pools={POOL_HP}
     ),
     LocationData(
-        6029516, TMCLocation.DROPLETS_PRIZE, TMCRegion.DUNGEON_TOD_MAIN,
+        6029516, TMCLocation.DROPLETS_PRIZE, TMCRegion.DUNGEON_TOD_CLEAR,
         TMCItem.WATER_ELEMENT, (0x0E40C3, None), (0x2C9C, 0x20), 0x0E60, pools={POOL_ELEMENT}
     ),
     # endregion
@@ -2118,11 +2118,11 @@ all_locations: list[LocationData] = [
         TMCItem.KINSTONE, (0x0E6D8A, None), (0x2DA2, 0x80), 0x0470
     ),
     LocationData(
-        6029539, TMCLocation.PALACE_BOSS_ITEM, TMCRegion.DUNGEON_POW,
+        6029539, TMCLocation.PALACE_BOSS_ITEM, TMCRegion.DUNGEON_POW_CLEAR,
         TMCItem.HEART_CONTAINER, (0x0E6A23, None), (0x2DAB, 0x20), 0x0070, pools={POOL_HP}
     ),
     LocationData(
-        6029540, TMCLocation.PALACE_PRIZE, TMCRegion.DUNGEON_POW,
+        6029540, TMCLocation.PALACE_PRIZE, TMCRegion.DUNGEON_POW_CLEAR,
         TMCItem.WIND_ELEMENT, (0x0E69E3, None), (0x2C9C, 0x40), 0x0070, pools={POOL_ELEMENT}
     ),
     # endregion

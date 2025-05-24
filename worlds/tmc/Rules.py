@@ -665,8 +665,6 @@ class MinishCapRules:
             TMCLocation.CRYPT_GIBDO_RIGHT_ITEM: self.logic_or([self.has(TMCItem.LANTERN), self.has_weapon()]),
             TMCLocation.CRYPT_LEFT_ITEM: self.logic_and([self.split_rule(3), self.has(TMCItem.SMALL_KEY_RC, 1)]),
             TMCLocation.CRYPT_RIGHT_ITEM: self.logic_and([self.split_rule(3), self.has(TMCItem.SMALL_KEY_RC, 1)]),
-            TMCLocation.CRYPT_PRIZE:
-                self.logic_and([self.has_weapon(), self.has(TMCItem.SMALL_KEY_RC, 3), self.has(TMCItem.LANTERN)]),
             # endregion
 
             # region Upper Falls
@@ -1318,7 +1316,8 @@ class MinishCapRules:
 
     def pow_pot(self) -> CollectionRule:
         return self.logic_option(TMCTricks.POT_PUZZLE in self.world.options.tricks,
-                                 self.can_reach([TMCLocation.PALACE_2ND_HALF_2F_TWIN_WIZZROBES_CHEST]),
+                                 self.logic_or([self.can_reach([TMCLocation.PALACE_2ND_HALF_2F_TWIN_WIZZROBES_CHEST]),
+                                                self.has(TMCItem.POWER_BRACELETS)]),
                                  self.has(TMCItem.POWER_BRACELETS),
                                  )
 
@@ -1357,7 +1356,7 @@ class MinishCapRules:
                               self.logic_and([self.access_lonlon_right(), self.has(TMCItem.CANE_OF_PACCI)])])
 
     def access_belari(self) -> CollectionRule:
-        return self.logic_or([self.has(TMCItem.BOMB_BAG), self.can_reach([TMCLocation.DEEPWOOD_PRIZE])])
+        return self.logic_or([self.has(TMCItem.BOMB_BAG), self.has(TMCEvent.CLEAR_DWS)])
 
     def complete_book_quest(self) -> CollectionRule:
         return self.has_all(
