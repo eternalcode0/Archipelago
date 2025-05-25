@@ -170,6 +170,9 @@ class EarlyWeapon(Toggle):
     """Force a weapon to be in your sphere 1"""
     display_name = "Early Weapon"
 
+class RandomBottleContents(Toggle):
+    """Put random contents into the shuffled bottles, these contents are never considered in logic"""
+    display_name = "Random Bottles Contents"
 
 class DeathLinkGameover(Toggle):
     """
@@ -291,6 +294,7 @@ class MinishCapOptions(PerGameCommonOptions):
     rupeesanity: Rupeesanity
     obscure_spots: ObscureSpots
     early_weapon: EarlyWeapon
+    random_bottle_contents: RandomBottleContents
     dungeon_small_keys: SmallKeys
     dungeon_big_keys: BigKeys
     dungeon_maps: DungeonMaps
