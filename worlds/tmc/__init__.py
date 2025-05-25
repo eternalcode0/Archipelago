@@ -7,11 +7,10 @@ import logging
 import os
 import pkgutil
 import typing
-from typing import Dict, Set
-
 import settings
 from BaseClasses import Item, ItemClassification, Tutorial
 from worlds.AutoWorld import WebWorld, World
+from Options import OptionError
 from .Client import MinishCapClient
 from .constants import MinishCapItem, MinishCapLocation, TMCEvent, TMCItem, TMCLocation
 from .dungeons import fill_dungeons
@@ -74,12 +73,13 @@ class MinishCapWorld(World):
     item_pool = []
     pre_fill_pool = []
     location_name_groups = location_groups
-    disabled_locations: Set[str]
+    disabled_locations: set[str]
+    disabled_dungeons: set[str]
 
     def generate_early(self) -> None:
         tmc_logger.warning(
-                "INCOMPLETE WORLD! Slot '%s' is using an unfinished alpha world that doesn't have all logic yet!",
-                self.player_name)
+            "INCOMPLETE WORLD! Slot '%s' is using an unfinished alpha world that doesn't have all logic yet!",
+            self.player_name)
         tmc_logger.warning("INCOMPLETE WORLD! Slot '%s' will require send_location/send_item for completion!",
                            self.player_name)
 
@@ -97,15 +97,21 @@ class MinishCapWorld(World):
 
         self.disabled_locations = set(loc.name for loc in all_locations if not loc.pools.issubset(enabled_pools))
 
-    def fill_slot_data(self) -> Dict[str, any]:
-        data = {
-            "DeathLink": self.options.death_link.value,
-            "DeathLinkGameover": self.options.death_link_gameover.value,
-            "RupeeSpot": self.options.rupeesanity.value,
-            "ObscureSpot": self.options.obscure_spots.value,
-            "GoalVaati": self.options.goal_vaati.value,
-            "RandomBottleContents": self.options.random_bottle_contents.value,
-        }
+        # Check if the settings require more dungeons than are included
+        self.disabled_dungeons = set(dungeon for dungeon in ["DWS", "CoF", "FoW", "ToD", "RC", "PoW"]
+                                     if location_groups[dungeon].issubset(self.options.exclude_locations.value))
+
+        if self.options.ped_dungeons > 6 - len(self.disabled_dungeons):
+            error_message = "Slot '%s' has required %d/6 dungeons to goal but found %d excluded. "
+            raise OptionError(error_message % (
+                self.player_name,
+                self.options.ped_dungeons,
+                len(self.disabled_dungeons)))
+
+    def fill_slot_data(self) -> dict[str, any]:
+        data = {"DeathLink": self.options.death_link.value, "DeathLinkGameover": self.options.death_link_gameover.value,
+                "RupeeSpot": self.options.rupeesanity.value, "ObscureSpot": self.options.obscure_spots.value,
+                "GoalVaati": self.options.goal_vaati.value}
         data |= self.options.as_dict("death_link", "death_link_gameover", "rupeesanity", "obscure_spots",
                                      "goal_vaati", "random_bottle_contents", "weapon_bomb", "weapon_bow",
                                      "weapon_gust", "weapon_lantern",
@@ -125,7 +131,7 @@ class MinishCapWorld(World):
         return data
 
     def create_regions(self) -> None:
-        create_regions(self, self.disabled_locations)
+        create_regions(self, self.disabled_locations, self.disabled_dungeons)
 
         loc = GOAL_VAATI if self.options.goal_vaati.value else GOAL_PED
         goal_region = self.get_region(loc.region)

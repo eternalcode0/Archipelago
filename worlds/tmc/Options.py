@@ -25,7 +25,6 @@ class DungeonItem(Choice):
     alias_false = 3
 
 
-
 class Rupeesanity(Toggle):
     """Add all rupees locations to the pool to be randomized."""
     display_name = "Rupee-sanity"
@@ -63,7 +62,6 @@ class ShuffleElements(Choice):
     alias_false = 7
 
 
-
 class SmallKeys(DungeonItem):
     """
     Own Dungeon (false/default): Randomized within the dungeon they're normally found in
@@ -71,7 +69,6 @@ class SmallKeys(DungeonItem):
     """
     display_name = "Small Key Shuffle"
     default = 3
-
 
 
 class BigKeys(DungeonItem):
@@ -83,7 +80,6 @@ class BigKeys(DungeonItem):
     default = 3
 
 
-
 class DungeonMaps(DungeonItem):
     """
     Own Dungeon (default/false): Randomized within the dungeon they're normally found in
@@ -91,7 +87,6 @@ class DungeonMaps(DungeonItem):
     """
     display_name = "Dungeon Maps Shuffle"
     default = 3
-
 
 
 class DungeonCompasses(DungeonItem):
@@ -103,7 +98,6 @@ class DungeonCompasses(DungeonItem):
     default = 3
 
 
-
 class GoalVaati(DefaultOnToggle):
     """
     If enabled, DHC will open after completing Pedestal. Kill Vaati to goal.
@@ -112,54 +106,50 @@ class GoalVaati(DefaultOnToggle):
     display_name = "Vaati Goal"
 
 
-class GoalDungeons(Range):
+class PedDungeons(Range):
     """
-    How many dungeons are required to goal?
+    How many dungeons are required to activate Pedestal?
     If GoalVaati is on then you need this many dungeons cleared before DHC opens,
     otherwise you goal immediately upon having this many dungeons cleared
     (and other goal conditions) and entering sanctuary
     """
-    display_name = "Required Dungeons to Goal"
+    display_name = "Required Dungeons to Pedestal"
     default = 0
     range_start = 0
     range_end = 6
 
 
-class GoalElements(Range):
+class PedElements(Range):
     """
-    How many elements are required to goal?
+    How many elements are required to activate Pedestal?
     If GoalVaati is on then you need this many elements before DHC opens,
     otherwise you goal immediately upon having this many elements (and other goal conditions) and entering sanctuary
     """
-    display_name = "Required Elements to Goal"
+    display_name = "Required Elements to Pedestal"
     default = 4
     range_start = 0
     range_end = 4
 
 
-class GoalSword(Choice):
+class PedSword(Range):
     """
-    What level of sword is required to goal?
+    What level of sword is required to activate Pedestal?
     If GoalVaati is on then you need at least this sword level before DHC opens,
     otherwise you goal immediately upon having this sword level (and other goal conditions) and entering sanctuary
     """
-    display_name = "Required Swords to Goal"
-    default = 0
-    option_none = 0
-    option_smith_sword = 1
-    option_green_sword = 2
-    option_red_sword = 3
-    option_blue_sword = 4
-    option_four_sword = 5
+    display_name = "Required Swords to Pedestal"
+    default = 5
+    range_start = 0
+    range_end = 5
 
 
-class GoalFigurines(Range):
+class PedFigurines(Range):
     """
-    How many figurines are required to goal?
+    How many figurines are required to activate Pedestal?
     If GoalVaati is on then you need at least this many figurines before DHC opens,
     otherwise you goal immediately upon having this many figurines (and other goal conditions) and entering sanctuary
     """
-    display_name = "Required Figurines to Goal"
+    display_name = "Required Figurines to Pedestal"
     default = 0
     range_start = 0
     range_end = 136
@@ -290,10 +280,10 @@ class MinishCapOptions(PerGameCommonOptions):
     death_link: DeathLink
     death_link_gameover: DeathLinkGameover
     goal_vaati: GoalVaati
-    # goal_dungeons: GoalDungeons
-    # goal_elements: GoalElements
-    # goal_sword: GoalSword
-    # goal_figurines: GoalFigurines
+    ped_elements: PedElements
+    ped_swords: PedSword
+    ped_dungeons: PedDungeons
+    # ped_figurines: GoalFigurines
     # figurine_amount: FigurineAmount
     shuffle_elements: ShuffleElements
     weapon_bomb: WeaponBomb
@@ -311,16 +301,15 @@ class MinishCapOptions(PerGameCommonOptions):
     dungeon_compasses: DungeonCompasses
 
 
-
 def get_option_data(options: MinishCapOptions):
     """
     Template for the options that will likely be added in the future.
     Intended for trackers to properly match the logic between the standalone randomizer (TMCR) and AP
     """
     return {
-        "goal_dungeons": 0,  # 0-6
-        "goal_swords": 0,  # 0-5
-        "goal_elements": 4,  # 0-4
+        "goal_dungeons": options.ped_dungeons.value,  # 0-6
+        "goal_swords": options.ped_swords.value,  # 0-5
+        "goal_elements": options.ped_elements.value,  # 0-4
         "goal_figurines": 0,  # 0-136
         "dungeon_warp_dws": 0,  # 0 = None, 1 = Blue, 2 = Red, 3 = Both
         "dungeon_warp_cof": 0,
