@@ -778,7 +778,8 @@ class MinishCapRules:
                                                self.logic_and([self.has_all([TMCItem.GUST_JAR, TMCItem.LANTERN]),
                                                                self.has(TMCItem.SMALL_KEY_DWS, 1)])])]),
             TMCLocation.DEEPWOOD_1F_MADDERPILLAR_HP:
-                self.logic_or([self.logic_and([self.has(TMCItem.SMALL_KEY_DWS, 2), self.has(TMCItem.LANTERN)]),
+                self.logic_or([self.logic_and([self.has(TMCItem.SMALL_KEY_DWS, 4), self.has(TMCItem.GUST_JAR)]),
+                               self.logic_and([self.has(TMCItem.SMALL_KEY_DWS, 2), self.has(TMCItem.LANTERN)]),
                                self.logic_and([self.has_all([TMCItem.GUST_JAR, TMCItem.LANTERN]),
                                                self.has(TMCItem.SMALL_KEY_DWS, 1)])]),
             TMCLocation.DEEPWOOD_B1_WEST_BIG_CHEST:
