@@ -150,16 +150,16 @@ FAST_SPIN_SCROLL = ItemData("Fast Spin Scroll", ItemClassification.progression, 
 FAST_SPLIT_SCROLL = ItemData("Fast Split Scroll", ItemClassification.progression, (0x74, 0x00))
 LONG_SPIN = ItemData("Long Spin", ItemClassification.progression, (0x75, 0x00))
 
-TRAP_ICE   = ItemData("Freeze Trap", ItemClassification.trap, (0x1B, 0x1))
-TRAP_FIRE  = ItemData("Burn Trap", ItemClassification.trap, (0x1B, 0x2))
-TRAP_ZAP   = ItemData("Zap Trap", ItemClassification.trap, (0x1B, 0x3))
-TRAP_BOMB  = ItemData("Bomb Trap", ItemClassification.trap, (0x1B, 0x4))
-TRAP_MONEY = ItemData("Money Trap", ItemClassification.trap, (0x1B, 0x5))
-TRAP_STINK = ItemData("Stink Trap", ItemClassification.trap, (0x1B, 0x6))
-TRAP_ROPE  = ItemData("Rope Trap", ItemClassification.trap, (0x1B, 0x7))
-TRAP_BAT   = ItemData("Bat Trap", ItemClassification.trap, (0x1B, 0x8))
-TRAP_LIKE  = ItemData("LikeLike Trap", ItemClassification.trap, (0x1B, 0x9))
-TRAP_CURSE = ItemData("Curse Trap", ItemClassification.trap, (0x1B, 0xA))
+TRAP_ICE   = ItemData("Freeze Trap", ItemClassification.trap, (0x1B, 0x0))
+TRAP_FIRE  = ItemData("Burn Trap", ItemClassification.trap, (0x1B, 0x1))
+TRAP_ZAP   = ItemData("Zap Trap", ItemClassification.trap, (0x1B, 0x2))
+TRAP_BOMB  = ItemData("Bomb Trap", ItemClassification.trap, (0x1B, 0x3))
+TRAP_MONEY = ItemData("Money Trap", ItemClassification.trap, (0x1B, 0x4))
+TRAP_STINK = ItemData("Stink Trap", ItemClassification.trap, (0x1B, 0x5))
+TRAP_ROPE  = ItemData("Rope Trap", ItemClassification.trap, (0x1B, 0x6))
+TRAP_BAT   = ItemData("Bat Trap", ItemClassification.trap, (0x1B, 0x7))
+TRAP_LIKE  = ItemData("LikeLike Trap", ItemClassification.trap, (0x1B, 0x8))
+TRAP_CURSE = ItemData("Curse Trap", ItemClassification.trap, (0x1B, 0x9))
 
 DUNGEON_MAP_DWS = ItemData("Dungeon Map (DWS)", ItemClassification.useful, (0x50, 0x18))
 DUNGEON_MAP_COF = ItemData("Dungeon Map (CoF)", ItemClassification.useful, (0x50, 0x19))
@@ -319,7 +319,7 @@ def get_item_pool(world: "MinishCapWorld") -> (list[MinishCapItem], list[MinishC
 
     if world.options.early_weapon.value:
         weapon_pool = [PROGRESSIVE_SWORD.item_name]
-        if world.options.weapon_bomb.value == 1 or 2:
+        if world.options.weapon_bomb.value in {1, 2}:
             weapon_pool.extend([BOMB_BAG.item_name])
         if world.options.weapon_bow.value:
             weapon_pool.extend([PROGRESSIVE_BOW.item_name])
