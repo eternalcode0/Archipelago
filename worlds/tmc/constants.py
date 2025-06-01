@@ -753,6 +753,32 @@ class TMCRegion:
     VAATI_FIGHT = "Vaati Fight"
 
 
+class TMCWarps:
+    DWS_BLUE = "DWS Blue"
+    DWS_RED  = "DWS Red"
+    COF_BLUE = "COF Blue"
+    COF_RED  = "COF Red"
+    FOW_BLUE = "FOW Blue"
+    FOW_RED  = "FOW Red"
+    TOD_BLUE = "TOD Blue"
+    TOD_RED  = "TOD Red"
+    POW_BLUE = "POW Blue"
+    POW_RED  = "POW Red"
+    DHC_BLUE = "DHC Blue"
+    DHC_RED  = "DHC Red"
+
+
+class TMCCrests:
+    CRENEL = "Mount Crenel"
+    FALLS = "Veil Falls"
+    CLOUDS = "Cloud Tops"
+    TOWN = "Hyrule Town"
+    LAKE = "Lake Hylia"
+    SWAMP = "Castor Wilds"
+    SMITH = "South Hyrule Field"
+    MINISH = "Minish Woods"
+
+
 class TMCTricks:
     MITTS_FARM = "mitts_farm_rupees"
     BOMB_DUST = "bombable_dust"

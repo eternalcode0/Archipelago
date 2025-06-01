@@ -2,7 +2,7 @@ from typing import Callable, TYPE_CHECKING
 
 from BaseClasses import CollectionState
 from worlds.generic.Rules import add_rule, CollectionRule
-from .constants import TMCEvent, TMCItem, TMCLocation, TMCRegion, TMCTricks
+from .constants import TMCEvent, TMCItem, TMCLocation, TMCRegion, TMCTricks, TMCCrests, TMCWarps
 from .Options import DungeonItem
 
 if TYPE_CHECKING:
@@ -782,8 +782,7 @@ class MinishCapRules:
                                self.logic_and([self.has(TMCItem.SMALL_KEY_DWS, 2), self.has(TMCItem.LANTERN)]),
                                self.logic_and([self.has_all([TMCItem.GUST_JAR, TMCItem.LANTERN]),
                                                self.has(TMCItem.SMALL_KEY_DWS, 1)])]),
-            TMCLocation.DEEPWOOD_B1_WEST_BIG_CHEST:
-                self.logic_and([self.has(TMCItem.SMALL_KEY_DWS, 4), self.has(TMCItem.GUST_JAR)]),
+            TMCLocation.DEEPWOOD_B1_WEST_BIG_CHEST: self.dws_red_warp(),
             # endregion
 
             # region Dungeon CoF
@@ -1066,6 +1065,11 @@ class MinishCapRules:
                            self.logic_and([self.has_weapon_scissor(), self.has(TMCItem.LANTERN),
                                            self.has(TMCItem.ROCS_CAPE)])])
         ])
+
+    def dws_red_warp(self) -> CollectionRule:
+        return self.logic_option(TMCWarps.DWS_RED in self.world.options.dungeon_warps.value,
+                                 None,
+                                 self.logic_and([self.has(TMCItem.SMALL_KEY_DWS, 4), self.has(TMCItem.GUST_JAR)]))
 
     def has_4_elements(self) -> CollectionRule:
         return self.has_all([TMCItem.EARTH_ELEMENT, TMCItem.WATER_ELEMENT, TMCItem.FIRE_ELEMENT, TMCItem.WIND_ELEMENT])
