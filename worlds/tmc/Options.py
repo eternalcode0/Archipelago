@@ -2,7 +2,7 @@ from dataclasses import dataclass
 
 from Options import (Choice, DeathLink, DefaultOnToggle, OptionSet, PerGameCommonOptions, Range, StartInventoryPool,
                      Toggle)
-from .constants import ALL_TRICKS, WIND_CRESTS
+from .constants import ALL_TRICKS, WIND_CRESTS, DUNGEON_WARPS
 
 
 class DungeonItem(Choice):
@@ -110,6 +110,13 @@ class DungeonWarps(OptionSet):
     valid_keys = [f"{dungeon} {warp}"
                   for dungeon in ["DWS", "CoF", "FoW", "ToD", "PoW", "DHC"]
                   for warp in ["Blue", "Red"]]
+
+    @classmethod
+    def get_warps(cls, dungeon, value):
+        warp_bits = 0x00
+        for colour in DUNGEON_WARPS.keys():
+            if f"{dungeon} {colour}" in value: warp_bits += DUNGEON_WARPS[colour]
+        return warp_bits
 
 
 class WindCrests(OptionSet):
@@ -318,7 +325,7 @@ class MinishCapOptions(PerGameCommonOptions):
     dungeon_big_keys: BigKeys
     dungeon_maps: DungeonMaps
     dungeon_compasses: DungeonCompasses
-    # dungeon_warps: DungeonWarps
+    dungeon_warps: DungeonWarps
     wind_crests: WindCrests
 
 
@@ -332,12 +339,13 @@ def get_option_data(options: MinishCapOptions):
         "goal_swords": options.ped_swords.value,  # 0-5
         "goal_elements": options.ped_elements.value,  # 0-4
         "goal_figurines": 0,  # 0-136
-        "dungeon_warp_dws": 0,  # 0 = None, 1 = Blue, 2 = Red, 3 = Both
-        "dungeon_warp_cof": 0,
-        "dungeon_warp_fow": 0,
-        "dungeon_warp_tod": 0,
-        "dungeon_warp_pow": 0,
-        "dungeon_warp_dhc": 0,
+        "dungeon_warp_dws": options.dungeon_warps.get_warps("DWS", options.dungeon_warps.value),  # 0 = None, 1 = Blue,
+        # 2 = Red, 3 = Both
+        "dungeon_warp_cof": options.dungeon_warps.get_warps("CoF", options.dungeon_warps.value),
+        "dungeon_warp_fow": options.dungeon_warps.get_warps("FoW", options.dungeon_warps.value),
+        "dungeon_warp_tod": options.dungeon_warps.get_warps("ToD", options.dungeon_warps.value),
+        "dungeon_warp_pow": options.dungeon_warps.get_warps("PoW", options.dungeon_warps.value),
+        "dungeon_warp_dhc": options.dungeon_warps.get_warps("DHC", options.dungeon_warps.value),
         "cucco_rounds": 1,  # 0-10
         "goron_sets": 0,  # 0-5
         "shuffle_heart_pieces": 1,

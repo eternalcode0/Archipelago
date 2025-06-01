@@ -799,15 +799,30 @@ ALL_TRICKS = [
     TMCTricks.DHC_SPIN,
 ]
 
-DUNGEON_ABBR = frozenset({"DWS", "CoF", "ToD", "FoW", "PoW", "RC", "DHC"})
+DUNGEON_ABBR = frozenset({"DWS", "CoF", "FoW", "ToD", "PoW", "DHC", "RC"})
 DUNGEON_REGIONS = {
     "DWS": {TMCRegion.DUNGEON_DWS, TMCRegion.DUNGEON_DWS_CLEAR},
     "CoF": {TMCRegion.DUNGEON_COF, TMCRegion.DUNGEON_COF_CLEAR},
-    "ToD": {TMCRegion.DUNGEON_TOD, TMCRegion.DUNGEON_TOD_CLEAR, TMCRegion.DUNGEON_TOD_MAIN},
     "FoW": {TMCRegion.DUNGEON_FOW, TMCRegion.DUNGEON_FOW_CLEAR},
+    "ToD": {TMCRegion.DUNGEON_TOD, TMCRegion.DUNGEON_TOD_CLEAR, TMCRegion.DUNGEON_TOD_MAIN},
     "PoW": {TMCRegion.DUNGEON_POW, TMCRegion.DUNGEON_POW_CLEAR},
-    "RC": {TMCRegion.DUNGEON_RC, TMCRegion.DUNGEON_RC_CLEAR},
     "DHC": {TMCRegion.DUNGEON_DHC},
+    "RC": {TMCRegion.DUNGEON_RC, TMCRegion.DUNGEON_RC_CLEAR},
+}
+
+DUNGEON_OFFSET = {
+    "DWS": 0x00,
+    "CoF": 0x01,
+    "FoW": 0x02,
+    "ToD": 0x03,
+    "PoW": 0x04,
+    "DHC": 0x05,
+    "RC":  0x06,
+}
+
+DUNGEON_WARPS ={
+    "Blue": 0x01,
+    "Red":  0x02,
 }
 
 WIND_CRESTS = {

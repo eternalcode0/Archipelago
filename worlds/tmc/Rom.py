@@ -3,7 +3,7 @@ from typing import TYPE_CHECKING
 from BaseClasses import Item, ItemClassification
 from settings import get_settings
 from worlds.Files import APProcedurePatch, APTokenMixin, APTokenTypes
-from .constants import EXTERNAL_ITEM_MAP, WIND_CRESTS
+from .constants import DUNGEON_ABBR, DUNGEON_OFFSET, EXTERNAL_ITEM_MAP, WIND_CRESTS
 from .Items import item_table
 from .Locations import location_table_by_name, LocationData
 
@@ -41,6 +41,13 @@ def write_tokens(world: "MinishCapWorld", patch: MinishCapProcedurePatch) -> Non
         patch.write_token(APTokenTypes.WRITE, 0x000702, bytes([world.options.ped_swords.value]))
     if 0 <= world.options.ped_dungeons.value <= 6:
         patch.write_token(APTokenTypes.WRITE, 0x000703, bytes([world.options.ped_dungeons.value]))
+
+    # Dungeon Warps
+    for dungeon in DUNGEON_ABBR:
+        if dungeon == "RC": continue
+        patch.write_token(APTokenTypes.WRITE, 0xFF127A + DUNGEON_OFFSET[dungeon],
+                          bytes([world.options.dungeon_warps.get_warps(dungeon, world.options.dungeon_warps.value)]))
+
 
     # Wind Crests
     crest_value = 0x0

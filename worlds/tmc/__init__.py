@@ -115,7 +115,7 @@ class MinishCapWorld(World):
         data |= self.options.as_dict("death_link", "death_link_gameover", "rupeesanity", "obscure_spots",
                                      "goal_vaati", "weapon_bomb", "weapon_bow", "weapon_gust", "weapon_lantern",
                                      "tricks", "dungeon_small_keys", "dungeon_big_keys", "dungeon_compasses",
-                                     "dungeon_maps", casing="snake")
+                                     "dungeon_maps", "dungeon_warps", "wind_crests", casing="snake")
         data |= get_option_data(self.options)
         # If Element location should be known, add locations to slot data for tracker
         if self.options.shuffle_elements.value != ShuffleElements.option_anywhere:
