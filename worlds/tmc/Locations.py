@@ -108,16 +108,16 @@ all_locations: list[LocationData] = [
         6029017, TMCLocation.SOUTH_FIELD_PUDDLE_FUSION_ITEM15, TMCRegion.SOUTH_FIELD, TMCItem.RUPEES_5,
         (0x0F8363, None), (0x2D20, 0x08), 0x1032, pools={POOL_RUPEE}),
     LocationData(
-        6029018, TMCLocation.SOUTH_FIELD_FUSION_CHEST, TMCRegion.SOUTH_FIELD, None,
+        6029018, TMCLocation.SOUTH_FIELD_FUSION_CHEST, TMCRegion.EASTERN_HILLS, None,
         (0x0FE0D6, None), (0x2CD3, 0x02), 0x0103),
     LocationData(
-        6029019, TMCLocation.SOUTH_FIELD_TREE_FUSION_HP, TMCRegion.SOUTH_FIELD, TMCItem.HEART_PIECE,
+        6029019, TMCLocation.SOUTH_FIELD_TREE_FUSION_HP, TMCRegion.EASTERN_HILLS, TMCItem.HEART_PIECE,
         (0x0F9BA7, None), (0x2CEE, 0x80), 0x1224, pools={POOL_HP}),
     LocationData(
         6029020, TMCLocation.SOUTH_FIELD_MINISH_SIZE_WATER_HOLE_HP, TMCRegion.SOUTH_FIELD, TMCItem.HEART_PIECE,
         (0x0DB55F, None), (0x2D2C, 0x02), 0x0435, pools={POOL_HP}),
     LocationData(
-        6029021, TMCLocation.SOUTH_FIELD_TINGLE_NPC, TMCRegion.SOUTH_FIELD, TMCItem.TINGLE_TROPHY,
+        6029021, TMCLocation.SOUTH_FIELD_TINGLE_NPC, TMCRegion.EASTERN_HILLS, TMCItem.TINGLE_TROPHY,
         (0x016966, None), (0x2CA3, 0x04), 0x0103),
     # endregion
     # region Castle Exterior
