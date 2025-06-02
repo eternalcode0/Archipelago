@@ -747,41 +747,28 @@ class MinishCapRules:
             TMCLocation.DEEPWOOD_2F_CHEST: self.has_any([TMCItem.LANTERN, TMCItem.GUST_JAR]),
             # TMCLocation.DEEPWOOD_1F_SLUG_TORCHES_CHEST : None,
             TMCLocation.DEEPWOOD_1F_BARREL_ROOM_CHEST:
-                self.logic_and([self.has(TMCItem.SMALL_KEY_DWS, 1), self.blow_dust()]),
-            TMCLocation.DEEPWOOD_1F_WEST_BIG_CHEST: self.has(TMCItem.SMALL_KEY_DWS, 1),
-            TMCLocation.DEEPWOOD_1F_WEST_STATUE_PUZZLE_CHEST: self.has(TMCItem.SMALL_KEY_DWS, 1),
+                self.logic_and([self.logic_or([self.dws_blue_warp(), self.has(TMCItem.SMALL_KEY_DWS, 1)]),
+                                self.blow_dust()]),
+            TMCLocation.DEEPWOOD_1F_WEST_BIG_CHEST:
+                self.logic_or([self.dws_blue_warp(), self.has(TMCItem.SMALL_KEY_DWS, 1)]),
+            TMCLocation.DEEPWOOD_1F_WEST_STATUE_PUZZLE_CHEST:
+                self.logic_or([self.dws_blue_warp(), self.has(TMCItem.SMALL_KEY_DWS, 1)]),
             TMCLocation.DEEPWOOD_1F_EAST_MULLDOZER_FIGHT_ITEM:
                 self.logic_and([self.has(TMCItem.SMALL_KEY_DWS, 4), self.has_weapon()]),
-            TMCLocation.DEEPWOOD_1F_NORTH_EAST_CHEST:
-                self.logic_or([self.logic_and([self.has(TMCItem.SMALL_KEY_DWS, 2), self.blow_dust()]),
-                               self.logic_and([self.has(TMCItem.SMALL_KEY_DWS, 1), self.has(TMCItem.GUST_JAR)])]),
-            TMCLocation.DEEPWOOD_B1_SWITCH_ROOM_BIG_CHEST:
-                self.logic_or([self.has(TMCItem.SMALL_KEY_DWS, 2),
-                               self.logic_and([self.has(TMCItem.GUST_JAR), self.has(TMCItem.SMALL_KEY_DWS, 1)])]),
+            TMCLocation.DEEPWOOD_1F_NORTH_EAST_CHEST: self.dws_blue_warp(),
+            TMCLocation.DEEPWOOD_B1_SWITCH_ROOM_BIG_CHEST: self.dws_blue_warp(),
             TMCLocation.DEEPWOOD_B1_SWITCH_ROOM_CHEST:
-                self.logic_or([self.logic_and([self.has(TMCItem.SMALL_KEY_DWS, 2), self.has(TMCItem.ROCS_CAPE)]),
-                               self.logic_and([self.has(TMCItem.SMALL_KEY_DWS, 1), self.has(TMCItem.GUST_JAR)])]),
-            TMCLocation.DEEPWOOD_1F_BLUE_WARP_HP:
-                self.logic_or([self.logic_and([self.has(TMCItem.SMALL_KEY_DWS, 2), self.blow_dust()]),
-                               self.logic_and([self.has(TMCItem.SMALL_KEY_DWS, 1), self.has(TMCItem.GUST_JAR)])]),
-            TMCLocation.DEEPWOOD_1F_BLUE_WARP_LEFT_CHEST:
-                self.logic_or([self.logic_and([self.has(TMCItem.SMALL_KEY_DWS, 2), self.blow_dust()]),
-                               self.logic_and([self.has(TMCItem.SMALL_KEY_DWS, 1), self.has(TMCItem.GUST_JAR)])]),
-            TMCLocation.DEEPWOOD_1F_BLUE_WARP_RIGHT_CHEST:
-                self.logic_or([self.logic_and([self.has(TMCItem.SMALL_KEY_DWS, 2), self.blow_dust()]),
-                               self.logic_and([self.has(TMCItem.SMALL_KEY_DWS, 1), self.has(TMCItem.GUST_JAR)])]),
+                self.logic_and([self.dws_blue_warp(), self.has_any([TMCItem.GUST_JAR, TMCItem.ROCS_CAPE])]),
+            TMCLocation.DEEPWOOD_1F_BLUE_WARP_HP: self.logic_and([self.dws_blue_warp(), self.blow_dust()]),
+            TMCLocation.DEEPWOOD_1F_BLUE_WARP_LEFT_CHEST: self.logic_and([self.dws_blue_warp(), self.blow_dust()]),
+            TMCLocation.DEEPWOOD_1F_BLUE_WARP_RIGHT_CHEST: self.logic_and([self.dws_blue_warp(), self.blow_dust()]),
             TMCLocation.DEEPWOOD_1F_MADDERPILLAR_BIG_CHEST:
                 self.logic_and([self.has_weapon_boss(),
                                 self.logic_or([self.has(TMCItem.SMALL_KEY_DWS, 4),
-                                               self.logic_and([self.has(TMCItem.SMALL_KEY_DWS, 2),
-                                                               self.has(TMCItem.LANTERN)]),
-                                               self.logic_and([self.has_all([TMCItem.GUST_JAR, TMCItem.LANTERN]),
-                                                               self.has(TMCItem.SMALL_KEY_DWS, 1)])])]),
+                                               self.logic_and([self.dws_blue_warp(), self.has(TMCItem.LANTERN)])])]),
             TMCLocation.DEEPWOOD_1F_MADDERPILLAR_HP:
                 self.logic_or([self.logic_and([self.has(TMCItem.SMALL_KEY_DWS, 4), self.has(TMCItem.GUST_JAR)]),
-                               self.logic_and([self.has(TMCItem.SMALL_KEY_DWS, 2), self.has(TMCItem.LANTERN)]),
-                               self.logic_and([self.has_all([TMCItem.GUST_JAR, TMCItem.LANTERN]),
-                                               self.has(TMCItem.SMALL_KEY_DWS, 1)])]),
+                               self.logic_and([self.dws_blue_warp(), self.has(TMCItem.LANTERN)])]),
             TMCLocation.DEEPWOOD_B1_WEST_BIG_CHEST: self.dws_red_warp(),
             # endregion
 
@@ -1065,6 +1052,12 @@ class MinishCapRules:
                            self.logic_and([self.has_weapon_scissor(), self.has(TMCItem.LANTERN),
                                            self.has(TMCItem.ROCS_CAPE)])])
         ])
+
+    def dws_blue_warp(self) -> CollectionRule:
+        return self.logic_option(TMCWarps.DWS_BLUE in self.world.options.dungeon_warps.value,
+                                 None,
+                                 self.logic_or([self.has(TMCItem.SMALL_KEY_DWS, 2),
+                                                self.has_all([TMCItem.SMALL_KEY_DWS, TMCItem.GUST_JAR])]))
 
     def dws_red_warp(self) -> CollectionRule:
         return self.logic_option(TMCWarps.DWS_RED in self.world.options.dungeon_warps.value,
