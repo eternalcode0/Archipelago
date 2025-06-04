@@ -14,7 +14,7 @@ from Options import OptionError
 from .Client import MinishCapClient
 from .constants import MinishCapItem, MinishCapLocation, TMCEvent, TMCItem, TMCLocation
 from .dungeons import fill_dungeons
-from .Items import filler_item_selection, get_item_pool, item_frequencies, item_groups, item_list, item_table, ItemData
+from .Items import filler_item_selection, get_item_pool, get_pre_fill_pool, item_frequencies, item_groups, item_table, ItemData
 from .Locations import all_locations, DEFAULT_SET, GOAL_PED, GOAL_VAATI, location_groups, OBSCURE_SET, POOL_RUPEE
 from .Options import DungeonItem, get_option_data, MinishCapOptions, ShuffleElements
 from .Regions import create_regions
@@ -118,7 +118,8 @@ class MinishCapWorld(World):
                                      "dungeon_maps", casing="snake")
         data |= get_option_data(self.options)
         # If Element location should be known, add locations to slot data for tracker
-        if self.options.shuffle_elements.value != ShuffleElements.option_anywhere:
+        if self.options.shuffle_elements.value in {ShuffleElements.option_dungeon_prize,
+                                                   ShuffleElements.option_vanilla}:
             prizes = {TMCLocation.COF_PRIZE: "prize_cof", TMCLocation.CRYPT_PRIZE: "prize_rc",
                       TMCLocation.PALACE_PRIZE: "prize_pow", TMCLocation.DEEPWOOD_PRIZE: "prize_dws",
                       TMCLocation.DROPLETS_PRIZE: "prize_tod", TMCLocation.FORTRESS_PRIZE: "prize_fow"}
@@ -151,29 +152,23 @@ class MinishCapWorld(World):
 
     def create_items(self):
         # First add in all progression and useful items
-        item_pool, pre_fill_pool = get_item_pool(self)
-        self.item_pool = item_pool
-        self.pre_fill_pool = pre_fill_pool
+        self.item_pool = get_item_pool(self)
+        self.pre_fill_pool = get_pre_fill_pool(self)
         total_locations = len(self.multiworld.get_unfilled_locations(self.player))
-        required_items = []
-        precollected = [item for item in item_pool if item in self.multiworld.precollected_items]
-        for item in item_pool:
-            if item.classification not in (ItemClassification.filler, ItemClassification.skip_balancing):
-                freq = item_frequencies.get(item, 1)
-                if item in precollected:
-                    freq = max(freq - precollected.count(item), 0)
-                required_items += [item for _ in range(freq)]
 
-        for item in required_items:
+        for item in self.item_pool:
             self.multiworld.itempool.append(item)
 
-        for _ in range(total_locations - len(required_items) - len(pre_fill_pool)):
+        for _ in range(total_locations - len(self.item_pool) - len(self.pre_fill_pool)):
             self.multiworld.itempool.append(self.create_filler())
 
     def set_rules(self) -> None:
         MinishCapRules(self).set_rules(self.disabled_locations, self.location_name_to_id)
         # from Utils import visualize_regions
         # visualize_regions(self.multiworld.get_region("Menu", self.player), "tmc_world.puml")
+
+    def get_pre_fill_items(self) -> list[Item]:
+        return self.pre_fill_pool
 
     def pre_fill(self) -> None:
         fill_dungeons(self)
