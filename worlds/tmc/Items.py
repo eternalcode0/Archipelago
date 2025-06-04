@@ -23,7 +23,34 @@ def pool_elements() -> list[str]:
     return [TMCItem.EARTH_ELEMENT, TMCItem.FIRE_ELEMENT, TMCItem.WATER_ELEMENT, TMCItem.WIND_ELEMENT]
 
 
-def pool_baseitems() -> list[ItemData]:
+def pool_random_bottle_contents() -> list[str]:
+    return [
+        TMCItem.EMPTY_BOTTLE,
+        TMCItem.LON_LON_BUTTER,
+        TMCItem.LON_LON_MILK,
+        TMCItem.LON_LON_MILK_HALF,
+        TMCItem.RED_POTION,
+        TMCItem.BLUE_POTION,
+        TMCItem.WATER,
+        TMCItem.MINERAL_WATER,
+        TMCItem.BOTTLED_FAIRY,
+        TMCItem.RED_PICOLYTE,
+        TMCItem.ORANGE_PICOLYTE,
+        TMCItem.YELLOW_PICOLYTE,
+        TMCItem.GREEN_PICOLYTE,
+        TMCItem.BLUE_PICOLYTE,
+        TMCItem.WHITE_PICOLYTE,
+        TMCItem.NAYRU_CHARM,
+        TMCItem.FARORE_CHARM,
+        TMCItem.DINS_CHARM,
+    ]
+
+
+def pool_bottles() -> list[str]:
+    return *[TMCItem.EMPTY_BOTTLE] * 4,
+
+
+def pool_baseitems() -> list[str]:
     return [
         *[TMCItem.PROGRESSIVE_SWORD] * 5,
         *[TMCItem.PROGRESSIVE_SHIELD] * 2,
@@ -47,10 +74,6 @@ def pool_baseitems() -> list[ItemData]:
         TMCItem.MOLE_MITTS,
         TMCItem.DIG_BUTTERFLY,
 
-        TMCItem.BOTTLE_1,
-        TMCItem.BOTTLE_2,
-        TMCItem.BOTTLE_3,
-        TMCItem.BOTTLE_4,
         TMCItem.DOG_FOOD,
 
         *[TMCItem.HEART_PIECE] * 44,
@@ -171,6 +194,18 @@ def get_item_pool(world: "MinishCapWorld") -> list[MinishCapItem]:
                                         TMCLocation.DROPLETS_ENTRANCE_B2_WEST_ICEBLOCK])
         world.get_location(location).place_locked_item(world.create_item(TMCItem.BIG_KEY_TOD))
 
+    if not world.options.random_bottle_contents.value:
+        item_pool.extend(pool_bottles())
+    else:
+        selected_bottles = []
+        random_bottles = pool_random_bottle_contents()
+        world.random.shuffle(random_bottles)
+
+        for i in range(0, 4):
+            selected_bottles.append(random_bottles[i])
+
+        item_pool.extend(selected_bottles)
+
     if world.options.shuffle_elements.value is ShuffleElements.option_anywhere:
         item_pool.extend(pool_elements())
 
@@ -237,23 +272,23 @@ item_table: dict[str, ItemData] = {
     TMCItem.BOTTLE_3: ItemData(ItemClassification.progression, (0x1E, 0x00)),
     TMCItem.BOTTLE_4: ItemData(ItemClassification.progression, (0x1F, 0x00)),
     TMCItem.EMPTY_BOTTLE: ItemData(ItemClassification.progression, (0x1C, 0x20)),
-    TMCItem.LON_LON_BUTTER: ItemData(ItemClassification.progression, (0x21, 0x00)),
-    TMCItem.LON_LON_MILK: ItemData(ItemClassification.progression, (0x22, 0x00)),
-    TMCItem.LON_LON_MILK_HALF: ItemData(ItemClassification.progression, (0x23, 0x00)),
-    TMCItem.RED_POTION: ItemData(ItemClassification.progression, (0x24, 0x00)),
-    TMCItem.BLUE_POTION: ItemData(ItemClassification.progression, (0x25, 0x00)),
-    TMCItem.WATER: ItemData(ItemClassification.progression, (0x26, 0x00)),
-    TMCItem.MINERAL_WATER: ItemData(ItemClassification.progression, (0x27, 0x00)),
-    TMCItem.BOTTLED_FAIRY: ItemData(ItemClassification.progression, (0x28, 0x00)),
-    TMCItem.RED_PICOLYTE: ItemData(ItemClassification.progression, (0x29, 0x00)),
-    TMCItem.ORANGE_PICOLYTE: ItemData(ItemClassification.progression, (0x2A, 0x00)),
-    TMCItem.YELLOW_PICOLYTE: ItemData(ItemClassification.progression, (0x2B, 0x00)),
-    TMCItem.GREEN_PICOLYTE: ItemData(ItemClassification.progression, (0x2C, 0x00)),
-    TMCItem.BLUE_PICOLYTE: ItemData(ItemClassification.progression, (0x2D, 0x00)),
-    TMCItem.WHITE_PICOLYTE: ItemData(ItemClassification.progression, (0x2E, 0x00)),
-    TMCItem.NAYRU_CHARM: ItemData(ItemClassification.progression, (0x2F, 0x00)),
-    TMCItem.FARORE_CHARM: ItemData(ItemClassification.progression, (0x30, 0x00)),
-    TMCItem.DINS_CHARM: ItemData(ItemClassification.progression, (0x31, 0x00)),
+    TMCItem.LON_LON_BUTTER: ItemData(ItemClassification.progression, (0x1C, 0x21)),
+    TMCItem.LON_LON_MILK: ItemData(ItemClassification.progression, (0x1C, 0x22)),
+    TMCItem.LON_LON_MILK_HALF: ItemData(ItemClassification.progression, (0x1C, 0x23)),
+    TMCItem.RED_POTION: ItemData(ItemClassification.progression, (0x1C, 0x24)),
+    TMCItem.BLUE_POTION: ItemData(ItemClassification.progression, (0x1C, 0x25)),
+    TMCItem.WATER: ItemData(ItemClassification.progression, (0x1C, 0x26)),
+    TMCItem.MINERAL_WATER: ItemData(ItemClassification.progression, (0x1C, 0x27)),
+    TMCItem.BOTTLED_FAIRY: ItemData(ItemClassification.progression, (0x1C, 0x28)),
+    TMCItem.RED_PICOLYTE: ItemData(ItemClassification.progression, (0x1C, 0x29)),
+    TMCItem.ORANGE_PICOLYTE: ItemData(ItemClassification.progression, (0x1C, 0x2A)),
+    TMCItem.YELLOW_PICOLYTE: ItemData(ItemClassification.progression, (0x1C, 0x2B)),
+    TMCItem.GREEN_PICOLYTE: ItemData(ItemClassification.progression, (0x1C, 0x2C)),
+    TMCItem.BLUE_PICOLYTE: ItemData(ItemClassification.progression, (0x1C, 0x2D)),
+    TMCItem.WHITE_PICOLYTE: ItemData(ItemClassification.progression, (0x1C, 0x2E)),
+    TMCItem.NAYRU_CHARM: ItemData(ItemClassification.progression, (0x1C, 0x2F)),
+    TMCItem.FARORE_CHARM: ItemData(ItemClassification.progression, (0x1C, 0x30)),
+    TMCItem.DINS_CHARM: ItemData(ItemClassification.progression, (0x1C, 0x31)),
     # TMCItem.UNUSED: ItemData(ItemClassification.progression, (0x32, 0x00)),
     # TMCItem.UNUSED: ItemData(ItemClassification.progression, (0x33, 0x00)),
     TMCItem.SMITH_SWORD_QUEST: ItemData(ItemClassification.filler, (0x34, 0x00)),
@@ -377,4 +412,9 @@ item_groups: dict[str, set[str]] = {
                 TMCItem.FAST_SPLIT_SCROLL, TMCItem.LONG_SPIN},
     "Elements": {TMCItem.EARTH_ELEMENT, TMCItem.FIRE_ELEMENT, TMCItem.WATER_ELEMENT, TMCItem.WIND_ELEMENT},
     "Health": {TMCItem.HEART_CONTAINER, TMCItem.HEART_PIECE},
+    "Bottle": {TMCItem.EMPTY_BOTTLE, TMCItem.LON_LON_BUTTER, TMCItem.LON_LON_MILK, TMCItem.LON_LON_MILK_HALF,
+               TMCItem.RED_POTION, TMCItem.BLUE_POTION, TMCItem.WATER, TMCItem.MINERAL_WATER, TMCItem.BOTTLED_FAIRY,
+               TMCItem.RED_PICOLYTE, TMCItem.ORANGE_PICOLYTE, TMCItem.YELLOW_PICOLYTE, TMCItem.GREEN_PICOLYTE,
+               TMCItem.BLUE_PICOLYTE, TMCItem.WHITE_PICOLYTE, TMCItem.NAYRU_CHARM, TMCItem.FARORE_CHARM,
+               TMCItem.DINS_CHARM},
 }

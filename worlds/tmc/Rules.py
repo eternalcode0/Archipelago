@@ -1346,7 +1346,7 @@ class MinishCapRules:
         return self.has_any([TMCItem.ROCS_CAPE, TMCItem.FLIPPERS, TMCItem.CANE_OF_PACCI])
 
     def has_bottle(self) -> CollectionRule:
-        return self.has_any([TMCItem.BOTTLE_1, TMCItem.BOTTLE_2, TMCItem.BOTTLE_3, TMCItem.BOTTLE_4])
+        return self.has_group("Bottle")
 
     def access_town_fountain(self) -> CollectionRule:
         return self.logic_and([self.access_town_left(), self.has_bottle()])

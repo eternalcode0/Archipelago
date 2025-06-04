@@ -113,9 +113,11 @@ class MinishCapWorld(World):
                 "RupeeSpot": self.options.rupeesanity.value, "ObscureSpot": self.options.obscure_spots.value,
                 "GoalVaati": self.options.goal_vaati.value}
         data |= self.options.as_dict("death_link", "death_link_gameover", "rupeesanity", "obscure_spots",
-                                     "goal_vaati", "weapon_bomb", "weapon_bow", "weapon_gust", "weapon_lantern",
+                                     "goal_vaati", "random_bottle_contents", "weapon_bomb", "weapon_bow",
+                                     "weapon_gust", "weapon_lantern",
                                      "tricks", "dungeon_small_keys", "dungeon_big_keys", "dungeon_compasses",
-                                     "dungeon_maps", casing="snake")
+                                     "dungeon_maps",
+                                     casing="snake")
         data |= get_option_data(self.options)
         # If Element location should be known, add locations to slot data for tracker
         if self.options.shuffle_elements.value in {ShuffleElements.option_dungeon_prize,
@@ -147,7 +149,7 @@ class MinishCapWorld(World):
     def create_event(self, name: str) -> MinishCapItem:
         return MinishCapItem(name, ItemClassification.progression, None, self.player)
 
-    def get_filler_item_name(self) -> Item:
+    def get_filler_item_name(self) -> str:
         return self.random.choice(filler_item_selection)
 
     def create_items(self):

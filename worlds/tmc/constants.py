@@ -33,7 +33,7 @@ class TMCItem:
     PEGASUS_BOOTS = "Pegasus Boots"
     FIRE_ROD = "Fire Rod"
     OCARINA = "Ocarina"
-    BOTTLE = "Bottle"
+    BOTTLE = "Bottle (Null)"
     BOTTLE_1 = "Bottle 1"
     BOTTLE_2 = "Bottle 2"
     BOTTLE_3 = "Bottle 3"

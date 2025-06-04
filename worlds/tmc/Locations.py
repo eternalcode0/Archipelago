@@ -475,7 +475,7 @@ all_locations: list[LocationData] = [
     ),
     LocationData(
         6029113, TMCLocation.HILLS_FUSION_CHEST, TMCRegion.EASTERN_HILLS,
-        TMCItem.BOTTLE, (0x0FE05E, None), (0x2CD2, 0x04), 0x0403
+        TMCItem.EMPTY_BOTTLE, (0x0FE05E, None), (0x2CD2, 0x04), 0x0403
     ),
     LocationData(
         6029114, TMCLocation.HILLS_BEANSTALK_FUSION_LEFT_CHEST, TMCRegion.EASTERN_HILLS,
@@ -541,7 +541,7 @@ all_locations: list[LocationData] = [
     ),
     LocationData(
         6029129, TMCLocation.LON_LON_GORON_CAVE_FUSION_BIG_CHEST, TMCRegion.LONLON,
-        TMCItem.BOTTLE, (0x0D830A, None), (0x2D2A, 0x40), 0x012F
+        TMCItem.EMPTY_BOTTLE, (0x0D830A, None), (0x2D2A, 0x40), 0x012F
     ),
     # endregion
     # region Lower Falls
@@ -585,7 +585,7 @@ all_locations: list[LocationData] = [
     ),
     LocationData(
         6029139, TMCLocation.HYLIA_DOG_NPC, TMCRegion.LAKE_HYLIA_NORTH,
-        TMCItem.BOTTLE, (0x094908, 0x09490A), (0x2B3F, 0x20), 0x1422
+        TMCItem.EMPTY_BOTTLE, (0x094908, 0x09490A), (0x2B3F, 0x20), 0x1422
     ),
     LocationData(
         6029140, TMCLocation.HYLIA_SMALL_ISLAND_HP, TMCRegion.LAKE_HYLIA_NORTH,
@@ -787,7 +787,7 @@ all_locations: list[LocationData] = [
     ),
     LocationData(
         6029190, TMCLocation.TRILBY_SCRUB_NPC, TMCRegion.TRILBY_HIGHLANDS,
-        TMCItem.BOTTLE, (0xFF000C, None), (0x2CA7, 0x04), 0x1432, pools={POOL_SCRUB}
+        TMCItem.EMPTY_BOTTLE, (0xFF000C, None), (0x2CA7, 0x04), 0x1432, pools={POOL_SCRUB}
     ),
     LocationData(
         6029191, TMCLocation.TRILBY_BOMB_CAVE_CHEST, TMCRegion.WESTERN_WOODS,
