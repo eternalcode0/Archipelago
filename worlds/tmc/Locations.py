@@ -734,33 +734,35 @@ all_locations: list[LocationData] = [
         6029176, TMCLocation.MINISH_VILLAGE_HP, TMCRegion.MINISH_WOODS,
         TMCItem.HEART_PIECE, (0x0DBCC7, None), (0x2CF4, 0x04), 0x0101, pools={POOL_HP}
     ),
+    # endregion
     # 6029177
+    # region Belari
     LocationData(
-        6029178, TMCLocation.MINISH_WOODS_BOMB_MINISH_NPC_1, TMCRegion.MINISH_WOODS,
+        6029178, TMCLocation.MINISH_WOODS_BOMB_MINISH_NPC_1, TMCRegion.BELARI,
         TMCItem.BOMB_BAG, (0x00A00C, None), (0x2EA5, 0x01), 0x2620
     ),
     LocationData(
-        6029179, TMCLocation.MINISH_WOODS_BOMB_MINISH_NPC_2, TMCRegion.MINISH_WOODS,
+        6029179, TMCLocation.MINISH_WOODS_BOMB_MINISH_NPC_2, TMCRegion.BELARI,
         TMCItem.REMOTE_BOMB, (0x00A0A0, None), (0x2CF2, 0x01), 0x2620
     ),
     LocationData(
-        6029180, TMCLocation.MINISH_WOODS_POST_VILLAGE_FUSION_CHEST, TMCRegion.MINISH_WOODS,
+        6029180, TMCLocation.MINISH_WOODS_POST_VILLAGE_FUSION_CHEST, TMCRegion.BELARI,
         TMCItem.KINSTONE, (0x0FE0A6, None), (0x2CDB, 0x08), 0x0000
     ),
     LocationData(
-        6029181, TMCLocation.MINISH_WOODS_FLIPPER_HOLE_MIDDLE_CHEST, TMCRegion.MINISH_WOODS,
+        6029181, TMCLocation.MINISH_WOODS_FLIPPER_HOLE_MIDDLE_CHEST, TMCRegion.BELARI,
         TMCItem.KINSTONE, (0x0DB97E, None), (0x2D2A, 0x08), 0x0935
     ),
     LocationData(
-        6029182, TMCLocation.MINISH_WOODS_FLIPPER_HOLE_RIGHT_CHEST, TMCRegion.MINISH_WOODS,
+        6029182, TMCLocation.MINISH_WOODS_FLIPPER_HOLE_RIGHT_CHEST, TMCRegion.BELARI,
         TMCItem.KINSTONE, (0x0DB986, None), (0x2D2A, 0x10), 0x0935
     ),
     LocationData(
-        6029183, TMCLocation.MINISH_WOODS_FLIPPER_HOLE_LEFT_CHEST, TMCRegion.MINISH_WOODS,
+        6029183, TMCLocation.MINISH_WOODS_FLIPPER_HOLE_LEFT_CHEST, TMCRegion.BELARI,
         TMCItem.KINSTONE, (0x0DB98E, None), (0x2D2A, 0x20), 0x0935
     ),
     LocationData(
-        6029184, TMCLocation.MINISH_WOODS_FLIPPER_HOLE_HP, TMCRegion.MINISH_WOODS,
+        6029184, TMCLocation.MINISH_WOODS_FLIPPER_HOLE_HP, TMCRegion.BELARI,
         TMCItem.HEART_PIECE, (0x0DB8BF, None), (0x2D2B, 0x04), 0x0935, pools={POOL_HP}
     ),
     # endregion

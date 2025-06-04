@@ -12,6 +12,7 @@ class MinishCapLocation(Location):
 
 
 class TMCItem:
+    INACCESSIBLE = "Inaccessible"
     SMITHS_SWORD = "Smith's Sword"
     WHITE_SWORD_GREEN = "White Sword (Green)"
     WHITE_SWORD_RED = "White Sword (Red)"
@@ -723,6 +724,7 @@ class TMCRegion:
     LAKE_HYLIA_NORTH = "Lake Hylia North"
     LAKE_HYLIA_SOUTH = "Lake Hylia South"
     MINISH_WOODS = "Minish Woods"
+    BELARI = "Belari area"
     TRILBY_HIGHLANDS = "Trilby Highlands"
     WESTERN_WOODS = "Western Woods"
     CRENEL_BASE = "Crenel Base"
@@ -881,6 +883,7 @@ ALL_REGIONS = [
     TMCRegion.LAKE_HYLIA_NORTH,
     TMCRegion.LAKE_HYLIA_SOUTH,
     TMCRegion.MINISH_WOODS,
+    TMCRegion.BELARI,
     TMCRegion.TRILBY_HIGHLANDS,
     TMCRegion.WESTERN_WOODS,
     TMCRegion.CRENEL_BASE,

@@ -26,9 +26,10 @@ class MinishCapRules:
             (TMCRegion.SOUTH_FIELD, TMCRegion.HYRULE_TOWN): None,
             (TMCRegion.SOUTH_FIELD, TMCRegion.EASTERN_HILLS): self.smith_crest(),
             (TMCRegion.SOUTH_FIELD, TMCRegion.LAKE_HYLIA_NORTH): self.has(TMCItem.OCARINA),
+            (TMCRegion.SOUTH_FIELD, TMCRegion.BELARI): self.minish_crest(),
 
             (TMCRegion.HYRULE_TOWN, TMCRegion.NORTH_FIELD): None,
-            # (TMCRegion.HYRULE_TOWN, TMCRegion.SOUTH_FIELD): Already connected
+            (TMCRegion.HYRULE_TOWN, TMCRegion.SOUTH_FIELD): None,
             (TMCRegion.HYRULE_TOWN, TMCRegion.LONLON): self.has(TMCItem.BOMB_BAG),
             (TMCRegion.HYRULE_TOWN, TMCRegion.TRILBY_HIGHLANDS):
                 self.logic_option(TMCTricks.BOOTS_GUARDS in self.world.options.tricks,
@@ -36,7 +37,7 @@ class MinishCapRules:
                                   self.can_spin()),
 
             (TMCRegion.NORTH_FIELD, TMCRegion.CASTLE_EXTERIOR): None,
-            # (TMCRegion.NORTH_FIELD, TMCRegion.HYRULE_TOWN): Already connected
+            (TMCRegion.NORTH_FIELD, TMCRegion.HYRULE_TOWN): None,
             (TMCRegion.NORTH_FIELD, TMCRegion.LONLON): self.can_pass_trees(),
             (TMCRegion.NORTH_FIELD, TMCRegion.TRILBY_HIGHLANDS): self.has_any([TMCItem.FLIPPERS, TMCItem.ROCS_CAPE]),
             (TMCRegion.NORTH_FIELD, TMCRegion.UPPER_FALLS):
@@ -44,10 +45,10 @@ class MinishCapRules:
             (TMCRegion.NORTH_FIELD, TMCRegion.ROYAL_VALLEY):
                 self.logic_and([self.split_rule(3), self.logic_or([self.cape_extend(), self.has(TMCItem.BOMB_BAG)])]),
 
-            # (TMCRegion.CASTLE_EXTERIOR, TMCRegion.NORTH_FIELD): Already connected
+            (TMCRegion.CASTLE_EXTERIOR, TMCRegion.NORTH_FIELD): None,
             (TMCRegion.CASTLE_EXTERIOR, TMCRegion.SANCTUARY): None,
 
-            # (TMCRegion.SANCTUARY, TMCRegion.CASTLE_EXTERIOR): Already connected
+            (TMCRegion.SANCTUARY, TMCRegion.CASTLE_EXTERIOR): None,
             (TMCRegion.SANCTUARY, TMCRegion.DUNGEON_DHC):
                 self.logic_and([
                     self.has_group("Elements", self.world.options.ped_elements.value),
@@ -72,38 +73,45 @@ class MinishCapRules:
                     self.has_weapon_boss(),  # Darknut
                 ]),
 
-            # (TMCRegion.LONLON, TMCRegion.HYRULE_TOWN): Already connected
-            #     self.has(TMCItem.BOMB_BAG),
-            # (TMCRegion.LONLON, TMCRegion.NORTH_FIELD): Already connected
-            #     self.can_pass_trees(),
+            (TMCRegion.LONLON, TMCRegion.HYRULE_TOWN): self.has(TMCItem.BOMB_BAG),
+            (TMCRegion.LONLON, TMCRegion.NORTH_FIELD): self.can_pass_trees(),
             (TMCRegion.LONLON, TMCRegion.EASTERN_HILLS): self.has(TMCItem.BOMB_BAG),
-            (TMCRegion.LONLON, TMCRegion.MINISH_WOODS): None,
-            # Doesn't directly connect, but it does through eastern hills with no logic in between
+            (TMCRegion.LONLON, TMCRegion.MINISH_WOODS): None, # Doesn't directly connect, but nothing is in between
             (TMCRegion.LONLON, TMCRegion.LOWER_FALLS): self.has(TMCItem.CANE_OF_PACCI),
             (TMCRegion.LONLON, TMCRegion.LAKE_HYLIA_NORTH): self.has(TMCItem.LONLON_KEY),
 
             (TMCRegion.EASTERN_HILLS, TMCRegion.LONLON): self.has(TMCItem.BOMB_BAG),
-            (TMCRegion.EASTERN_HILLS, TMCRegion.MINISH_WOODS): self.has(TMCItem.BOMB_BAG),
-            # (TMCRegion.EASTERN_HILLS, TMCRegion.SOUTH_FIELD): Already connected
+            (TMCRegion.EASTERN_HILLS, TMCRegion.BELARI): self.has(TMCItem.BOMB_BAG),
+            (TMCRegion.EASTERN_HILLS, TMCRegion.SOUTH_FIELD): self.can_pass_trees(),
 
-            # (TMCRegion.MINISH_WOODS, TMCRegion.EASTERN_HILLS): Already connected
+            (TMCRegion.MINISH_WOODS, TMCRegion.LONLON): None,
             (TMCRegion.MINISH_WOODS, TMCRegion.DUNGEON_DWS): self.has_any([TMCItem.FLIPPERS, TMCItem.JABBER_NUT]),
             (TMCRegion.DUNGEON_DWS, TMCRegion.DUNGEON_DWS_CLEAR):
                 self.logic_and([self.has_weapon_boss(), self.has(TMCItem.GUST_JAR), self.has(TMCItem.BIG_KEY_DWS)]),
             (TMCRegion.MINISH_WOODS, TMCRegion.LAKE_HYLIA_SOUTH):
                 self.logic_and([self.access_minish_woods_top_left(), self.has(TMCItem.MOLE_MITTS)]),
             (TMCRegion.MINISH_WOODS, TMCRegion.LAKE_HYLIA_NORTH): self.has(TMCItem.ROCS_CAPE),
+            (TMCRegion.MINISH_WOODS, TMCRegion.BELARI): self.access_belari(),
+
+            (TMCRegion.BELARI, TMCRegion.MINISH_WOODS): None,
+            (TMCRegion.BELARI, TMCRegion.EASTERN_HILLS): self.has(TMCItem.BOMB_BAG),
 
             (TMCRegion.WESTERN_WOODS, TMCRegion.SOUTH_FIELD): None,
             (TMCRegion.WESTERN_WOODS, TMCRegion.CASTOR_WILDS): self.has_any([TMCItem.PEGASUS_BOOTS, TMCItem.ROCS_CAPE]),
-            # (TMCRegion.WESTERN_WOODS, TMCRegion.TRILBY_HIGHLANDS): Already connected
+            (TMCRegion.WESTERN_WOODS, TMCRegion.TRILBY_HIGHLANDS): None,
 
-            # (TMCRegion.TRILBY_HIGHLANDS, TMCRegion.HYRULE_TOWN): Already connected
+            (TMCRegion.TRILBY_HIGHLANDS, TMCRegion.HYRULE_TOWN): None,
+            (TMCRegion.TRILBY_HIGHLANDS, TMCRegion.NORTH_FIELD):
+                self.logic_or([self.has_any([TMCItem.ROCS_CAPE, TMCItem.FLIPPERS]),
+                               self.logic_and([self.has(TMCItem.CANE_OF_PACCI), self.has_sword()])]),
             (TMCRegion.TRILBY_HIGHLANDS, TMCRegion.WESTERN_WOODS): self.split_rule(2),
             (TMCRegion.TRILBY_HIGHLANDS, TMCRegion.CRENEL_BASE): self.has_bottle(),
+
+            (TMCRegion.CRENEL_BASE, TMCRegion.TRILBY_HIGHLANDS): None,
             (TMCRegion.CRENEL_BASE, TMCRegion.CRENEL):
                 self.logic_or([self.has(TMCItem.GRIP_RING),
                                self.logic_and([self.has(TMCItem.BOMB_BAG), self.blow_dust(), self.has_bottle()])]),
+            (TMCRegion.CRENEL, TMCRegion.CRENEL_BASE): self.has(TMCItem.GRIP_RING),
             (TMCRegion.CRENEL, TMCRegion.MELARI):
                 self.logic_or([
                     self.logic_and([self.mushroom(), self.has(TMCItem.CANE_OF_PACCI)]),
@@ -116,6 +124,7 @@ class MinishCapRules:
                                                          self.has(TMCItem.ROCS_CAPE))])
                     ])
                 ]),
+            (TMCRegion.MELARI, TMCRegion.CRENEL): None,
             (TMCRegion.MELARI, TMCRegion.DUNGEON_COF):
                 self.logic_and([
                     self.logic_option(TMCTricks.BOBOMB_WALLS in self.world.options.tricks,
@@ -146,13 +155,15 @@ class MinishCapRules:
                 self.logic_and([self.pow_jump(), self.has(TMCItem.SMALL_KEY_POW, 6), self.has(TMCItem.BIG_KEY_POW),
                                 self.has_weapon_boss(), self.dark_room(), self.has_weapon()]),
 
-            # (TMCRegion.ROYAL_VALLEY, TMCRegion.NORTH_FIELD): # Already connected
+            (TMCRegion.ROYAL_VALLEY, TMCRegion.NORTH_FIELD): None,
             (TMCRegion.ROYAL_VALLEY, TMCRegion.GRAVEYARD):
                 self.logic_and([self.has_all([TMCItem.GRAVEYARD_KEY, TMCItem.PEGASUS_BOOTS]), self.dark_room()]),
             (TMCRegion.GRAVEYARD, TMCRegion.DUNGEON_RC): self.split_rule(3),
             (TMCRegion.DUNGEON_RC, TMCRegion.DUNGEON_RC_CLEAR):
                 self.logic_and([self.has_weapon(), self.has(TMCItem.SMALL_KEY_RC, 3), self.has(TMCItem.LANTERN)]),
 
+            (TMCRegion.CASTOR_WILDS, TMCRegion.WESTERN_WOODS):
+                self.logic_or([self.has_any([TMCItem.PEGASUS_BOOTS, TMCItem.ROCS_CAPE]), self.has_bow()]),
             (TMCRegion.CASTOR_WILDS, TMCRegion.WIND_RUINS):
                 self.logic_and([self.has(TMCItem.KINSTONE_GOLD_SWAMP, 3),
                                 self.logic_or([self.has(TMCItem.ROCS_CAPE),
@@ -165,8 +176,7 @@ class MinishCapRules:
                 self.logic_and([self.has(TMCItem.MOLE_MITTS), self.has_bow(),
                                 self.has(TMCItem.BIG_KEY_FOW), self.has_weapon_mazaal()]),
 
-            (TMCRegion.LAKE_HYLIA_NORTH, TMCRegion.LONLON): None,
-            # allows Ocarina warp access to lonlon and minish woods
+            (TMCRegion.LAKE_HYLIA_NORTH, TMCRegion.LONLON): None,# allows Ocarina warp access to lonlon and minish woods
             (TMCRegion.LAKE_HYLIA_NORTH, TMCRegion.LAKE_HYLIA_SOUTH): self.cape_extend(),
             (TMCRegion.LAKE_HYLIA_NORTH, TMCRegion.DUNGEON_TOD): self.cape_extend(),
             # (TMCRegion.LAKE_HYLIA_SOUTH, TMCRegion.MINISH_WOODS): # Already connected
@@ -437,17 +447,13 @@ class MinishCapRules:
             TMCLocation.MINISH_WOODS_MINISH_PATH_FUSION_CHEST: None, # fusion 37
             TMCLocation.MINISH_VILLAGE_BARREL_HOUSE_ITEM: None,
             TMCLocation.MINISH_VILLAGE_HP: None,
-            TMCLocation.MINISH_WOODS_BOMB_MINISH_NPC_1: self.access_belari(),
-            TMCLocation.MINISH_WOODS_BOMB_MINISH_NPC_2: self.access_belari(),  # fusion 1C
-            TMCLocation.MINISH_WOODS_POST_VILLAGE_FUSION_CHEST: self.access_belari(),  # Fusion 38
-            TMCLocation.MINISH_WOODS_FLIPPER_HOLE_MIDDLE_CHEST:
-                self.logic_and([self.access_belari(), self.has(TMCItem.FLIPPERS)]),
-            TMCLocation.MINISH_WOODS_FLIPPER_HOLE_RIGHT_CHEST:
-                self.logic_and([self.access_belari(), self.has(TMCItem.FLIPPERS)]),
-            TMCLocation.MINISH_WOODS_FLIPPER_HOLE_LEFT_CHEST:
-                self.logic_and([self.access_belari(), self.has(TMCItem.FLIPPERS)]),
-            TMCLocation.MINISH_WOODS_FLIPPER_HOLE_HP:
-                self.logic_and([self.access_belari(), self.has(TMCItem.FLIPPERS)]),
+            TMCLocation.MINISH_WOODS_BOMB_MINISH_NPC_1: None,
+            TMCLocation.MINISH_WOODS_BOMB_MINISH_NPC_2: None,  # fusion 1C
+            TMCLocation.MINISH_WOODS_POST_VILLAGE_FUSION_CHEST: None,  # Fusion 38
+            TMCLocation.MINISH_WOODS_FLIPPER_HOLE_MIDDLE_CHEST: self.has(TMCItem.FLIPPERS),
+            TMCLocation.MINISH_WOODS_FLIPPER_HOLE_RIGHT_CHEST: self.has(TMCItem.FLIPPERS),
+            TMCLocation.MINISH_WOODS_FLIPPER_HOLE_LEFT_CHEST: self.has(TMCItem.FLIPPERS),
+            TMCLocation.MINISH_WOODS_FLIPPER_HOLE_HP: self.has(TMCItem.FLIPPERS),
             # endregion
 
             # region Trilby Highlands
@@ -495,7 +501,7 @@ class MinishCapRules:
             TMCLocation.WESTERN_WOODS_BOTTOM_DIG1: self.has(TMCItem.MOLE_MITTS),  # fusion 4C
             TMCLocation.WESTERN_WOODS_BOTTOM_DIG2: self.has(TMCItem.MOLE_MITTS),  # fusion 4C
             TMCLocation.WESTERN_WOODS_GOLDEN_OCTO: self.has_sword(),  # fusion 3D
-            # All of the following require Fusion 24
+            # All the following require Fusion 24
             TMCLocation.WESTERN_WOODS_BEANSTALK_FUSION_CHEST: None,
             TMCLocation.WESTERN_WOODS_BEANSTALK_FUSION_ITEM1: None,
             TMCLocation.WESTERN_WOODS_BEANSTALK_FUSION_ITEM2: None,
@@ -1041,13 +1047,8 @@ class MinishCapRules:
             # endregion
         }
 
-    def logic_or(self, rules: list[CollectionRule | None]) -> CollectionRule:
-        return lambda state: any(rule(state) for rule in rules if rule is not None)
     def no_access(self) -> CollectionRule:
-        if self.world.options.goal_vaati:
-            return self.can_reach([TMCEvent.CLEAR_DHC])
-        else:
-            return self.can_reach([TMCEvent.CLEAR_PED])
+            return self.has(TMCItem.INACCESSIBLE)
 
     def logic_or(self, rules: list[CollectionRule | None]) -> CollectionRule | None:
         for entry in rules:
@@ -1090,6 +1091,11 @@ class MinishCapRules:
         return self.logic_option(TMCCrests.SMITH in self.world.options.wind_crests.value,
                                  self.logic_or([self.can_pass_trees(), self.has(TMCItem.OCARINA)]),
                                  self.can_pass_trees())
+
+    def minish_crest(self) -> CollectionRule:
+        return self.logic_option(TMCCrests.MINISH in self.world.options.wind_crests.value,
+                                 self.has(TMCItem.OCARINA),
+                                 self.no_access())
 
     def has_4_elements(self) -> CollectionRule:
         return self.has_all([TMCItem.EARTH_ELEMENT, TMCItem.WATER_ELEMENT, TMCItem.FIRE_ELEMENT, TMCItem.WIND_ELEMENT])

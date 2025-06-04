@@ -365,7 +365,7 @@ def get_option_data(options: MinishCapOptions):
         "wind_crest_crenel": 1 if "Mount Crenel" in options.wind_crests.value else 0,
         "wind_crest_falls": 1 if "Veil Falls" in options.wind_crests.value else 0,
         "wind_crest_clouds": 1 if "Cloud Tops" in options.wind_crests.value else 0,
-        "wind_crest_town": 1 if "Hyrule Town" in options.wind_crests.value else 0,
+        "wind_crest_town": 1,
         "wind_crest_lake": 1,
         "wind_crest_castor": 1 if "Castor Wilds" in options.wind_crests.value else 0,
         "wind_crest_south_field": 1 if "South Hyrule Field" in options.wind_crests.value else 0,
