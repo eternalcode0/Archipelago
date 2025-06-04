@@ -715,6 +715,7 @@ class TMCEvent:
 
 class TMCRegion:
     SOUTH_FIELD = "South Field"
+    SOUTH_PUDDLE = "South Puddle"
     HYRULE_TOWN = "Hyrule Town"
     NORTH_FIELD = "North Field"
     CASTLE_EXTERIOR = "Castle Exterior"
@@ -874,6 +875,7 @@ EXTERNAL_ITEM_MAP: dict[ItemClassification, Callable[[object], int]] = {
 
 ALL_REGIONS = [
     TMCRegion.SOUTH_FIELD,
+    TMCRegion.SOUTH_PUDDLE,
     TMCRegion.HYRULE_TOWN,
     TMCRegion.NORTH_FIELD,
     TMCRegion.CASTLE_EXTERIOR,

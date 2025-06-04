@@ -25,8 +25,14 @@ class MinishCapRules:
             ("Menu", TMCRegion.SOUTH_FIELD): None,
             (TMCRegion.SOUTH_FIELD, TMCRegion.HYRULE_TOWN): None,
             (TMCRegion.SOUTH_FIELD, TMCRegion.EASTERN_HILLS): self.smith_crest(),
+            (TMCRegion.SOUTH_FIELD, TMCRegion.SOUTH_PUDDLE):
+                self.logic_or([self.can_pass_trees(), self.has_any([TMCItem.ROCS_CAPE, TMCItem.FLIPPERS])]),
             (TMCRegion.SOUTH_FIELD, TMCRegion.LAKE_HYLIA_NORTH): self.has(TMCItem.OCARINA),
             (TMCRegion.SOUTH_FIELD, TMCRegion.BELARI): self.minish_crest(),
+            (TMCRegion.SOUTH_FIELD, TMCRegion.CASTOR_WILDS): self.swamp_crest(),
+
+            (TMCRegion.SOUTH_PUDDLE, TMCRegion.SOUTH_FIELD):
+                self.logic_or([self.can_pass_trees(), self.has_any([TMCItem.ROCS_CAPE, TMCItem.FLIPPERS])]),
 
             (TMCRegion.HYRULE_TOWN, TMCRegion.NORTH_FIELD): None,
             (TMCRegion.HYRULE_TOWN, TMCRegion.SOUTH_FIELD): None,
@@ -96,7 +102,7 @@ class MinishCapRules:
             (TMCRegion.BELARI, TMCRegion.MINISH_WOODS): None,
             (TMCRegion.BELARI, TMCRegion.EASTERN_HILLS): self.has(TMCItem.BOMB_BAG),
 
-            (TMCRegion.WESTERN_WOODS, TMCRegion.SOUTH_FIELD): None,
+            (TMCRegion.WESTERN_WOODS, TMCRegion.SOUTH_PUDDLE): None,
             (TMCRegion.WESTERN_WOODS, TMCRegion.CASTOR_WILDS): self.has_any([TMCItem.PEGASUS_BOOTS, TMCItem.ROCS_CAPE]),
             (TMCRegion.WESTERN_WOODS, TMCRegion.TRILBY_HIGHLANDS): None,
 
@@ -167,11 +173,11 @@ class MinishCapRules:
             (TMCRegion.CASTOR_WILDS, TMCRegion.WIND_RUINS):
                 self.logic_and([self.has(TMCItem.KINSTONE_GOLD_SWAMP, 3),
                                 self.logic_or([self.has(TMCItem.ROCS_CAPE),
-                                               self.has_all([TMCItem.FLIPPERS, TMCItem.PEGASUS_BOOTS]),
-                                               self.logic_and([self.has_bow(), self.has(TMCItem.PEGASUS_BOOTS)])])]),
+                                               self.logic_and([self.has(TMCItem.PEGASUS_BOOTS),
+                                                               self.logic_or([self.swamp_crest(), self.has_bow(),
+                                                                              self.has(TMCItem.FLIPPERS)])])])]),
             (TMCRegion.WIND_RUINS, TMCRegion.DUNGEON_FOW):
-                self.logic_and([self.has_sword(), self.has_weapon()]),
-                # redundancy for later logic improvements
+                self.logic_and([self.has_sword(), self.has_weapon()]), # redundancy for later logic improvements
             (TMCRegion.DUNGEON_FOW, TMCRegion.DUNGEON_FOW_CLEAR):
                 self.logic_and([self.has(TMCItem.MOLE_MITTS), self.has_bow(),
                                 self.has(TMCItem.BIG_KEY_FOW), self.has_weapon_mazaal()]),
@@ -194,36 +200,21 @@ class MinishCapRules:
             TMCLocation.SOUTH_FIELD_MINISH_SIZE_WATER_HOLE_HP:
                 self.logic_and([self.can_pass_trees(), self.has_all([TMCItem.PEGASUS_BOOTS, TMCItem.FLIPPERS])]),
             # All the following require Fusion 58
-            TMCLocation.SOUTH_FIELD_PUDDLE_FUSION_ITEM1:
-                self.logic_or([self.can_pass_trees(), self.has_any([TMCItem.FLIPPERS, TMCItem.ROCS_CAPE])]),
-            TMCLocation.SOUTH_FIELD_PUDDLE_FUSION_ITEM2:
-                self.logic_or([self.can_pass_trees(), self.has_any([TMCItem.FLIPPERS, TMCItem.ROCS_CAPE])]),
-            TMCLocation.SOUTH_FIELD_PUDDLE_FUSION_ITEM3:
-                self.logic_or([self.can_pass_trees(), self.has_any([TMCItem.FLIPPERS, TMCItem.ROCS_CAPE])]),
-            TMCLocation.SOUTH_FIELD_PUDDLE_FUSION_ITEM4:
-                self.logic_or([self.can_pass_trees(), self.has_any([TMCItem.FLIPPERS, TMCItem.ROCS_CAPE])]),
-            TMCLocation.SOUTH_FIELD_PUDDLE_FUSION_ITEM5:
-                self.logic_or([self.can_pass_trees(), self.has_any([TMCItem.FLIPPERS, TMCItem.ROCS_CAPE])]),
-            TMCLocation.SOUTH_FIELD_PUDDLE_FUSION_ITEM6:
-                self.logic_or([self.can_pass_trees(), self.has_any([TMCItem.FLIPPERS, TMCItem.ROCS_CAPE])]),
-            TMCLocation.SOUTH_FIELD_PUDDLE_FUSION_ITEM7:
-                self.logic_or([self.can_pass_trees(), self.has_any([TMCItem.FLIPPERS, TMCItem.ROCS_CAPE])]),
-            TMCLocation.SOUTH_FIELD_PUDDLE_FUSION_ITEM8:
-                self.logic_or([self.can_pass_trees(), self.has_any([TMCItem.FLIPPERS, TMCItem.ROCS_CAPE])]),
-            TMCLocation.SOUTH_FIELD_PUDDLE_FUSION_ITEM9:
-                self.logic_or([self.can_pass_trees(), self.has_any([TMCItem.FLIPPERS, TMCItem.ROCS_CAPE])]),
-            TMCLocation.SOUTH_FIELD_PUDDLE_FUSION_ITEM10:
-                self.logic_or([self.can_pass_trees(), self.has_any([TMCItem.FLIPPERS, TMCItem.ROCS_CAPE])]),
-            TMCLocation.SOUTH_FIELD_PUDDLE_FUSION_ITEM11:
-                self.logic_or([self.can_pass_trees(), self.has_any([TMCItem.FLIPPERS, TMCItem.ROCS_CAPE])]),
-            TMCLocation.SOUTH_FIELD_PUDDLE_FUSION_ITEM12:
-                self.logic_or([self.can_pass_trees(), self.has_any([TMCItem.FLIPPERS, TMCItem.ROCS_CAPE])]),
-            TMCLocation.SOUTH_FIELD_PUDDLE_FUSION_ITEM13:
-                self.logic_or([self.can_pass_trees(), self.has_any([TMCItem.FLIPPERS, TMCItem.ROCS_CAPE])]),
-            TMCLocation.SOUTH_FIELD_PUDDLE_FUSION_ITEM14:
-                self.logic_or([self.can_pass_trees(), self.has_any([TMCItem.FLIPPERS, TMCItem.ROCS_CAPE])]),
-            TMCLocation.SOUTH_FIELD_PUDDLE_FUSION_ITEM15:
-                self.logic_or([self.can_pass_trees(), self.has_any([TMCItem.FLIPPERS, TMCItem.ROCS_CAPE])]),
+            TMCLocation.SOUTH_FIELD_PUDDLE_FUSION_ITEM1: None,
+            TMCLocation.SOUTH_FIELD_PUDDLE_FUSION_ITEM2: None,
+            TMCLocation.SOUTH_FIELD_PUDDLE_FUSION_ITEM3: None,
+            TMCLocation.SOUTH_FIELD_PUDDLE_FUSION_ITEM4: None,
+            TMCLocation.SOUTH_FIELD_PUDDLE_FUSION_ITEM5: None,
+            TMCLocation.SOUTH_FIELD_PUDDLE_FUSION_ITEM6: None,
+            TMCLocation.SOUTH_FIELD_PUDDLE_FUSION_ITEM7: None,
+            TMCLocation.SOUTH_FIELD_PUDDLE_FUSION_ITEM8: None,
+            TMCLocation.SOUTH_FIELD_PUDDLE_FUSION_ITEM9: None,
+            TMCLocation.SOUTH_FIELD_PUDDLE_FUSION_ITEM10: None,
+            TMCLocation.SOUTH_FIELD_PUDDLE_FUSION_ITEM11: None,
+            TMCLocation.SOUTH_FIELD_PUDDLE_FUSION_ITEM12: None,
+            TMCLocation.SOUTH_FIELD_PUDDLE_FUSION_ITEM13: None,
+            TMCLocation.SOUTH_FIELD_PUDDLE_FUSION_ITEM14: None,
+            TMCLocation.SOUTH_FIELD_PUDDLE_FUSION_ITEM15: None,
             TMCLocation.SOUTH_FIELD_FUSION_CHEST: None,  # Fusion 53
             TMCLocation.SOUTH_FIELD_TREE_FUSION_HP: None,  # Fusion 32
             TMCLocation.SOUTH_FIELD_TINGLE_NPC: self.has_all([TMCItem.CANE_OF_PACCI, TMCItem.TINGLE_TROPHY]),
@@ -599,14 +590,15 @@ class MinishCapRules:
             TMCLocation.SWAMP_UNDERWATER_MIDDLE: self.has(TMCItem.FLIPPERS),
             TMCLocation.SWAMP_UNDERWATER_BOTTOM: self.has(TMCItem.FLIPPERS),
             TMCLocation.SWAMP_SOUTH_CAVE_CHEST:
-                self.logic_or([self.has_any([TMCItem.ROCS_CAPE, TMCItem.FLIPPERS]),
-                               self.logic_and([self.has_bow(), self.has(TMCItem.PEGASUS_BOOTS)])]),
+                self.logic_or([self.has_any([TMCItem.ROCS_CAPE, TMCItem.FLIPPERS]), self.has_bow()]),
             TMCLocation.SWAMP_DOJO_HP:
                 self.logic_or([self.has(TMCItem.ROCS_CAPE), self.has_bow(),
-                               self.has_all([TMCItem.PEGASUS_BOOTS, TMCItem.FLIPPERS])]),
+                               self.has_all([TMCItem.PEGASUS_BOOTS, TMCItem.FLIPPERS]),
+                               self.logic_and([self.swamp_crest(), self.has(TMCItem.PEGASUS_BOOTS)])]),
             TMCLocation.SWAMP_DOJO_NPC:
                 self.logic_and([self.logic_or([self.has(TMCItem.ROCS_CAPE), self.has_bow(),
-                                               self.has_all([TMCItem.PEGASUS_BOOTS, TMCItem.FLIPPERS])]),
+                                               self.has_all([TMCItem.PEGASUS_BOOTS, TMCItem.FLIPPERS]),
+                                               self.logic_and([self.swamp_crest(), self.has(TMCItem.PEGASUS_BOOTS)])]),
                                 self.has_sword(),
                                 self.has_group("Scrolls", 7)]),
             TMCLocation.SWAMP_MINISH_FUSION_NORTH_CRACK_CHEST:  # Fusion 4B
@@ -614,7 +606,8 @@ class MinishCapRules:
             TMCLocation.SWAMP_MINISH_MULLDOZER_BIG_CHEST:
                 self.logic_and([
                     self.logic_or([self.has_any([TMCItem.PEGASUS_BOOTS, TMCItem.ROCS_CAPE]), self.has_bow()]),
-                    self.has_any([TMCItem.FLIPPERS, TMCItem.GUST_JAR]), self.has_weapon(),
+                    self.has_any([TMCItem.FLIPPERS, TMCItem.GUST_JAR]),
+                    self.has_weapon(),
                 ]),
             TMCLocation.SWAMP_MINISH_FUSION_NORTH_WEST_CRACK_CHEST:  # Fusion 5B
                 self.logic_and([
@@ -1086,6 +1079,11 @@ class MinishCapRules:
         return self.logic_option(TMCWarps.DWS_RED in self.world.options.dungeon_warps.value,
                                  None,
                                  self.logic_and([self.has(TMCItem.SMALL_KEY_DWS, 4), self.has(TMCItem.GUST_JAR)]))
+
+    def swamp_crest(self) -> CollectionRule:
+        return self.logic_option(TMCCrests.SWAMP in self.world.options.wind_crests.value,
+                                 self.has(TMCItem.OCARINA),
+                                 self.no_access())
 
     def smith_crest(self) -> CollectionRule:
         return self.logic_option(TMCCrests.SMITH in self.world.options.wind_crests.value,
