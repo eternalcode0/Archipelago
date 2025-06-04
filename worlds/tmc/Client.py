@@ -4,7 +4,6 @@ from typing import TYPE_CHECKING
 import worlds._bizhawk as bizhawk
 from NetUtils import ClientStatus
 from worlds._bizhawk.client import BizHawkClient
-from .Items import items_by_id
 from .Locations import all_locations, events, LocationData
 
 if TYPE_CHECKING:
@@ -184,12 +183,13 @@ class MinishCapClient(BizHawkClient):
         # Read all pending receive items and dump into game ram
         for i in range(len(ctx.items_received) - received_index):
             write_result = False
-            item = items_by_id[ctx.items_received[received_index + i].item]
+            item_id = ctx.items_received[received_index + i].item
+            pid, sid = item_id >> 8, item_id & 0xFF
             total = 0
             while not write_result:
                 # Write to the address if it hasn't changed
                 write_result = await bizhawk.guarded_write(ctx.bizhawk_ctx,
-                                                           [(0x3FF10, [item.byte_ids[0], item.byte_ids[1]], "EWRAM")],
+                                                           [(0x3FF10, [pid, sid], "EWRAM")],
                                                            [(0x3FF10, [0x0, 0x0], "EWRAM"), (0x2A4A, [1], "EWRAM")])
 
                 await asyncio.sleep(0.05)

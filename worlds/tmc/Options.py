@@ -341,6 +341,7 @@ def get_option_data(options: MinishCapOptions):
         "weapon_bows": options.weapon_bow.value,
         "weapon_gust_jar": options.weapon_gust.value,  # No, Yes
         "weapon_lantern": options.weapon_lantern.value,
+        "entrance_rando": 0,  # 0 = Disabled, 1 = Dungeons, 2 = Regions?, 3 = Rooms? (? = subject to change)
         "trick_mitts_farm_rupees": ALL_TRICKS[0] in options.tricks,  # No, Yes
         "trick_bombable_dust": ALL_TRICKS[1] in options.tricks,
         "trick_crenel_mushroom_gust_jar": ALL_TRICKS[2] in options.tricks,

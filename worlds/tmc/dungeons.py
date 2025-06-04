@@ -53,7 +53,8 @@ def fill_dungeons(world: "MinishCapWorld"):
         base_state.collect(item)
 
     # Element Shuffle
-    elements = list(map(world.create_item, ELEMENTS))
+    elements = list(map(world.create_item, [TMCItem.EARTH_ELEMENT, TMCItem.FIRE_ELEMENT, TMCItem.WATER_ELEMENT,
+                                            TMCItem.WIND_ELEMENT]))
     # Create an element state that will have all the items from future pre_fill stages
     element_state = base_state.copy()
     for pre_fill_item in world.get_pre_fill_items():
@@ -98,6 +99,7 @@ def fill_dungeon(world: "MinishCapWorld", dungeon: str, stage_items: set[str], b
     fill_locations = [loc for loc in world_locations \
                       if loc.name in location_groups[dungeon] and loc.name not in BANNED_KEY_LOCATIONS]
     world.random.shuffle(fill_locations)
+    world.random.shuffle(fill_stage_items)
 
     # Create a new collection state that collects all the already placed items
     dungeon_state = base_state.copy()
