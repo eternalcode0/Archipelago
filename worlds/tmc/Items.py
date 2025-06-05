@@ -125,6 +125,11 @@ def pool_baseitems() -> list[str]:
     ]
 
 
+def pool_traps() -> [ItemData]:
+    return [TMCItem.TRAP_ICE, TMCItem.TRAP_FIRE, TMCItem.TRAP_ZAP, TMCItem.TRAP_BOMB, TMCItem.TRAP_MONEY,
+            TMCItem.TRAP_STINK, TMCItem.TRAP_ROPE, TMCItem.TRAP_BAT, TMCItem.TRAP_LIKE, TMCItem.TRAP_CURSE]
+
+
 def pool_dungeonmaps() -> list[str]:
     return [TMCItem.DUNGEON_MAP_DWS, TMCItem.DUNGEON_MAP_COF, TMCItem.DUNGEON_MAP_FOW, TMCItem.DUNGEON_MAP_TOD,
             TMCItem.DUNGEON_MAP_POW, TMCItem.DUNGEON_MAP_DHC]
@@ -365,6 +370,17 @@ item_table: dict[str, ItemData] = {
     TMCItem.FAST_SPLIT_SCROLL: ItemData(ItemClassification.progression, (0x74, 0x00)),
     TMCItem.LONG_SPIN: ItemData(ItemClassification.progression, (0x75, 0x00)),
 
+    TMCItem.TRAP_ICE: ItemData(ItemClassification.trap, (0x1B, 0x0)),
+    TMCItem.TRAP_FIRE: ItemData(ItemClassification.trap, (0x1B, 0x1)),
+    TMCItem.TRAP_ZAP: ItemData(ItemClassification.trap, (0x1B, 0x2)),
+    TMCItem.TRAP_BOMB: ItemData(ItemClassification.trap, (0x1B, 0x3)),
+    TMCItem.TRAP_MONEY: ItemData(ItemClassification.trap, (0x1B, 0x4)),
+    TMCItem.TRAP_STINK: ItemData(ItemClassification.trap, (0x1B, 0x5)),
+    TMCItem.TRAP_ROPE: ItemData(ItemClassification.trap, (0x1B, 0x6)),
+    TMCItem.TRAP_BAT: ItemData(ItemClassification.trap, (0x1B, 0x7)),
+    TMCItem.TRAP_LIKE: ItemData(ItemClassification.trap, (0x1B, 0x8)),
+    TMCItem.TRAP_CURSE: ItemData(ItemClassification.trap, (0x1B, 0x9)),
+
     TMCItem.DUNGEON_MAP_DWS: ItemData(ItemClassification.useful, (0x50, 0x18)),
     TMCItem.DUNGEON_MAP_COF: ItemData(ItemClassification.useful, (0x50, 0x19)),
     TMCItem.DUNGEON_MAP_FOW: ItemData(ItemClassification.useful, (0x50, 0x1A)),
@@ -405,7 +421,26 @@ item_frequencies: dict[str, int] = {
     TMCItem.ARROW_REFILL_30: 16,
 }
 
-filler_item_selection: list[str] = [name for name, count in item_frequencies.items() for _ in range(count)]
+trap_frequencies: dict[str, int] = {
+    TMCItem.TRAP_ICE: 10,
+    TMCItem.TRAP_FIRE: 10,
+    TMCItem.TRAP_ZAP: 10,
+    TMCItem.TRAP_BOMB: 10,
+    TMCItem.TRAP_MONEY: 10,
+    TMCItem.TRAP_STINK: 10,
+    TMCItem.TRAP_ROPE: 10,
+    TMCItem.TRAP_BAT: 10,
+    TMCItem.TRAP_LIKE: 10,
+    TMCItem.TRAP_CURSE: 10,
+}
+
+def get_filler_item_selection(world: "MinishCapWorld"):
+    frequencies = item_frequencies.copy()
+    if world.options.traps_enabled:
+        traps = trap_frequencies.copy()
+        frequencies.update(traps)
+    return [name for name, count in frequencies.items() for _ in range(count)]
+
 item_groups: dict[str, set[str]] = {
     "Scrolls": {TMCItem.SPIN_ATTACK, TMCItem.ROLL_ATTACK, TMCItem.DASH_ATTACK, TMCItem.ROCK_BREAKER, TMCItem.SWORD_BEAM,
                 TMCItem.GREATSPIN, TMCItem.DOWNTHRUST, TMCItem.PERIL_BEAM, TMCItem.FAST_SPIN_SCROLL,

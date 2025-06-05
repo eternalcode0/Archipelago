@@ -135,6 +135,17 @@ class TMCItem:
     PROGRESSIVE_SHIELD = "Progressive Shield"
     PROGRESSIVE_SCROLL = "Progressive Spin Scroll"
 
+    TRAP_ICE = "Freeze Trap"
+    TRAP_FIRE = "Burn Trap"
+    TRAP_ZAP = "Zap Trap"
+    TRAP_BOMB = "Bomb Trap"
+    TRAP_MONEY = "Rupee Trap"
+    TRAP_STINK = "Stink Trap"
+    TRAP_ROPE = "Rope Trap"
+    TRAP_BAT = "Bat Trap"
+    TRAP_LIKE = "LikeLike Trap"
+    TRAP_CURSE = "Curse Trap"
+
     DUNGEON_MAP_DWS = "Dungeon Map (DWS)"
     DUNGEON_MAP_COF = "Dungeon Map (CoF)"
     DUNGEON_MAP_FOW = "Dungeon Map (FoW)"

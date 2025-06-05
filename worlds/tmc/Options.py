@@ -98,6 +98,15 @@ class DungeonCompasses(DungeonItem):
     default = 3
 
 
+class Traps(Toggle):
+    """
+    Traps may be placed around the world. Traps for local items will have their
+    sprite randomized to a local item before pickup. When picked up it'll turn
+    into an exclamation mark (!) and activate a specific trap such as spawning
+    enemies, setting you on fire, freezing you, etc.
+    """
+    display_name = "Traps Enabled"
+
 class GoalVaati(DefaultOnToggle):
     """
     If enabled, DHC will open after completing Pedestal. Kill Vaati to goal.
@@ -293,6 +302,7 @@ class MinishCapOptions(PerGameCommonOptions):
     tricks: Tricks
     rupeesanity: Rupeesanity
     obscure_spots: ObscureSpots
+    traps_enabled: Traps
     early_weapon: EarlyWeapon
     random_bottle_contents: RandomBottleContents
     dungeon_small_keys: SmallKeys

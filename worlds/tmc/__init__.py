@@ -14,7 +14,7 @@ from Options import OptionError
 from .Client import MinishCapClient
 from .constants import MinishCapItem, MinishCapLocation, TMCEvent, TMCItem, TMCLocation
 from .dungeons import fill_dungeons
-from .Items import filler_item_selection, get_item_pool, get_pre_fill_pool, item_frequencies, item_groups, item_table, ItemData
+from .Items import get_filler_item_selection, get_item_pool, get_pre_fill_pool, item_frequencies, item_groups, item_table, ItemData
 from .Locations import all_locations, DEFAULT_SET, GOAL_PED, GOAL_VAATI, location_groups, OBSCURE_SET, POOL_RUPEE
 from .Options import DungeonItem, get_option_data, MinishCapOptions, ShuffleElements
 from .Regions import create_regions
@@ -73,6 +73,7 @@ class MinishCapWorld(World):
     item_pool = []
     pre_fill_pool = []
     location_name_groups = location_groups
+    filler_items = []
     disabled_locations: set[str]
     disabled_dungeons: set[str]
 
@@ -88,6 +89,8 @@ class MinishCapWorld(World):
             enabled_pools.add(POOL_RUPEE)
         if self.options.obscure_spots.value:
             enabled_pools |= OBSCURE_SET
+
+        self.filler_items = get_filler_item_selection(self)
 
         if self.options.shuffle_elements.value == ShuffleElements.option_dungeon_prize:
             self.options.start_hints.value.add(TMCItem.EARTH_ELEMENT)
@@ -150,7 +153,7 @@ class MinishCapWorld(World):
         return MinishCapItem(name, ItemClassification.progression, None, self.player)
 
     def get_filler_item_name(self) -> str:
-        return self.random.choice(filler_item_selection)
+        return self.random.choice(self.filler_items)
 
     def create_items(self):
         # First add in all progression and useful items
