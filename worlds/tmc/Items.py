@@ -249,7 +249,6 @@ item_table: dict[str, ItemData] = {
     TMCItem.PROGRESSIVE_SWORD: ItemData(ItemClassification.progression, (0x01, 0x00)),
     TMCItem.BOMB: ItemData(ItemClassification.progression, (0x07, 0x00)),
     TMCItem.REMOTE_BOMB: ItemData(ItemClassification.useful, (0x08, 0x00)),
-    TMCItem.PROGRESSIVE_BOMB: ItemData(ItemClassification.progression, (0x07, 0x00)),
     # TMCItem.BOW: ItemData(ItemClassification.progression, (0x09, 0x00)),
     # TMCItem.LIGHT_ARROW: ItemData(ItemClassification.progression, (0x0A, 0x00)),
     TMCItem.PROGRESSIVE_BOW: ItemData(ItemClassification.progression, (0x09, 0x00)),
