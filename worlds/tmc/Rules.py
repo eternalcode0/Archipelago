@@ -94,10 +94,11 @@ class MinishCapRules:
             (TMCRegion.MINISH_WOODS, TMCRegion.DUNGEON_DWS): self.has_any([TMCItem.FLIPPERS, TMCItem.JABBER_NUT]),
             (TMCRegion.DUNGEON_DWS, TMCRegion.DUNGEON_DWS_CLEAR):
                 self.logic_and([self.has_weapon_boss(), self.has(TMCItem.GUST_JAR), self.has(TMCItem.BIG_KEY_DWS)]),
+            (TMCRegion.DUNGEON_DWS_CLEAR, TMCRegion.BELARI): None,
             (TMCRegion.MINISH_WOODS, TMCRegion.LAKE_HYLIA_SOUTH):
                 self.logic_and([self.access_minish_woods_top_left(), self.has(TMCItem.MOLE_MITTS)]),
             (TMCRegion.MINISH_WOODS, TMCRegion.LAKE_HYLIA_NORTH): self.has(TMCItem.ROCS_CAPE),
-            (TMCRegion.MINISH_WOODS, TMCRegion.BELARI): self.access_belari(),
+            (TMCRegion.MINISH_WOODS, TMCRegion.BELARI): self.has(TMCItem.BOMB_BAG),
 
             (TMCRegion.BELARI, TMCRegion.MINISH_WOODS): None,
             (TMCRegion.BELARI, TMCRegion.EASTERN_HILLS): self.has(TMCItem.BOMB_BAG),
@@ -1353,9 +1354,6 @@ class MinishCapRules:
     def access_minish_woods_top_left(self) -> CollectionRule:
         return self.logic_or([self.has_any([TMCItem.FLIPPERS, TMCItem.ROCS_CAPE]),
                               self.logic_and([self.access_lonlon_right(), self.has(TMCItem.CANE_OF_PACCI)])])
-
-    def access_belari(self) -> CollectionRule:
-        return self.logic_or([self.has(TMCItem.BOMB_BAG), self.can_reach([TMCLocation.DEEPWOOD_PRIZE])])
 
     def complete_book_quest(self) -> CollectionRule:
         return self.has_all(
