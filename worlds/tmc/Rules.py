@@ -32,6 +32,7 @@ class MinishCapRules:
             (TMCRegion.SOUTH_FIELD, TMCRegion.CASTOR_WILDS): self.swamp_crest(),
             (TMCRegion.SOUTH_FIELD, TMCRegion.WIND_TRIBE): self.clouds_crest(),
             (TMCRegion.SOUTH_FIELD, TMCRegion.UPPER_FALLS): self.falls_crest(),
+            (TMCRegion.SOUTH_FIELD, TMCRegion.MELARI): self.crenel_crest(),
 
             (TMCRegion.SOUTH_PUDDLE, TMCRegion.SOUTH_FIELD):
                 self.logic_or([self.can_pass_trees(), self.has_any([TMCItem.ROCS_CAPE, TMCItem.FLIPPERS])]),
@@ -1086,7 +1087,12 @@ class MinishCapRules:
                                  None,
                                  self.logic_and([self.has(TMCItem.SMALL_KEY_DWS, 4), self.has(TMCItem.GUST_JAR)]))
 
-    def falls_crest(self)-> CollectionRule:
+    def crenel_crest(self) -> CollectionRule:
+        return self.logic_option(TMCCrests.CRENEL in self.world.options.wind_crests.value,
+                                 self.has(TMCItem.OCARINA),
+                                 self.no_access())
+
+    def falls_crest(self) -> CollectionRule:
         return self.logic_option(TMCCrests.FALLS in self.world.options.wind_crests.value,
                                  self.has(TMCItem.OCARINA),
                                  self.no_access())

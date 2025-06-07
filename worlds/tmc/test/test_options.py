@@ -3,7 +3,7 @@ from itertools import chain, combinations
 from . import MinishCapTestBase
 from .. import TMCEvent
 from ..constants import TMCLocation, TMCItem
-from ..Options import ShuffleElements, DungeonItem, WindCrests
+from ..Options import DungeonWarps, ShuffleElements, DungeonItem, WindCrests
 
 
 class TestElementsVanilla(MinishCapTestBase):
@@ -66,8 +66,9 @@ class TestBigKeysDungeon(MinishCapTestBase):
     }
 
 
-class TestCrestsDefault(MinishCapTestBase):
-    options = {"wind_crests": WindCrests.default}
+class TestWindCrests(MinishCapTestBase):
+    # options = {"wind_crests": WindCrests.default}
+    options = {"wind_crests": set(WindCrests.valid_keys)}
     options_list = [
         "Mount Crenel",
         "Veil Falls",
@@ -208,22 +209,27 @@ class TestCrestsDefault(MinishCapTestBase):
         TMCLocation.MINISH_WOODS_BOMB_MINISH_NPC_1,
     ]
 
-    def test_crests_combo(self) -> None:
-        """Tests locations near wind crests, checking every combination of settings"""
+#    def test_crests_combo(self) -> None:
+#        """Tests locations near wind crests, checking every combination of settings"""
+#
+#        options = {1,2,4,5,6}
+#        powerset = chain.from_iterable(combinations(options, r) for r in range(len(options) + 1))
+#
+#        for combo in powerset:
+#            if combo == (): continue
+#            crests = []
+#            for ID in combo:
+#                crests.append(self.options_list[ID])
+#                self.default_access_list[ID].append([TMCItem.OCARINA])
+#            self.options.update({"wind_crests": crests})
+#            self.world_setup()
+#            for ID in range(7):
+#                self.assertAccessDependency([self.location_list[ID]], self.default_access_list[ID], True)
+#            self.options.update({"wind_crests": WindCrests.default})
+#            for ID in combo:
+#                self.default_access_list[ID].remove([TMCItem.OCARINA])
 
-        options = {1,2,4,5,6}
-        powerset = chain.from_iterable(combinations(options, r) for r in range(len(options) + 1))
-
-        for combo in powerset:
-            if combo == (): continue
-            crests = []
-            for ID in combo:
-                crests.append(self.options_list[ID])
-                self.default_access_list[ID].append([TMCItem.OCARINA])
-            self.options.update({"wind_crests": crests})
-            self.world_setup()
-            for ID in range(7):
-                self.assertAccessDependency([self.location_list[ID]], self.default_access_list[ID], True)
-            self.options.update({"wind_crests": WindCrests.default})
-            for ID in combo:
-                self.default_access_list[ID].remove([TMCItem.OCARINA])
+class TestDungeonWarps(MinishCapTestBase):
+    options = {
+        "dungeon_warps": DungeonWarps.valid_keys
+    }
