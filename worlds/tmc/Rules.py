@@ -1042,7 +1042,8 @@ class MinishCapRules:
         }
 
     def no_access(self) -> CollectionRule:
-            return self.has(TMCItem.INACCESSIBLE)
+            # return self.has(TMCItem.INACCESSIBLE)
+            return lambda state: False
 
     def logic_or(self, rules: list[CollectionRule | None]) -> CollectionRule | None:
         for entry in rules:
