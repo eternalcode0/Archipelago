@@ -34,12 +34,12 @@ def write_tokens(world: "MinishCapWorld", patch: MinishCapProcedurePatch) -> Non
     # Bake seed name into ROM
     patch.write_token(APTokenTypes.WRITE, 0x000620, world.multiworld.seed_name.encode("UTF-8"))
 
-    if 1 <= world.options.ped_elements.value <= 4:
-        patch.write_token(APTokenTypes.WRITE, 0x000701, bytes([world.options.ped_elements.value]))
-    if 1 <= world.options.ped_swords.value <= 5:
-        patch.write_token(APTokenTypes.WRITE, 0x000702, bytes([world.options.ped_swords.value]))
-    if 1 <= world.options.ped_dungeons.value <= 6:
-        patch.write_token(APTokenTypes.WRITE, 0x000703, bytes([world.options.ped_dungeons.value]))
+    if 0 <= world.options.ped_elements.value <= 4:
+        patch.write_token(APTokenTypes.WRITE, 0xFE0001, bytes([world.options.ped_elements.value]))
+    if 0 <= world.options.ped_swords.value <= 5:
+        patch.write_token(APTokenTypes.WRITE, 0xFE0002, bytes([world.options.ped_swords.value]))
+    if 0 <= world.options.ped_dungeons.value <= 6:
+        patch.write_token(APTokenTypes.WRITE, 0xFE0003, bytes([world.options.ped_dungeons.value]))
 
     # Patch Items into Locations
     for location_name, loc in location_table_by_name.items():

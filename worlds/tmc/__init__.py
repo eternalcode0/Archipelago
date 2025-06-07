@@ -14,7 +14,7 @@ from Options import OptionError
 from .Client import MinishCapClient
 from .constants import MinishCapItem, MinishCapLocation, TMCEvent, TMCItem, TMCLocation
 from .dungeons import fill_dungeons
-from .Items import filler_item_selection, get_item_pool, item_frequencies, item_groups, item_list, item_table, ItemData
+from .Items import get_filler_item_selection, get_item_pool, get_pre_fill_pool, item_frequencies, item_groups, item_table, ItemData
 from .Locations import all_locations, DEFAULT_SET, GOAL_PED, GOAL_VAATI, location_groups, OBSCURE_SET, POOL_RUPEE
 from .Options import DungeonItem, get_option_data, MinishCapOptions, ShuffleElements
 from .Regions import create_regions
@@ -73,6 +73,7 @@ class MinishCapWorld(World):
     item_pool = []
     pre_fill_pool = []
     location_name_groups = location_groups
+    filler_items = []
     disabled_locations: set[str]
     disabled_dungeons: set[str]
 
@@ -88,6 +89,8 @@ class MinishCapWorld(World):
             enabled_pools.add(POOL_RUPEE)
         if self.options.obscure_spots.value:
             enabled_pools |= OBSCURE_SET
+
+        self.filler_items = get_filler_item_selection(self)
 
         if self.options.shuffle_elements.value == ShuffleElements.option_dungeon_prize:
             self.options.start_hints.value.add(TMCItem.EARTH_ELEMENT)
@@ -113,12 +116,15 @@ class MinishCapWorld(World):
                 "RupeeSpot": self.options.rupeesanity.value, "ObscureSpot": self.options.obscure_spots.value,
                 "GoalVaati": self.options.goal_vaati.value}
         data |= self.options.as_dict("death_link", "death_link_gameover", "rupeesanity", "obscure_spots",
-                                     "goal_vaati", "weapon_bomb", "weapon_bow", "weapon_gust", "weapon_lantern",
+                                     "goal_vaati", "random_bottle_contents", "weapon_bomb", "weapon_bow",
+                                     "weapon_gust", "weapon_lantern",
                                      "tricks", "dungeon_small_keys", "dungeon_big_keys", "dungeon_compasses",
-                                     "dungeon_maps", casing="snake")
+                                     "dungeon_maps",
+                                     casing="snake")
         data |= get_option_data(self.options)
         # If Element location should be known, add locations to slot data for tracker
-        if self.options.shuffle_elements.value != ShuffleElements.option_anywhere:
+        if self.options.shuffle_elements.value in {ShuffleElements.option_dungeon_prize,
+                                                   ShuffleElements.option_vanilla}:
             prizes = {TMCLocation.COF_PRIZE: "prize_cof", TMCLocation.CRYPT_PRIZE: "prize_rc",
                       TMCLocation.PALACE_PRIZE: "prize_pow", TMCLocation.DEEPWOOD_PRIZE: "prize_dws",
                       TMCLocation.DROPLETS_PRIZE: "prize_tod", TMCLocation.FORTRESS_PRIZE: "prize_fow"}
@@ -146,34 +152,28 @@ class MinishCapWorld(World):
     def create_event(self, name: str) -> MinishCapItem:
         return MinishCapItem(name, ItemClassification.progression, None, self.player)
 
-    def get_filler_item_name(self) -> Item:
-        return self.random.choice(filler_item_selection)
+    def get_filler_item_name(self) -> str:
+        return self.random.choice(self.filler_items)
 
     def create_items(self):
         # First add in all progression and useful items
-        item_pool, pre_fill_pool = get_item_pool(self)
-        self.item_pool = item_pool
-        self.pre_fill_pool = pre_fill_pool
+        self.item_pool = get_item_pool(self)
+        self.pre_fill_pool = get_pre_fill_pool(self)
         total_locations = len(self.multiworld.get_unfilled_locations(self.player))
-        required_items = []
-        precollected = [item for item in item_pool if item in self.multiworld.precollected_items]
-        for item in item_pool:
-            if item.classification not in (ItemClassification.filler, ItemClassification.skip_balancing):
-                freq = item_frequencies.get(item, 1)
-                if item in precollected:
-                    freq = max(freq - precollected.count(item), 0)
-                required_items += [item for _ in range(freq)]
 
-        for item in required_items:
+        for item in self.item_pool:
             self.multiworld.itempool.append(item)
 
-        for _ in range(total_locations - len(required_items) - len(pre_fill_pool)):
+        for _ in range(total_locations - len(self.item_pool) - len(self.pre_fill_pool)):
             self.multiworld.itempool.append(self.create_filler())
 
     def set_rules(self) -> None:
         MinishCapRules(self).set_rules(self.disabled_locations, self.location_name_to_id)
         # from Utils import visualize_regions
         # visualize_regions(self.multiworld.get_region("Menu", self.player), "tmc_world.puml")
+
+    def get_pre_fill_items(self) -> list[Item]:
+        return self.pre_fill_pool
 
     def pre_fill(self) -> None:
         fill_dungeons(self)
