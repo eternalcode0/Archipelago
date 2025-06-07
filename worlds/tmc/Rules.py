@@ -94,11 +94,10 @@ class MinishCapRules:
             (TMCRegion.MINISH_WOODS, TMCRegion.DUNGEON_DWS): self.has_any([TMCItem.FLIPPERS, TMCItem.JABBER_NUT]),
             (TMCRegion.DUNGEON_DWS, TMCRegion.DUNGEON_DWS_CLEAR):
                 self.logic_and([self.has_weapon_boss(), self.has(TMCItem.GUST_JAR), self.has(TMCItem.BIG_KEY_DWS)]),
-            (TMCRegion.DUNGEON_DWS_CLEAR, TMCRegion.BELARI): None,
             (TMCRegion.MINISH_WOODS, TMCRegion.LAKE_HYLIA_SOUTH):
                 self.logic_and([self.access_minish_woods_top_left(), self.has(TMCItem.MOLE_MITTS)]),
             (TMCRegion.MINISH_WOODS, TMCRegion.LAKE_HYLIA_NORTH): self.has(TMCItem.ROCS_CAPE),
-            (TMCRegion.MINISH_WOODS, TMCRegion.BELARI): self.has(TMCItem.BOMB_BAG),
+            (TMCRegion.MINISH_WOODS, TMCRegion.BELARI): self.has_any([TMCItem.BOMB_BAG, TMCEvent.CLEAR_DWS]),
 
             (TMCRegion.BELARI, TMCRegion.MINISH_WOODS): None,
             (TMCRegion.BELARI, TMCRegion.EASTERN_HILLS): self.has(TMCItem.BOMB_BAG),
@@ -664,8 +663,6 @@ class MinishCapRules:
             TMCLocation.CRYPT_GIBDO_RIGHT_ITEM: self.logic_or([self.has(TMCItem.LANTERN), self.has_weapon()]),
             TMCLocation.CRYPT_LEFT_ITEM: self.logic_and([self.split_rule(3), self.has(TMCItem.SMALL_KEY_RC, 1)]),
             TMCLocation.CRYPT_RIGHT_ITEM: self.logic_and([self.split_rule(3), self.has(TMCItem.SMALL_KEY_RC, 1)]),
-            TMCLocation.CRYPT_PRIZE:
-                self.logic_and([self.has_weapon(), self.has(TMCItem.SMALL_KEY_RC, 3), self.has(TMCItem.LANTERN)]),
             # endregion
 
             # region Upper Falls
@@ -1322,8 +1319,10 @@ class MinishCapRules:
 
     def pow_pot(self) -> CollectionRule:
         return self.logic_option(TMCTricks.POT_PUZZLE in self.world.options.tricks,
-                                 self.can_reach([TMCLocation.PALACE_2ND_HALF_2F_TWIN_WIZZROBES_CHEST]),
-                                 self.has(TMCItem.POWER_BRACELETS))
+                                 self.logic_or([self.can_reach([TMCLocation.PALACE_2ND_HALF_2F_TWIN_WIZZROBES_CHEST]),
+                                                self.has(TMCItem.POWER_BRACELETS)]),
+                                 self.has(TMCItem.POWER_BRACELETS),
+                                 )
 
     def dhc_cannons(self) -> CollectionRule:
         return self.logic_option(TMCTricks.DHC_CANNONS in self.world.options.tricks,
@@ -1347,7 +1346,7 @@ class MinishCapRules:
         return self.has_any([TMCItem.ROCS_CAPE, TMCItem.FLIPPERS, TMCItem.CANE_OF_PACCI])
 
     def has_bottle(self) -> CollectionRule:
-        return self.has_any([TMCItem.BOTTLE_1, TMCItem.BOTTLE_2, TMCItem.BOTTLE_3, TMCItem.BOTTLE_4])
+        return self.has_group("Bottle")
 
     def access_town_fountain(self) -> CollectionRule:
         return self.logic_and([self.access_town_left(), self.has_bottle()])

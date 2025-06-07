@@ -128,6 +128,15 @@ class WindCrests(OptionSet):
     valid_keys = WIND_CRESTS.keys()
 
 
+class Traps(Toggle):
+    """
+    Traps may be placed around the world. Traps for local items will have their
+    sprite randomized to a local item before pickup. When picked up it'll turn
+    into an exclamation mark (!) and activate a specific trap such as spawning
+    enemies, setting you on fire, freezing you, etc.
+    """
+    display_name = "Traps Enabled"
+
 class GoalVaati(DefaultOnToggle):
     """
     If enabled, DHC will open after completing Pedestal. Kill Vaati to goal.
@@ -200,6 +209,9 @@ class EarlyWeapon(Toggle):
     """Force a weapon to be in your sphere 1"""
     display_name = "Early Weapon"
 
+class RandomBottleContents(Toggle):
+    """Put random contents into the shuffled bottles, these contents are never considered in logic"""
+    display_name = "Random Bottles Contents"
 
 class DeathLinkGameover(Toggle):
     """
@@ -320,7 +332,9 @@ class MinishCapOptions(PerGameCommonOptions):
     tricks: Tricks
     rupeesanity: Rupeesanity
     obscure_spots: ObscureSpots
+    traps_enabled: Traps
     early_weapon: EarlyWeapon
+    random_bottle_contents: RandomBottleContents
     dungeon_small_keys: SmallKeys
     dungeon_big_keys: BigKeys
     dungeon_maps: DungeonMaps
@@ -374,24 +388,25 @@ def get_option_data(options: MinishCapOptions):
         "weapon_bows": options.weapon_bow.value,
         "weapon_gust_jar": options.weapon_gust.value,  # No, Yes
         "weapon_lantern": options.weapon_lantern.value,
-        "trick_mitts_farm_rupees": ALL_TRICKS[0] in options.tricks,  # No, Yes
-        "trick_bombable_dust": ALL_TRICKS[1] in options.tricks,
-        "trick_crenel_mushroom_gust_jar": ALL_TRICKS[2] in options.tricks,
-        "trick_light_arrows_break_objects": ALL_TRICKS[3] in options.tricks,
-        "trick_bobombs_destroy_walls": ALL_TRICKS[4] in options.tricks,
-        "trick_like_like_cave_no_sword": ALL_TRICKS[5] in options.tricks,
-        "trick_boots_skip_town_guard": ALL_TRICKS[6] in options.tricks,
-        "trick_beam_crenel_switch": ALL_TRICKS[7] in options.tricks,
-        "trick_down_thrust_spikey_beetle": ALL_TRICKS[8] in options.tricks,
-        "trick_dark_rooms_no_lantern": ALL_TRICKS[9] in options.tricks,
-        "trick_cape_extensions": ALL_TRICKS[10] in options.tricks,
-        "trick_lake_minish_no_boots": ALL_TRICKS[11] in options.tricks,
-        "trick_cabin_swim_no_lilypad": ALL_TRICKS[12] in options.tricks,
-        "trick_cloud_sharks_no_weapons": ALL_TRICKS[13] in options.tricks,
-        "trick_pow_2f_no_cane": ALL_TRICKS[14] in options.tricks,
-        "trick_pot_puzzle_no_bracelets": ALL_TRICKS[15] in options.tricks,
-        "trick_fow_pot_gust_jar": ALL_TRICKS[16] in options.tricks,
-        "trick_dhc_cannons_no_four_sword": ALL_TRICKS[17] in options.tricks,
-        "trick_dhc_pads_no_four_sword": ALL_TRICKS[18] in options.tricks,
-        "trick_dhc_switches_no_four_sword": ALL_TRICKS[19] in options.tricks,
+        "entrance_rando": 0,  # 0 = Disabled, 1 = Dungeons, 2 = Regions?, 3 = Rooms? (? = subject to change)
+        "trick_mitts_farm_rupees": 1 if ALL_TRICKS[0] in options.tricks else 0,  # No, Yes
+        "trick_bombable_dust": 1 if ALL_TRICKS[1] in options.tricks else 0,
+        "trick_crenel_mushroom_gust_jar": 1 if ALL_TRICKS[2] in options.tricks else 0,
+        "trick_light_arrows_break_objects": 1 if ALL_TRICKS[3] in options.tricks else 0,
+        "trick_bobombs_destroy_walls": 1 if ALL_TRICKS[4] in options.tricks else 0,
+        "trick_like_like_cave_no_sword": 1 if ALL_TRICKS[5] in options.tricks else 0,
+        "trick_boots_skip_town_guard": 1 if ALL_TRICKS[6] in options.tricks else 0,
+        "trick_beam_crenel_switch": 1 if ALL_TRICKS[7] in options.tricks else 0,
+        "trick_down_thrust_spikey_beetle": 1 if ALL_TRICKS[8] in options.tricks else 0,
+        "trick_dark_rooms_no_lantern": 1 if ALL_TRICKS[9] in options.tricks else 0,
+        "trick_cape_extensions": 1 if ALL_TRICKS[10] in options.tricks else 0,
+        "trick_lake_minish_no_boots": 1 if ALL_TRICKS[11] in options.tricks else 0,
+        "trick_cabin_swim_no_lilypad": 1 if ALL_TRICKS[12] in options.tricks else 0,
+        "trick_cloud_sharks_no_weapons": 1 if ALL_TRICKS[13] in options.tricks else 0,
+        "trick_pow_2f_no_cane": 1 if ALL_TRICKS[14] in options.tricks else 0,
+        "trick_pot_puzzle_no_bracelets": 1 if ALL_TRICKS[15] in options.tricks else 0,
+        "trick_fow_pot_gust_jar": 1 if ALL_TRICKS[16] in options.tricks else 0,
+        "trick_dhc_cannons_no_four_sword": 1 if ALL_TRICKS[17] in options.tricks else 0,
+        "trick_dhc_pads_no_four_sword": 1 if ALL_TRICKS[18] in options.tricks else 0,
+        "trick_dhc_switches_no_four_sword": 1 if ALL_TRICKS[19] in options.tricks else 0,
     }
