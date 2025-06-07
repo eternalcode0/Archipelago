@@ -329,6 +329,7 @@ def get_option_data(options: MinishCapOptions):
         "dungeon_warp_dhc": 0,
         "cucco_rounds": 1,  # 0-10
         "goron_sets": 0,  # 0-5
+        "goron_jp_prices": 0,  # 0 = EU prices, 1 = JP/US prices
         "shuffle_heart_pieces": 1,
         "shuffle_rupees": options.rupeesanity.value,
         "shuffle_pots": options.obscure_spots.value,
@@ -336,12 +337,16 @@ def get_option_data(options: MinishCapOptions):
         "shuffle_underwater": options.obscure_spots.value,
         "shuffle_gold_enemies": 0,
         "shuffle_pedestal": 0,
+        "shuffle_biggoron": 0,  # 0 = Disabled, 1 = Requires Shield, 2 = Requires Mirror Shield
         "kinstones_gold": 1,  # 0 = Closed, 1 = Vanilla, 2 = Combined, 3 = Open
         "kinstones_red": 3,  # 0 = Closed, 1 = Vanilla, 2 = Combined, 3 = Open
         "kinstones_blue": 3,  # 0 = Closed, 1 = Vanilla, 2 = Combined, 3 = Open
         "kinstones_green": 3,  # 0 = Closed, 1 = Vanilla, 2 = Combined, 3 = Open
         "grabbables": 0,  # 0 = Not Allowed, 1 = Allowed, 2 = Required, 3 = Required (Hard)
         "open_world": 0,  # No, Yes
+        "open_wind_tribe": 0,
+        "open_tingle_brothers": 0,
+        "open_library": 0,
         "extra_shop_item": 0,
         "wind_crest_crenel": 0,
         "wind_crest_castor": 0,
