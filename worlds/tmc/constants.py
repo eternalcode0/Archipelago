@@ -1,136 +1,150 @@
 from collections.abc import Callable
 
-from BaseClasses import Item, Location, ItemClassification
+from BaseClasses import Item, ItemClassification, Location
+
 
 class MinishCapItem(Item):
     game: str = "The Minish Cap"
 
+
 class MinishCapLocation(Location):
     game: str = "The Minish Cap"
 
+
 class TMCItem:
-    SMITHS_SWORD          = "Smith's Sword"
-    WHITE_SWORD_GREEN     = "White Sword (Green)"
-    WHITE_SWORD_RED       = "White Sword (Red)"
-    WHITE_SWORD_BLUE      = "White Sword (Blue)"
-    FOUR_SWORD            = "Four Sword"
-    BOMB                  = "Bomb"
-    REMOTE_BOMB           = "Remote Bomb"
-    BOW                   = "Bow"
-    LIGHT_ARROW           = "Light Arrow"
-    BOOMERANG             = "Boomerang"
-    MAGIC_BOOMERANG       = "Magic Boomerang"
-    SHIELD                = "Shield"
-    MIRROR_SHIELD         = "Mirror Shield"
-    LANTERN               = "Lantern"
-    GUST_JAR              = "Gust Jar"
-    CANE_OF_PACCI         = "Cane of Pacci"
-    MOLE_MITTS            = "Mole Mitts"
-    ROCS_CAPE             = "Roc's Cape"
-    PEGASUS_BOOTS         = "Pegasus Boots"
-    FIRE_ROD              = "Fire Rod"
-    OCARINA               = "Ocarina"
-    BOTTLE                = "Bottle"
-    BOTTLE_1              = "Bottle 1"
-    BOTTLE_2              = "Bottle 2"
-    BOTTLE_3              = "Bottle 3"
-    BOTTLE_4              = "Bottle 4"
-    # EMPTY_BOTTLE          = "Bottle (Empty)"
-    LON_LON_BUTTER        = "Bottle (Lon Lon Butter)"
-    LON_LON_MILK          = "Bottle (Lon Lon Milk)"
-    LON_LON_MILK_HALF     = "Bottle (Lon Lon Milk (1/2))"
-    RED_POTION            = "Bottle (Red Potion)"
-    BLUE_POTION           = "Bottle (Blue Potion)"
-    WATER                 = "Bottle (Water)"
-    MINERAL_WATER         = "Bottle (Mineral Water)"
-    BOTTLED_FAIRY         = "Bottle (Bottled Fairy)"
-    RED_PICOLYTE          = "Bottle (Red Picolyte)"
-    ORANGE_PICOLYTE       = "Bottle (Orange Picolyte)"
-    YELLOW_PICOLYTE       = "Bottle (Yellow Picolyte)"
-    GREEN_PICOLYTE        = "Bottle (Green Picolyte)"
-    BLUE_PICOLYTE         = "Bottle (Blue Picolyte)"
-    WHITE_PICOLYTE        = "Bottle (White Picolyte)"
-    NAYRU_CHARM           = "Bottle (Nayru Charm)"
-    FARORE_CHARM          = "Bottle (Farore Charm)"
-    DINS_CHARM            = "Bottle (Dins Charm)"
-    SMITH_SWORD_QUEST     = "Smith Sword (Quest)"
-    BROKEN_PICORI_BLADE   = "Broken Picori Blade"
-    DOG_FOOD              = "Dog Food"
-    LONLON_KEY            = "LonLon Key"
-    WAKEUP_MUSHROOM       = "Wakeup Mushroom"
-    RED_BOOK              = "Red Book (Hyrulian Bestiary)"
-    GREEN_BOOK            = "Green Book (Picori Legend)"
-    BLUE_BOOK             = "Blue Book (History of Masks)"
-    GRAVEYARD_KEY         = "Graveyard Key"
-    TINGLE_TROPHY         = "Tingle Trophy"
-    CARLOV_MEDAL          = "Carlov Medal"
-    SHELLS                = "Shells"
-    EARTH_ELEMENT         = "Earth Element"
-    FIRE_ELEMENT          = "Fire Element"
-    WATER_ELEMENT         = "Water Element"
-    WIND_ELEMENT          = "Wind Element"
-    GRIP_RING             = "Grip Ring"
-    POWER_BRACELETS       = "Power Bracelets"
-    FLIPPERS              = "Flippers"
-    HYRULE_MAP            = "Hyrule Map"
-    SPIN_ATTACK           = "Spin Attack"
-    ROLL_ATTACK           = "Roll Attack"
-    DASH_ATTACK           = "Dash Attack"
-    ROCK_BREAKER          = "Rock Breaker"
-    SWORD_BEAM            = "Sword Beam"
-    GREATSPIN             = "Greatspin"
-    DOWNTHRUST            = "DownThrust"
-    PERIL_BEAM            = "Peril Beam"
-    RUPEES_1              = "1 Rupee"
-    RUPEES_5              = "5 Rupees"
-    RUPEES_20             = "20 Rupees"
-    RUPEES_50             = "50 Rupees"
-    RUPEES_100            = "100 Rupees"
-    RUPEES_200            = "200 Rupees"
-    JABBER_NUT            = "Jabber Nut"
-    KINSTONE              = "Broken Kinstone (Report Me!)"
-    KINSTONE_GOLD_CLOUD   = "Kinstone Cloud Tops"
-    KINSTONE_GOLD_SWAMP   = "Kinstone Swamp"
-    KINSTONE_GOLD_FALLS   = "Kinstone Falls"
-    KINSTONE_RED_W        = "Kinstone Red W"
-    KINSTONE_RED_ANGLE    = "Kinstone Red >"
-    KINSTONE_RED_E        = "Kinstone Red E"
-    KINSTONE_BLUE_L       = "Kinstone Blue L"
-    KINSTONE_BLUE_6       = "Kinstone Blue 6"
-    KINSTONE_GREEN_ANGLE  = "Kinstone Green <"
+    SMITHS_SWORD = "Smith's Sword"
+    WHITE_SWORD_GREEN = "White Sword (Green)"
+    WHITE_SWORD_RED = "White Sword (Red)"
+    WHITE_SWORD_BLUE = "White Sword (Blue)"
+    FOUR_SWORD = "Four Sword"
+    BOMB = "Bomb"
+    REMOTE_BOMB = "Remote Bomb"
+    BOW = "Bow"
+    LIGHT_ARROW = "Light Arrow"
+    BOOMERANG = "Boomerang"
+    MAGIC_BOOMERANG = "Magic Boomerang"
+    SHIELD = "Shield"
+    MIRROR_SHIELD = "Mirror Shield"
+    LANTERN = "Lantern"
+    GUST_JAR = "Gust Jar"
+    CANE_OF_PACCI = "Cane of Pacci"
+    MOLE_MITTS = "Mole Mitts"
+    ROCS_CAPE = "Roc's Cape"
+    PEGASUS_BOOTS = "Pegasus Boots"
+    FIRE_ROD = "Fire Rod"
+    OCARINA = "Ocarina"
+    BOTTLE = "Bottle (Null)"
+    BOTTLE_1 = "Bottle 1"
+    BOTTLE_2 = "Bottle 2"
+    BOTTLE_3 = "Bottle 3"
+    BOTTLE_4 = "Bottle 4"
+    EMPTY_BOTTLE = "Bottle (Empty)"
+    LON_LON_BUTTER = "Bottle (Lon Lon Butter)"
+    LON_LON_MILK = "Bottle (Lon Lon Milk)"
+    LON_LON_MILK_HALF = "Bottle (Lon Lon Milk (1/2))"
+    RED_POTION = "Bottle (Red Potion)"
+    BLUE_POTION = "Bottle (Blue Potion)"
+    WATER = "Bottle (Water)"
+    MINERAL_WATER = "Bottle (Mineral Water)"
+    BOTTLED_FAIRY = "Bottle (Bottled Fairy)"
+    RED_PICOLYTE = "Bottle (Red Picolyte)"
+    ORANGE_PICOLYTE = "Bottle (Orange Picolyte)"
+    YELLOW_PICOLYTE = "Bottle (Yellow Picolyte)"
+    GREEN_PICOLYTE = "Bottle (Green Picolyte)"
+    BLUE_PICOLYTE = "Bottle (Blue Picolyte)"
+    WHITE_PICOLYTE = "Bottle (White Picolyte)"
+    NAYRU_CHARM = "Bottle (Nayru Charm)"
+    FARORE_CHARM = "Bottle (Farore Charm)"
+    DINS_CHARM = "Bottle (Dins Charm)"
+    SMITH_SWORD_QUEST = "Smith Sword (Quest)"
+    BROKEN_PICORI_BLADE = "Broken Picori Blade"
+    DOG_FOOD = "Dog Food"
+    LONLON_KEY = "LonLon Key"
+    WAKEUP_MUSHROOM = "Wakeup Mushroom"
+    RED_BOOK = "Red Book (Hyrulian Bestiary)"
+    GREEN_BOOK = "Green Book (Picori Legend)"
+    BLUE_BOOK = "Blue Book (History of Masks)"
+    GRAVEYARD_KEY = "Graveyard Key"
+    TINGLE_TROPHY = "Tingle Trophy"
+    CARLOV_MEDAL = "Carlov Medal"
+    SHELLS = "Shells"
+    EARTH_ELEMENT = "Earth Element"
+    FIRE_ELEMENT = "Fire Element"
+    WATER_ELEMENT = "Water Element"
+    WIND_ELEMENT = "Wind Element"
+    GRIP_RING = "Grip Ring"
+    POWER_BRACELETS = "Power Bracelets"
+    FLIPPERS = "Flippers"
+    HYRULE_MAP = "Hyrule Map"
+    SPIN_ATTACK = "Spin Attack"
+    ROLL_ATTACK = "Roll Attack"
+    DASH_ATTACK = "Dash Attack"
+    ROCK_BREAKER = "Rock Breaker"
+    SWORD_BEAM = "Sword Beam"
+    GREATSPIN = "Greatspin"
+    DOWNTHRUST = "DownThrust"
+    PERIL_BEAM = "Peril Beam"
+    RUPEES_1 = "1 Rupee"
+    RUPEES_5 = "5 Rupees"
+    RUPEES_20 = "20 Rupees"
+    RUPEES_50 = "50 Rupees"
+    RUPEES_100 = "100 Rupees"
+    RUPEES_200 = "200 Rupees"
+    JABBER_NUT = "Jabber Nut"
+    KINSTONE = "Broken Kinstone (Report Me!)"
+    KINSTONE_GOLD_CLOUD = "Kinstone Cloud Tops"
+    KINSTONE_GOLD_SWAMP = "Kinstone Swamp"
+    KINSTONE_GOLD_FALLS = "Kinstone Falls"
+    KINSTONE_RED_W = "Kinstone Red W"
+    KINSTONE_RED_ANGLE = "Kinstone Red >"
+    KINSTONE_RED_E = "Kinstone Red E"
+    KINSTONE_BLUE_L = "Kinstone Blue L"
+    KINSTONE_BLUE_6 = "Kinstone Blue 6"
+    KINSTONE_GREEN_ANGLE = "Kinstone Green <"
     KINSTONE_GREEN_SQUARE = "Kinstone Green ["
-    KINSTONE_GREEN_P      = "Kinstone Green P"
-    SHELLS_30             = "30 Shells"
-    HEART_CONTAINER       = "Heart Container"
-    HEART_PIECE           = "Heart Piece"
-    BIG_WALLET            = "Big Wallet"
-    BOMB_BAG              = "Bomb Bag"
-    QUIVER                = "Quiver"
-    KINSTONE_BAG          = "Kinstone Bag"
-    BRIOCHE               = "Brioche"
-    CROISSANT             = "Croissant"
-    PIE                   = "Pie"
-    CAKE                  = "Cake"
-    HEART_REFILL          = "Recovery Heart"
-    FAIRY_REFILL          = "Fairy Refill"
-    BOMB_REFILL_5         = "5 Bomb Refill"
-    ARROW_REFILL_5        = "5 Arrow Refill"
-    BOMB_REFILL_10        = "10 Bomb Refill"
-    BOMB_REFILL_30        = "30 Bomb Refill"
-    ARROW_REFILL_10       = "10 Arrow Refill"
-    ARROW_REFILL_30       = "30 Arrow Refill"
-    BOW_BUTTERFLY         = "Bow Butterfly"
-    DIG_BUTTERFLY         = "Dig Butterfly"
-    SWIM_BUTTERFLY        = "Swim Butterfly"
-    FAST_SPIN_SCROLL      = "Fast Spin Scroll"
-    FAST_SPLIT_SCROLL     = "Fast Split Scroll"
-    LONG_SPIN             = "Long Spin"
-    PROGRESSIVE_SWORD     = "Progressive Sword"
-    PROGRESSIVE_BOMB      = "Progressive Bomb"
-    PROGRESSIVE_BOW       = "Progressive Bow"
+    KINSTONE_GREEN_P = "Kinstone Green P"
+    SHELLS_30 = "30 Shells"
+    HEART_CONTAINER = "Heart Container"
+    HEART_PIECE = "Heart Piece"
+    BIG_WALLET = "Big Wallet"
+    BOMB_BAG = "Bomb Bag"
+    QUIVER = "Quiver"
+    KINSTONE_BAG = "Kinstone Bag"
+    BRIOCHE = "Brioche"
+    CROISSANT = "Croissant"
+    PIE = "Pie"
+    CAKE = "Cake"
+    HEART_REFILL = "Recovery Heart"
+    FAIRY_REFILL = "Fairy Refill"
+    BOMB_REFILL_5 = "5 Bomb Refill"
+    ARROW_REFILL_5 = "5 Arrow Refill"
+    BOMB_REFILL_10 = "10 Bomb Refill"
+    BOMB_REFILL_30 = "30 Bomb Refill"
+    ARROW_REFILL_10 = "10 Arrow Refill"
+    ARROW_REFILL_30 = "30 Arrow Refill"
+    BOW_BUTTERFLY = "Bow Butterfly"
+    DIG_BUTTERFLY = "Dig Butterfly"
+    SWIM_BUTTERFLY = "Swim Butterfly"
+    FAST_SPIN_SCROLL = "Fast Spin Scroll"
+    FAST_SPLIT_SCROLL = "Fast Split Scroll"
+    LONG_SPIN = "Long Spin"
+    PROGRESSIVE_SWORD = "Progressive Sword"
+    PROGRESSIVE_BOMB = "Progressive Bomb"
+    PROGRESSIVE_BOW = "Progressive Bow"
     PROGRESSIVE_BOOMERANG = "Progressive Boomerang"
-    PROGRESSIVE_SHIELD    = "Progressive Shield"
-    PROGRESSIVE_SCROLL    = "Progressive Spin Scroll"
+    PROGRESSIVE_SHIELD = "Progressive Shield"
+    PROGRESSIVE_SCROLL = "Progressive Spin Scroll"
+
+    TRAP_ICE = "Freeze Trap"
+    TRAP_FIRE = "Burn Trap"
+    TRAP_ZAP = "Zap Trap"
+    TRAP_BOMB = "Bomb Trap"
+    TRAP_MONEY = "Rupee Trap"
+    TRAP_STINK = "Stink Trap"
+    TRAP_ROPE = "Rope Trap"
+    TRAP_BAT = "Bat Trap"
+    TRAP_LIKE = "LikeLike Trap"
+    TRAP_CURSE = "Curse Trap"
 
     DUNGEON_MAP_DWS = "Dungeon Map (DWS)"
     DUNGEON_MAP_COF = "Dungeon Map (CoF)"
@@ -159,7 +173,8 @@ class TMCItem:
     SMALL_KEY_TOD = "Small Key (ToD)"
     SMALL_KEY_POW = "Small Key (PoW)"
     SMALL_KEY_DHC = "Small Key (DHC)"
-    SMALL_KEY_RC  = "Small Key (RC)"
+    SMALL_KEY_RC = "Small Key (RC)"
+
 
 class TMCLocation:
     SMITH_HOUSE_CHEST = "South Field Smith House Chest"
@@ -196,9 +211,9 @@ class TMCLocation:
     TOWN_INN_LEDGE_CHEST = "Town Inn Ledge Chest"
     TOWN_INN_POT = "Town Inn Pot"
     TOWN_WELL_RIGHT_CHEST = "Town Well Right Chest"
-    TOWN_GORON_MERCHANT_1_LEFT = "Town Goron Merchant Left" # "Town Goron Merchant 1 Left"
-    TOWN_GORON_MERCHANT_1_MIDDLE = "Town Goron Merchant Middle" # "Town Goron Merchant 1 Middle"
-    TOWN_GORON_MERCHANT_1_RIGHT = "Town Goron Merchant Right" # "Town Goron Merchant 1 Right"
+    TOWN_GORON_MERCHANT_1_LEFT = "Town Goron Merchant Left"  # "Town Goron Merchant 1 Left"
+    TOWN_GORON_MERCHANT_1_MIDDLE = "Town Goron Merchant Middle"  # "Town Goron Merchant 1 Middle"
+    TOWN_GORON_MERCHANT_1_RIGHT = "Town Goron Merchant Right"  # "Town Goron Merchant 1 Right"
     TOWN_GORON_MERCHANT_2_LEFT = "Town Goron Merchant 2 Left"
     TOWN_GORON_MERCHANT_2_MIDDLE = "Town Goron Merchant 2 Middle"
     TOWN_GORON_MERCHANT_2_RIGHT = "Town Goron Merchant 2 Right"
@@ -239,7 +254,7 @@ class TMCLocation:
     TOWN_CUCCOS_LV_7_NPC = "Town Cuccos Lv 7 NPC"
     TOWN_CUCCOS_LV_8_NPC = "Town Cuccos Lv 8 NPC"
     TOWN_CUCCOS_LV_9_NPC = "Town Cuccos Lv 9 NPC"
-    TOWN_CUCCOS_LV_10_NPC = "Town Cuccos NPC" # "Town Cuccos Lv 10 NPC"
+    TOWN_CUCCOS_LV_10_NPC = "Town Cuccos NPC"  # "Town Cuccos Lv 10 NPC"
     TOWN_JULLIETA_ITEM = "Town Jullieta Item"
     TOWN_SIMULATION_CHEST = "Town Simulation Chest"
     TOWN_SHOE_SHOP_NPC = "Town Shoe Shop NPC"
@@ -696,15 +711,17 @@ class TMCLocation:
     DHC_3F_SOUTH_EAST_CHEST = "DHC 3F South East Chest"
     DHC_2F_BLUE_WARP_BIG_CHEST = "DHC 2F Blue Warp Big Chest"
 
+
 class TMCEvent:
-    CLEAR_DWS = "Clear DeepWood Shrine"
-    CLEAR_COF = "Clear Cave of Flames"
-    CLEAR_FOW = "Clear Fortress of Winds"
-    CLEAR_TOD = "Clear Temple of Droplets"
-    CLEAR_RC  = "Clear Royal Crypt"
-    CLEAR_POW = "Clear Palace of Winds"
+    CLEAR_DWS = "Clear DWS"
+    CLEAR_COF = "Clear CoF"
+    CLEAR_FOW = "Clear FoW"
+    CLEAR_TOD = "Clear ToD"
+    CLEAR_RC = "Clear RC"
+    CLEAR_POW = "Clear PoW"
     CLEAR_PED = "Pedestal Complete"
     CLEAR_DHC = "Kill Vaati"
+
 
 class TMCRegion:
     SOUTH_FIELD = "South Field"
@@ -727,28 +744,81 @@ class TMCRegion:
     ROYAL_VALLEY = "Royal Valley"
     GRAVEYARD = "Graveyard"
     DUNGEON_RC = "Dungeon RC"
+    DUNGEON_RC_CLEAR = "Dungeon RC Clear"
     UPPER_FALLS = "Upper Falls"
     CLOUDS = "Clouds"
     WIND_TRIBE = "Wind Tribe"
     DUNGEON_DWS = "Deepwood Shrine"
+    DUNGEON_DWS_CLEAR = "Deepwood Shrine Clear"
     DUNGEON_COF = "Cave of Flames"
+    DUNGEON_COF_CLEAR = "Cave of Flames Clear"
     DUNGEON_FOW = "Fortress of Winds"
+    DUNGEON_FOW_CLEAR = "Fortress of Winds Clear"
     DUNGEON_TOD = "Temple of Droplets"
+    DUNGEON_TOD_CLEAR = "Temple of Droplets Clear"
     DUNGEON_TOD_MAIN = "Temple of Droplets After Big key"
     DUNGEON_POW = "Palace of Winds"
+    DUNGEON_POW_CLEAR = "Palace of Winds Clear"
     SANCTUARY = "Sanctuary"
     DUNGEON_DHC = "Dark Hyrule Castle"
     VAATI_FIGHT = "Vaati Fight"
 
+
+class TMCTricks:
+    MITTS_FARM = "mitts_farm_rupees"
+    BOMB_DUST = "bombable_dust"
+    MUSHROOM = "crenel_mushroom_gust_jar"
+    ARROWS_BREAK = "light_arrows_break_objects"
+    BOBOMB_WALLS = "bobombs_destroy_walls"
+    LIKELIKE_SWORDLESS = "like_like_cave_no_sword"
+    BOOTS_GUARDS = "boots_skip_town_guard"
+    BEAM_CRENEL_SWITCH = "beam_crenel_switch"
+    DOWNTHRUST_BEETLE = "down_thrust_spikey_beetle"
+    DARK_ROOMS = "dark_rooms_no_lantern"
+    CAPE_EXTENSIONS = "cape_extensions"
+    LAKE_MINISH = "lake_minish_no_boots"
+    CABIN_SWIM = "cabin_swim_no_lilypad"
+    SHARKS_SWORDLESS = "cloud_sharks_no_weapons"
+    POW_NOCANE = "pow_2f_no_cane"
+    POT_PUZZLE = "pot_puzzle_no_bracelets"
+    FOW_POT = "fow_pot_gust_jar"
+    DHC_CANNONS = "dhc_cannons_no_four_sword"
+    DHC_CLONES = "dhc_pads_no_four_sword"
+    DHC_SPIN = "dhc_switches_no_four_sword"
+
+
+ALL_TRICKS = [
+    TMCTricks.MITTS_FARM,
+    TMCTricks.BOMB_DUST,
+    TMCTricks.MUSHROOM,
+    TMCTricks.ARROWS_BREAK,
+    TMCTricks.BOBOMB_WALLS,
+    TMCTricks.LIKELIKE_SWORDLESS,
+    TMCTricks.BOOTS_GUARDS,
+    TMCTricks.BEAM_CRENEL_SWITCH,
+    TMCTricks.DOWNTHRUST_BEETLE,
+    TMCTricks.DARK_ROOMS,
+    TMCTricks.CAPE_EXTENSIONS,
+    TMCTricks.LAKE_MINISH,
+    TMCTricks.CABIN_SWIM,
+    TMCTricks.SHARKS_SWORDLESS,
+    TMCTricks.POW_NOCANE,
+    TMCTricks.POT_PUZZLE,
+    TMCTricks.FOW_POT,
+    TMCTricks.DHC_CANNONS,
+    TMCTricks.DHC_CLONES,
+    TMCTricks.DHC_SPIN,
+]
+
 DUNGEON_ABBR = frozenset({"DWS", "CoF", "ToD", "FoW", "PoW", "RC", "DHC"})
 DUNGEON_REGIONS = {
-    "DWS": { TMCRegion.DUNGEON_DWS },
-    "CoF": { TMCRegion.DUNGEON_COF },
-    "ToD": { TMCRegion.DUNGEON_TOD, TMCRegion.DUNGEON_TOD_MAIN },
-    "FoW": { TMCRegion.DUNGEON_FOW },
-    "PoW": { TMCRegion.DUNGEON_POW },
-    "RC": { TMCRegion.DUNGEON_RC },
-    "DHC": { TMCRegion.DUNGEON_DHC },
+    "DWS": {TMCRegion.DUNGEON_DWS, TMCRegion.DUNGEON_DWS_CLEAR},
+    "CoF": {TMCRegion.DUNGEON_COF, TMCRegion.DUNGEON_COF_CLEAR},
+    "ToD": {TMCRegion.DUNGEON_TOD, TMCRegion.DUNGEON_TOD_CLEAR, TMCRegion.DUNGEON_TOD_MAIN},
+    "FoW": {TMCRegion.DUNGEON_FOW, TMCRegion.DUNGEON_FOW_CLEAR},
+    "PoW": {TMCRegion.DUNGEON_POW, TMCRegion.DUNGEON_POW_CLEAR},
+    "RC": {TMCRegion.DUNGEON_RC, TMCRegion.DUNGEON_RC_CLEAR},
+    "DHC": {TMCRegion.DUNGEON_DHC},
 }
 EXTERNAL_ITEMS = [0x18, 0x19, 0x1A]
 EXTERNAL_ITEM_MAP: dict[ItemClassification, Callable[[object], int]] = {
@@ -781,15 +851,21 @@ ALL_REGIONS = [
     TMCRegion.ROYAL_VALLEY,
     TMCRegion.GRAVEYARD,
     TMCRegion.DUNGEON_RC,
+    TMCRegion.DUNGEON_RC_CLEAR,
     TMCRegion.UPPER_FALLS,
     TMCRegion.CLOUDS,
     TMCRegion.WIND_TRIBE,
     TMCRegion.DUNGEON_DWS,
+    TMCRegion.DUNGEON_DWS_CLEAR,
     TMCRegion.DUNGEON_COF,
+    TMCRegion.DUNGEON_COF_CLEAR,
     TMCRegion.DUNGEON_FOW,
+    TMCRegion.DUNGEON_FOW_CLEAR,
     TMCRegion.DUNGEON_TOD,
+    TMCRegion.DUNGEON_TOD_CLEAR,
     TMCRegion.DUNGEON_TOD_MAIN,
     TMCRegion.DUNGEON_POW,
+    TMCRegion.DUNGEON_POW_CLEAR,
     TMCRegion.SANCTUARY,
     TMCRegion.DUNGEON_DHC,
     TMCRegion.VAATI_FIGHT,

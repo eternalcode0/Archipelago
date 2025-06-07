@@ -67,6 +67,6 @@ The Minish Cap has a fully functional map tracker that supports auto-tracking.
 1. Download [The Minish Cap AP Tracker](https://github.com/deoxis9001/tmcrando_maptracker_deoxis/releases/latest) and
 [PopTracker](https://github.com/black-sliver/PopTracker/releases).
 2. Put the tracker pack into packs/ in your PopTracker install.
-3. Open PopTracker, and load the Minish Cap Randomizer Map Tracker pack. If using the Map Tracker be sure to selec the **AP** variant.
+3. Open PopTracker, and load the Minish Cap Randomizer Map Tracker pack. If using the Map Tracker be sure to select the **AP** variant.
 4. For autotracking, click on the "AP" symbol at the top.
 5. Enter the Archipelago server address (the one you connected your client to), slot name, and password.
