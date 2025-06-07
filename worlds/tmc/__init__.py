@@ -169,7 +169,9 @@ class MinishCapWorld(World):
     def set_rules(self) -> None:
         MinishCapRules(self).set_rules(self.disabled_locations, self.location_name_to_id)
         # from Utils import visualize_regions
-        # visualize_regions(self.multiworld.get_region("Menu", self.player), "tmc_world.puml")
+        # visualize_regions(self.multiworld.get_region("Menu", self.player), f"{self.player_name}_world.puml",
+        #                   regions_to_highlight=self.multiworld.get_all_state(self.player).reachable_regions[
+        #                  self.player])
 
     def get_pre_fill_items(self) -> list[Item]:
         return self.pre_fill_pool

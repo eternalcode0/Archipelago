@@ -748,6 +748,8 @@ class TMCRegion:
     GRAVEYARD = "Graveyard"
     DUNGEON_RC = "Dungeon RC"
     DUNGEON_RC_CLEAR = "Dungeon RC Clear"
+    FALLS_ENTRANCE = "Falls Entrance"
+    MIDDLE_FALLS = "Middle Falls"
     UPPER_FALLS = "Upper Falls"
     CLOUDS = "Clouds"
     WIND_TRIBE = "Wind Tribe"
@@ -908,6 +910,8 @@ ALL_REGIONS = [
     TMCRegion.GRAVEYARD,
     TMCRegion.DUNGEON_RC,
     TMCRegion.DUNGEON_RC_CLEAR,
+    TMCRegion.FALLS_ENTRANCE,
+    TMCRegion.MIDDLE_FALLS,
     TMCRegion.UPPER_FALLS,
     TMCRegion.CLOUDS,
     TMCRegion.WIND_TRIBE,

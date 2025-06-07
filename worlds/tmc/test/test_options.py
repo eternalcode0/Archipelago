@@ -1,6 +1,7 @@
 from itertools import chain, combinations
 
 from . import MinishCapTestBase
+from .. import TMCEvent
 from ..constants import TMCLocation, TMCItem
 from ..Options import ShuffleElements, DungeonItem, WindCrests
 
@@ -191,8 +192,9 @@ class TestCrestsDefault(MinishCapTestBase):
         ],
         [
             [TMCItem.BOMB_BAG],
-            [TMCItem.BIG_KEY_DWS, TMCItem.GUST_JAR, TMCItem.PROGRESSIVE_SWORD, TMCItem.FLIPPERS],
-            [TMCItem.BIG_KEY_DWS, TMCItem.GUST_JAR, TMCItem.PROGRESSIVE_SWORD, TMCItem.JABBER_NUT],
+            [TMCItem.PROGRESSIVE_SWORD, TMCEvent.CLEAR_DWS],
+            [TMCItem.LANTERN, TMCEvent.CLEAR_DWS],
+            [TMCItem.OCARINA, TMCEvent.CLEAR_DWS],
         ],
     ]
 
@@ -209,7 +211,7 @@ class TestCrestsDefault(MinishCapTestBase):
     def test_crests_combo(self) -> None:
         """Tests locations near wind crests, checking every combination of settings"""
 
-        options = range(4, 7)
+        options = {1,2,4,5,6}
         powerset = chain.from_iterable(combinations(options, r) for r in range(len(options) + 1))
 
         for combo in powerset:

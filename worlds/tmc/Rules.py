@@ -30,6 +30,8 @@ class MinishCapRules:
             (TMCRegion.SOUTH_FIELD, TMCRegion.LAKE_HYLIA_NORTH): self.has(TMCItem.OCARINA),
             (TMCRegion.SOUTH_FIELD, TMCRegion.BELARI): self.minish_crest(),
             (TMCRegion.SOUTH_FIELD, TMCRegion.CASTOR_WILDS): self.swamp_crest(),
+            (TMCRegion.SOUTH_FIELD, TMCRegion.WIND_TRIBE): self.clouds_crest(),
+            (TMCRegion.SOUTH_FIELD, TMCRegion.UPPER_FALLS): self.falls_crest(),
 
             (TMCRegion.SOUTH_PUDDLE, TMCRegion.SOUTH_FIELD):
                 self.logic_or([self.can_pass_trees(), self.has_any([TMCItem.ROCS_CAPE, TMCItem.FLIPPERS])]),
@@ -46,8 +48,7 @@ class MinishCapRules:
             (TMCRegion.NORTH_FIELD, TMCRegion.HYRULE_TOWN): None,
             (TMCRegion.NORTH_FIELD, TMCRegion.LONLON): self.can_pass_trees(),
             (TMCRegion.NORTH_FIELD, TMCRegion.TRILBY_HIGHLANDS): self.has_any([TMCItem.FLIPPERS, TMCItem.ROCS_CAPE]),
-            (TMCRegion.NORTH_FIELD, TMCRegion.UPPER_FALLS):
-                self.logic_and([self.has(TMCItem.BOMB_BAG), self.has(TMCItem.KINSTONE_GOLD_FALLS), self.dark_room()]),
+            (TMCRegion.NORTH_FIELD, TMCRegion.FALLS_ENTRANCE): self.has(TMCItem.BOMB_BAG),
             (TMCRegion.NORTH_FIELD, TMCRegion.ROYAL_VALLEY):
                 self.logic_and([self.split_rule(3), self.logic_or([self.cape_extend(), self.has(TMCItem.BOMB_BAG)])]),
 
@@ -149,10 +150,17 @@ class MinishCapRules:
                                 self.has_all([TMCItem.CANE_OF_PACCI, TMCItem.BIG_KEY_COF]),
                                 self.has(TMCItem.SMALL_KEY_COF, 2)]),
 
+            (TMCRegion.FALLS_ENTRANCE, TMCRegion.MIDDLE_FALLS):
+                self.logic_and([self.has(TMCItem.KINSTONE_GOLD_FALLS), self.dark_room()]),
+            (TMCRegion.MIDDLE_FALLS, TMCRegion.FALLS_ENTRANCE): self.has(TMCItem.FLIPPERS),
+            (TMCRegion.MIDDLE_FALLS, TMCRegion.UPPER_FALLS): self.has(TMCItem.GRIP_RING),
+            (TMCRegion.UPPER_FALLS, TMCRegion.MIDDLE_FALLS): self.has(TMCItem.GRIP_RING),
             (TMCRegion.UPPER_FALLS, TMCRegion.CLOUDS): self.has(TMCItem.GRIP_RING),
+            (TMCRegion.CLOUDS, TMCRegion.UPPER_FALLS): self.has(TMCItem.GRIP_RING),
             (TMCRegion.CLOUDS, TMCRegion.WIND_TRIBE):
                 self.logic_and([self.has(TMCItem.KINSTONE_GOLD_CLOUD, 5),
                                 self.has_any([TMCItem.MOLE_MITTS, TMCItem.ROCS_CAPE])]),
+            (TMCRegion.WIND_TRIBE, TMCRegion.CLOUDS): None,
             (TMCRegion.WIND_TRIBE, TMCRegion.DUNGEON_POW):
                 self.logic_and([self.split_rule(3),
                                 self.logic_or([self.has_boomerang(),
@@ -667,37 +675,36 @@ class MinishCapRules:
 
             # region Upper Falls
             # The first 3 are part of North Field logic, doesn't require falls fusion stone or lantern
-            TMCLocation.FALLS_ENTRANCE_HP: self.logic_and([self.has(TMCItem.BOMB_BAG), self.cape_extend()]),
+            TMCLocation.FALLS_ENTRANCE_HP: self.cape_extend(),
             TMCLocation.FALLS_WATER_DIG_CAVE_FUSION_HP:  # Fusion 1F
-                self.logic_and([self.has_all([TMCItem.BOMB_BAG, TMCItem.MOLE_MITTS]), self.cape_extend()]),
+                self.logic_and([self.has(TMCItem.MOLE_MITTS), self.cape_extend()]),
             TMCLocation.FALLS_WATER_DIG_CAVE_FUSION_CHEST:  # Fusion 1F
-                self.logic_and([self.has_all([TMCItem.BOMB_BAG, TMCItem.MOLE_MITTS]), self.cape_extend()]),
+                self.logic_and([self.has(TMCItem.MOLE_MITTS), self.cape_extend()]),
             # Fusion 09
-            TMCLocation.FALLS_1ST_CAVE_CHEST: None,
+            # TMCLocation.FALLS_1ST_CAVE_CHEST: None,
             TMCLocation.FALLS_CLIFF_CHEST: self.split_rule(3),
             TMCLocation.FALLS_SOUTH_DIG_SPOT: self.has(TMCItem.MOLE_MITTS),
-            TMCLocation.FALLS_GOLDEN_TEKTITE:  # Fusion 4A
-                self.logic_and([self.has_sword(), self.has(TMCItem.GRIP_RING)]),
-            TMCLocation.FALLS_NORTH_DIG_SPOT: self.has_all([TMCItem.GRIP_RING, TMCItem.MOLE_MITTS]),
-            TMCLocation.FALLS_ROCK_FUSION_CHEST: self.has(TMCItem.GRIP_RING),  # Fusion 61
-            TMCLocation.FALLS_WATERFALL_FUSION_HP: self.has_all([TMCItem.GRIP_RING, TMCItem.FLIPPERS]),  # Fusion 13
-            TMCLocation.FALLS_RUPEE_CAVE_TOP_TOP: self.has(TMCItem.GRIP_RING),
-            TMCLocation.FALLS_RUPEE_CAVE_TOP_LEFT: self.has(TMCItem.GRIP_RING),
-            TMCLocation.FALLS_RUPEE_CAVE_TOP_MIDDLE: self.has(TMCItem.GRIP_RING),
-            TMCLocation.FALLS_RUPEE_CAVE_TOP_RIGHT: self.has(TMCItem.GRIP_RING),
-            TMCLocation.FALLS_RUPEE_CAVE_TOP_BOTTOM: self.has(TMCItem.GRIP_RING),
-            TMCLocation.FALLS_RUPEE_CAVE_SIDE_TOP: self.has(TMCItem.GRIP_RING),
-            TMCLocation.FALLS_RUPEE_CAVE_SIDE_LEFT: self.has(TMCItem.GRIP_RING),
-            TMCLocation.FALLS_RUPEE_CAVE_SIDE_RIGHT: self.has(TMCItem.GRIP_RING),
-            TMCLocation.FALLS_RUPEE_CAVE_SIDE_BOTTOM: self.has(TMCItem.GRIP_RING),
-            TMCLocation.FALLS_RUPEE_CAVE_UNDERWATER_TOP_LEFT: self.has_all([TMCItem.GRIP_RING, TMCItem.FLIPPERS]),
-            TMCLocation.FALLS_RUPEE_CAVE_UNDERWATER_TOP_RIGHT: self.has_all([TMCItem.GRIP_RING, TMCItem.FLIPPERS]),
-            TMCLocation.FALLS_RUPEE_CAVE_UNDERWATER_MIDDLE_LEFT: self.has_all([TMCItem.GRIP_RING, TMCItem.FLIPPERS]),
-            TMCLocation.FALLS_RUPEE_CAVE_UNDERWATER_MIDDLE_RIGHT: self.has_all([TMCItem.GRIP_RING, TMCItem.FLIPPERS]),
-            TMCLocation.FALLS_RUPEE_CAVE_UNDERWATER_BOTTOM_LEFT: self.has_all([TMCItem.GRIP_RING, TMCItem.FLIPPERS]),
-            TMCLocation.FALLS_RUPEE_CAVE_UNDERWATER_BOTTOM_RIGHT: self.has_all([TMCItem.GRIP_RING, TMCItem.FLIPPERS]),
-            TMCLocation.FALLS_TOP_CAVE_BOMB_WALL_CHEST: self.has_all([TMCItem.GRIP_RING, TMCItem.BOMB_BAG]),
-            TMCLocation.FALLS_TOP_CAVE_CHEST: self.has(TMCItem.GRIP_RING),
+            TMCLocation.FALLS_GOLDEN_TEKTITE: self.has_sword(), # Fusion 4A
+            TMCLocation.FALLS_NORTH_DIG_SPOT: self.has(TMCItem.MOLE_MITTS),
+            # TMCLocation.FALLS_ROCK_FUSION_CHEST: None,  # Fusion 61
+            TMCLocation.FALLS_WATERFALL_FUSION_HP: self.has(TMCItem.FLIPPERS),  # Fusion 13
+            # TMCLocation.FALLS_RUPEE_CAVE_TOP_TOP: None,
+            # TMCLocation.FALLS_RUPEE_CAVE_TOP_LEFT: None,
+            # TMCLocation.FALLS_RUPEE_CAVE_TOP_MIDDLE: None,
+            # TMCLocation.FALLS_RUPEE_CAVE_TOP_RIGHT: None,
+            # TMCLocation.FALLS_RUPEE_CAVE_TOP_BOTTOM: None,
+            # TMCLocation.FALLS_RUPEE_CAVE_SIDE_TOP: None,
+            # TMCLocation.FALLS_RUPEE_CAVE_SIDE_LEFT: None,
+            # TMCLocation.FALLS_RUPEE_CAVE_SIDE_RIGHT: None,
+            # TMCLocation.FALLS_RUPEE_CAVE_SIDE_BOTTOM: None,
+            TMCLocation.FALLS_RUPEE_CAVE_UNDERWATER_TOP_LEFT: self.has(TMCItem.FLIPPERS),
+            TMCLocation.FALLS_RUPEE_CAVE_UNDERWATER_TOP_RIGHT: self.has(TMCItem.FLIPPERS),
+            TMCLocation.FALLS_RUPEE_CAVE_UNDERWATER_MIDDLE_LEFT: self.has(TMCItem.FLIPPERS),
+            TMCLocation.FALLS_RUPEE_CAVE_UNDERWATER_MIDDLE_RIGHT: self.has(TMCItem.FLIPPERS),
+            TMCLocation.FALLS_RUPEE_CAVE_UNDERWATER_BOTTOM_LEFT: self.has(TMCItem.FLIPPERS),
+            TMCLocation.FALLS_RUPEE_CAVE_UNDERWATER_BOTTOM_RIGHT: self.has(TMCItem.FLIPPERS),
+            TMCLocation.FALLS_TOP_CAVE_BOMB_WALL_CHEST: self.has(TMCItem.BOMB_BAG),
+            # TMCLocation.FALLS_TOP_CAVE_CHEST: None,
             # endregion
 
             # region Cloud Tops
@@ -1078,6 +1085,16 @@ class MinishCapRules:
         return self.logic_option(TMCWarps.DWS_RED in self.world.options.dungeon_warps.value,
                                  None,
                                  self.logic_and([self.has(TMCItem.SMALL_KEY_DWS, 4), self.has(TMCItem.GUST_JAR)]))
+
+    def falls_crest(self)-> CollectionRule:
+        return self.logic_option(TMCCrests.FALLS in self.world.options.wind_crests.value,
+                                 self.has(TMCItem.OCARINA),
+                                 self.no_access())
+
+    def clouds_crest(self) -> CollectionRule:
+        return self.logic_option(TMCCrests.CLOUDS in self.world.options.wind_crests.value,
+                                 self.has(TMCItem.OCARINA),
+                                 self.no_access())
 
     def swamp_crest(self) -> CollectionRule:
         return self.logic_option(TMCCrests.SWAMP in self.world.options.wind_crests.value,

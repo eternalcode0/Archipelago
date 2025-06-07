@@ -1353,27 +1353,27 @@ all_locations: list[LocationData] = [
     # endregion
     # region Upper Falls
     LocationData(
-        6029330, TMCLocation.FALLS_ENTRANCE_HP, TMCRegion.NORTH_FIELD,
+        6029330, TMCLocation.FALLS_ENTRANCE_HP, TMCRegion.FALLS_ENTRANCE,
         TMCItem.HEART_PIECE, (0x0F87C3, None), (0x2CD0, 0x01), 0x000A, pools={POOL_HP}
     ),
     LocationData(
-        6029331, TMCLocation.FALLS_WATER_DIG_CAVE_FUSION_HP, TMCRegion.NORTH_FIELD,
+        6029331, TMCLocation.FALLS_WATER_DIG_CAVE_FUSION_HP, TMCRegion.FALLS_ENTRANCE,
         TMCItem.HEART_PIECE, (0x0F3DD7, None), (0x2D05, 0x20), 0x0016, pools={POOL_HP}
     ),
     LocationData(
-        6029332, TMCLocation.FALLS_WATER_DIG_CAVE_FUSION_CHEST, TMCRegion.NORTH_FIELD,
+        6029332, TMCLocation.FALLS_WATER_DIG_CAVE_FUSION_CHEST, TMCRegion.FALLS_ENTRANCE,
         None, (0x0F3E26, None), (0x2D05, 0x04), 0x0016
     ),
     LocationData(
-        6029333, TMCLocation.FALLS_1ST_CAVE_CHEST, TMCRegion.UPPER_FALLS,
+        6029333, TMCLocation.FALLS_1ST_CAVE_CHEST, TMCRegion.MIDDLE_FALLS,
         None, (0x0F8E0E, None), (0x2D25, 0x10), 0x0533
     ),
     LocationData(
-        6029334, TMCLocation.FALLS_CLIFF_CHEST, TMCRegion.UPPER_FALLS,
+        6029334, TMCLocation.FALLS_CLIFF_CHEST, TMCRegion.MIDDLE_FALLS,
         None, (0x0F89C2, None), (0x2CD0, 0x02), 0x000A
     ),
     LocationData(
-        6029335, TMCLocation.FALLS_SOUTH_DIG_SPOT, TMCRegion.UPPER_FALLS,
+        6029335, TMCLocation.FALLS_SOUTH_DIG_SPOT, TMCRegion.MIDDLE_FALLS,
         TMCItem.RUPEES_50, (0x0F8823, None), (0x2CDA, 0x80), 0x000A, pools={POOL_DIG}
     ),
     LocationData(
@@ -1461,7 +1461,7 @@ all_locations: list[LocationData] = [
         TMCItem.RUPEES_100, (0x0F8ADE, None), (0x2D25, 0x01), 0x0033
     ),
     # LocationData(
-    #    6029357, TMCLocation.FALLS_BIGGORON, TMCRegion.UPPER_FALLS,
+    #    6029357, TMCLocation.FALLS_BIGGORON, TMCRegion.CLOUDS,
     #    TMCItem.PROGRESSIVE_SHIELD, (None, None), (None, None), None,
     # ),
     # endregion
