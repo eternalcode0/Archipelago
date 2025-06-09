@@ -1645,79 +1645,79 @@ all_locations: list[LocationData] = [
     # endregion
     # region Dungeon CoF
     LocationData(
-        6029402, TMCLocation.COF_1F_SPIKE_BEETLE_BIG_CHEST, TMCRegion.DUNGEON_COF,
+        6029402, TMCLocation.COF_1F_SPIKE_BEETLE_BIG_CHEST, TMCRegion.DUNGEON_COF_MAIN,
         TMCItem.DUNGEON_MAP_COF, (0x0E09C6, None), (0x2D5A, 0x04), 0x1550
     ),
     LocationData(
-        6029403, TMCLocation.COF_1F_ITEM1, TMCRegion.DUNGEON_COF,
+        6029403, TMCLocation.COF_1F_ITEM1, TMCRegion.DUNGEON_COF_MAIN,
         TMCItem.RUPEES_1, (0x0DFAEB, None), (0x2D5B, 0x40), 0x0550, scoutable=True, pools={POOL_RUPEE}
     ),
     LocationData(
-        6029404, TMCLocation.COF_1F_ITEM2, TMCRegion.DUNGEON_COF,
+        6029404, TMCLocation.COF_1F_ITEM2, TMCRegion.DUNGEON_COF_MAIN,
         TMCItem.RUPEES_1, (0x0DFAFB, None), (0x2D5B, 0x80), 0x0550, scoutable=True, pools={POOL_RUPEE}
     ),
     LocationData(
-        6029405, TMCLocation.COF_1F_ITEM3, TMCRegion.DUNGEON_COF,
+        6029405, TMCLocation.COF_1F_ITEM3, TMCRegion.DUNGEON_COF_MAIN,
         TMCItem.RUPEES_1, (0x0DFB0B, None), (0x2D5C, 0x01), 0x0550, scoutable=True, pools={POOL_RUPEE}
     ),
     LocationData(
-        6029406, TMCLocation.COF_1F_ITEM4, TMCRegion.DUNGEON_COF,
+        6029406, TMCLocation.COF_1F_ITEM4, TMCRegion.DUNGEON_COF_MAIN,
         TMCItem.RUPEES_1, (0x0DFB1B, None), (0x2D5C, 0x02), 0x0550, scoutable=True, pools={POOL_RUPEE}
     ),
     LocationData(
-        6029407, TMCLocation.COF_1F_ITEM5, TMCRegion.DUNGEON_COF,
+        6029407, TMCLocation.COF_1F_ITEM5, TMCRegion.DUNGEON_COF_MAIN,
         TMCItem.RUPEES_1, (0x0DFB2B, None), (0x2D5C, 0x04), 0x0550, scoutable=True, pools={POOL_RUPEE}
     ),
     LocationData(
-        6029408, TMCLocation.COF_B1_HAZY_ROOM_BIG_CHEST, TMCRegion.DUNGEON_COF,
+        6029408, TMCLocation.COF_B1_HAZY_ROOM_BIG_CHEST, TMCRegion.DUNGEON_COF_MAIN,
         TMCItem.DUNGEON_COMPASS_COF, (0x0E028A, None), (0x2D59, 0x04), 0x0950
     ),
     LocationData(
-        6029409, TMCLocation.COF_B1_HAZY_ROOM_SMALL_CHEST, TMCRegion.DUNGEON_COF,
+        6029409, TMCLocation.COF_B1_HAZY_ROOM_SMALL_CHEST, TMCRegion.DUNGEON_COF_MAIN,
         TMCItem.KINSTONE, (0x0E0282, None), (0x2D59, 0x02), 0x0950
     ),
     LocationData(
-        6029410, TMCLocation.COF_B1_ROLLOBITE_CHEST, TMCRegion.DUNGEON_COF,
+        6029410, TMCLocation.COF_B1_ROLLOBITE_CHEST, TMCRegion.DUNGEON_COF_MAIN,
         TMCItem.RUPEES_50, (0x0E00E2, None), (0x2D58, 0x80), 0x0850
     ),
     LocationData(
-        6029411, TMCLocation.COF_B1_ROLLOBITE_PILLAR_CHEST, TMCRegion.DUNGEON_COF,
+        6029411, TMCLocation.COF_B1_ROLLOBITE_PILLAR_CHEST, TMCRegion.DUNGEON_COF_MAIN,
         TMCItem.SMALL_KEY_COF, (0x0E00DA, None), (0x2D58, 0x40), 0x0850
     ),
     LocationData(
-        6029412, TMCLocation.COF_B1_SPIKEY_CHUS_PILLAR_CHEST, TMCRegion.DUNGEON_COF,
+        6029412, TMCLocation.COF_B1_SPIKEY_CHUS_PILLAR_CHEST, TMCRegion.DUNGEON_COF_MINECART,
         TMCItem.SMALL_KEY_COF, (0x0DF50A, None), (0x2D57, 0x01), 0x0150
     ),
     LocationData(
-        6029413, TMCLocation.COF_B1_HP, TMCRegion.DUNGEON_COF,
+        6029413, TMCLocation.COF_B1_HP, TMCRegion.DUNGEON_COF_MINECART,
         TMCItem.HEART_PIECE, (0x0DFC9F, None), (0x2D5B, 0x10), 0x0650, pools={POOL_HP}
     ),
     LocationData(
-        6029414, TMCLocation.COF_B1_SPIKEY_CHUS_BIG_CHEST, TMCRegion.DUNGEON_COF,
+        6029414, TMCLocation.COF_B1_SPIKEY_CHUS_BIG_CHEST, TMCRegion.DUNGEON_COF_MINECART,
         TMCItem.CANE_OF_PACCI, (0x0DF512, None), (0x2D57, 0x02), 0x0150
     ),
     LocationData(
-        6029415, TMCLocation.COF_B2_PRE_LAVA_NORTH_CHEST, TMCRegion.DUNGEON_COF,
+        6029415, TMCLocation.COF_B2_PRE_LAVA_NORTH_CHEST, TMCRegion.DUNGEON_COF_LAVA_BASEMENT,
         TMCItem.KINSTONE, (0x0E04F6, None), (0x2D59, 0x10), 0x1050
     ),
     LocationData(
-        6029416, TMCLocation.COF_B2_PRE_LAVA_SOUTH_CHEST, TMCRegion.DUNGEON_COF,
+        6029416, TMCLocation.COF_B2_PRE_LAVA_SOUTH_CHEST, TMCRegion.DUNGEON_COF_LAVA_BASEMENT,
         TMCItem.KINSTONE, (0x0E04FE, None), (0x2D59, 0x20), 0x1050
     ),
     LocationData(
-        6029417, TMCLocation.COF_B2_LAVA_ROOM_BLADE_CHEST, TMCRegion.DUNGEON_COF,
+        6029417, TMCLocation.COF_B2_LAVA_ROOM_BLADE_CHEST, TMCRegion.DUNGEON_COF_LAVA_BASEMENT,
         TMCItem.KINSTONE, (0x0E08BA, None), (0x2D5A, 0x01), 0x1450
     ),
     LocationData(
-        6029418, TMCLocation.COF_B2_LAVA_ROOM_RIGHT_CHEST, TMCRegion.DUNGEON_COF,
+        6029418, TMCLocation.COF_B2_LAVA_ROOM_RIGHT_CHEST, TMCRegion.DUNGEON_COF_LAVA_BASEMENT,
         TMCItem.RUPEES_100, (0x0E0CC2, None), (0x2D5B, 0x01), 0x1750
     ),
     LocationData(
-        6029419, TMCLocation.COF_B2_LAVA_ROOM_LEFT_CHEST, TMCRegion.DUNGEON_COF,
+        6029419, TMCLocation.COF_B2_LAVA_ROOM_LEFT_CHEST, TMCRegion.DUNGEON_COF_LAVA_BASEMENT,
         TMCItem.KINSTONE, (0x0E0CBA, None), (0x2D5A, 0x80), 0x1750
     ),
     LocationData(
-        6029420, TMCLocation.COF_B2_LAVA_ROOM_BIG_CHEST, TMCRegion.DUNGEON_COF,
+        6029420, TMCLocation.COF_B2_LAVA_ROOM_BIG_CHEST, TMCRegion.DUNGEON_COF_LAVA_BASEMENT,
         TMCItem.BIG_KEY_COF, (0x0E0CCA, None), (0x2D5B, 0x02), 0x1750
     ),
     LocationData(

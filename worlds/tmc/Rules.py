@@ -38,7 +38,7 @@ class MinishCapRules:
                 self.logic_or([self.can_pass_trees(), self.has_any([TMCItem.ROCS_CAPE, TMCItem.FLIPPERS])]),
 
             (TMCRegion.HYRULE_TOWN, TMCRegion.NORTH_FIELD): None,
-            (TMCRegion.HYRULE_TOWN, TMCRegion.SOUTH_FIELD): None,
+            (TMCRegion.HYRULE_TOWN, TMCRegion.SOUTH_FIELD): None, #redundant
             (TMCRegion.HYRULE_TOWN, TMCRegion.LONLON): self.has(TMCItem.BOMB_BAG),
             (TMCRegion.HYRULE_TOWN, TMCRegion.TRILBY_HIGHLANDS):
                 self.logic_option(TMCTricks.BOOTS_GUARDS in self.world.options.tricks,
@@ -46,17 +46,17 @@ class MinishCapRules:
                                   self.can_spin()),
 
             (TMCRegion.NORTH_FIELD, TMCRegion.CASTLE_EXTERIOR): None,
-            (TMCRegion.NORTH_FIELD, TMCRegion.HYRULE_TOWN): None,
+            (TMCRegion.NORTH_FIELD, TMCRegion.HYRULE_TOWN): None, # redundant
             (TMCRegion.NORTH_FIELD, TMCRegion.LONLON): self.can_pass_trees(),
             (TMCRegion.NORTH_FIELD, TMCRegion.TRILBY_HIGHLANDS): self.has_any([TMCItem.FLIPPERS, TMCItem.ROCS_CAPE]),
             (TMCRegion.NORTH_FIELD, TMCRegion.FALLS_ENTRANCE): self.has(TMCItem.BOMB_BAG),
             (TMCRegion.NORTH_FIELD, TMCRegion.ROYAL_VALLEY):
                 self.logic_and([self.split_rule(3), self.logic_or([self.cape_extend(), self.has(TMCItem.BOMB_BAG)])]),
 
-            (TMCRegion.CASTLE_EXTERIOR, TMCRegion.NORTH_FIELD): None,
+            (TMCRegion.CASTLE_EXTERIOR, TMCRegion.NORTH_FIELD): None, # redundant
             (TMCRegion.CASTLE_EXTERIOR, TMCRegion.SANCTUARY): None,
 
-            (TMCRegion.SANCTUARY, TMCRegion.CASTLE_EXTERIOR): None,
+            (TMCRegion.SANCTUARY, TMCRegion.CASTLE_EXTERIOR): None, # redundant
             (TMCRegion.SANCTUARY, TMCRegion.DUNGEON_DHC):
                 self.logic_and([
                     self.has_group("Elements", self.world.options.ped_elements.value),
@@ -71,6 +71,8 @@ class MinishCapRules:
                     ], self.world.options.ped_dungeons.value)
                 ]),
 
+            (TMCRegion.DUNGEON_DHC, TMCRegion.SANCTUARY): None, # Ped items
+            (TMCRegion.DUNGEON_DHC, TMCRegion.CASTLE_EXTERIOR): None, # redundant???
             (TMCRegion.DUNGEON_DHC, TMCRegion.VAATI_FIGHT):
                 self.logic_and([
                     self.has_all([TMCItem.BIG_KEY_DHC, TMCItem.SMALL_KEY_DHC, TMCItem.BOMB_BAG, TMCItem.GUST_JAR,
@@ -81,8 +83,8 @@ class MinishCapRules:
                     self.has_weapon_boss(),  # Darknut
                 ]),
 
-            (TMCRegion.LONLON, TMCRegion.HYRULE_TOWN): self.has(TMCItem.BOMB_BAG),
-            (TMCRegion.LONLON, TMCRegion.NORTH_FIELD): self.can_pass_trees(),
+            (TMCRegion.LONLON, TMCRegion.HYRULE_TOWN): self.has(TMCItem.BOMB_BAG), #redundant
+            (TMCRegion.LONLON, TMCRegion.NORTH_FIELD): self.can_pass_trees(), # redundant
             (TMCRegion.LONLON, TMCRegion.EASTERN_HILLS): self.has(TMCItem.BOMB_BAG),
             (TMCRegion.LONLON, TMCRegion.MINISH_WOODS): None, # Doesn't directly connect, but nothing is in between
             (TMCRegion.LONLON, TMCRegion.LOWER_FALLS): self.has(TMCItem.CANE_OF_PACCI),
@@ -108,8 +110,8 @@ class MinishCapRules:
             (TMCRegion.WESTERN_WOODS, TMCRegion.CASTOR_WILDS): self.has_any([TMCItem.PEGASUS_BOOTS, TMCItem.ROCS_CAPE]),
             (TMCRegion.WESTERN_WOODS, TMCRegion.TRILBY_HIGHLANDS): None,
 
-            (TMCRegion.TRILBY_HIGHLANDS, TMCRegion.HYRULE_TOWN): None,
-            (TMCRegion.TRILBY_HIGHLANDS, TMCRegion.NORTH_FIELD):
+            (TMCRegion.TRILBY_HIGHLANDS, TMCRegion.HYRULE_TOWN): None, # redundant
+            (TMCRegion.TRILBY_HIGHLANDS, TMCRegion.NORTH_FIELD): # redundant
                 self.logic_or([self.has_any([TMCItem.ROCS_CAPE, TMCItem.FLIPPERS]),
                                self.logic_and([self.has(TMCItem.CANE_OF_PACCI), self.has_sword()])]),
             (TMCRegion.TRILBY_HIGHLANDS, TMCRegion.WESTERN_WOODS): self.split_rule(2),
@@ -133,7 +135,8 @@ class MinishCapRules:
                     ])
                 ]),
             (TMCRegion.MELARI, TMCRegion.CRENEL): None,
-            (TMCRegion.MELARI, TMCRegion.DUNGEON_COF):
+            (TMCRegion.MELARI, TMCRegion.DUNGEON_COF_ENTRANCE): None,
+            (TMCRegion.DUNGEON_COF_ENTRANCE, TMCRegion.DUNGEON_COF_MAIN):
                 self.logic_and([
                     self.logic_option(TMCTricks.BOBOMB_WALLS in self.world.options.tricks,
                                       self.logic_or([self.has_sword(), self.has(TMCItem.GUST_JAR)]),
@@ -146,10 +149,21 @@ class MinishCapRules:
                                       self.logic_or([self.can_shield(),
                                                      self.has_any([TMCItem.CANE_OF_PACCI, TMCItem.BOMB_BAG])]))
                 ]),
-            (TMCRegion.DUNGEON_COF, TMCRegion.DUNGEON_COF_CLEAR):
-                self.logic_and([self.has_sword(), self.has_weapon_gleerok(),
-                                self.has_all([TMCItem.CANE_OF_PACCI, TMCItem.BIG_KEY_COF]),
-                                self.has(TMCItem.SMALL_KEY_COF, 2)]),
+            (TMCRegion.DUNGEON_COF_MAIN, TMCRegion.DUNGEON_COF_MINECART):
+                self.logic_and([self.logic_option(TMCWarps.COF_BLUE in self.world.options.dungeon_warps,
+                                                  self.has(TMCItem.SMALL_KEY_COF, 2),
+                                                  self.has(TMCItem.SMALL_KEY_COF, 1)),
+                                self.has_sword()]),
+            (TMCRegion.DUNGEON_COF_MINECART, TMCRegion.DUNGEON_COF_BLUE_WARP):
+                self.logic_and([self.has_weapon(),self.has_any([TMCItem.CANE_OF_PACCI, TMCItem.ROCS_CAPE])]),
+            (TMCRegion.DUNGEON_COF_ENTRANCE, TMCRegion.DUNGEON_COF_BLUE_WARP): self.cof_blue_warp(),
+            (TMCRegion.DUNGEON_COF_BLUE_WARP, TMCRegion.DUNGEON_COF_MINECART): self.has(TMCItem.CANE_OF_PACCI),
+            (TMCRegion.DUNGEON_COF_BLUE_WARP, TMCRegion.DUNGEON_COF_LAVA_BASEMENT):
+                self.logic_and([self.has_sword(), self.has(TMCItem.SMALL_KEY_COF, 2), self.has(TMCItem.CANE_OF_PACCI)]),
+            (TMCRegion.DUNGEON_COF_ENTRANCE, TMCRegion.DUNGEON_COF_LAVA_BASEMENT): self.cof_red_warp(),
+            (TMCRegion.DUNGEON_COF_LAVA_BASEMENT, TMCRegion.DUNGEON_COF_CLEAR):
+                self.logic_and([self.has_sword(), self.has_weapon_gleerok(), self.has_all([TMCItem.CANE_OF_PACCI,
+                                                                                           TMCItem.BIG_KEY_COF])]),
 
             (TMCRegion.FALLS_ENTRANCE, TMCRegion.MIDDLE_FALLS):
                 self.logic_and([self.has(TMCItem.KINSTONE_GOLD_FALLS), self.dark_room()]),
@@ -170,7 +184,8 @@ class MinishCapRules:
                 self.logic_and([self.pow_jump(), self.has(TMCItem.SMALL_KEY_POW, 6), self.has(TMCItem.BIG_KEY_POW),
                                 self.has_weapon_boss(), self.dark_room(), self.has_weapon()]),
 
-            (TMCRegion.ROYAL_VALLEY, TMCRegion.NORTH_FIELD): None,
+            (TMCRegion.ROYAL_VALLEY, TMCRegion.NORTH_FIELD): None, # redundant
+            (TMCRegion.ROYAL_VALLEY, TMCRegion.TRILBY_HIGHLANDS): None, # redundant
             (TMCRegion.ROYAL_VALLEY, TMCRegion.GRAVEYARD):
                 self.logic_and([self.has_all([TMCItem.GRAVEYARD_KEY, TMCItem.PEGASUS_BOOTS]), self.dark_room()]),
             (TMCRegion.GRAVEYARD, TMCRegion.DUNGEON_RC): self.split_rule(3),
@@ -789,24 +804,15 @@ class MinishCapRules:
             TMCLocation.COF_B1_HAZY_ROOM_SMALL_CHEST: self.has_weapon_helm(),
             TMCLocation.COF_B1_ROLLOBITE_CHEST: self.has_weapon_helm(),
             TMCLocation.COF_B1_ROLLOBITE_PILLAR_CHEST: self.has_weapon_helm(),
-            TMCLocation.COF_B1_SPIKEY_CHUS_PILLAR_CHEST:
-                self.logic_and([self.has_sword(), self.has(TMCItem.CANE_OF_PACCI), self.has(TMCItem.SMALL_KEY_COF, 1)]),
-            TMCLocation.COF_B1_HP:
-                self.logic_and([self.has_sword(), self.has(TMCItem.BOMB_BAG), self.has(TMCItem.SMALL_KEY_COF, 1)]),
-            TMCLocation.COF_B1_SPIKEY_CHUS_BIG_CHEST:
-                self.logic_and([self.has_sword(), self.has_weapon(), self.has(TMCItem.SMALL_KEY_COF, 1)]),
-            TMCLocation.COF_B2_PRE_LAVA_NORTH_CHEST:
-                self.logic_and([self.has_sword(), self.has(TMCItem.CANE_OF_PACCI), self.has(TMCItem.SMALL_KEY_COF, 2)]),
-            TMCLocation.COF_B2_PRE_LAVA_SOUTH_CHEST:
-                self.logic_and([self.has_sword(), self.has(TMCItem.CANE_OF_PACCI), self.has(TMCItem.SMALL_KEY_COF, 2)]),
-            TMCLocation.COF_B2_LAVA_ROOM_BLADE_CHEST:
-                self.logic_and([self.has_sword(), self.has(TMCItem.CANE_OF_PACCI), self.has(TMCItem.SMALL_KEY_COF, 2)]),
-            TMCLocation.COF_B2_LAVA_ROOM_RIGHT_CHEST:
-                self.logic_and([self.has_sword(), self.has(TMCItem.CANE_OF_PACCI), self.has(TMCItem.SMALL_KEY_COF, 2)]),
-            TMCLocation.COF_B2_LAVA_ROOM_LEFT_CHEST:
-                self.logic_and([self.has_sword(), self.has(TMCItem.CANE_OF_PACCI), self.has(TMCItem.SMALL_KEY_COF, 2)]),
-            TMCLocation.COF_B2_LAVA_ROOM_BIG_CHEST:
-                self.logic_and([self.has_sword(), self.has(TMCItem.CANE_OF_PACCI), self.has(TMCItem.SMALL_KEY_COF, 2)]),
+            TMCLocation.COF_B1_SPIKEY_CHUS_PILLAR_CHEST: self.has(TMCItem.CANE_OF_PACCI),
+            TMCLocation.COF_B1_HP: self.has(TMCItem.BOMB_BAG),
+            TMCLocation.COF_B1_SPIKEY_CHUS_BIG_CHEST: self.has_weapon(),
+            TMCLocation.COF_B2_PRE_LAVA_NORTH_CHEST: self.has(TMCItem.CANE_OF_PACCI),
+            TMCLocation.COF_B2_PRE_LAVA_SOUTH_CHEST:self.has(TMCItem.CANE_OF_PACCI),
+            TMCLocation.COF_B2_LAVA_ROOM_BLADE_CHEST: self.has_any([TMCItem.CANE_OF_PACCI, TMCItem.ROCS_CAPE]),
+            TMCLocation.COF_B2_LAVA_ROOM_RIGHT_CHEST: self.has_any([TMCItem.CANE_OF_PACCI, TMCItem.ROCS_CAPE]),
+            TMCLocation.COF_B2_LAVA_ROOM_LEFT_CHEST: self.has_any([TMCItem.CANE_OF_PACCI, TMCItem.ROCS_CAPE]),
+            TMCLocation.COF_B2_LAVA_ROOM_BIG_CHEST: self.has_any([TMCItem.CANE_OF_PACCI, TMCItem.ROCS_CAPE]),
             TMCLocation.COF_BOSS_ITEM: None,
             TMCLocation.COF_PRIZE: None,
             TMCLocation.CRENEL_MELARI_NPC: None,
@@ -1090,6 +1096,16 @@ class MinishCapRules:
         return self.logic_option(TMCWarps.DWS_RED in self.world.options.dungeon_warps.value,
                                  None,
                                  self.logic_and([self.has(TMCItem.SMALL_KEY_DWS, 4), self.has(TMCItem.GUST_JAR)]))
+
+    def cof_blue_warp(self) -> CollectionRule:
+        return self.logic_option(TMCWarps.COF_BLUE in self.world.options.dungeon_warps.value,
+                                 None,
+                                 self.no_access())
+
+    def cof_red_warp(self) -> CollectionRule:
+        return self.logic_option(TMCWarps.COF_RED in self.world.options.dungeon_warps.value,
+                                 None,
+                                 self.no_access())
 
     def crenel_crest(self) -> CollectionRule:
         return self.logic_option(TMCCrests.CRENEL in self.world.options.wind_crests.value,

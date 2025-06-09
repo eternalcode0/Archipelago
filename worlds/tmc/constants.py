@@ -763,7 +763,11 @@ class TMCRegion:
     WIND_TRIBE = "Wind Tribe"
     DUNGEON_DWS = "Deepwood Shrine"
     DUNGEON_DWS_CLEAR = "Deepwood Shrine Clear"
-    DUNGEON_COF = "Cave of Flames"
+    DUNGEON_COF_ENTRANCE = "Cave of Flames Entrance"
+    DUNGEON_COF_MAIN = "Cave of Flames After Spikey Beetles"
+    DUNGEON_COF_MINECART = "Cave of Flames After Minecart 2nd path"
+    DUNGEON_COF_BLUE_WARP = "Cave of Flames Blue Warp"
+    DUNGEON_COF_LAVA_BASEMENT = "Cave of Flames Lava Basement"
     DUNGEON_COF_CLEAR = "Cave of Flames Clear"
     DUNGEON_FOW = "Fortress of Winds"
     DUNGEON_FOW_CLEAR = "Fortress of Winds Clear"
@@ -780,14 +784,14 @@ class TMCRegion:
 class TMCWarps:
     DWS_BLUE = "DWS Blue"
     DWS_RED  = "DWS Red"
-    COF_BLUE = "COF Blue"
-    COF_RED  = "COF Red"
-    FOW_BLUE = "FOW Blue"
-    FOW_RED  = "FOW Red"
-    TOD_BLUE = "TOD Blue"
-    TOD_RED  = "TOD Red"
-    POW_BLUE = "POW Blue"
-    POW_RED  = "POW Red"
+    COF_BLUE = "CoF Blue"
+    COF_RED  = "CoF Red"
+    FOW_BLUE = "FoW Blue"
+    FOW_RED  = "FoW Red"
+    TOD_BLUE = "ToD Blue"
+    TOD_RED  = "ToD Red"
+    POW_BLUE = "PoW Blue"
+    POW_RED  = "PoW Red"
     DHC_BLUE = "DHC Blue"
     DHC_RED  = "DHC Red"
 
@@ -852,7 +856,8 @@ ALL_TRICKS = [
 DUNGEON_ABBR = frozenset({"DWS", "CoF", "FoW", "ToD", "PoW", "DHC", "RC"})
 DUNGEON_REGIONS = {
     "DWS": {TMCRegion.DUNGEON_DWS, TMCRegion.DUNGEON_DWS_CLEAR},
-    "CoF": {TMCRegion.DUNGEON_COF, TMCRegion.DUNGEON_COF_CLEAR},
+    "CoF": {TMCRegion.DUNGEON_COF_ENTRANCE, TMCRegion.DUNGEON_COF_MAIN, TMCRegion.DUNGEON_COF_MINECART,
+            TMCRegion.DUNGEON_COF_BLUE_WARP, TMCRegion.DUNGEON_COF_LAVA_BASEMENT, TMCRegion.DUNGEON_COF_CLEAR},
     "FoW": {TMCRegion.DUNGEON_FOW, TMCRegion.DUNGEON_FOW_CLEAR},
     "ToD": {TMCRegion.DUNGEON_TOD, TMCRegion.DUNGEON_TOD_CLEAR, TMCRegion.DUNGEON_TOD_MAIN},
     "PoW": {TMCRegion.DUNGEON_POW, TMCRegion.DUNGEON_POW_CLEAR},
@@ -925,7 +930,11 @@ ALL_REGIONS = [
     TMCRegion.WIND_TRIBE,
     TMCRegion.DUNGEON_DWS,
     TMCRegion.DUNGEON_DWS_CLEAR,
-    TMCRegion.DUNGEON_COF,
+    TMCRegion.DUNGEON_COF_ENTRANCE,
+    TMCRegion.DUNGEON_COF_MAIN,
+    TMCRegion.DUNGEON_COF_MINECART,
+    TMCRegion.DUNGEON_COF_BLUE_WARP,
+    TMCRegion.DUNGEON_COF_LAVA_BASEMENT,
     TMCRegion.DUNGEON_COF_CLEAR,
     TMCRegion.DUNGEON_FOW,
     TMCRegion.DUNGEON_FOW_CLEAR,
