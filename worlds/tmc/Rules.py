@@ -1046,21 +1046,25 @@ class MinishCapRules:
             # endregion
         }
 
-    def no_access(self) -> CollectionRule:
+    @staticmethod
+    def no_access() -> CollectionRule:
             # return self.has(TMCItem.INACCESSIBLE)
             return lambda state: False
 
-    def logic_or(self, rules: list[CollectionRule | None]) -> CollectionRule | None:
+    @staticmethod
+    def logic_or(rules: list[CollectionRule | None]) -> CollectionRule | None:
         for entry in rules:
             if entry is None:
                 return None
 
         return lambda state: any(rule(state) for rule in rules)
 
-    def logic_and(self, rules: list[CollectionRule | None]) -> CollectionRule:
+    @staticmethod
+    def logic_and(rules: list[CollectionRule | None]) -> CollectionRule:
         return lambda state: all(rule(state) for rule in rules if rule is not None)
 
-    def logic_option(self, option: bool, rule_true: CollectionRule | None = None,
+    @staticmethod
+    def logic_option(option: bool, rule_true: CollectionRule | None = None,
                      rule_false: CollectionRule | None = None) -> CollectionRule | None:
         return rule_true if option else rule_false
 

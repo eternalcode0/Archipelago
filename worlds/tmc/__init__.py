@@ -12,7 +12,7 @@ from BaseClasses import Item, ItemClassification, Tutorial
 from worlds.AutoWorld import WebWorld, World
 from Options import OptionError
 from .Client import MinishCapClient
-from .constants import MinishCapItem, MinishCapLocation, TMCEvent, TMCItem, TMCLocation
+from .constants import MinishCapEvent, MinishCapItem, MinishCapLocation, TMCEvent, TMCItem, TMCLocation
 from .dungeons import fill_dungeons
 from .Items import get_filler_item_selection, get_item_pool, get_pre_fill_pool, item_frequencies, item_groups, item_table, ItemData
 from .Locations import all_locations, DEFAULT_SET, GOAL_PED, GOAL_VAATI, location_groups, OBSCURE_SET, POOL_RUPEE
@@ -111,7 +111,7 @@ class MinishCapWorld(World):
                 self.options.ped_dungeons,
                 len(self.disabled_dungeons)))
 
-    def fill_slot_data(self) -> dict[str, any]:
+    def fill_slot_data(self) -> dict[str, typing.Any]:
         data = {"DeathLink": self.options.death_link.value, "DeathLinkGameover": self.options.death_link_gameover.value,
                 "RupeeSpot": self.options.rupeesanity.value, "ObscureSpot": self.options.obscure_spots.value,
                 "GoalVaati": self.options.goal_vaati.value}
@@ -144,12 +144,12 @@ class MinishCapWorld(World):
         goal_region.locations.append(goal_location)
         # self.get_location(TMCEvent.CLEAR_PED).place_locked_item(self.create_event(TMCEvent.CLEAR_PED))
 
-    def create_item(self, name: str) -> Item:
+    def create_item(self, name: str) -> MinishCapItem:
         item = item_table[name]
         return MinishCapItem(name, item.classification, self.item_name_to_id[name], self.player)
 
-    def create_event(self, name: str) -> MinishCapItem:
-        return MinishCapItem(name, ItemClassification.progression, None, self.player)
+    def create_event(self, name: str) -> MinishCapEvent:
+        return MinishCapEvent(name, ItemClassification.progression, None, self.player)
 
     def get_filler_item_name(self) -> str:
         return self.random.choice(self.filler_items)

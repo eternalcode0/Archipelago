@@ -80,12 +80,12 @@ def fill_dungeons(world: "MinishCapWorld"):
     for stage in [KEYS, MAPS_COMPASSES]:
         # Randomized dungeon order (sets aren't ordered) but keep DHC last to ensure access conditions are met
         dungeon_fill_order = list(DUNGEON_ABBR)
-        dungeon_fill_order.sort(key=lambda dungeon: 0 if dungeon != "DHC" else 1)
+        dungeon_fill_order.sort(key=lambda dungeons: 0 if dungeons != "DHC" else 1)
         for dungeon in dungeon_fill_order:
             fill_dungeon(world, dungeon, stage, base_state)
 
 
-def fill_dungeon(world: "MinishCapWorld", dungeon: str, stage_items: set[str], base_state: CollectionState):
+def fill_dungeon(world: "MinishCapWorld", dungeon: str, stage_items: frozenset[str], base_state: CollectionState):
     multiworld = world.multiworld
     world_locations = multiworld.get_unfilled_locations(world.player)
     pre_fill_items = world.get_pre_fill_items()

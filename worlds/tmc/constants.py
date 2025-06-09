@@ -1,6 +1,6 @@
 from collections.abc import Callable
 
-from BaseClasses import Item, ItemClassification, Location
+from BaseClasses import Item, ItemClassification, Location, Region
 
 
 class MinishCapItem(Item):
@@ -8,6 +8,14 @@ class MinishCapItem(Item):
 
 
 class MinishCapLocation(Location):
+    game: str = "The Minish Cap"
+
+
+class MinishCapEvent(Item):
+    game: str = "The Minish Cap"
+
+
+class MinishCapRegion(Region):
     game: str = "The Minish Cap"
 
 

@@ -80,7 +80,7 @@ def write_tokens(world: "MinishCapWorld", patch: MinishCapProcedurePatch) -> Non
 
 
 def item_inject(world: "MinishCapWorld", patch: MinishCapProcedurePatch, location: LocationData, item: Item):
-    item_byte_first = 0x00
+    # item_byte_first = 0x00
     item_byte_second = 0x00
 
     if item.player == world.player:

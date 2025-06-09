@@ -47,7 +47,7 @@ def pool_random_bottle_contents() -> list[str]:
 
 
 def pool_bottles() -> list[str]:
-    return *[TMCItem.EMPTY_BOTTLE] * 4,
+    return [*[TMCItem.EMPTY_BOTTLE] * 4]
 
 
 def pool_baseitems() -> list[str]:
@@ -125,7 +125,7 @@ def pool_baseitems() -> list[str]:
     ]
 
 
-def pool_traps() -> [ItemData]:
+def pool_traps() -> list[str]:
     return [TMCItem.TRAP_ICE, TMCItem.TRAP_FIRE, TMCItem.TRAP_ZAP, TMCItem.TRAP_BOMB, TMCItem.TRAP_MONEY,
             TMCItem.TRAP_STINK, TMCItem.TRAP_ROPE, TMCItem.TRAP_BAT, TMCItem.TRAP_LIKE, TMCItem.TRAP_CURSE]
 

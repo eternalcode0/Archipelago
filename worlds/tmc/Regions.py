@@ -1,7 +1,6 @@
 import typing
 
-from BaseClasses import Region
-from .constants import ALL_REGIONS, MinishCapLocation, TMCRegion, TMCEvent
+from .constants import ALL_REGIONS, MinishCapLocation, MinishCapRegion, TMCRegion, TMCEvent
 from .Locations import all_locations
 
 if typing.TYPE_CHECKING:
@@ -13,7 +12,7 @@ def excluded_locations_by_region(region: str, disabled_locations: set[str]):
 
 
 def create_regions(world: "MinishCapWorld", disabled_locations: set[str], disabled_dungeons: set[str]):
-    menu_region = Region("Menu", world.player, world.multiworld)
+    menu_region = MinishCapRegion("Menu", world.player, world.multiworld)
     world.multiworld.regions.append(menu_region)
 
     for region_key in ALL_REGIONS:
@@ -39,7 +38,7 @@ def create_regions(world: "MinishCapWorld", disabled_locations: set[str], disabl
 
 
 def create_region(world: "MinishCapWorld", name, locations):
-    ret = Region(name, world.player, world.multiworld)
+    ret = MinishCapRegion(name, world.player, world.multiworld)
     for location in locations:
         if location.name in world.disabled_locations:
             continue

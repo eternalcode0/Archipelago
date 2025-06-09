@@ -1,4 +1,3 @@
-import typing
 from dataclasses import dataclass
 
 from .constants import TMCLocation, TMCRegion, TMCEvent, TMCItem, DUNGEON_REGIONS
@@ -31,12 +30,12 @@ DEFAULT_SET = frozenset(
 # noinspection PyCompatibility
 @dataclass
 class LocationData:
-    id: int
+    id: int | None
     name: str
     region: str
     vanilla_item: str | None
     """The item name of what is normally given in this location"""
-    rom_addr: tuple[list[int | None] | int | None, list[int | None] | int | None]
+    rom_addr: tuple[list[int | None] | int | None, list[int | None] | int | None] | None
     """The address in the rom for placing items"""
     ram_addr: tuple[list[int | None] | int | None, list[int | None] | int | None]
     """1st = The address in EWRAM to read/write to, 2nd = The bit mask for the address"""
