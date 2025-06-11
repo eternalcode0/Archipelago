@@ -115,11 +115,33 @@ class GoalVaati(DefaultOnToggle):
     display_name = "Vaati Goal"
 
 
-class SkipDHC(Toggle):
+# Future Goal setting to replace GoalVaati:
+# class Goal(Choice):
+#     """
+#     Vaati (default): Kill Vaati to goal. dhc_access and the ped requirements change how soon you can reach Vaati.
+#     Pedestal: Complete Pedestal to goal. The ped requirements change what's needed.
+#     Requirements: Goal the moment each ped requirement is met. Activating pedestal is unnecessary.
+#     """
+#     display_name = "Goal"
+#     option_vaati = 0
+#     option_pedestal = 1
+#     option_requirements = 2
+
+
+class DHCAccess(Choice):
     """
-    Removes DHC and makes the entrance to sanctuary go straight to Vaati if GoalVaati is enabled.
+    When should DHC be accessible?
+    'Open' (true): DHC is accessible from the very beginning. Pedestal Requirements don't do anything with this setting.
+    'Pedestal' (default): DHC is locked until pedestal is completed. The vanilla option.
+    'Closed' (false): DHC is never accessible. If goal_vaati is enabled, sanctuary will take you straight to Vaati.
     """
-    display_name = "Skip DHC"
+    display_name = "DHC Access"
+    option_open = 0
+    option_pedestal = 1
+    option_closed = 2
+    alias_true = 0
+    alias_false = 2
+    default = 1
 
 
 class PedDungeons(Range):
@@ -296,12 +318,12 @@ class MinishCapOptions(PerGameCommonOptions):
     death_link: DeathLink
     death_link_gameover: DeathLinkGameover
     goal_vaati: GoalVaati
+    dhc_access: DHCAccess
     ped_elements: PedElements
     ped_swords: PedSword
     ped_dungeons: PedDungeons
     # ped_figurines: GoalFigurines
     # figurine_amount: FigurineAmount
-    skip_dhc: SkipDHC
     shuffle_elements: ShuffleElements
     weapon_bomb: WeaponBomb
     weapon_bow: WeaponBow

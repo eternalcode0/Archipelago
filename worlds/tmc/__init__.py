@@ -16,7 +16,7 @@ from .constants import MinishCapItem, MinishCapLocation, TMCEvent, TMCItem, TMCL
 from .dungeons import fill_dungeons
 from .Items import get_filler_item_selection, get_item_pool, get_pre_fill_pool, item_frequencies, item_groups, item_table, ItemData
 from .Locations import all_locations, DEFAULT_SET, GOAL_PED, GOAL_VAATI, location_groups, OBSCURE_SET, POOL_RUPEE
-from .Options import DungeonItem, get_option_data, MinishCapOptions, ShuffleElements
+from .Options import DungeonItem, get_option_data, MinishCapOptions, ShuffleElements, DHCAccess
 from .Regions import create_regions
 from .Rom import MinishCapProcedurePatch, write_tokens
 from .Rules import MinishCapRules
@@ -99,7 +99,7 @@ class MinishCapWorld(World):
             self.options.start_hints.value.add(TMCItem.WIND_ELEMENT)
 
         self.disabled_locations = set(loc.name for loc in all_locations if not loc.pools.issubset(enabled_pools))
-        if self.options.skip_dhc.value:
+        if self.options.dhc_access.value == DHCAccess.option_closed:
             self.disabled_locations.update(loc.name for loc in all_locations if loc.region is TMCRegion.DUNGEON_DHC)
 
         # Check if the settings require more dungeons than are included

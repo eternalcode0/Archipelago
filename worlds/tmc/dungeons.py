@@ -4,7 +4,7 @@ from BaseClasses import CollectionState
 from Fill import fill_restrictive
 from .constants import DUNGEON_ABBR, TMCItem, TMCLocation
 from .Locations import location_groups
-from .Options import ShuffleElements
+from .Options import ShuffleElements, DHCAccess
 
 if TYPE_CHECKING:
     from . import MinishCapWorld
@@ -80,7 +80,7 @@ def fill_dungeons(world: "MinishCapWorld"):
     for stage in [KEYS, MAPS_COMPASSES]:
         # Randomized dungeon order (sets aren't ordered) but keep DHC last to ensure access conditions are met
         dungeon_fill_order = list(DUNGEON_ABBR)
-        if world.options.skip_dhc.value:
+        if world.options.dhc_access.value == DHCAccess.option_closed:
             dungeon_fill_order.remove("DHC")
         dungeon_fill_order.sort(key=lambda dungeon: 0 if dungeon != "DHC" else 1)
         for dungeon in dungeon_fill_order:

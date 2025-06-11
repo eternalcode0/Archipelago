@@ -1,12 +1,14 @@
-from .Locations import location_table_by_name, LocationData
-from .Items import item_table
-from .constants import EXTERNAL_ITEM_MAP
+from dataclasses import dataclass
+import struct
+from typing import TYPE_CHECKING
 from BaseClasses import Item, ItemClassification
 from settings import get_settings
 from worlds.Files import APProcedurePatch, APTokenMixin, APTokenTypes
-import struct
-from dataclasses import dataclass
-from typing import TYPE_CHECKING
+
+from .Locations import location_table_by_name, LocationData
+from .Items import item_table
+from .constants import EXTERNAL_ITEM_MAP
+from .Options import DHCAccess
 
 
 if TYPE_CHECKING:
@@ -64,7 +66,7 @@ def write_tokens(world: "MinishCapWorld", patch: MinishCapProcedurePatch) -> Non
     if 0 <= world.options.ped_dungeons.value <= 6:
         patch.write_token(APTokenTypes.WRITE, 0xFE0003, bytes([world.options.ped_dungeons.value]))
 
-    if world.options.skip_dhc.value and world.options.goal_vaati.value:
+    if world.options.dhc_access.value == DHCAccess.option_closed and world.options.goal_vaati.value:
         ped_to_altar = Transition(warp_type=1, start_x=0xE8, start_y=0x28, end_x=0x78, end_y=0x168,
                                   area_id=0x89, room_id=0)
         patch.write_token(APTokenTypes.WRITE, 0x139E80, ped_to_altar.serialize())

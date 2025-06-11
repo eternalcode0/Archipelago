@@ -3,7 +3,7 @@ from typing import Callable, TYPE_CHECKING
 from BaseClasses import CollectionState
 from worlds.generic.Rules import add_rule, CollectionRule
 from .constants import TMCEvent, TMCItem, TMCLocation, TMCRegion, TMCTricks
-from .Options import DungeonItem
+from .Options import DungeonItem, DHCAccess
 
 if TYPE_CHECKING:
     from . import MinishCapWorld
@@ -46,39 +46,47 @@ class MinishCapRules:
 
             # (TMCRegion.CASTLE_EXTERIOR, TMCRegion.NORTH_FIELD): Already connected
             (TMCRegion.CASTLE_EXTERIOR, TMCRegion.SANCTUARY): None,
+            (TMCRegion.CASTLE_EXTERIOR, TMCRegion.DUNGEON_DHC):
+                self.logic_option(self.world.options.dhc_access.value == DHCAccess.option_open,
+                                  None,
+                                  self.no_access()),
 
             # (TMCRegion.SANCTUARY, TMCRegion.CASTLE_EXTERIOR): Already connected
-            (TMCRegion.SANCTUARY, TMCRegion.VAATI_FIGHT if self.world.options.skip_dhc.value else None):
-                self.logic_and([
-                    self.has_group("Elements", self.world.options.ped_elements.value),
-                    self.has(TMCItem.PROGRESSIVE_SWORD, self.world.options.ped_swords.value),
-                    self.has_from_list([
-                        TMCEvent.CLEAR_DWS,
-                        TMCEvent.CLEAR_COF,
-                        TMCEvent.CLEAR_FOW,
-                        TMCEvent.CLEAR_TOD,
-                        TMCEvent.CLEAR_RC,
-                        TMCEvent.CLEAR_POW,
-                    ], self.world.options.ped_dungeons.value),
-                    self.has_all([TMCItem.GUST_JAR, TMCItem.CANE_OF_PACCI]),
-                    self.dark_room(),  # Don't make people do the final boss in the dark
-                    self.has_bow(),
-                    self.split_rule(4),
-                ]),
+            (TMCRegion.SANCTUARY, TMCRegion.VAATI_FIGHT):
+                self.logic_option(self.world.options.dhc_access.value == DHCAccess.option_closed,
+                    self.logic_and([
+                        self.has_group("Elements", self.world.options.ped_elements.value),
+                        self.has(TMCItem.PROGRESSIVE_SWORD, self.world.options.ped_swords.value),
+                        self.has_from_list([
+                            TMCEvent.CLEAR_DWS,
+                            TMCEvent.CLEAR_COF,
+                            TMCEvent.CLEAR_FOW,
+                            TMCEvent.CLEAR_TOD,
+                            TMCEvent.CLEAR_RC,
+                            TMCEvent.CLEAR_POW,
+                        ], self.world.options.ped_dungeons.value),
+                        self.has_all([TMCItem.GUST_JAR, TMCItem.CANE_OF_PACCI]),
+                        self.dark_room(),  # Don't make people do the final boss in the dark
+                        self.has_bow(),
+                        self.split_rule(4),
+                    ]),
+                    self.no_access()),
 
-            (TMCRegion.SANCTUARY, TMCRegion.DUNGEON_DHC if not self.world.options.skip_dhc.value else None):
-                self.logic_and([
-                    self.has_group("Elements", self.world.options.ped_elements.value),
-                    self.has(TMCItem.PROGRESSIVE_SWORD, self.world.options.ped_swords.value),
-                    self.has_from_list([
-                        TMCEvent.CLEAR_DWS,
-                        TMCEvent.CLEAR_COF,
-                        TMCEvent.CLEAR_FOW,
-                        TMCEvent.CLEAR_TOD,
-                        TMCEvent.CLEAR_RC,
-                        TMCEvent.CLEAR_POW,
-                    ], self.world.options.ped_dungeons.value)
-                ]),
+            (TMCRegion.SANCTUARY, TMCRegion.DUNGEON_DHC):
+                self.logic_option(self.world.options.dhc_access.value == DHCAccess.option_pedestal,
+                    self.logic_and([
+                        self.has_group("Elements", self.world.options.ped_elements.value),
+                        self.has(TMCItem.PROGRESSIVE_SWORD, self.world.options.ped_swords.value),
+                        self.has_from_list([
+                            TMCEvent.CLEAR_DWS,
+                            TMCEvent.CLEAR_COF,
+                            TMCEvent.CLEAR_FOW,
+                            TMCEvent.CLEAR_TOD,
+                            TMCEvent.CLEAR_RC,
+                            TMCEvent.CLEAR_POW,
+                        ], self.world.options.ped_dungeons.value)
+                    ]),
+                    self.no_access()),
 
             (TMCRegion.DUNGEON_DHC, TMCRegion.VAATI_FIGHT):
                 self.logic_and([
@@ -1412,6 +1420,9 @@ class MinishCapRules:
 
     def can_reach(self, locations: list[str]) -> CollectionRule:
         return lambda state: all(state.can_reach(loc, "Location", self.player) for loc in locations)
+
+    def no_access(self) -> CollectionRule:
+        return lambda state: False
 
     def set_rules(self, disabled_locations: set[str], location_name_to_id: dict[str, int]) -> None:
         multiworld = self.world.multiworld
