@@ -475,7 +475,7 @@ all_locations: list[LocationData] = [
     ),
     LocationData(
         6029113, TMCLocation.HILLS_FUSION_CHEST, TMCRegion.EASTERN_HILLS,
-        TMCItem.BOTTLE, (0x0FE05E, None), (0x2CD2, 0x04), 0x0403
+        TMCItem.EMPTY_BOTTLE, (0x0FE05E, None), (0x2CD2, 0x04), 0x0403
     ),
     LocationData(
         6029114, TMCLocation.HILLS_BEANSTALK_FUSION_LEFT_CHEST, TMCRegion.EASTERN_HILLS,
@@ -541,7 +541,7 @@ all_locations: list[LocationData] = [
     ),
     LocationData(
         6029129, TMCLocation.LON_LON_GORON_CAVE_FUSION_BIG_CHEST, TMCRegion.LONLON,
-        TMCItem.BOTTLE, (0x0D830A, None), (0x2D2A, 0x40), 0x012F
+        TMCItem.EMPTY_BOTTLE, (0x0D830A, None), (0x2D2A, 0x40), 0x012F
     ),
     # endregion
     # region Lower Falls
@@ -585,7 +585,7 @@ all_locations: list[LocationData] = [
     ),
     LocationData(
         6029139, TMCLocation.HYLIA_DOG_NPC, TMCRegion.LAKE_HYLIA_NORTH,
-        TMCItem.BOTTLE, (0x094908, 0x09490A), (0x2B3F, 0x20), 0x1422
+        TMCItem.EMPTY_BOTTLE, (0x094908, 0x09490A), (0x2B3F, 0x20), 0x1422
     ),
     LocationData(
         6029140, TMCLocation.HYLIA_SMALL_ISLAND_HP, TMCRegion.LAKE_HYLIA_NORTH,
@@ -680,7 +680,7 @@ all_locations: list[LocationData] = [
     ),
     LocationData(
         6029163, TMCLocation.MINISH_WOODS_WITCH_HUT_ITEM, TMCRegion.MINISH_WOODS,
-        TMCItem.WAKEUP_MUSHROOM, (0x0F94D7, None), (0x2EA4, 0x04), 0x0024, scoutable=True, pools={POOL_SHOP}
+        TMCItem.WAKEUP_MUSHROOM, (0x0F94D7, None), (0x2EA4, 0x04), 0x0024, pools={POOL_SHOP}
     ),
     LocationData(
         6029164, TMCLocation.WITCH_DIGGING_CAVE_CHEST, TMCRegion.MINISH_WOODS,
@@ -787,7 +787,7 @@ all_locations: list[LocationData] = [
     ),
     LocationData(
         6029190, TMCLocation.TRILBY_SCRUB_NPC, TMCRegion.TRILBY_HIGHLANDS,
-        TMCItem.BOTTLE, (0xFF000C, None), (0x2CA7, 0x04), 0x1432, pools={POOL_SCRUB}
+        TMCItem.EMPTY_BOTTLE, (0xFF000C, None), (0x2CA7, 0x04), 0x1432, pools={POOL_SCRUB}
     ),
     LocationData(
         6029191, TMCLocation.TRILBY_BOMB_CAVE_CHEST, TMCRegion.WESTERN_WOODS,
@@ -1315,7 +1315,7 @@ all_locations: list[LocationData] = [
     ),
     LocationData(
         6029321, TMCLocation.VALLEY_GRAVEYARD_LEFT_GRAVE_HP, TMCRegion.GRAVEYARD,
-        TMCItem.HEART_PIECE, (0x0D8AE7, None), (0x2D27, 0x20), 0x0034, scoutable=True, pools={POOL_HP}
+        TMCItem.HEART_PIECE, (0x0D8AE7, None), (0x2D27, 0x20), 0x0034, pools={POOL_HP}
     ),
     LocationData(
         6029322, TMCLocation.VALLEY_GRAVEYARD_RIGHT_FUSION_CHEST, TMCRegion.GRAVEYARD,
@@ -1330,11 +1330,11 @@ all_locations: list[LocationData] = [
     # region Dungeon RC
     LocationData(
         6029325, TMCLocation.CRYPT_GIBDO_LEFT_ITEM, TMCRegion.DUNGEON_RC,
-        TMCItem.BOMB_REFILL_5, (0x0E688B, None), (0x2D14, 0x10), 0x0868, scoutable=True
+        TMCItem.BOMB_REFILL_5, (0x0E688B, None), (0x2D14, 0x10), 0x0868
     ),
     LocationData(
         6029326, TMCLocation.CRYPT_GIBDO_RIGHT_ITEM, TMCRegion.DUNGEON_RC,
-        TMCItem.SMALL_KEY_RC, (0x0E68AB, None), (0x2D14, 0x20), 0x0868, scoutable=True
+        TMCItem.SMALL_KEY_RC, (0x0E68AB, None), (0x2D14, 0x20), 0x0868
     ),
     LocationData(
         6029327, TMCLocation.CRYPT_LEFT_ITEM, TMCRegion.DUNGEON_RC,
@@ -1345,7 +1345,7 @@ all_locations: list[LocationData] = [
         TMCItem.SMALL_KEY_RC, (0x0E63A7, None), (0x2D12, 0x80), 0x0468
     ),
     LocationData(
-        6029329, TMCLocation.CRYPT_PRIZE, TMCRegion.DUNGEON_RC,
+        6029329, TMCLocation.CRYPT_PRIZE, TMCRegion.DUNGEON_RC_CLEAR,
         TMCItem.KINSTONE_GOLD_FALLS, (0x00DA5A, None), (0x2D02, 0x04), 0x0068
     ),
     # endregion
@@ -1634,11 +1634,11 @@ all_locations: list[LocationData] = [
         TMCItem.BIG_KEY_DWS, (0x0DEB9A, None), (0x2D43, 0x80), 0x1148
     ),
     LocationData(
-        6029400, TMCLocation.DEEPWOOD_BOSS_ITEM, TMCRegion.DUNGEON_DWS,
+        6029400, TMCLocation.DEEPWOOD_BOSS_ITEM, TMCRegion.DUNGEON_DWS_CLEAR,
         TMCItem.HEART_CONTAINER, (0x0DF07B, None), (0x2D44, 0x80), 0x0049, pools={POOL_HP}
     ),
     LocationData(
-        6029401, TMCLocation.DEEPWOOD_PRIZE, TMCRegion.DUNGEON_DWS,
+        6029401, TMCLocation.DEEPWOOD_PRIZE, TMCRegion.DUNGEON_DWS_CLEAR,
         TMCItem.EARTH_ELEMENT, (0x0DF03B, None), (0x2C9C, 0x04), 0x0049, pools={POOL_ELEMENT}
     ),
     # endregion
@@ -1689,7 +1689,7 @@ all_locations: list[LocationData] = [
     ),
     LocationData(
         6029413, TMCLocation.COF_B1_HP, TMCRegion.DUNGEON_COF,
-        TMCItem.HEART_PIECE, (0x0DFC9F, None), (0x2D5B, 0x10), 0x0650, scoutable=True, pools={POOL_HP}
+        TMCItem.HEART_PIECE, (0x0DFC9F, None), (0x2D5B, 0x10), 0x0650, pools={POOL_HP}
     ),
     LocationData(
         6029414, TMCLocation.COF_B1_SPIKEY_CHUS_BIG_CHEST, TMCRegion.DUNGEON_COF,
@@ -1720,15 +1720,15 @@ all_locations: list[LocationData] = [
         TMCItem.BIG_KEY_COF, (0x0E0CCA, None), (0x2D5B, 0x02), 0x1750
     ),
     LocationData(
-        6029421, TMCLocation.COF_BOSS_ITEM, TMCRegion.DUNGEON_COF,
+        6029421, TMCLocation.COF_BOSS_ITEM, TMCRegion.DUNGEON_COF_CLEAR,
         TMCItem.HEART_CONTAINER, (0x0E0F43, None), (0x2D5B, 0x04), 0x0051, pools={POOL_HP}
     ),
     LocationData(
-        6029422, TMCLocation.COF_PRIZE, TMCRegion.DUNGEON_COF,
+        6029422, TMCLocation.COF_PRIZE, TMCRegion.DUNGEON_COF_CLEAR,
         TMCItem.FIRE_ELEMENT, (0x0E0F03, None), (0x2C9C, 0x08), 0x0051, pools={POOL_ELEMENT}
     ),
     LocationData(
-        6029423, TMCLocation.CRENEL_MELARI_NPC, TMCRegion.DUNGEON_COF,
+        6029423, TMCLocation.CRENEL_MELARI_NPC, TMCRegion.DUNGEON_COF_CLEAR,
         TMCItem.PROGRESSIVE_SWORD, (0x00D26E, None), (0x2EA4, 0x80), 0x0010
     ),  # Only attainable after COF cleared
     # endregion
@@ -1850,11 +1850,11 @@ all_locations: list[LocationData] = [
         TMCItem.BIG_KEY_FOW, (0x0E28A2, None), (0x2D73, 0x04), 0x1B58
     ),
     LocationData(
-        6029473, TMCLocation.FORTRESS_BOSS_ITEM, TMCRegion.DUNGEON_FOW,
+        6029473, TMCLocation.FORTRESS_BOSS_ITEM, TMCRegion.DUNGEON_FOW_CLEAR,
         TMCItem.HEART_CONTAINER, (0x0E22E7, None), (0x2D72, 0x04), 0x1658, pools={POOL_HP}
     ),
     LocationData(
-        6029474, TMCLocation.FORTRESS_PRIZE, TMCRegion.DUNGEON_FOW,
+        6029474, TMCLocation.FORTRESS_PRIZE, TMCRegion.DUNGEON_FOW_CLEAR,
         TMCItem.OCARINA, (0x09C9E6, 0x09C9E8), (0x2D74, 0x20), 0x0059, pools={POOL_ELEMENT}
     ),
     # endregion
@@ -2001,30 +2001,30 @@ all_locations: list[LocationData] = [
     ),
     LocationData(
         6029510, TMCLocation.DROPLETS_RIGHT_PATH_B2_UNDERPASS_ITEM1, TMCRegion.DUNGEON_TOD_MAIN,
-        TMCItem.RUPEES_1, (0x0E483F, None), (0x2D95, 0x10), 0x2560, pools={POOL_RUPEE}
+        TMCItem.RUPEES_1, (0x0E483F, None), (0x2D95, 0x04), 0x2560, pools={POOL_RUPEE}
     ),
     LocationData(
         6029511, TMCLocation.DROPLETS_RIGHT_PATH_B2_UNDERPASS_ITEM2, TMCRegion.DUNGEON_TOD_MAIN,
-        TMCItem.RUPEES_1, (0x0E484F, None), (0x2D95, 0x20), 0x2560, pools={POOL_RUPEE}
+        TMCItem.RUPEES_1, (0x0E484F, None), (0x2D95, 0x08), 0x2560, pools={POOL_RUPEE}
     ),
     LocationData(
         6029512, TMCLocation.DROPLETS_RIGHT_PATH_B2_UNDERPASS_ITEM3, TMCRegion.DUNGEON_TOD_MAIN,
-        TMCItem.RUPEES_1, (0x0E485F, None), (0x2D95, 0x40), 0x2560, pools={POOL_RUPEE}
+        TMCItem.RUPEES_1, (0x0E485F, None), (0x2D95, 0x10), 0x2560, pools={POOL_RUPEE}
     ),
     LocationData(
         6029513, TMCLocation.DROPLETS_RIGHT_PATH_B2_UNDERPASS_ITEM4, TMCRegion.DUNGEON_TOD_MAIN,
-        TMCItem.RUPEES_1, (0x0E486F, None), (0x2D95, 0x04), 0x2560, pools={POOL_RUPEE}
+        TMCItem.RUPEES_1, (0x0E486F, None), (0x2D95, 0x20), 0x2560, pools={POOL_RUPEE}
     ),
     LocationData(
         6029514, TMCLocation.DROPLETS_RIGHT_PATH_B2_UNDERPASS_ITEM5, TMCRegion.DUNGEON_TOD_MAIN,
-        TMCItem.RUPEES_1, (0x0E487F, None), (0x2D95, 0x08), 0x2560, pools={POOL_RUPEE}
+        TMCItem.RUPEES_1, (0x0E487F, None), (0x2D95, 0x40), 0x2560, pools={POOL_RUPEE}
     ),
     LocationData(
-        6029515, TMCLocation.DROPLETS_BOSS_ITEM, TMCRegion.DUNGEON_TOD_MAIN,
+        6029515, TMCLocation.DROPLETS_BOSS_ITEM, TMCRegion.DUNGEON_TOD_CLEAR,
         TMCItem.HEART_CONTAINER, (0x0E4103, None), (0x2D8C, 0x01), 0x0E60, pools={POOL_HP}
     ),
     LocationData(
-        6029516, TMCLocation.DROPLETS_PRIZE, TMCRegion.DUNGEON_TOD_MAIN,
+        6029516, TMCLocation.DROPLETS_PRIZE, TMCRegion.DUNGEON_TOD_CLEAR,
         TMCItem.WATER_ELEMENT, (0x0E40C3, None), (0x2C9C, 0x20), 0x0E60, pools={POOL_ELEMENT}
     ),
     # endregion
@@ -2118,11 +2118,11 @@ all_locations: list[LocationData] = [
         TMCItem.KINSTONE, (0x0E6D8A, None), (0x2DA2, 0x80), 0x0470
     ),
     LocationData(
-        6029539, TMCLocation.PALACE_BOSS_ITEM, TMCRegion.DUNGEON_POW,
+        6029539, TMCLocation.PALACE_BOSS_ITEM, TMCRegion.DUNGEON_POW_CLEAR,
         TMCItem.HEART_CONTAINER, (0x0E6A23, None), (0x2DAB, 0x20), 0x0070, pools={POOL_HP}
     ),
     LocationData(
-        6029540, TMCLocation.PALACE_PRIZE, TMCRegion.DUNGEON_POW,
+        6029540, TMCLocation.PALACE_PRIZE, TMCRegion.DUNGEON_POW_CLEAR,
         TMCItem.WIND_ELEMENT, (0x0E69E3, None), (0x2C9C, 0x40), 0x0070, pools={POOL_ELEMENT}
     ),
     # endregion
