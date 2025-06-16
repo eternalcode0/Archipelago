@@ -78,12 +78,6 @@ class MinishCapWorld(World):
     disabled_dungeons: set[str]
 
     def generate_early(self) -> None:
-        tmc_logger.warning(
-            "INCOMPLETE WORLD! Slot '%s' is using an unfinished alpha world that doesn't have all logic yet!",
-            self.player_name)
-        tmc_logger.warning("INCOMPLETE WORLD! Slot '%s' will require send_location/send_item for completion!",
-                           self.player_name)
-
         enabled_pools = set(DEFAULT_SET)
         if self.options.rupeesanity.value:
             enabled_pools.add(POOL_RUPEE)
@@ -122,16 +116,23 @@ class MinishCapWorld(World):
                                      "dungeon_maps",
                                      casing="snake")
         data |= get_option_data(self.options)
-        # If Element location should be known, add locations to slot data for tracker
+
+        # Setup prize location data for tracker to show element hints
+        prizes = {TMCLocation.COF_PRIZE: "prize_cof", TMCLocation.CRYPT_PRIZE: "prize_rc",
+                    TMCLocation.PALACE_PRIZE: "prize_pow", TMCLocation.DEEPWOOD_PRIZE: "prize_dws",
+                    TMCLocation.DROPLETS_PRIZE: "prize_tod", TMCLocation.FORTRESS_PRIZE: "prize_fow"}
         if self.options.shuffle_elements.value in {ShuffleElements.option_dungeon_prize,
                                                    ShuffleElements.option_vanilla}:
-            prizes = {TMCLocation.COF_PRIZE: "prize_cof", TMCLocation.CRYPT_PRIZE: "prize_rc",
-                      TMCLocation.PALACE_PRIZE: "prize_pow", TMCLocation.DEEPWOOD_PRIZE: "prize_dws",
-                      TMCLocation.DROPLETS_PRIZE: "prize_tod", TMCLocation.FORTRESS_PRIZE: "prize_fow"}
             for loc_name, data_name in prizes.items():
                 placed_item = self.get_location(loc_name).item.name
                 if placed_item in self.item_name_groups["Elements"]:
                     data[data_name] = item_table[placed_item].byte_ids[0]
+                else:
+                    data[data_name] = 0
+        else:
+            for slot_key in prizes.values():
+                data[slot_key] = 0
+
         return data
 
     def create_regions(self) -> None:

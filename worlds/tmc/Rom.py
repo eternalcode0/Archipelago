@@ -34,12 +34,29 @@ def write_tokens(world: "MinishCapWorld", patch: MinishCapProcedurePatch) -> Non
     # Bake seed name into ROM
     patch.write_token(APTokenTypes.WRITE, 0x000620, world.multiworld.seed_name.encode("UTF-8"))
 
+    # Sanctuary fix
+    if world.options.goal_vaati.value:
+        # Skip stained glass scene
+        patch.write_token(APTokenTypes.WRITE, 0x0532F6, bytes([0x23, 0x10]))
+    else:
+        # Jump to credits on the stained glass scene
+        func = [0x00, 0x22, 0x05, 0x48, 0x04, 0x23, 0x03, 0x70, 0x42, 0x70, 0x82, 0x70, 0x01, 0x23, 0x8B, 0x71, 0x00,
+                0x24, 0x78, 0x20, 0x01, 0x4B, 0x00, 0x00, 0x02, 0x10, 0x00, 0x03, 0xFF, 0x32, 0x05, 0x08]
+        patch.write_token(APTokenTypes.WRITE, 0x0532F4, bytes(func))
+
+    # Goal Settings
+    if world.options.goal_vaati.value:
+        patch.write_token(APTokenTypes.WRITE, 0xFE0000, bytes([1]))
+
+    # Pedestal Settings
     if 0 <= world.options.ped_elements.value <= 4:
         patch.write_token(APTokenTypes.WRITE, 0xFE0001, bytes([world.options.ped_elements.value]))
     if 0 <= world.options.ped_swords.value <= 5:
         patch.write_token(APTokenTypes.WRITE, 0xFE0002, bytes([world.options.ped_swords.value]))
     if 0 <= world.options.ped_dungeons.value <= 6:
         patch.write_token(APTokenTypes.WRITE, 0xFE0003, bytes([world.options.ped_dungeons.value]))
+    # if 0 <= world.options.ped_figurines.value <= 136:
+    #     patch.write_token(APTokenTypes.WRITE, 0xFE0004, bytes([world.options.ped_figurines.value]))
 
     # Patch Items into Locations
     for location_name, loc in location_table_by_name.items():
