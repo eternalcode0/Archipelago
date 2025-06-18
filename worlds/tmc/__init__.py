@@ -12,7 +12,7 @@ from BaseClasses import Item, ItemClassification, Tutorial
 from worlds.AutoWorld import WebWorld, World
 from Options import OptionError
 from .Client import MinishCapClient
-from .constants import MinishCapItem, MinishCapLocation, TMCEvent, TMCItem, TMCLocation
+from .constants import MinishCapItem, MinishCapLocation, TMCEvent, TMCItem, TMCLocation, TMCRegion
 from .dungeons import fill_dungeons
 from .Items import get_filler_item_selection, get_item_pool, get_pre_fill_pool, item_frequencies, item_groups, item_table, ItemData
 from .Locations import (all_locations, DEFAULT_SET, GOAL_PED, GOAL_VAATI, location_groups, OBSCURE_SET, POOL_RUPEE,
@@ -98,6 +98,9 @@ class MinishCapWorld(World):
             self.options.start_hints.value.add(TMCItem.WIND_ELEMENT)
 
         self.disabled_locations = set(loc.name for loc in all_locations if not loc.pools.issubset(enabled_pools))
+
+        if not self.options.goal_vaati.value:
+            self.disabled_locations.update(loc.name for loc in all_locations if loc.region == TMCRegion.DUNGEON_DHC)
 
         # Check if the settings require more dungeons than are included
         self.disabled_dungeons = set(dungeon for dungeon in ["DWS", "CoF", "FoW", "ToD", "RC", "PoW"]
