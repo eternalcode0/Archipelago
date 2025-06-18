@@ -1,3 +1,4 @@
+import struct
 from typing import TYPE_CHECKING
 
 from BaseClasses import Item, ItemClassification
@@ -63,21 +64,25 @@ def write_tokens(world: "MinishCapWorld", patch: MinishCapProcedurePatch) -> Non
 
     # Element map update
     if world.options.shuffle_elements.value == ShuffleElements.option_dungeon_prize:
-        prize_locs = {TMCLocation.DEEPWOOD_PRIZE: [0xB2, 0x7A, 0x6C, 0x0D, 0xC0, 0x0A],
-                      TMCLocation.COF_PRIZE: [0x3B, 0x1B, 0xE8, 0x01, 0x78, 0x01],
-                      TMCLocation.FORTRESS_PRIZE: [0x4B, 0x77, 0x78, 0x03, 0x78, 0x0A],
-                      TMCLocation.DROPLETS_PRIZE: [0xB5, 0x4B, 0xB8, 0x0D, 0x38, 0x06],
-                      TMCLocation.CRYPT_PRIZE: [0x5A, 0x15, 0xDC, 0x04, 0x48, 0x01],
-                      TMCLocation.PALACE_PRIZE: [0xB5, 0x1B, 0x88, 0x0D, 0xE8, 0x00]}
+        # Pack 1 = world map x pos: u8, world map y pos: u8,
+        # Skip 1 byte in between (the ui element icon)
+        # Pack 2 = region map x pos: u16, region map y pos: u16
+        prize_locs = {TMCLocation.DEEPWOOD_PRIZE: [[0xB2, 0x7A], [0x0D6C, 0x0AC0]],
+                      TMCLocation.COF_PRIZE: [[0x3B, 0x1B], [0x01E8, 0x0178]],
+                      TMCLocation.FORTRESS_PRIZE: [[0x4B, 0x77], [0x0378, 0x0A78]],
+                      TMCLocation.DROPLETS_PRIZE: [[0xB5, 0x4B], [0x0DB8, 0x0638]],
+                      TMCLocation.CRYPT_PRIZE: [[0x5A, 0x15], [0x04DC, 0x0148]],
+                      TMCLocation.PALACE_PRIZE: [[0xB5, 0x1B], [0x0D88, 0x00E8]]}
         element_address = {TMCItem.EARTH_ELEMENT: 0x128699,
                            TMCItem.FIRE_ELEMENT: 0x1286A1,
-                           TMCItem.WATER_ELEMENT: 0x1286B1,
-                           TMCItem.WIND_ELEMENT: 0x1286A9}
+                           TMCItem.WIND_ELEMENT: 0x1286A9,
+                           TMCItem.WATER_ELEMENT: 0x1286B1}
         for loc, data in prize_locs.items():
             placed_item = world.get_location(loc).item.name
             if element_address.get(placed_item, 0) == 0:
                 continue
-            patch.write_token(APTokenTypes.WRITE, element_address[placed_item], bytes(data))
+            patch.write_token(APTokenTypes.WRITE, element_address[placed_item], struct.pack("<BB", *data[0]))
+            patch.write_token(APTokenTypes.WRITE, element_address[placed_item]+3, struct.pack("<HH", *data[1]))
     elif world.options.shuffle_elements.value != ShuffleElements.option_vanilla:
         patch.write_token(APTokenTypes.WRITE, 0x128673, bytes([0x0, 0xF, 0x0, 0xF, 0x0, 0xF, 0x0]))
 
