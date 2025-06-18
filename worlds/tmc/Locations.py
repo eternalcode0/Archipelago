@@ -1941,7 +1941,7 @@ all_locations: list[LocationData] = [
     ),
     LocationData(
         6029495, TMCLocation.DROPLETS_LEFT_PATH_B2_UNDERWATER_POT, TMCRegion.DUNGEON_TOD_MAIN,
-        TMCItem.SMALL_KEY_TOD, (0x0E5BC7, None), (0x2D93, 0x04), 0x3460, pools={POOL_WATER}
+        TMCItem.SMALL_KEY_TOD, (0x0E5BC7, None), (0x2D93, 0x04), 0x3460, pools={POOL_POT}
     ),
     LocationData(
         6029496, TMCLocation.DROPLETS_LEFT_PATH_B2_ICE_MADDERPILLAR_BIG_CHEST, TMCRegion.DUNGEON_TOD_MAIN,
@@ -2220,4 +2220,7 @@ location_groups: dict[str, set[str]] = {
     "Obscure": set(loc.name for loc in all_locations if loc.pools.issubset(OBSCURE_SET) and len(loc.pools)),
     "Shop": set(loc.name for loc in all_locations if loc.pools.issubset(SHOP_SET) and len(loc.pools)),
     "Rupees": set(loc.name for loc in all_locations if loc.pools.issubset({POOL_RUPEE}) and len(loc.pools)),
+    "Pots": set(loc.name for loc in all_locations if loc.pools.issubset({POOL_POT}) and len(loc.pools)),
+    "Digging": set(loc.name for loc in all_locations if loc.pools.issubset({POOL_DIG}) and len(loc.pools)),
+    "Underwater": set(loc.name for loc in all_locations if loc.pools.issubset({POOL_WATER}) and len(loc.pools)),
 }

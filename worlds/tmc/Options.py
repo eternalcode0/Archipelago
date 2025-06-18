@@ -26,8 +26,29 @@ class DungeonItem(Choice):
 
 
 class Rupeesanity(Toggle):
-    """Add all rupees locations to the pool to be randomized."""
+    """
+    Add all rupees locations to the pool to be randomized. This setting will not shuffle Rupees that also belong to
+    another pool, i.e. An underwater rupee will instead be randomized by shuffle_underwater
+    """
     display_name = "Rupee-sanity"
+
+
+class ShufflePots(Toggle):
+    """
+    Add all special pots that drop a unique item to the pool.
+    Includes the LonLon Ranch Pot and the ToD underwater pot.
+    """
+    display_name = "Shuffle Pots"
+
+
+class ShuffleDigging(Toggle):
+    """Add all dig spots that drop a unique item to the pool."""
+    display_name = "Shuffle Digging"
+
+
+class ShuffleUnderwater(Toggle):
+    """Add all underwater items to the pool."""
+    display_name = "Shuffle Underwater"
 
 
 class ObscureSpots(Toggle):
@@ -118,6 +139,7 @@ class Traps(Toggle):
     enemies, setting you on fire, freezing you, etc.
     """
     display_name = "Traps Enabled"
+
 
 class GoalVaati(DefaultOnToggle):
     """
@@ -321,7 +343,9 @@ class MinishCapOptions(PerGameCommonOptions):
     dungeon_compasses: DungeonCompasses
     shuffle_elements: ShuffleElements
     rupeesanity: Rupeesanity
-    obscure_spots: ObscureSpots
+    shuffle_pots: ShufflePots
+    shuffle_digging: ShuffleDigging
+    shuffle_underwater: ShuffleUnderwater
     traps_enabled: Traps
     random_bottle_contents: RandomBottleContents
     # Weapon Settings
@@ -355,9 +379,6 @@ def get_option_data(options: MinishCapOptions):
         "goron_jp_prices": 0,  # 0 = EU prices, 1 = JP/US prices
         "shuffle_heart_pieces": 1,
         "shuffle_rupees": options.rupeesanity.value,
-        "shuffle_pots": options.obscure_spots.value,
-        "shuffle_digging": options.obscure_spots.value,
-        "shuffle_underwater": options.obscure_spots.value,
         "shuffle_gold_enemies": 0,
         "shuffle_pedestal": 0,
         "shuffle_biggoron": 0,  # 0 = Disabled, 1 = Requires Shield, 2 = Requires Mirror Shield

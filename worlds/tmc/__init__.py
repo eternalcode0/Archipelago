@@ -15,7 +15,8 @@ from .Client import MinishCapClient
 from .constants import MinishCapItem, MinishCapLocation, TMCEvent, TMCItem, TMCLocation
 from .dungeons import fill_dungeons
 from .Items import get_filler_item_selection, get_item_pool, get_pre_fill_pool, item_frequencies, item_groups, item_table, ItemData
-from .Locations import all_locations, DEFAULT_SET, GOAL_PED, GOAL_VAATI, location_groups, OBSCURE_SET, POOL_RUPEE
+from .Locations import (all_locations, DEFAULT_SET, GOAL_PED, GOAL_VAATI, location_groups, OBSCURE_SET, POOL_RUPEE,
+                        POOL_POT, POOL_DIG, POOL_WATER)
 from .Options import DungeonItem, get_option_data, MinishCapOptions, ShuffleElements
 from .Regions import create_regions
 from .Rom import MinishCapProcedurePatch, write_tokens
@@ -81,8 +82,12 @@ class MinishCapWorld(World):
         enabled_pools = set(DEFAULT_SET)
         if self.options.rupeesanity.value:
             enabled_pools.add(POOL_RUPEE)
-        if self.options.obscure_spots.value:
-            enabled_pools |= OBSCURE_SET
+        if self.options.shuffle_pots.value:
+            enabled_pools.add(POOL_POT)
+        if self.options.shuffle_digging.value:
+            enabled_pools.add(POOL_DIG)
+        if self.options.shuffle_underwater.value:
+            enabled_pools.add(POOL_WATER)
 
         self.filler_items = get_filler_item_selection(self)
 
@@ -107,13 +112,13 @@ class MinishCapWorld(World):
 
     def fill_slot_data(self) -> dict[str, any]:
         data = {"DeathLink": self.options.death_link.value, "DeathLinkGameover": self.options.death_link_gameover.value,
-                "RupeeSpot": self.options.rupeesanity.value, "ObscureSpot": self.options.obscure_spots.value,
+                "RupeeSpot": self.options.rupeesanity.value,
                 "GoalVaati": self.options.goal_vaati.value}
-        data |= self.options.as_dict("death_link", "death_link_gameover", "rupeesanity", "obscure_spots",
+        data |= self.options.as_dict("death_link", "death_link_gameover", "rupeesanity",
                                      "goal_vaati", "random_bottle_contents", "weapon_bomb", "weapon_bow",
                                      "weapon_gust", "weapon_lantern",
                                      "tricks", "dungeon_small_keys", "dungeon_big_keys", "dungeon_compasses",
-                                     "dungeon_maps",
+                                     "dungeon_maps", "shuffle_pots", "shuffle_digging", "shuffle_underwater",
                                      casing="snake")
         data |= get_option_data(self.options)
 
