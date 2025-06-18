@@ -23,6 +23,8 @@ def _cmd_deathlink(self: "BizHawkClientCommandProcessor"):
     client = self.ctx.client_handler
     assert isinstance(client, MinishCapClient)
     client.death_link_mode = 1 if client.death_link_mode != 1 else 0
+    if client.death_link_mode:
+        client.previous_death_link = self.ctx.last_death_link
     async_start(self.ctx.update_death_link(client.death_link_mode != 0), name="Update Deathlink")
     logger.info("Deathlink Mode: %s", get_deathlink_mode_name(client.death_link_mode))
 
@@ -36,6 +38,8 @@ def _cmd_deathlink_gameover(self: "BizHawkClientCommandProcessor"):
     client = self.ctx.client_handler
     assert isinstance(client, MinishCapClient)
     client.death_link_mode = 2 if client.death_link_mode != 2 else 0
+    if client.death_link_mode:
+        client.previous_death_link = self.ctx.last_death_link
     async_start(self.ctx.update_death_link(client.death_link_mode != 0), name="Update Deathlink")
     logger.info("Deathlink Mode: %s", get_deathlink_mode_name(client.death_link_mode))
 
