@@ -9,7 +9,7 @@ from worlds._bizhawk.client import BizHawkClient
 from .Locations import all_locations, events, LocationData
 
 if TYPE_CHECKING:
-    from worlds._bizhawk.context import BizHawkClientContext
+    from worlds._bizhawk.context import BizHawkClientContext, BizHawkClientCommandProcessor
 
 logger = logging.getLogger("Client")
 

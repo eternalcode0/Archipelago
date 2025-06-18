@@ -37,7 +37,7 @@ def write_tokens(world: "MinishCapWorld", patch: MinishCapProcedurePatch) -> Non
     # Sanctuary fix
     if world.options.goal_vaati.value:
         # Skip stained glass scene
-        patch.write_token(APTokenTypes.WRITE, 0x0532F6, bytes([0x23, 0x10]))
+        patch.write_token(APTokenTypes.WRITE, 0x0532F6, bytes([0x10, 0x23]))
     else:
         # Jump to credits on the stained glass scene
         func = [0x00, 0x22, 0x05, 0x48, 0x04, 0x23, 0x03, 0x70, 0x42, 0x70, 0x82, 0x70, 0x01, 0x23, 0x8B, 0x71, 0x00,
@@ -46,6 +46,8 @@ def write_tokens(world: "MinishCapWorld", patch: MinishCapProcedurePatch) -> Non
 
     # Goal Settings
     if world.options.goal_vaati.value:
+        # 0b0000_0001 = Goal Vaati
+        # 0b0000_0010 = Open DHC
         patch.write_token(APTokenTypes.WRITE, 0xFE0000, bytes([1]))
 
     # Pedestal Settings
