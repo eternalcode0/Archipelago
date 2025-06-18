@@ -3,9 +3,10 @@ from typing import TYPE_CHECKING
 from BaseClasses import Item, ItemClassification
 from settings import get_settings
 from worlds.Files import APProcedurePatch, APTokenMixin, APTokenTypes
-from .constants import EXTERNAL_ITEM_MAP
+from .constants import EXTERNAL_ITEM_MAP, TMCLocation, TMCItem
 from .Items import item_table
 from .Locations import location_table_by_name, LocationData
+from .Options import ShuffleElements
 
 if TYPE_CHECKING:
     from . import MinishCapWorld
@@ -59,6 +60,26 @@ def write_tokens(world: "MinishCapWorld", patch: MinishCapProcedurePatch) -> Non
         patch.write_token(APTokenTypes.WRITE, 0xFE0003, bytes([world.options.ped_dungeons.value]))
     # if 0 <= world.options.ped_figurines.value <= 136:
     #     patch.write_token(APTokenTypes.WRITE, 0xFE0004, bytes([world.options.ped_figurines.value]))
+
+    # Element map update
+    if world.options.shuffle_elements.value == ShuffleElements.option_dungeon_prize:
+        prize_locs = {TMCLocation.DEEPWOOD_PRIZE: [0xB2, 0x7A, 0x6C, 0x0D, 0xC0, 0x0A],
+                      TMCLocation.COF_PRIZE: [0x3B, 0x1B, 0xE8, 0x01, 0x78, 0x01],
+                      TMCLocation.FORTRESS_PRIZE: [0x4B, 0x77, 0x78, 0x03, 0x78, 0x0A],
+                      TMCLocation.DROPLETS_PRIZE: [0xB5, 0x4B, 0xB8, 0x0D, 0x38, 0x06],
+                      TMCLocation.CRYPT_PRIZE: [0x5A, 0x15, 0xDC, 0x04, 0x48, 0x01],
+                      TMCLocation.PALACE_PRIZE: [0xB5, 0x1B, 0x88, 0x0D, 0xE8, 0x00]}
+        element_address = {TMCItem.EARTH_ELEMENT: 0x128699,
+                           TMCItem.FIRE_ELEMENT: 0x1286A1,
+                           TMCItem.WATER_ELEMENT: 0x1286B1,
+                           TMCItem.WIND_ELEMENT: 0x1286A9}
+        for loc, data in prize_locs.items():
+            placed_item = world.get_location(loc).item.name
+            if element_address.get(placed_item, 0) == 0:
+                continue
+            patch.write_token(APTokenTypes.WRITE, element_address[placed_item], bytes(data))
+    elif world.options.shuffle_elements.value != ShuffleElements.option_vanilla:
+        patch.write_token(APTokenTypes.WRITE, 0x128673, bytes([0x0, 0xF, 0x0, 0xF, 0x0, 0xF, 0x0]))
 
     # Patch Items into Locations
     for location_name, loc in location_table_by_name.items():
