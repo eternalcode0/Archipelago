@@ -34,10 +34,7 @@ class Rupeesanity(Toggle):
 
 
 class ShufflePots(Toggle):
-    """
-    Add all special pots that drop a unique item to the pool.
-    Includes the LonLon Ranch Pot and the ToD underwater pot.
-    """
+    """Add all special pots that drop a unique item to the pool. Includes the LonLon Ranch Pot."""
     display_name = "Shuffle Pots"
 
 
@@ -47,7 +44,7 @@ class ShuffleDigging(Toggle):
 
 
 class ShuffleUnderwater(Toggle):
-    """Add all underwater items to the pool."""
+    """Add all underwater items to the pool. Includes the ToD underwater pot"""
     display_name = "Shuffle Underwater"
 
 

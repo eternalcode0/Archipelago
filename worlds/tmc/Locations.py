@@ -1941,7 +1941,7 @@ all_locations: list[LocationData] = [
     ),
     LocationData(
         6029495, TMCLocation.DROPLETS_LEFT_PATH_B2_UNDERWATER_POT, TMCRegion.DUNGEON_TOD_MAIN,
-        TMCItem.SMALL_KEY_TOD, (0x0E5BC7, None), (0x2D93, 0x04), 0x3460, pools={POOL_POT}
+        TMCItem.SMALL_KEY_TOD, (0x0E5BC7, None), (0x2D93, 0x04), 0x3460, pools={POOL_WATER}
     ),
     LocationData(
         6029496, TMCLocation.DROPLETS_LEFT_PATH_B2_ICE_MADDERPILLAR_BIG_CHEST, TMCRegion.DUNGEON_TOD_MAIN,
