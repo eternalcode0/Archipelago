@@ -12,10 +12,11 @@ from BaseClasses import Item, ItemClassification, Tutorial
 from worlds.AutoWorld import WebWorld, World
 from Options import OptionError
 from .Client import MinishCapClient
-from .constants import MinishCapItem, MinishCapLocation, TMCEvent, TMCItem, TMCLocation
+from .constants import MinishCapItem, MinishCapLocation, TMCEvent, TMCItem, TMCLocation, TMCRegion
 from .dungeons import fill_dungeons
 from .Items import get_filler_item_selection, get_item_pool, get_pre_fill_pool, item_frequencies, item_groups, item_table, ItemData
-from .Locations import all_locations, DEFAULT_SET, GOAL_PED, GOAL_VAATI, location_groups, OBSCURE_SET, POOL_RUPEE
+from .Locations import (all_locations, DEFAULT_SET, GOAL_PED, GOAL_VAATI, location_groups, OBSCURE_SET, POOL_RUPEE,
+                        POOL_POT, POOL_DIG, POOL_WATER)
 from .Options import DungeonItem, get_option_data, MinishCapOptions, ShuffleElements
 from .Regions import create_regions
 from .Rom import MinishCapProcedurePatch, write_tokens
@@ -78,17 +79,15 @@ class MinishCapWorld(World):
     disabled_dungeons: set[str]
 
     def generate_early(self) -> None:
-        tmc_logger.warning(
-            "INCOMPLETE WORLD! Slot '%s' is using an unfinished alpha world that doesn't have all logic yet!",
-            self.player_name)
-        tmc_logger.warning("INCOMPLETE WORLD! Slot '%s' will require send_location/send_item for completion!",
-                           self.player_name)
-
         enabled_pools = set(DEFAULT_SET)
         if self.options.rupeesanity.value:
             enabled_pools.add(POOL_RUPEE)
-        if self.options.obscure_spots.value:
-            enabled_pools |= OBSCURE_SET
+        if self.options.shuffle_pots.value:
+            enabled_pools.add(POOL_POT)
+        if self.options.shuffle_digging.value:
+            enabled_pools.add(POOL_DIG)
+        if self.options.shuffle_underwater.value:
+            enabled_pools.add(POOL_WATER)
 
         self.filler_items = get_filler_item_selection(self)
 
@@ -99,6 +98,9 @@ class MinishCapWorld(World):
             self.options.start_hints.value.add(TMCItem.WIND_ELEMENT)
 
         self.disabled_locations = set(loc.name for loc in all_locations if not loc.pools.issubset(enabled_pools))
+
+        if not self.options.goal_vaati.value:
+            self.disabled_locations.update(loc.name for loc in all_locations if loc.region == TMCRegion.DUNGEON_DHC)
 
         # Check if the settings require more dungeons than are included
         self.disabled_dungeons = set(dungeon for dungeon in ["DWS", "CoF", "FoW", "ToD", "RC", "PoW"]
@@ -113,25 +115,32 @@ class MinishCapWorld(World):
 
     def fill_slot_data(self) -> dict[str, any]:
         data = {"DeathLink": self.options.death_link.value, "DeathLinkGameover": self.options.death_link_gameover.value,
-                "RupeeSpot": self.options.rupeesanity.value, "ObscureSpot": self.options.obscure_spots.value,
+                "RupeeSpot": self.options.rupeesanity.value,
                 "GoalVaati": self.options.goal_vaati.value}
-        data |= self.options.as_dict("death_link", "death_link_gameover", "rupeesanity", "obscure_spots",
+        data |= self.options.as_dict("death_link", "death_link_gameover", "rupeesanity",
                                      "goal_vaati", "random_bottle_contents", "weapon_bomb", "weapon_bow",
                                      "weapon_gust", "weapon_lantern",
                                      "tricks", "dungeon_small_keys", "dungeon_big_keys", "dungeon_compasses",
-                                     "dungeon_maps",
+                                     "dungeon_maps", "shuffle_pots", "shuffle_digging", "shuffle_underwater",
                                      casing="snake")
         data |= get_option_data(self.options)
-        # If Element location should be known, add locations to slot data for tracker
+
+        # Setup prize location data for tracker to show element hints
+        prizes = {TMCLocation.COF_PRIZE: "prize_cof", TMCLocation.CRYPT_PRIZE: "prize_rc",
+                    TMCLocation.PALACE_PRIZE: "prize_pow", TMCLocation.DEEPWOOD_PRIZE: "prize_dws",
+                    TMCLocation.DROPLETS_PRIZE: "prize_tod", TMCLocation.FORTRESS_PRIZE: "prize_fow"}
         if self.options.shuffle_elements.value in {ShuffleElements.option_dungeon_prize,
                                                    ShuffleElements.option_vanilla}:
-            prizes = {TMCLocation.COF_PRIZE: "prize_cof", TMCLocation.CRYPT_PRIZE: "prize_rc",
-                      TMCLocation.PALACE_PRIZE: "prize_pow", TMCLocation.DEEPWOOD_PRIZE: "prize_dws",
-                      TMCLocation.DROPLETS_PRIZE: "prize_tod", TMCLocation.FORTRESS_PRIZE: "prize_fow"}
             for loc_name, data_name in prizes.items():
                 placed_item = self.get_location(loc_name).item.name
                 if placed_item in self.item_name_groups["Elements"]:
                     data[data_name] = item_table[placed_item].byte_ids[0]
+                else:
+                    data[data_name] = 0
+        else:
+            for slot_key in prizes.values():
+                data[slot_key] = 0
+
         return data
 
     def create_regions(self) -> None:

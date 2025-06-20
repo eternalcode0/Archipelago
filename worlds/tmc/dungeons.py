@@ -78,9 +78,11 @@ def fill_dungeons(world: "MinishCapWorld"):
 
     # Big Key, Small Key, Maps & Compass Fill
     for stage in [KEYS, MAPS_COMPASSES]:
-        # Randomized dungeon order (sets aren't ordered) but keep DHC last to ensure access conditions are met
-        dungeon_fill_order = list(DUNGEON_ABBR)
-        dungeon_fill_order.sort(key=lambda dungeon: 0 if dungeon != "DHC" else 1)
+        # Randomize dungeon order but keep DHC last to ensure access conditions are met
+        dungeon_fill_order = ["DWS", "CoF", "ToD", "FoW", "PoW", "RC"]
+        world.random.shuffle(dungeon_fill_order)
+        if world.options.goal_vaati.value:
+            dungeon_fill_order.append("DHC")
         for dungeon in dungeon_fill_order:
             fill_dungeon(world, dungeon, stage, base_state)
 

@@ -47,7 +47,7 @@ def pool_random_bottle_contents() -> list[str]:
 
 
 def pool_bottles() -> list[str]:
-    return *[TMCItem.EMPTY_BOTTLE] * 4,
+    return [TMCItem.EMPTY_BOTTLE] * 4
 
 
 def pool_baseitems() -> list[str]:
@@ -130,26 +130,36 @@ def pool_traps() -> [ItemData]:
             TMCItem.TRAP_STINK, TMCItem.TRAP_ROPE, TMCItem.TRAP_BAT, TMCItem.TRAP_LIKE, TMCItem.TRAP_CURSE]
 
 
-def pool_dungeonmaps() -> list[str]:
-    return [TMCItem.DUNGEON_MAP_DWS, TMCItem.DUNGEON_MAP_COF, TMCItem.DUNGEON_MAP_FOW, TMCItem.DUNGEON_MAP_TOD,
-            TMCItem.DUNGEON_MAP_POW, TMCItem.DUNGEON_MAP_DHC]
+def pool_dungeonmaps(world: "MinishCapWorld") -> list[str]:
+    items = [TMCItem.DUNGEON_MAP_DWS, TMCItem.DUNGEON_MAP_COF, TMCItem.DUNGEON_MAP_FOW, TMCItem.DUNGEON_MAP_TOD,
+            TMCItem.DUNGEON_MAP_POW]
+    if world.options.goal_vaati.value:
+        items.append(TMCItem.DUNGEON_MAP_DHC)
+    return items
 
 
-def pool_compass() -> list[str]:
-    return [TMCItem.DUNGEON_COMPASS_DWS, TMCItem.DUNGEON_COMPASS_COF, TMCItem.DUNGEON_COMPASS_FOW,
-            TMCItem.DUNGEON_COMPASS_TOD, TMCItem.DUNGEON_COMPASS_POW, TMCItem.DUNGEON_COMPASS_DHC]
+def pool_compass(world: "MinishCapWorld") -> list[str]:
+    items = [TMCItem.DUNGEON_COMPASS_DWS, TMCItem.DUNGEON_COMPASS_COF, TMCItem.DUNGEON_COMPASS_FOW,
+            TMCItem.DUNGEON_COMPASS_TOD, TMCItem.DUNGEON_COMPASS_POW]
+    if world.options.goal_vaati.value:
+        items.append(TMCItem.DUNGEON_COMPASS_DHC)
+    return items
 
 
-def pool_bigkeys() -> list[str]:
+def pool_bigkeys(world: "MinishCapWorld") -> list[str]:
     # ToD key is always placed manually
-    return [TMCItem.BIG_KEY_DWS, TMCItem.BIG_KEY_COF, TMCItem.BIG_KEY_FOW,
-    TMCItem.BIG_KEY_POW, TMCItem.BIG_KEY_DHC]
+    items = [TMCItem.BIG_KEY_DWS, TMCItem.BIG_KEY_COF, TMCItem.BIG_KEY_FOW, TMCItem.BIG_KEY_POW]
+    if world.options.goal_vaati.value:
+        items.append(TMCItem.BIG_KEY_DHC)
+    return items
 
 
-def pool_smallkeys() -> list[str]:
-    return [*[TMCItem.SMALL_KEY_DWS] * 4, *[TMCItem.SMALL_KEY_COF] * 2, *[TMCItem.SMALL_KEY_FOW] * 4,
-            *[TMCItem.SMALL_KEY_TOD] * 4, *[TMCItem.SMALL_KEY_POW] * 6, *[TMCItem.SMALL_KEY_DHC] * 5,
-            *[TMCItem.SMALL_KEY_RC] * 3]
+def pool_smallkeys(world: "MinishCapWorld") -> list[str]:
+    items = [*[TMCItem.SMALL_KEY_DWS] * 4, *[TMCItem.SMALL_KEY_COF] * 2, *[TMCItem.SMALL_KEY_FOW] * 4,
+            *[TMCItem.SMALL_KEY_TOD] * 4, *[TMCItem.SMALL_KEY_POW] * 6, *[TMCItem.SMALL_KEY_RC] * 3]
+    if world.options.goal_vaati.value:
+        items.extend([TMCItem.SMALL_KEY_DHC] * 5)
+    return items
 
 
 def pool_kinstone_gold() -> list[str]:
@@ -183,14 +193,14 @@ def get_item_pool(world: "MinishCapWorld") -> list[MinishCapItem]:
         multiworld.local_early_items[player][weapon_choice] = 1
 
     if world.options.dungeon_big_keys.value == DungeonItem.option_anywhere:
-        item_pool.extend(pool_bigkeys())
+        item_pool.extend(pool_bigkeys(world))
         item_pool.append(TMCItem.BIG_KEY_TOD)
     if world.options.dungeon_small_keys.value == DungeonItem.option_anywhere:
-        item_pool.extend(pool_smallkeys())
+        item_pool.extend(pool_smallkeys(world))
     if world.options.dungeon_compasses.value == DungeonItem.option_anywhere:
-        item_pool.extend(pool_compass())
+        item_pool.extend(pool_compass(world))
     if world.options.dungeon_maps.value == DungeonItem.option_anywhere:
-        item_pool.extend(pool_dungeonmaps())
+        item_pool.extend(pool_dungeonmaps(world))
 
     # ToD is stupid, need to place the big key manually
     if world.options.dungeon_big_keys.value == DungeonItem.option_own_dungeon and \
@@ -221,14 +231,14 @@ def get_pre_fill_pool(world: "MinishCapWorld") -> list[MinishCapItem]:
     pre_fill_pool = []
 
     if not world.options.dungeon_big_keys.value == DungeonItem.option_anywhere:
-        pre_fill_pool.extend(pool_bigkeys())
+        pre_fill_pool.extend(pool_bigkeys(world))
         # ToD big key never added to pre_fill pool, always placed by get_item_pool
     if not world.options.dungeon_small_keys.value == DungeonItem.option_anywhere:
-        pre_fill_pool.extend(pool_smallkeys())
+        pre_fill_pool.extend(pool_smallkeys(world))
     if not world.options.dungeon_compasses.value == DungeonItem.option_anywhere:
-        pre_fill_pool.extend(pool_compass())
+        pre_fill_pool.extend(pool_compass(world))
     if not world.options.dungeon_maps.value == DungeonItem.option_anywhere:
-        pre_fill_pool.extend(pool_dungeonmaps())
+        pre_fill_pool.extend(pool_dungeonmaps(world))
     if not world.options.shuffle_elements.value is ShuffleElements.option_anywhere:
         pre_fill_pool.extend(pool_elements())
 
@@ -441,6 +451,8 @@ def get_filler_item_selection(world: "MinishCapWorld"):
     return [name for name, count in frequencies.items() for _ in range(count)]
 
 item_groups: dict[str, set[str]] = {
+    "Spin Scrolls": {TMCItem.SPIN_ATTACK, TMCItem.GREATSPIN, TMCItem.FAST_SPIN_SCROLL, TMCItem.FAST_SPLIT_SCROLL,
+                     TMCItem.LONG_SPIN},
     "Scrolls": {TMCItem.SPIN_ATTACK, TMCItem.ROLL_ATTACK, TMCItem.DASH_ATTACK, TMCItem.ROCK_BREAKER, TMCItem.SWORD_BEAM,
                 TMCItem.GREATSPIN, TMCItem.DOWNTHRUST, TMCItem.PERIL_BEAM, TMCItem.FAST_SPIN_SCROLL,
                 TMCItem.FAST_SPLIT_SCROLL, TMCItem.LONG_SPIN},
@@ -451,4 +463,60 @@ item_groups: dict[str, set[str]] = {
                TMCItem.RED_PICOLYTE, TMCItem.ORANGE_PICOLYTE, TMCItem.YELLOW_PICOLYTE, TMCItem.GREEN_PICOLYTE,
                TMCItem.BLUE_PICOLYTE, TMCItem.WHITE_PICOLYTE, TMCItem.NAYRU_CHARM, TMCItem.FARORE_CHARM,
                TMCItem.DINS_CHARM},
+    "Sword": {TMCItem.PROGRESSIVE_SWORD},
+    # "Sword": {TMCItem.PROGRESSIVE_SWORD, TMCItem.SMITHS_SWORD, TMCItem.WHITE_SWORD_GREEN, TMCItem.WHITE_SWORD_RED,
+    #           TMCItem.WHITE_SWORD_BLUE, TMCItem.FOUR_SWORD},
+    "Bow": {TMCItem.PROGRESSIVE_BOW},
+    # "Bow": {TMCItem.PROGRESSIVE_BOW, TMCItem.BOW, TMCItem.LIGHT_ARROW},
+    "Boomerang": {TMCItem.PROGRESSIVE_BOOMERANG},
+    # "Boomerang": {TMCItem.PROGRESSIVE_BOOMERANG, TMCItem.BOOMERANG, TMCItem.MAGIC_BOOMERANG},
+    "Shield": {TMCItem.PROGRESSIVE_SHIELD},
+    # "Shield": {TMCItem.PROGRESSIVE_SHIELD, TMCItem.SHIELD, TMCItem.MIRROR_SHIELD},
+    "Cape": {TMCItem.ROCS_CAPE},
+    "Cane": {TMCItem.CANE_OF_PACCI},
+    "Boots": {TMCItem.PEGASUS_BOOTS},
+    "Rupees": {TMCItem.RUPEES_1, TMCItem.RUPEES_5, TMCItem.RUPEES_20, TMCItem.RUPEES_50, TMCItem.RUPEES_100,
+               TMCItem.RUPEES_200},
+    "Traps": {TMCItem.TRAP_ICE, TMCItem.TRAP_FIRE, TMCItem.TRAP_ZAP, TMCItem.TRAP_BOMB, TMCItem.TRAP_MONEY,
+              TMCItem.TRAP_STINK, TMCItem.TRAP_ROPE, TMCItem.TRAP_BAT, TMCItem.TRAP_LIKE, TMCItem.TRAP_CURSE},
+    "Kinstones": {TMCItem.KINSTONE_GOLD_CLOUD, TMCItem.KINSTONE_GOLD_SWAMP, TMCItem.KINSTONE_GOLD_FALLS,
+                  TMCItem.KINSTONE_RED_W, TMCItem.KINSTONE_RED_ANGLE, TMCItem.KINSTONE_RED_E,
+                  TMCItem.KINSTONE_BLUE_L, TMCItem.KINSTONE_BLUE_6,
+                  TMCItem.KINSTONE_GREEN_ANGLE, TMCItem.KINSTONE_GREEN_SQUARE, TMCItem.KINSTONE_GREEN_P},
+    "Gold Kinstones": {TMCItem.KINSTONE_GOLD_CLOUD, TMCItem.KINSTONE_GOLD_SWAMP, TMCItem.KINSTONE_GOLD_FALLS},
+    "Red Kinstones": {TMCItem.KINSTONE_RED_W, TMCItem.KINSTONE_RED_ANGLE, TMCItem.KINSTONE_RED_E},
+    "Blue Kinstones": {TMCItem.KINSTONE_BLUE_L, TMCItem.KINSTONE_BLUE_6},
+    "Green Kinstones": {TMCItem.KINSTONE_GREEN_ANGLE, TMCItem.KINSTONE_GREEN_SQUARE, TMCItem.KINSTONE_GREEN_P},
+    "Dungeon Items": {TMCItem.SMALL_KEY_DWS, TMCItem.SMALL_KEY_COF, TMCItem.SMALL_KEY_FOW, TMCItem.SMALL_KEY_TOD,
+                      TMCItem.SMALL_KEY_POW, TMCItem.SMALL_KEY_DHC, TMCItem.SMALL_KEY_RC,
+                      TMCItem.BIG_KEY_DWS, TMCItem.BIG_KEY_COF, TMCItem.BIG_KEY_FOW, TMCItem.BIG_KEY_TOD,
+                      TMCItem.BIG_KEY_POW, TMCItem.BIG_KEY_DHC,
+                      TMCItem.DUNGEON_MAP_DWS, TMCItem.DUNGEON_MAP_COF, TMCItem.DUNGEON_MAP_FOW,
+                      TMCItem.DUNGEON_MAP_TOD, TMCItem.DUNGEON_MAP_POW, TMCItem.DUNGEON_MAP_DHC,
+                      TMCItem.DUNGEON_COMPASS_DWS, TMCItem.DUNGEON_COMPASS_COF, TMCItem.DUNGEON_COMPASS_FOW,
+                      TMCItem.DUNGEON_COMPASS_TOD, TMCItem.DUNGEON_COMPASS_POW, TMCItem.DUNGEON_COMPASS_DHC},
+    "Small Keys": {TMCItem.SMALL_KEY_DWS, TMCItem.SMALL_KEY_COF, TMCItem.SMALL_KEY_FOW, TMCItem.SMALL_KEY_TOD,
+                   TMCItem.SMALL_KEY_POW, TMCItem.SMALL_KEY_DHC, TMCItem.SMALL_KEY_RC},
+    "Big Keys": {TMCItem.BIG_KEY_DWS, TMCItem.BIG_KEY_COF, TMCItem.BIG_KEY_FOW, TMCItem.BIG_KEY_TOD,
+                 TMCItem.BIG_KEY_POW, TMCItem.BIG_KEY_DHC},
+    "Keys": {TMCItem.SMALL_KEY_DWS, TMCItem.SMALL_KEY_COF, TMCItem.SMALL_KEY_FOW, TMCItem.SMALL_KEY_TOD,
+             TMCItem.SMALL_KEY_POW, TMCItem.SMALL_KEY_DHC, TMCItem.SMALL_KEY_RC,
+             TMCItem.BIG_KEY_DWS, TMCItem.BIG_KEY_COF, TMCItem.BIG_KEY_FOW, TMCItem.BIG_KEY_TOD,
+             TMCItem.BIG_KEY_POW, TMCItem.BIG_KEY_DHC},
+    "Maps": {TMCItem.DUNGEON_MAP_DWS, TMCItem.DUNGEON_MAP_COF, TMCItem.DUNGEON_MAP_FOW, TMCItem.DUNGEON_MAP_TOD,
+             TMCItem.DUNGEON_MAP_POW, TMCItem.DUNGEON_MAP_DHC},
+    "Compasses": {TMCItem.DUNGEON_COMPASS_DWS, TMCItem.DUNGEON_COMPASS_COF, TMCItem.DUNGEON_COMPASS_FOW,
+                  TMCItem.DUNGEON_COMPASS_TOD, TMCItem.DUNGEON_COMPASS_POW, TMCItem.DUNGEON_COMPASS_DHC},
+    "DWS Items": {TMCItem.DUNGEON_MAP_DWS, TMCItem.DUNGEON_COMPASS_DWS, TMCItem.BIG_KEY_DWS, TMCItem.SMALL_KEY_DWS},
+    "DWS Keys": {TMCItem.BIG_KEY_DWS, TMCItem.SMALL_KEY_DWS},
+    "CoF Items": {TMCItem.DUNGEON_MAP_COF, TMCItem.DUNGEON_COMPASS_COF, TMCItem.BIG_KEY_COF, TMCItem.SMALL_KEY_COF},
+    "CoF Keys": {TMCItem.BIG_KEY_COF, TMCItem.SMALL_KEY_COF},
+    "FoW Items": {TMCItem.DUNGEON_MAP_FOW, TMCItem.DUNGEON_COMPASS_FOW, TMCItem.BIG_KEY_FOW, TMCItem.SMALL_KEY_FOW},
+    "FoW Keys": {TMCItem.BIG_KEY_FOW, TMCItem.SMALL_KEY_FOW},
+    "ToD Items": {TMCItem.DUNGEON_MAP_TOD, TMCItem.DUNGEON_COMPASS_TOD, TMCItem.BIG_KEY_TOD, TMCItem.SMALL_KEY_TOD},
+    "ToD Keys": {TMCItem.BIG_KEY_TOD, TMCItem.SMALL_KEY_TOD},
+    "PoW Items": {TMCItem.DUNGEON_MAP_POW, TMCItem.DUNGEON_COMPASS_POW, TMCItem.BIG_KEY_POW, TMCItem.SMALL_KEY_POW},
+    "PoW Keys": {TMCItem.BIG_KEY_POW, TMCItem.SMALL_KEY_POW},
+    "DHC Items": {TMCItem.DUNGEON_MAP_DHC, TMCItem.DUNGEON_COMPASS_DHC, TMCItem.BIG_KEY_DHC, TMCItem.SMALL_KEY_DHC},
+    "DHC Keys": {TMCItem.BIG_KEY_DHC, TMCItem.SMALL_KEY_DHC},
 }
