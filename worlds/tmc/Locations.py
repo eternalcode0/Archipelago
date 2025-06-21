@@ -2129,15 +2129,15 @@ all_locations: list[LocationData] = [
     # region Sanctuary
     LocationData(
         6029541, TMCLocation.SANCTUARY_PEDESTAL_ITEM1, TMCRegion.SANCTUARY,
-        TMCItem.PROGRESSIVE_SWORD, (None, None), (0x2EA7, 0x80), 0x0178, pools={POOL_PED}
+        TMCItem.PROGRESSIVE_SWORD, (0xFF0020, None), (0x2EA7, 0x80), 0x0178, pools={POOL_PED}
     ),
     LocationData(
         6029542, TMCLocation.SANCTUARY_PEDESTAL_ITEM2, TMCRegion.SANCTUARY,
-        TMCItem.PROGRESSIVE_SWORD, (None, None), (0x2EA8, 0x01), 0x0178, pools={POOL_PED}
+        TMCItem.PROGRESSIVE_SWORD, (0xFF0024, None), (0x2EA8, 0x01), 0x0178, pools={POOL_PED}
     ),
     LocationData(
         6029543, TMCLocation.SANCTUARY_PEDESTAL_ITEM3, TMCRegion.SANCTUARY,
-        TMCItem.PROGRESSIVE_SWORD, (None, None), (0x2EA8, 0x02), 0x0178, pools={POOL_PED}
+        TMCItem.PROGRESSIVE_SWORD, (0xFF0028, None), (0x2EA8, 0x02), 0x0178, pools={POOL_PED}
     ),
     # endregion
     # region Dungeon DHC
@@ -2220,4 +2220,7 @@ location_groups: dict[str, set[str]] = {
     "Obscure": set(loc.name for loc in all_locations if loc.pools.issubset(OBSCURE_SET) and len(loc.pools)),
     "Shop": set(loc.name for loc in all_locations if loc.pools.issubset(SHOP_SET) and len(loc.pools)),
     "Rupees": set(loc.name for loc in all_locations if loc.pools.issubset({POOL_RUPEE}) and len(loc.pools)),
+    "Pots": set(loc.name for loc in all_locations if loc.pools.issubset({POOL_POT}) and len(loc.pools)),
+    "Digging": set(loc.name for loc in all_locations if loc.pools.issubset({POOL_DIG}) and len(loc.pools)),
+    "Underwater": set(loc.name for loc in all_locations if loc.pools.issubset({POOL_WATER}) and len(loc.pools)),
 }
