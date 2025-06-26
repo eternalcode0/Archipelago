@@ -2,7 +2,7 @@ from typing import TYPE_CHECKING
 
 from BaseClasses import CollectionState
 from Fill import fill_restrictive
-from .constants import DUNGEON_ABBR, TMCItem, TMCLocation
+from .constants import TMCItem, TMCLocation
 from .Locations import location_groups
 from .Options import ShuffleElements, DHCAccess
 

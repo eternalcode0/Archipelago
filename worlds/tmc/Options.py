@@ -162,16 +162,17 @@ class GoalVaati(DefaultOnToggle):
 class DHCAccess(Choice):
     """
     When should DHC be accessible?
-    'Open' (true): DHC is accessible from the very beginning. Pedestal Requirements don't do anything with this setting.
-    'Pedestal' (default): DHC is locked until pedestal is completed. The vanilla option.
+    If goal_vaati is disabled, dhc_access can only be open/closed, pedestal will use closed instead.
     'Closed' (false): DHC is never accessible. If goal_vaati is enabled, sanctuary will take you straight to Vaati.
+    'Pedestal' (default): DHC is locked until pedestal is completed. The vanilla option.
+    'Open' (true): DHC is accessible from the very beginning. Pedestal Requirements don't do anything with this setting.
     """
     display_name = "DHC Access"
-    option_open = 0
+    option_closed = 0
     option_pedestal = 1
-    option_closed = 2
-    alias_true = 0
-    alias_false = 2
+    option_open = 2
+    alias_false = 0
+    alias_true = 2
     default = 1
 
 

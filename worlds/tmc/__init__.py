@@ -89,6 +89,11 @@ class MinishCapWorld(World):
         if self.options.shuffle_underwater.value:
             enabled_pools.add(POOL_WATER)
 
+        # Default dhc_access to closed when it's been set to ped with goal vaati disabled.
+        # There's too many flags to manage to allow DHC to open after ped completes and vaati is slain.
+        if not self.options.goal_vaati.value and self.options.dhc_access.value == DHCAccess.option_pedestal:
+            self.options.dhc_access.value = DHCAccess.option_closed
+
         self.filler_items = get_filler_item_selection(self)
 
         if self.options.shuffle_elements.value == ShuffleElements.option_dungeon_prize:
@@ -151,7 +156,11 @@ class MinishCapWorld(World):
         goal_location = MinishCapLocation(self.player, loc.name, None, goal_region)
         goal_location.place_locked_item(goal_item)
         goal_region.locations.append(goal_location)
-        # self.get_location(TMCEvent.CLEAR_PED).place_locked_item(self.create_event(TMCEvent.CLEAR_PED))
+        if self.options.goal_vaati.value:
+            reg = self.get_region(TMCRegion.STAINED_GLASS)
+            ped = MinishCapLocation(self.player, TMCEvent.CLEAR_PED, None, reg)
+            ped.place_locked_item(self.create_event(TMCEvent.CLEAR_PED))
+            reg.locations.append(ped)
 
     def create_item(self, name: str) -> Item:
         item = item_table[name]
