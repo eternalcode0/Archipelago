@@ -26,8 +26,26 @@ class DungeonItem(Choice):
 
 
 class Rupeesanity(Toggle):
-    """Add all rupees locations to the pool to be randomized."""
+    """
+    Add all rupees locations to the pool to be randomized. This setting will not shuffle Rupees that also belong to
+    another pool, i.e. An underwater rupee will instead be randomized by shuffle_underwater
+    """
     display_name = "Rupee-sanity"
+
+
+class ShufflePots(Toggle):
+    """Add all special pots that drop a unique item to the pool. Includes the LonLon Ranch Pot."""
+    display_name = "Shuffle Pots"
+
+
+class ShuffleDigging(Toggle):
+    """Add all dig spots that drop a unique item to the pool."""
+    display_name = "Shuffle Digging"
+
+
+class ShuffleUnderwater(Toggle):
+    """Add all underwater items to the pool. Includes the ToD underwater pot"""
+    display_name = "Shuffle Underwater"
 
 
 class ObscureSpots(Toggle):
@@ -66,6 +84,9 @@ class SmallKeys(DungeonItem):
     """
     Own Dungeon (false/default): Randomized within the dungeon they're normally found in
     Anywhere (true): Items are in completely random locations
+    *Note: If using anything other than "anywhere" and you include small keys in start_inventory_from_pool,
+        you may get the warning "tried to remove items from their pool that don't exist". This is expected, the keys
+        have safely been added to your inventory from the pool.
     """
     display_name = "Small Key Shuffle"
     default = 3
@@ -75,6 +96,9 @@ class BigKeys(DungeonItem):
     """
     Own Dungeon (default/false): Randomized within the dungeon they're normally found in
     Anywhere (true): Items are in completely random locations
+    *Note: If using anything other than "anywhere" and you include big keys in start_inventory_from_pool,
+        you may get the warning "tried to remove items from their pool that don't exist". This is expected, the keys
+        have safely been added to your inventory from the pool.
     """
     display_name = "Big Key Shuffle"
     default = 3
@@ -84,6 +108,9 @@ class DungeonMaps(DungeonItem):
     """
     Own Dungeon (default/false): Randomized within the dungeon they're normally found in
     Anywhere (true): Items are in completely random locations
+    *Note: If using anything other than "anywhere" and you include dungeon maps in start_inventory_from_pool,
+        you may get the warning "tried to remove items from their pool that don't exist". This is expected, the maps
+        have safely been added to your inventory from the pool.
     """
     display_name = "Dungeon Maps Shuffle"
     default = 3
@@ -93,6 +120,9 @@ class DungeonCompasses(DungeonItem):
     """
     Own Dungeon (default/false): Randomized within the dungeon they're normally found in
     Anywhere (true): Items are in completely random locations
+    *Note: If using anything other than "anywhere" and you include dungeon compasses in start_inventory_from_pool,
+        you may get the warning "tried to remove items from their pool that don't exist". This is expected, the compass
+        has safely been added to your inventory from the pool.
     """
     display_name = "Dungeon Compasses Shuffle"
     default = 3
@@ -136,6 +166,7 @@ class Traps(Toggle):
     enemies, setting you on fire, freezing you, etc.
     """
     display_name = "Traps Enabled"
+
 
 class GoalVaati(DefaultOnToggle):
     """
@@ -206,12 +237,18 @@ class FigurineAmount(Range):
 
 
 class EarlyWeapon(Toggle):
-    """Force a weapon to be in your sphere 1"""
+    """
+    Force a weapon to be in your sphere 1.
+    The weapon placed will be random based off the enabled `weapon` options.
+    Swords will always be one of the possible weapons placed.
+    """
     display_name = "Early Weapon"
+
 
 class RandomBottleContents(Toggle):
     """Put random contents into the shuffled bottles, these contents are never considered in logic"""
     display_name = "Random Bottles Contents"
+
 
 class DeathLinkGameover(Toggle):
     """
@@ -315,32 +352,39 @@ class Tricks(OptionSet):
 
 @dataclass
 class MinishCapOptions(PerGameCommonOptions):
+    # AP settings / DL settings
     start_inventory_from_pool: StartInventoryPool
     death_link: DeathLink
     death_link_gameover: DeathLinkGameover
+    # Goal Settings
     goal_vaati: GoalVaati
     ped_elements: PedElements
     ped_swords: PedSword
     ped_dungeons: PedDungeons
     # ped_figurines: GoalFigurines
     # figurine_amount: FigurineAmount
-    shuffle_elements: ShuffleElements
-    weapon_bomb: WeaponBomb
-    weapon_bow: WeaponBow
-    weapon_gust: WeaponGust
-    weapon_lantern: WeaponLantern
-    tricks: Tricks
-    rupeesanity: Rupeesanity
-    obscure_spots: ObscureSpots
-    traps_enabled: Traps
-    early_weapon: EarlyWeapon
-    random_bottle_contents: RandomBottleContents
+    # Pool Settings
     dungeon_small_keys: SmallKeys
     dungeon_big_keys: BigKeys
     dungeon_maps: DungeonMaps
     dungeon_compasses: DungeonCompasses
+    shuffle_elements: ShuffleElements
+    rupeesanity: Rupeesanity
+    shuffle_pots: ShufflePots
+    shuffle_digging: ShuffleDigging
+    shuffle_underwater: ShuffleUnderwater
+    traps_enabled: Traps
+    random_bottle_contents: RandomBottleContents
+    # Weapon Settings
+    early_weapon: EarlyWeapon
+    weapon_bomb: WeaponBomb
+    weapon_bow: WeaponBow
+    weapon_gust: WeaponGust
+    weapon_lantern: WeaponLantern
+    # Logic Settings
     dungeon_warps: DungeonWarps
     wind_crests: WindCrests
+    tricks: Tricks
 
 
 def get_option_data(options: MinishCapOptions):
@@ -365,9 +409,6 @@ def get_option_data(options: MinishCapOptions):
         "goron_jp_prices": 0,  # 0 = EU prices, 1 = JP/US prices
         "shuffle_heart_pieces": 1,
         "shuffle_rupees": options.rupeesanity.value,
-        "shuffle_pots": options.obscure_spots.value,
-        "shuffle_digging": options.obscure_spots.value,
-        "shuffle_underwater": options.obscure_spots.value,
         "shuffle_gold_enemies": 0,
         "shuffle_pedestal": 0,
         "shuffle_biggoron": 0,  # 0 = Disabled, 1 = Requires Shield, 2 = Requires Mirror Shield
@@ -394,24 +435,24 @@ def get_option_data(options: MinishCapOptions):
         "weapon_gust_jar": options.weapon_gust.value,  # No, Yes
         "weapon_lantern": options.weapon_lantern.value,
         "entrance_rando": 0,  # 0 = Disabled, 1 = Dungeons, 2 = Regions?, 3 = Rooms? (? = subject to change)
-        "trick_mitts_farm_rupees": 1 if ALL_TRICKS[0] in options.tricks else 0,  # No, Yes
-        "trick_bombable_dust": 1 if ALL_TRICKS[1] in options.tricks else 0,
-        "trick_crenel_mushroom_gust_jar": 1 if ALL_TRICKS[2] in options.tricks else 0,
-        "trick_light_arrows_break_objects": 1 if ALL_TRICKS[3] in options.tricks else 0,
-        "trick_bobombs_destroy_walls": 1 if ALL_TRICKS[4] in options.tricks else 0,
-        "trick_like_like_cave_no_sword": 1 if ALL_TRICKS[5] in options.tricks else 0,
-        "trick_boots_skip_town_guard": 1 if ALL_TRICKS[6] in options.tricks else 0,
-        "trick_beam_crenel_switch": 1 if ALL_TRICKS[7] in options.tricks else 0,
-        "trick_down_thrust_spikey_beetle": 1 if ALL_TRICKS[8] in options.tricks else 0,
-        "trick_dark_rooms_no_lantern": 1 if ALL_TRICKS[9] in options.tricks else 0,
-        "trick_cape_extensions": 1 if ALL_TRICKS[10] in options.tricks else 0,
-        "trick_lake_minish_no_boots": 1 if ALL_TRICKS[11] in options.tricks else 0,
-        "trick_cabin_swim_no_lilypad": 1 if ALL_TRICKS[12] in options.tricks else 0,
-        "trick_cloud_sharks_no_weapons": 1 if ALL_TRICKS[13] in options.tricks else 0,
-        "trick_pow_2f_no_cane": 1 if ALL_TRICKS[14] in options.tricks else 0,
-        "trick_pot_puzzle_no_bracelets": 1 if ALL_TRICKS[15] in options.tricks else 0,
-        "trick_fow_pot_gust_jar": 1 if ALL_TRICKS[16] in options.tricks else 0,
-        "trick_dhc_cannons_no_four_sword": 1 if ALL_TRICKS[17] in options.tricks else 0,
-        "trick_dhc_pads_no_four_sword": 1 if ALL_TRICKS[18] in options.tricks else 0,
-        "trick_dhc_switches_no_four_sword": 1 if ALL_TRICKS[19] in options.tricks else 0,
+        "trick_mitts_farm_rupees": int(ALL_TRICKS[0] in options.tricks),  # No, Yes
+        "trick_bombable_dust": int(ALL_TRICKS[1] in options.tricks),
+        "trick_crenel_mushroom_gust_jar": int(ALL_TRICKS[2] in options.tricks),
+        "trick_light_arrows_break_objects": int(ALL_TRICKS[3] in options.tricks),
+        "trick_bobombs_destroy_walls": int(ALL_TRICKS[4] in options.tricks),
+        "trick_like_like_cave_no_sword": int(ALL_TRICKS[5] in options.tricks),
+        "trick_boots_skip_town_guard": int(ALL_TRICKS[6] in options.tricks),
+        "trick_beam_crenel_switch": int(ALL_TRICKS[7] in options.tricks),
+        "trick_down_thrust_spikey_beetle": int(ALL_TRICKS[8] in options.tricks),
+        "trick_dark_rooms_no_lantern": int(ALL_TRICKS[9] in options.tricks),
+        "trick_cape_extensions": int(ALL_TRICKS[10] in options.tricks),
+        "trick_lake_minish_no_boots": int(ALL_TRICKS[11] in options.tricks),
+        "trick_cabin_swim_no_lilypad": int(ALL_TRICKS[12] in options.tricks),
+        "trick_cloud_sharks_no_weapons": int(ALL_TRICKS[13] in options.tricks),
+        "trick_pow_2f_no_cane": int(ALL_TRICKS[14] in options.tricks),
+        "trick_pot_puzzle_no_bracelets": int(ALL_TRICKS[15] in options.tricks),
+        "trick_fow_pot_gust_jar": int(ALL_TRICKS[16] in options.tricks),
+        "trick_dhc_cannons_no_four_sword": int(ALL_TRICKS[17] in options.tricks),
+        "trick_dhc_pads_no_four_sword": int(ALL_TRICKS[18] in options.tricks),
+        "trick_dhc_switches_no_four_sword": int(ALL_TRICKS[19] in options.tricks),
     }
