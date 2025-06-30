@@ -1,6 +1,6 @@
 import typing
 
-from .constants import ALL_REGIONS, MinishCapLocation, MinishCapRegion, TMCRegion, TMCEvent
+from .constants import ALL_REGIONS, MinishCapLocation, MinishCapRegion, TMCEvent, TMCRegion
 from .Locations import all_locations
 
 if typing.TYPE_CHECKING:

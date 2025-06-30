@@ -1791,7 +1791,7 @@ all_locations: list[LocationData] = [
         TMCItem.SMALL_KEY_FOW, ([0x0E2B0B, 0x0FC46B, 0x0FC48B], [None, None, None]), (0x2D73, 0x80), 0x2058
     ),
     LocationData(
-        6029458, TMCLocation.FORTRESS_MIDDLE_2F_BIG_CHEST, TMCRegion.DUNGEON_FOW,
+        6029458, TMCLocation.FORTRESS_MIDDLE_2F_BIG_CHEST, TMCRegion.DUNGEON_FOW_EYEGORE,
         TMCItem.DUNGEON_COMPASS_FOW, (0x0E26FA, None), (0x2D73, 0x02), 0x1958
     ),
     LocationData(
@@ -1823,23 +1823,23 @@ all_locations: list[LocationData] = [
         TMCItem.HEART_PIECE, (0x0E2DD7, None), (0x2D74, 0x80), 0x2458, scoutable=True, pools={POOL_HP}
     ),
     LocationData(
-        6029466, TMCLocation.FORTRESS_BACK_LEFT_BIG_CHEST, TMCRegion.DUNGEON_FOW,
+        6029466, TMCLocation.FORTRESS_BACK_LEFT_BIG_CHEST, TMCRegion.DUNGEON_FOW_BLUE,
         TMCItem.MOLE_MITTS, (0x0F41DE, None), (0x2D08, 0x01), 0x0318
     ),
     LocationData(
-        6029467, TMCLocation.FORTRESS_BACK_LEFT_SMALL_CHEST, TMCRegion.DUNGEON_FOW,
+        6029467, TMCLocation.FORTRESS_BACK_LEFT_SMALL_CHEST, TMCRegion.DUNGEON_FOW_BLUE,
         TMCItem.RUPEES_100, (0x0F41E6, None), (0x2D08, 0x02), 0x0318
     ),
     LocationData(
-        6029468, TMCLocation.FORTRESS_BACK_RIGHT_STATUE_ITEM_DROP, TMCRegion.DUNGEON_FOW,
+        6029468, TMCLocation.FORTRESS_BACK_RIGHT_STATUE_ITEM_DROP, TMCRegion.DUNGEON_FOW_EYEGORE,
         TMCItem.SMALL_KEY_FOW, (0x0E1E8B, None), (0x2D71, 0x40), 0x1458
     ),
     LocationData(
-        6029469, TMCLocation.FORTRESS_BACK_RIGHT_MINISH_ITEM_DROP, TMCRegion.DUNGEON_FOW,
+        6029469, TMCLocation.FORTRESS_BACK_RIGHT_MINISH_ITEM_DROP, TMCRegion.DUNGEON_FOW_EYEGORE,
         TMCItem.SMALL_KEY_FOW, (0x0F424F, None), (0x2D08, 0x10), 0x0418
     ),
     LocationData(
-        6029470, TMCLocation.FORTRESS_BACK_RIGHT_DIG_ROOM_TOP_POT, TMCRegion.DUNGEON_FOW,
+        6029470, TMCLocation.FORTRESS_BACK_RIGHT_DIG_ROOM_TOP_POT, TMCRegion.DUNGEON_FOW_EYEGORE,
         TMCItem.RUPEES_50, (0x0F3FC7, 0x0F3FC9), (0x2D06, 0x08), 0x0118, pools={POOL_POT}
     ),
     LocationData(
@@ -1847,7 +1847,7 @@ all_locations: list[LocationData] = [
         None, (0x0F3FD7, 0x0F3FD9), (0x2D06, 0x10), 0x0118, pools={POOL_POT}
     ),
     LocationData(
-        6029472, TMCLocation.FORTRESS_BACK_RIGHT_BIG_CHEST, TMCRegion.DUNGEON_FOW,
+        6029472, TMCLocation.FORTRESS_BACK_RIGHT_BIG_CHEST, TMCRegion.DUNGEON_FOW_EYEGORE,
         TMCItem.BIG_KEY_FOW, (0x0E28A2, None), (0x2D73, 0x04), 0x1B58
     ),
     LocationData(

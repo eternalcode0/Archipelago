@@ -770,6 +770,8 @@ class TMCRegion:
     DUNGEON_COF_LAVA_BASEMENT = "Cave of Flames Lava Basement"
     DUNGEON_COF_CLEAR = "Cave of Flames Clear"
     DUNGEON_FOW = "Fortress of Winds"
+    DUNGEON_FOW_EYEGORE = "Fortress of Winds Past Eyegores"
+    DUNGEON_FOW_BLUE = "Fortress of Winds Blue warp"
     DUNGEON_FOW_CLEAR = "Fortress of Winds Clear"
     DUNGEON_TOD = "Temple of Droplets"
     DUNGEON_TOD_CLEAR = "Temple of Droplets Clear"
@@ -937,6 +939,8 @@ ALL_REGIONS = [
     TMCRegion.DUNGEON_COF_LAVA_BASEMENT,
     TMCRegion.DUNGEON_COF_CLEAR,
     TMCRegion.DUNGEON_FOW,
+    TMCRegion.DUNGEON_FOW_EYEGORE,
+    TMCRegion.DUNGEON_FOW_BLUE,
     TMCRegion.DUNGEON_FOW_CLEAR,
     TMCRegion.DUNGEON_TOD,
     TMCRegion.DUNGEON_TOD_CLEAR,

@@ -1,9 +1,9 @@
 # from itertools import chain, combinations
 
-from . import MinishCapTestBase
-# from .. import TMCEvent
-from ..constants import TMCLocation, TMCItem
-from ..Options import DungeonWarps, ShuffleElements, DungeonItem, WindCrests
+# from worlds.tmc import TMCEvent
+from worlds.tmc.constants import TMCItem, TMCLocation
+from worlds.tmc.Options import DungeonItem, DungeonWarps, ShuffleElements, WindCrests
+from worlds.tmc.test import MinishCapTestBase
 
 
 class TestElementsVanilla(MinishCapTestBase):
@@ -70,6 +70,7 @@ class TestWindCrests(MinishCapTestBase):
     options = {
         "wind_crests": set(WindCrests.valid_keys)
     }
+
 
 #   options = {"wind_crests": WindCrests.default}
 #   options_list = [
