@@ -2,7 +2,7 @@ from dataclasses import dataclass
 from typing import TYPE_CHECKING
 
 from BaseClasses import ItemClassification
-from .Options import DungeonItem, ShuffleElements, DHCAccess
+from .Options import DHCAccess, DungeonItem, GoalVaati, ShuffleElements
 from .constants import TMCItem, TMCLocation, MinishCapItem
 
 if TYPE_CHECKING:
@@ -148,7 +148,7 @@ def pool_compass(world: "MinishCapWorld") -> list[str]:
 
 def pool_bigkeys(world: "MinishCapWorld") -> list[str]:
     keys = [TMCItem.BIG_KEY_DWS, TMCItem.BIG_KEY_COF, TMCItem.BIG_KEY_FOW, TMCItem.BIG_KEY_POW]
-    if world.options.dhc_access != DHCAccess.option_closed:
+    if world.options.dhc_access != DHCAccess.option_closed and world.options.goal_vaati == GoalVaati.option_true:
         keys.append(TMCItem.BIG_KEY_DHC)
     return keys
 

@@ -89,7 +89,7 @@ class SmallKeys(DungeonItem):
         have safely been added to your inventory from the pool.
     """
     display_name = "Small Key Shuffle"
-    default = 3
+    default = DungeonItem.option_own_dungeon
 
 
 class BigKeys(DungeonItem):
@@ -101,7 +101,7 @@ class BigKeys(DungeonItem):
         have safely been added to your inventory from the pool.
     """
     display_name = "Big Key Shuffle"
-    default = 3
+    default = DungeonItem.option_own_dungeon
 
 
 class DungeonMaps(DungeonItem):
@@ -113,7 +113,7 @@ class DungeonMaps(DungeonItem):
         have safely been added to your inventory from the pool.
     """
     display_name = "Dungeon Maps Shuffle"
-    default = 3
+    default = DungeonItem.option_own_dungeon
 
 
 class DungeonCompasses(DungeonItem):
@@ -125,7 +125,7 @@ class DungeonCompasses(DungeonItem):
         has safely been added to your inventory from the pool.
     """
     display_name = "Dungeon Compasses Shuffle"
-    default = 3
+    default = DungeonItem.option_own_dungeon
 
 
 class Traps(Toggle):
@@ -141,7 +141,7 @@ class Traps(Toggle):
 class GoalVaati(DefaultOnToggle):
     """
     If enabled, DHC will open after completing Pedestal. Kill Vaati to goal.
-    If disabled, complete Pedestal to goal. DHC/Vaati is unnecessary.
+    If disabled, complete Pedestal to goal. DHC is unnecessary, Big Key (DHC) is removed from the pool.
     """
     display_name = "Vaati Goal"
 
