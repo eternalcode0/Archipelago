@@ -10,11 +10,13 @@ import typing
 import settings
 from BaseClasses import Item, ItemClassification, Tutorial
 from worlds.AutoWorld import WebWorld, World
+from Fill import FillError
 from Options import OptionError
 from .Client import MinishCapClient
 from .constants import MinishCapItem, MinishCapLocation, TMCEvent, TMCItem, TMCLocation, TMCRegion
 from .dungeons import fill_dungeons
-from .Items import get_filler_item_selection, get_item_pool, get_pre_fill_pool, item_frequencies, item_groups, item_table, ItemData
+from .Items import (get_filler_item_selection, get_item_pool, get_pre_fill_pool, item_frequencies, item_groups,
+                    item_table, ItemData)
 from .Locations import (all_locations, DEFAULT_SET, GOAL_PED, GOAL_VAATI, location_groups, OBSCURE_SET, POOL_RUPEE,
                         POOL_POT, POOL_DIG, POOL_WATER)
 from .Options import DungeonItem, get_option_data, MinishCapOptions, ShuffleElements, DHCAccess
@@ -173,16 +175,39 @@ class MinishCapWorld(World):
         return self.random.choice(self.filler_items)
 
     def create_items(self):
-        # First add in all progression and useful items
+        # Force vanilla elements into their pre-determined locations (must happen before pre_fill for plando)
+        if self.options.shuffle_elements.value is ShuffleElements.option_vanilla:
+            # Place elements into ordered locations, don't shuffle
+            location_names = [TMCLocation.DEEPWOOD_PRIZE, TMCLocation.COF_PRIZE, TMCLocation.DROPLETS_PRIZE,
+                              TMCLocation.PALACE_PRIZE]
+            item_names = [TMCItem.EARTH_ELEMENT, TMCItem.FIRE_ELEMENT, TMCItem.WATER_ELEMENT, TMCItem.WIND_ELEMENT]
+            for location_name, item_name in zip(location_names, item_names):
+                loc = self.get_location(location_name)
+                if loc.item is not None:
+                    raise FillError(f"Slot '{self.player_name}' used 'shuffle_elements: vanilla' but location "
+                                    f"'{location_name}' was already filled with '{loc.item.name}'")
+                loc.place_locked_item(self.create_item(item_name))
+        elif self.options.shuffle_elements.value is ShuffleElements.option_dungeon_prize:
+            # Get unfilled prize locations, shuffle, and place each element
+            location_names = [TMCLocation.DEEPWOOD_PRIZE, TMCLocation.COF_PRIZE, TMCLocation.FORTRESS_PRIZE,
+                              TMCLocation.DROPLETS_PRIZE, TMCLocation.PALACE_PRIZE, TMCLocation.CRYPT_PRIZE]
+            locations = list(self.multiworld.get_unfilled_locations_for_players(location_names, [self.player]))
+            if len(locations) < 4:
+                raise FillError(f"Slot '{self.player_name}' used 'shuffle_elements: dungeon_prize' but only "
+                                f"{len(locations)}/6 prize locations are available to fill the 4 elements")
+            locations = self.random.sample(locations, k=4)
+            item_names = [TMCItem.EARTH_ELEMENT, TMCItem.FIRE_ELEMENT, TMCItem.WATER_ELEMENT, TMCItem.WIND_ELEMENT]
+            for location, item_name in zip(locations, item_names):
+                location.place_locked_item(self.create_item(item_name))
+
+        # Add in all progression and useful items
         self.item_pool = get_item_pool(self)
         self.pre_fill_pool = get_pre_fill_pool(self)
         total_locations = len(self.multiworld.get_unfilled_locations(self.player))
 
-        for item in self.item_pool:
-            self.multiworld.itempool.append(item)
-
-        for _ in range(total_locations - len(self.item_pool) - len(self.pre_fill_pool)):
-            self.multiworld.itempool.append(self.create_filler())
+        self.multiworld.itempool.extend(self.item_pool)
+        filler = [self.create_filler() for _ in range(total_locations - len(self.item_pool) - len(self.pre_fill_pool))]
+        self.multiworld.itempool.extend(filler)
 
     def set_rules(self) -> None:
         MinishCapRules(self).set_rules(self.disabled_locations, self.location_name_to_id)

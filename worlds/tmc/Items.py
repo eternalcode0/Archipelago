@@ -244,8 +244,6 @@ def get_pre_fill_pool(world: "MinishCapWorld") -> list[MinishCapItem]:
         pre_fill_pool.extend(pool_compass(world))
     if not world.options.dungeon_maps.value == DungeonItem.option_anywhere:
         pre_fill_pool.extend(pool_dungeonmaps(world))
-    if not world.options.shuffle_elements.value is ShuffleElements.option_anywhere:
-        pre_fill_pool.extend(pool_elements())
 
     # Keep track of items that need to be removed due to start_inv
     known_start_inv = {}
