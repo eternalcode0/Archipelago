@@ -89,7 +89,7 @@ class SmallKeys(DungeonItem):
         have safely been added to your inventory from the pool.
     """
     display_name = "Small Key Shuffle"
-    default = 3
+    default = DungeonItem.option_own_dungeon
 
 
 class BigKeys(DungeonItem):
@@ -101,7 +101,7 @@ class BigKeys(DungeonItem):
         have safely been added to your inventory from the pool.
     """
     display_name = "Big Key Shuffle"
-    default = 3
+    default = DungeonItem.option_own_dungeon
 
 
 class DungeonMaps(DungeonItem):
@@ -113,7 +113,7 @@ class DungeonMaps(DungeonItem):
         have safely been added to your inventory from the pool.
     """
     display_name = "Dungeon Maps Shuffle"
-    default = 3
+    default = DungeonItem.option_own_dungeon
 
 
 class DungeonCompasses(DungeonItem):
@@ -125,7 +125,7 @@ class DungeonCompasses(DungeonItem):
         has safely been added to your inventory from the pool.
     """
     display_name = "Dungeon Compasses Shuffle"
-    default = 3
+    default = DungeonItem.option_own_dungeon
 
 
 class Traps(Toggle):
@@ -141,9 +141,39 @@ class Traps(Toggle):
 class GoalVaati(DefaultOnToggle):
     """
     If enabled, DHC will open after completing Pedestal. Kill Vaati to goal.
-    If disabled, complete Pedestal to goal. DHC/Vaati is unnecessary.
+    If disabled, complete Pedestal to goal. DHC is unnecessary, Big Key (DHC) is removed from the pool.
     """
     display_name = "Vaati Goal"
+
+
+# Future Goal setting to replace GoalVaati:
+# class Goal(Choice):
+#     """
+#     Vaati (default): Kill Vaati to goal. dhc_access and the ped requirements change how soon you can reach Vaati.
+#     Pedestal: Complete Pedestal to goal. The ped requirements change what's needed.
+#     Requirements: Goal the moment each ped requirement is met. Activating pedestal is unnecessary.
+#     """
+#     display_name = "Goal"
+#     option_vaati = 0
+#     option_pedestal = 1
+#     option_requirements = 2
+
+
+class DHCAccess(Choice):
+    """
+    When should DHC be accessible?
+    If goal_vaati is disabled, dhc_access can only be open/closed, pedestal will use closed instead.
+    'Closed' (false): DHC is never accessible. If goal_vaati is enabled, sanctuary will take you straight to Vaati.
+    'Pedestal' (default): DHC is locked until pedestal is completed. The vanilla option.
+    'Open' (true): DHC is accessible from the very beginning. Pedestal Requirements don't do anything with this setting.
+    """
+    display_name = "DHC Access"
+    option_closed = 0
+    option_pedestal = 1
+    option_open = 2
+    alias_false = 0
+    alias_true = 2
+    default = 1
 
 
 class PedDungeons(Range):
@@ -328,6 +358,7 @@ class MinishCapOptions(PerGameCommonOptions):
     death_link_gameover: DeathLinkGameover
     # Goal Settings
     goal_vaati: GoalVaati
+    dhc_access: DHCAccess
     ped_elements: PedElements
     ped_swords: PedSword
     ped_dungeons: PedDungeons
