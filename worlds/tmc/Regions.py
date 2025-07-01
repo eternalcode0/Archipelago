@@ -1,6 +1,6 @@
 import typing
 
-from .constants import ALL_REGIONS, MinishCapLocation, MinishCapRegion, TMCEvent, TMCRegion
+from .constants import ALL_EVENTS, ALL_REGIONS, MinishCapLocation, MinishCapRegion, TMCEvent, TMCRegion
 from .Locations import all_locations
 
 if typing.TYPE_CHECKING:
@@ -31,10 +31,18 @@ def create_regions(world: "MinishCapWorld", disabled_locations: set[str], disabl
         # If the entire dungeon has been excluded, don't add the dungeon clear so players aren't expected to beat it
         if dungeon in disabled_dungeons:
             continue
-        reg = world.get_region(clear)
-        loc = MinishCapLocation(world.player, event, None, reg)
-        loc.place_locked_item(world.create_event(event))
-        reg.locations.append(loc)
+        register_event(world, clear, event)
+
+    # General Events
+    for (region, event) in ALL_EVENTS:
+        register_event(world, region, event)
+
+
+def register_event(world: "MinishCapWorld", region: str, event: str):
+    reg = world.get_region(region)
+    loc = MinishCapLocation(world.player, event, None, reg)
+    loc.place_locked_item(world.create_event(event))
+    reg.locations.append(loc)
 
 
 def create_region(world: "MinishCapWorld", name, locations):

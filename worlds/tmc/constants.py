@@ -722,6 +722,8 @@ class TMCLocation:
 
 
 class TMCEvent:
+    DROPLETS_EAST_SWITCH = "Droplets East Switch"
+    DROPLETS_WEST_SWITCH = "Droplets West Switch"
     CLEAR_DWS = "Clear DWS"
     CLEAR_COF = "Clear CoF"
     CLEAR_FOW = "Clear FoW"
@@ -769,13 +771,18 @@ class TMCRegion:
     DUNGEON_COF_BLUE_WARP = "Cave of Flames Blue Warp"
     DUNGEON_COF_LAVA_BASEMENT = "Cave of Flames Lava Basement"
     DUNGEON_COF_CLEAR = "Cave of Flames Clear"
-    DUNGEON_FOW = "Fortress of Winds"
+    DUNGEON_FOW_ENTRANCE = "Fortress of Winds Entrance"
     DUNGEON_FOW_EYEGORE = "Fortress of Winds Past Eyegores"
     DUNGEON_FOW_BLUE = "Fortress of Winds Blue warp"
     DUNGEON_FOW_CLEAR = "Fortress of Winds Clear"
-    DUNGEON_TOD = "Temple of Droplets"
-    DUNGEON_TOD_CLEAR = "Temple of Droplets Clear"
+    DUNGEON_TOD_ENTRANCE = "Temple of Droplets Entrance"
     DUNGEON_TOD_MAIN = "Temple of Droplets After Big key"
+    DUNGEON_TOD_LEFT_BASEMENT = "Temple of Droplets Left Basement"
+    DUNGEON_TOD_DARK_MAZE_END = "Temple of Droplets Dark Maze End"
+    DUNGEON_TOD_WEST_SWITCH_LEDGE = "Temple of Droplets West Switch Ledge"
+    DUNGEON_TOD_EAST_SWITCH = "Temple of Droplets East Switch"
+    DUNGEON_TOD_WEST_SWITCH = "Temple of Droplets West Switch"
+    DUNGEON_TOD_CLEAR = "Temple of Droplets Clear"
     DUNGEON_POW = "Palace of Winds"
     DUNGEON_POW_CLEAR = "Palace of Winds Clear"
     SANCTUARY = "Sanctuary"
@@ -785,17 +792,17 @@ class TMCRegion:
 
 class TMCWarps:
     DWS_BLUE = "DWS Blue"
-    DWS_RED  = "DWS Red"
+    DWS_RED = "DWS Red"
     COF_BLUE = "CoF Blue"
-    COF_RED  = "CoF Red"
+    COF_RED = "CoF Red"
     FOW_BLUE = "FoW Blue"
-    FOW_RED  = "FoW Red"
+    FOW_RED = "FoW Red"
     TOD_BLUE = "ToD Blue"
-    TOD_RED  = "ToD Red"
+    TOD_RED = "ToD Red"
     POW_BLUE = "PoW Blue"
-    POW_RED  = "PoW Red"
+    POW_RED = "PoW Red"
     DHC_BLUE = "DHC Blue"
-    DHC_RED  = "DHC Red"
+    DHC_RED = "DHC Red"
 
 
 class TMCCrests:
@@ -860,8 +867,11 @@ DUNGEON_REGIONS = {
     "DWS": {TMCRegion.DUNGEON_DWS, TMCRegion.DUNGEON_DWS_CLEAR},
     "CoF": {TMCRegion.DUNGEON_COF_ENTRANCE, TMCRegion.DUNGEON_COF_MAIN, TMCRegion.DUNGEON_COF_MINECART,
             TMCRegion.DUNGEON_COF_BLUE_WARP, TMCRegion.DUNGEON_COF_LAVA_BASEMENT, TMCRegion.DUNGEON_COF_CLEAR},
-    "FoW": {TMCRegion.DUNGEON_FOW, TMCRegion.DUNGEON_FOW_CLEAR},
-    "ToD": {TMCRegion.DUNGEON_TOD, TMCRegion.DUNGEON_TOD_CLEAR, TMCRegion.DUNGEON_TOD_MAIN},
+    "FoW": {TMCRegion.DUNGEON_FOW_ENTRANCE, TMCRegion.DUNGEON_FOW_EYEGORE,
+            TMCRegion.DUNGEON_FOW_BLUE, TMCRegion.DUNGEON_FOW_CLEAR},
+    "ToD": {TMCRegion.DUNGEON_TOD_ENTRANCE, TMCRegion.DUNGEON_TOD_MAIN, TMCRegion.DUNGEON_TOD_LEFT_BASEMENT,
+            TMCRegion.DUNGEON_TOD_DARK_MAZE_END, TMCRegion.DUNGEON_TOD_WEST_SWITCH_LEDGE,
+            TMCRegion.DUNGEON_TOD_EAST_SWITCH, TMCRegion.DUNGEON_TOD_WEST_SWITCH, TMCRegion.DUNGEON_TOD_CLEAR},
     "PoW": {TMCRegion.DUNGEON_POW, TMCRegion.DUNGEON_POW_CLEAR},
     "DHC": {TMCRegion.DUNGEON_DHC},
     "RC": {TMCRegion.DUNGEON_RC, TMCRegion.DUNGEON_RC_CLEAR},
@@ -874,12 +884,12 @@ DUNGEON_OFFSET = {
     "ToD": 0x03,
     "PoW": 0x04,
     "DHC": 0x05,
-    "RC":  0x06,
+    "RC": 0x06,
 }
 
-DUNGEON_WARPS ={
+DUNGEON_WARPS = {
     "Blue": 0x01,
-    "Red":  0x02,
+    "Red": 0x02,
 }
 
 WIND_CRESTS = {
@@ -900,6 +910,11 @@ EXTERNAL_ITEM_MAP: dict[ItemClassification, Callable[[object], int]] = {
     ItemClassification.skip_balancing: lambda random: 0x19,
     ItemClassification.progression_skip_balancing: lambda random: 0x18,
 }
+
+ALL_EVENTS: list[tuple[str, str]] = [
+    (TMCRegion.DUNGEON_TOD_EAST_SWITCH, TMCEvent.DROPLETS_EAST_SWITCH),
+    (TMCRegion.DUNGEON_TOD_WEST_SWITCH, TMCEvent.DROPLETS_WEST_SWITCH),
+]
 
 ALL_REGIONS = [
     TMCRegion.SOUTH_FIELD,
@@ -938,13 +953,18 @@ ALL_REGIONS = [
     TMCRegion.DUNGEON_COF_BLUE_WARP,
     TMCRegion.DUNGEON_COF_LAVA_BASEMENT,
     TMCRegion.DUNGEON_COF_CLEAR,
-    TMCRegion.DUNGEON_FOW,
+    TMCRegion.DUNGEON_FOW_ENTRANCE,
     TMCRegion.DUNGEON_FOW_EYEGORE,
     TMCRegion.DUNGEON_FOW_BLUE,
     TMCRegion.DUNGEON_FOW_CLEAR,
-    TMCRegion.DUNGEON_TOD,
-    TMCRegion.DUNGEON_TOD_CLEAR,
+    TMCRegion.DUNGEON_TOD_ENTRANCE,
     TMCRegion.DUNGEON_TOD_MAIN,
+    TMCRegion.DUNGEON_TOD_LEFT_BASEMENT,
+    TMCRegion.DUNGEON_TOD_DARK_MAZE_END,
+    TMCRegion.DUNGEON_TOD_WEST_SWITCH_LEDGE,
+    TMCRegion.DUNGEON_TOD_EAST_SWITCH,
+    TMCRegion.DUNGEON_TOD_WEST_SWITCH,
+    TMCRegion.DUNGEON_TOD_CLEAR,
     TMCRegion.DUNGEON_POW,
     TMCRegion.DUNGEON_POW_CLEAR,
     TMCRegion.SANCTUARY,
