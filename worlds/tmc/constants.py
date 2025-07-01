@@ -760,6 +760,7 @@ class TMCRegion:
     DUNGEON_POW = "Palace of Winds"
     DUNGEON_POW_CLEAR = "Palace of Winds Clear"
     SANCTUARY = "Sanctuary"
+    STAINED_GLASS = "Sanctuary - Stained Glass"
     DUNGEON_DHC = "Dark Hyrule Castle"
     VAATI_FIGHT = "Vaati Fight"
 
@@ -867,6 +868,7 @@ ALL_REGIONS = [
     TMCRegion.DUNGEON_POW,
     TMCRegion.DUNGEON_POW_CLEAR,
     TMCRegion.SANCTUARY,
+    TMCRegion.STAINED_GLASS,
     TMCRegion.DUNGEON_DHC,
     TMCRegion.VAATI_FIGHT,
 ]
