@@ -25,6 +25,104 @@ class DungeonItem(Choice):
     alias_false = 3
 
 
+class Kinstones(Choice):
+    value: int
+    option_closed = 0
+    option_vanilla = 1
+    option_combined = 2
+    option_open = 3
+
+
+class KinstonesGold(Kinstones):
+    display_name = "Gold Kinstones"
+    default = Kinstones.option_vanilla
+
+
+class KinstoneCloudPack(Range):
+    display_name = "Kinstone Cloud Tops Pack Size"
+    default = 1
+    range_start = 1
+    range_end = 9
+
+
+class KinstoneSwampPack(Range):
+    display_name = "Kinstone Swamp Pack Size"
+    default = 1
+    range_start = 1
+    range_end = 3
+
+
+class KinstonesRed(Kinstones):
+    display_name = "Red Kinstones"
+    default = Kinstones.option_open
+
+
+class KinstoneRedWPack(Range):
+    display_name = "Kinstone Red W Pack Size"
+    default = 1
+    range_start = 1
+    range_end = 24
+
+
+class KinstoneRedVPack(Range):
+    display_name = "Kinstone Red V Pack Size"
+    default = 1
+    range_start = 1
+    range_end = 7
+
+
+class KinstoneRedEPack(Range):
+    display_name = "Kinstone Red E Pack Size"
+    default = 1
+    range_start = 1
+    range_end = 8
+
+
+class KinstonesBlue(Kinstones):
+    display_name = "Blue Kinstones"
+    default = Kinstones.option_open
+
+
+class KinstoneBlueLPack(Range):
+    display_name = "Kinstone Blue L Pack Size"
+    default = 1
+    range_start = 1
+    range_end = 18
+
+
+class KinstoneBlueSPack(Range):
+    display_name = "Kinstone Blue S Pack Size"
+    default = 1
+    range_start = 1
+    range_end = 9
+
+
+class KinstonesGreen(Kinstones):
+    display_name = "Green Kinstones"
+    default = Kinstones.option_open
+
+
+class KinstoneGreenCPack(Range):
+    display_name = "Kinstone Green C Pack Size"
+    default = 1
+    range_start = 1
+    range_end = 49
+
+
+class KinstoneGreenGPack(Range):
+    display_name = "Kinstone Green G Pack Size"
+    default = 1
+    range_start = 1
+    range_end = 16
+
+
+class KinstoneGreenPPack(Range):
+    display_name = "Kinstone Green P Pack Size"
+    default = 1
+    range_start = 1
+    range_end = 16
+
+
 class Rupeesanity(Toggle):
     """
     Add all rupees locations to the pool to be randomized. This setting will not shuffle Rupees that also belong to
@@ -145,7 +243,8 @@ class DungeonWarps(OptionSet):
     def get_warps(cls, dungeon, value):
         warp_bits = 0x00
         for colour in DUNGEON_WARPS.keys():
-            if f"{dungeon} {colour}" in value: warp_bits += DUNGEON_WARPS[colour]
+            if f"{dungeon} {colour}" in value:
+                warp_bits += DUNGEON_WARPS[colour]
         return warp_bits
 
 
@@ -363,6 +462,21 @@ class MinishCapOptions(PerGameCommonOptions):
     ped_dungeons: PedDungeons
     # ped_figurines: GoalFigurines
     # figurine_amount: FigurineAmount
+    # Fusion Settings
+    kinstones_gold: KinstonesGold
+    kinstones_cloud_pack: KinstoneCloudPack
+    kinstones_castor_pack: KinstoneSwampPack
+    kinstones_red: KinstonesRed
+    kinstones_redw_pack: KinstoneRedWPack
+    kinstones_redv_pack: KinstoneRedVPack
+    kinstones_rede_pack: KinstoneRedEPack
+    kinstones_blue: KinstonesBlue
+    kinstones_bluel_pack: KinstoneBlueLPack
+    kinstones_blues_pack: KinstoneBlueSPack
+    kinstones_green: KinstonesGreen
+    kinstones_greenc_pack: KinstoneGreenCPack
+    kinstones_greeng_pack: KinstoneGreenGPack
+    kinstones_greenp_pack: KinstoneGreenPPack
     # Pool Settings
     dungeon_small_keys: SmallKeys
     dungeon_big_keys: BigKeys

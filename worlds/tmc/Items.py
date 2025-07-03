@@ -2,7 +2,7 @@ from dataclasses import dataclass
 from typing import TYPE_CHECKING
 
 from BaseClasses import ItemClassification
-from .Options import DungeonItem, ShuffleElements
+from .Options import DungeonItem, Kinstones, ShuffleElements
 from .constants import TMCItem, TMCLocation, MinishCapItem
 
 if TYPE_CHECKING:
@@ -120,8 +120,6 @@ def pool_baseitems() -> list[str]:
         TMCItem.RED_BOOK,
         TMCItem.GREEN_BOOK,
         TMCItem.BLUE_BOOK,
-
-        *(pool_kinstone_gold()),
     ]
 
 
@@ -132,7 +130,7 @@ def pool_traps() -> list[str]:
 
 def pool_dungeonmaps(world: "MinishCapWorld") -> list[str]:
     items = [TMCItem.DUNGEON_MAP_DWS, TMCItem.DUNGEON_MAP_COF, TMCItem.DUNGEON_MAP_FOW, TMCItem.DUNGEON_MAP_TOD,
-            TMCItem.DUNGEON_MAP_POW]
+             TMCItem.DUNGEON_MAP_POW]
     if world.options.goal_vaati.value:
         items.append(TMCItem.DUNGEON_MAP_DHC)
     return items
@@ -140,7 +138,7 @@ def pool_dungeonmaps(world: "MinishCapWorld") -> list[str]:
 
 def pool_compass(world: "MinishCapWorld") -> list[str]:
     items = [TMCItem.DUNGEON_COMPASS_DWS, TMCItem.DUNGEON_COMPASS_COF, TMCItem.DUNGEON_COMPASS_FOW,
-            TMCItem.DUNGEON_COMPASS_TOD, TMCItem.DUNGEON_COMPASS_POW]
+             TMCItem.DUNGEON_COMPASS_TOD, TMCItem.DUNGEON_COMPASS_POW]
     if world.options.goal_vaati.value:
         items.append(TMCItem.DUNGEON_COMPASS_DHC)
     return items
@@ -156,26 +154,43 @@ def pool_bigkeys(world: "MinishCapWorld") -> list[str]:
 
 def pool_smallkeys(world: "MinishCapWorld") -> list[str]:
     items = [*[TMCItem.SMALL_KEY_DWS] * 4, *[TMCItem.SMALL_KEY_COF] * 2, *[TMCItem.SMALL_KEY_FOW] * 4,
-            *[TMCItem.SMALL_KEY_TOD] * 4, *[TMCItem.SMALL_KEY_POW] * 6, *[TMCItem.SMALL_KEY_RC] * 3]
+             *[TMCItem.SMALL_KEY_TOD] * 4, *[TMCItem.SMALL_KEY_POW] * 6, *[TMCItem.SMALL_KEY_RC] * 3]
     if world.options.goal_vaati.value:
         items.extend([TMCItem.SMALL_KEY_DHC] * 5)
     return items
 
 
-def pool_kinstone_gold() -> list[str]:
-    return [*[TMCItem.KINSTONE_GOLD_CLOUD] * 5, *[TMCItem.KINSTONE_GOLD_SWAMP] * 3, TMCItem.KINSTONE_GOLD_FALLS]
+def pool_kinstone_gold(world: "MinishCapWorld") -> list[str]:
+    if world.options.kinstones_gold.value == Kinstones.option_vanilla:
+        return [*[TMCItem.KINSTONE_GOLD_CLOUD] * 5, *[TMCItem.KINSTONE_GOLD_SWAMP] * 3, TMCItem.KINSTONE_GOLD_FALLS]
+    if world.options.kinstones_gold.value == Kinstones.option_combined:
+        return [*[TMCItem.KINSTONE_GOLD_CLOUD] * 9]  # FIXME: calc the correct amount of kinstones based off options
+    return []
 
 
-def pool_kinstone_red() -> list[str]:
-    return [*[TMCItem.KINSTONE_RED_W] * 9, *[TMCItem.KINSTONE_RED_ANGLE] * 7, *[TMCItem.KINSTONE_RED_E] * 8]
+def pool_kinstone_red(world: "MinishCapWorld") -> list[str]:
+    if world.options.kinstones_red.value == Kinstones.option_vanilla:
+        return [*[TMCItem.KINSTONE_RED_W] * 9, *[TMCItem.KINSTONE_RED_V] * 7, *[TMCItem.KINSTONE_RED_E] * 8]
+    if world.options.kinstones_red.value == Kinstones.option_combined:
+        return [*[TMCItem.KINSTONE_RED_W] * 24]  # FIXME: calc the correct amount of kinstones based off options
+    return []
 
 
-def pool_kinstone_blue() -> list[str]:
-    return [*[TMCItem.KINSTONE_BLUE_L] * 9, *[TMCItem.KINSTONE_BLUE_6] * 9]
+def pool_kinstone_blue(world: "MinishCapWorld") -> list[str]:
+    if world.options.kinstones_blue.value == Kinstones.option_vanilla:
+        return [*[TMCItem.KINSTONE_BLUE_L] * 9, *[TMCItem.KINSTONE_BLUE_6] * 9]
+    if world.options.kinstones_blue.value == Kinstones.option_combined:
+        return [*[TMCItem.KINSTONE_BLUE_L] * 18]  # FIXME: calc the correct amount of kinstones based off options
+    return []
 
 
-def pool_kinstone_green() -> list[str]:
-    return [*[TMCItem.KINSTONE_GREEN_ANGLE] * 17, *[TMCItem.KINSTONE_GREEN_SQUARE] * 16, *[TMCItem.KINSTONE_GREEN_P] * 16]
+def pool_kinstone_green(world: "MinishCapWorld") -> list[str]:
+    if world.options.kinstones_green.value == Kinstones.option_vanilla:
+        return [*[TMCItem.KINSTONE_GREEN_C] * 17, *[TMCItem.KINSTONE_GREEN_G] * 16,
+                *[TMCItem.KINSTONE_GREEN_P] * 16]
+    if world.options.kinstones_green.value == Kinstones.option_combined:
+        return [*[TMCItem.KINSTONE_GREEN_C] * 49]  # FIXME: calc the correct amount of kinstones based off options
+    return []
 
 
 def get_item_pool(world: "MinishCapWorld") -> list[MinishCapItem]:
@@ -221,10 +236,16 @@ def get_item_pool(world: "MinishCapWorld") -> list[MinishCapItem]:
 
         item_pool.extend(selected_bottles)
 
+    item_pool.extend(pool_kinstone_gold(world))
+    item_pool.extend(pool_kinstone_red(world))
+    item_pool.extend(pool_kinstone_blue(world))
+    item_pool.extend(pool_kinstone_green(world))
+
     if world.options.shuffle_elements.value is ShuffleElements.option_anywhere:
         item_pool.extend(pool_elements())
 
     return [world.create_item(item) for item in item_pool]
+
 
 def get_pre_fill_pool(world: "MinishCapWorld") -> list[MinishCapItem]:
     start_inv = world.options.start_inventory_from_pool.value
@@ -244,11 +265,13 @@ def get_pre_fill_pool(world: "MinishCapWorld") -> list[MinishCapItem]:
 
     # Keep track of items that need to be removed due to start_inv
     known_start_inv = {}
+
     def keep_item(s):
         known_start_inv[s] = known_start_inv.get(s, 0) + 1
         return s not in start_inv or known_start_inv[s] > start_inv[s]
 
     return [world.create_item(item) for item in pre_fill_pool if keep_item(item)]
+
 
 item_table: dict[str, ItemData] = {
     # TMCItem.SMITHS_SWORD: ItemData(ItemClassification.progression, (0x01, 0x00)),
@@ -341,17 +364,16 @@ item_table: dict[str, ItemData] = {
     TMCItem.RUPEES_200: ItemData(ItemClassification.filler, (0x59, 0x00)),
     # TMCItem.UNUSED: ItemData(ItemClassification.progression, (0x5A, 0x00)),
     TMCItem.JABBER_NUT: ItemData(ItemClassification.progression, (0x5B, 0x00)),
-    TMCItem.KINSTONE: ItemData(ItemClassification.progression, (0x5C, 0x00)),
     TMCItem.KINSTONE_GOLD_CLOUD: ItemData(ItemClassification.progression, (0x5C, 0x65)),
     TMCItem.KINSTONE_GOLD_SWAMP: ItemData(ItemClassification.progression, (0x5C, 0x6A)),
     TMCItem.KINSTONE_GOLD_FALLS: ItemData(ItemClassification.progression, (0x5C, 0x6D)),
     TMCItem.KINSTONE_RED_W: ItemData(ItemClassification.progression, (0x5C, 0x6E)),
-    TMCItem.KINSTONE_RED_ANGLE: ItemData(ItemClassification.progression, (0x5C, 0x6F)),
+    TMCItem.KINSTONE_RED_V: ItemData(ItemClassification.progression, (0x5C, 0x6F)),
     TMCItem.KINSTONE_RED_E: ItemData(ItemClassification.progression, (0x5C, 0x70)),
     TMCItem.KINSTONE_BLUE_L: ItemData(ItemClassification.progression, (0x5C, 0x71)),
     TMCItem.KINSTONE_BLUE_6: ItemData(ItemClassification.progression, (0x5C, 0x72)),
-    TMCItem.KINSTONE_GREEN_ANGLE: ItemData(ItemClassification.progression, (0x5C, 0x73)),
-    TMCItem.KINSTONE_GREEN_SQUARE: ItemData(ItemClassification.progression, (0x5C, 0x74)),
+    TMCItem.KINSTONE_GREEN_C: ItemData(ItemClassification.progression, (0x5C, 0x73)),
+    TMCItem.KINSTONE_GREEN_G: ItemData(ItemClassification.progression, (0x5C, 0x74)),
     TMCItem.KINSTONE_GREEN_P: ItemData(ItemClassification.progression, (0x5C, 0x75)),
     TMCItem.BOMB_REFILL_5: ItemData(ItemClassification.filler, (0x5D, 0x00)),
     TMCItem.ARROW_REFILL_5: ItemData(ItemClassification.filler, (0x5E, 0x00)),
@@ -443,12 +465,14 @@ trap_frequencies: dict[str, int] = {
     TMCItem.TRAP_CURSE: 10,
 }
 
+
 def get_filler_item_selection(world: "MinishCapWorld"):
     frequencies = item_frequencies.copy()
     if world.options.traps_enabled:
         traps = trap_frequencies.copy()
         frequencies.update(traps)
     return [name for name, count in frequencies.items() for _ in range(count)]
+
 
 item_groups: dict[str, set[str]] = {
     "Spin Scrolls": {TMCItem.SPIN_ATTACK, TMCItem.GREATSPIN, TMCItem.FAST_SPIN_SCROLL, TMCItem.FAST_SPLIT_SCROLL,
@@ -480,13 +504,13 @@ item_groups: dict[str, set[str]] = {
     "Traps": {TMCItem.TRAP_ICE, TMCItem.TRAP_FIRE, TMCItem.TRAP_ZAP, TMCItem.TRAP_BOMB, TMCItem.TRAP_MONEY,
               TMCItem.TRAP_STINK, TMCItem.TRAP_ROPE, TMCItem.TRAP_BAT, TMCItem.TRAP_LIKE, TMCItem.TRAP_CURSE},
     "Kinstones": {TMCItem.KINSTONE_GOLD_CLOUD, TMCItem.KINSTONE_GOLD_SWAMP, TMCItem.KINSTONE_GOLD_FALLS,
-                  TMCItem.KINSTONE_RED_W, TMCItem.KINSTONE_RED_ANGLE, TMCItem.KINSTONE_RED_E,
+                  TMCItem.KINSTONE_RED_W, TMCItem.KINSTONE_RED_V, TMCItem.KINSTONE_RED_E,
                   TMCItem.KINSTONE_BLUE_L, TMCItem.KINSTONE_BLUE_6,
-                  TMCItem.KINSTONE_GREEN_ANGLE, TMCItem.KINSTONE_GREEN_SQUARE, TMCItem.KINSTONE_GREEN_P},
+                  TMCItem.KINSTONE_GREEN_C, TMCItem.KINSTONE_GREEN_G, TMCItem.KINSTONE_GREEN_P},
     "Gold Kinstones": {TMCItem.KINSTONE_GOLD_CLOUD, TMCItem.KINSTONE_GOLD_SWAMP, TMCItem.KINSTONE_GOLD_FALLS},
-    "Red Kinstones": {TMCItem.KINSTONE_RED_W, TMCItem.KINSTONE_RED_ANGLE, TMCItem.KINSTONE_RED_E},
+    "Red Kinstones": {TMCItem.KINSTONE_RED_W, TMCItem.KINSTONE_RED_V, TMCItem.KINSTONE_RED_E},
     "Blue Kinstones": {TMCItem.KINSTONE_BLUE_L, TMCItem.KINSTONE_BLUE_6},
-    "Green Kinstones": {TMCItem.KINSTONE_GREEN_ANGLE, TMCItem.KINSTONE_GREEN_SQUARE, TMCItem.KINSTONE_GREEN_P},
+    "Green Kinstones": {TMCItem.KINSTONE_GREEN_C, TMCItem.KINSTONE_GREEN_G, TMCItem.KINSTONE_GREEN_P},
     "Dungeon Items": {TMCItem.SMALL_KEY_DWS, TMCItem.SMALL_KEY_COF, TMCItem.SMALL_KEY_FOW, TMCItem.SMALL_KEY_TOD,
                       TMCItem.SMALL_KEY_POW, TMCItem.SMALL_KEY_DHC, TMCItem.SMALL_KEY_RC,
                       TMCItem.BIG_KEY_DWS, TMCItem.BIG_KEY_COF, TMCItem.BIG_KEY_FOW, TMCItem.BIG_KEY_TOD,

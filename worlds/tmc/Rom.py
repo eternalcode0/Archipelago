@@ -7,7 +7,7 @@ from worlds.Files import APProcedurePatch, APTokenMixin, APTokenTypes
 from .constants import DUNGEON_ABBR, DUNGEON_OFFSET, EXTERNAL_ITEM_MAP, WIND_CRESTS, TMCLocation, TMCItem
 from .Items import item_table
 from .Locations import location_table_by_name, LocationData
-from .Options import ShuffleElements
+from .Options import ShuffleElements, Kinstones
 
 if TYPE_CHECKING:
     from . import MinishCapWorld
@@ -62,6 +62,8 @@ def write_tokens(world: "MinishCapWorld", patch: MinishCapProcedurePatch) -> Non
     # if 0 <= world.options.ped_figurines.value <= 136:
     #     patch.write_token(APTokenTypes.WRITE, 0xFE0004, bytes([world.options.ped_figurines.value]))
 
+    write_fusion_settings(patch, world)
+
     # Element map update
     if world.options.shuffle_elements.value == ShuffleElements.option_dungeon_prize:
         # Pack 1 = world map x pos: u8, world map y pos: u8,
@@ -88,10 +90,10 @@ def write_tokens(world: "MinishCapWorld", patch: MinishCapProcedurePatch) -> Non
 
     # Dungeon Warps
     for dungeon in DUNGEON_ABBR:
-        if dungeon == "RC": continue
+        if dungeon == "RC":
+            continue
         patch.write_token(APTokenTypes.WRITE, 0xFF127A + DUNGEON_OFFSET[dungeon],
                           bytes([world.options.dungeon_warps.get_warps(dungeon, world.options.dungeon_warps.value)]))
-
 
     # Wind Crests
     crest_value = 0x0
@@ -155,3 +157,96 @@ def write_single_byte(patch: MinishCapProcedurePatch, address: int, byte: int):
     if byte is None:
         byte = 0x00
     patch.write_token(APTokenTypes.WRITE, address, bytes([byte]))
+
+
+# This is a really dumb way of implementing this but...
+# write_fusion_settings iterates through this list to figure out whether it should write a bit for each fusion flag
+# the outer list represents each flag from 0x2C81-0x2C8D
+# the inner list represents the setting that needs to be either vanilla/combined in order to set that bit
+FUSION_FLAGS = [
+    [None, "kinstones_gold", "kinstones_gold", "kinstones_gold",
+     "kinstones_gold", "kinstones_gold", "kinstones_gold", "kinstones_gold"],
+
+    ["kinstones_gold", "kinstones_gold", "kinstones_red", "kinstones_red",
+     "kinstones_red", "kinstones_red", "kinstones_red", "kinstones_red"],
+
+    ["kinstones_red", "kinstones_red", "kinstones_red", "kinstones_red",
+     "kinstones_red", "kinstones_red", "kinstones_red", "kinstones_red"],
+
+    ["kinstones_red", "kinstones_red", "kinstones_red", "kinstones_red",
+     "kinstones_red", "kinstones_red", "kinstones_red", "kinstones_red"],
+
+    ["kinstones_red", "kinstones_red", "kinstones_blue", "kinstones_blue",
+     "kinstones_blue", "kinstones_blue", "kinstones_blue", "kinstones_blue"],
+
+    ["kinstones_blue", "kinstones_blue", "kinstones_blue", "kinstones_blue",
+     "kinstones_blue", "kinstones_blue", "kinstones_blue", "kinstones_blue"],
+
+    ["kinstones_blue", "kinstones_blue", "kinstones_blue", "kinstones_blue",
+     "kinstones_green", "kinstones_green", "kinstones_green", "kinstones_green"],
+
+    ["kinstones_green", "kinstones_green", "kinstones_green", "kinstones_green",
+     "kinstones_green", "kinstones_green", "kinstones_green", "kinstones_green"],
+
+    ["kinstones_green", "kinstones_green", "kinstones_green", "kinstones_green",
+     "kinstones_green", "kinstones_green", "kinstones_green", "kinstones_green"],
+
+    ["kinstones_green", "kinstones_green", "kinstones_green", "kinstones_green",
+     "kinstones_green", "kinstones_green", "kinstones_green", "kinstones_green"],
+
+    ["kinstones_green", "kinstones_green", "kinstones_green", "kinstones_green",
+     "kinstones_green", "kinstones_green", "kinstones_green", "kinstones_green"],
+
+    ["kinstones_green", "kinstones_green", "kinstones_green", "kinstones_green",
+     "kinstones_green", "kinstones_green", "kinstones_green", "kinstones_green"],
+
+    ["kinstones_green", "kinstones_green", "kinstones_green", "kinstones_green",
+     "kinstones_green"],
+]
+
+
+def write_fusion_settings(patch: MinishCapProcedurePatch, world: "MinishCapWorld"):
+    # Fusion requests
+    placeholder = []
+    if world.options.kinstones_gold.value == Kinstones.option_closed:
+        patch.write_token(APTokenTypes.WRITE, 0x07E4AE, bytes([0xBD, 0x00]))  # pop {pc}
+    if world.options.kinstones_red.value == Kinstones.option_closed:
+        placeholder.extend([0x2061, 0x2077, 0x2085, 0x208C, 0x2093, 0x215A, 0x21B6, 0x21BD, 0x2208, 0x2238, 0x2240,
+                            0x2241, 0x2248, 0x2249, 0x2250, 0x2251, 0x2270, 0x2296, 0x2297, 0x229E, 0x22C8, 0x22E6,
+                            0x22ED, 0x2310, 0x238B])
+    if world.options.kinstones_blue.value == Kinstones.option_closed:
+        placeholder.extend([0x2127, 0x213E, 0x2199, 0x21FF, 0x2225, 0x2226, 0x2227, 0x2228, 0x2229, 0x222A, 0x2258,
+                            0x2259, 0x22C1, 0x22D6, 0x22F4, 0x2348, 0x2349, 0x234A, 0x234B, 0x234C, 0x234D, 0x2354,
+                            0x2355, 0x2356, 0x2357, 0x2358, 0x2359, 0x2360, 0x2361, 0x2362, 0x2363, 0x2364, 0x2365,
+                            0x236C, 0x236D, 0x236E, 0x236F, 0x2370, 0x2371, 0x2378, 0x2379, 0x237A, 0x237B, 0x237C,
+                            0x237D, 0x2384, 0x2399])
+    if world.options.kinstones_green.value == Kinstones.option_closed:
+        placeholder.extend([0x2062, 0x20AC, 0x20DD, 0x212E, 0x212F, 0x2130, 0x21C4, 0x21CB, 0x21D2, 0x21D3, 0x21DA,
+                            0x21DB, 0x2200, 0x2207, 0x220F, 0x2216, 0x221D, 0x221E, 0x2231, 0x2260, 0x2261, 0x2285,
+                            0x2286, 0x2287, 0x22A5, 0x22AC, 0x22B3, 0x22BA, 0x22CF, 0x22DD, 0x22DE, 0x22DF, 0x22FB,
+                            0x2302, 0x2309, 0x233A, 0x23A0, 0x23A1, 0x23A8])
+        # Restore Magic Boomerang requirement for Tingle 2
+        patch.write_token(APTokenTypes.WRITE, 0x064952, bytes([0x46, 0x60]))
+    for addr in placeholder:
+        patch.write_token(APTokenTypes.WRITE, addr, bytes([0xF2]))
+
+    # Kinstone packs
+    multiplier_options = ["kinstones_cloud_pack", "kinstones_castor_pack",
+                          "kinstones_redw_pack", "kinstones_redv_pack", "kinstones_rede_pack",
+                          "kinstones_bluel_pack", "kinstones_blues_pack",
+                          "kinstones_greenc_pack", "kinstones_greeng_pack", "kinstones_greenp_pack"]
+    options = world.options.as_dict(*multiplier_options)
+    multiplier_addr = 0xFE0020
+    for multi in multiplier_options:
+        patch.write_token(APTokenTypes.WRITE, multiplier_addr, bytes([options[multi]]))
+        multiplier_addr += 1
+
+    fusion_options = ["kinstones_gold", "kinstones_red", "kinstones_blue", "kinstones_green"]
+    options = world.options.as_dict(*fusion_options)
+    # Fusion Flags
+    flag = 0xFF1241
+    for bits in FUSION_FLAGS:
+        for i, setting in enumerate(bits):
+            if setting is not None and options[setting] == Kinstones.option_open:
+                patch.write_token(APTokenTypes.OR_8, flag, 2 ** i)
+        flag += 1

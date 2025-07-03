@@ -128,8 +128,8 @@ class MinishCapWorld(World):
 
         # Setup prize location data for tracker to show element hints
         prizes = {TMCLocation.COF_PRIZE: "prize_cof", TMCLocation.CRYPT_PRIZE: "prize_rc",
-                    TMCLocation.PALACE_PRIZE: "prize_pow", TMCLocation.DEEPWOOD_PRIZE: "prize_dws",
-                    TMCLocation.DROPLETS_PRIZE: "prize_tod", TMCLocation.FORTRESS_PRIZE: "prize_fow"}
+                  TMCLocation.PALACE_PRIZE: "prize_pow", TMCLocation.DEEPWOOD_PRIZE: "prize_dws",
+                  TMCLocation.DROPLETS_PRIZE: "prize_tod", TMCLocation.FORTRESS_PRIZE: "prize_fow"}
         if self.options.shuffle_elements.value in {ShuffleElements.option_dungeon_prize,
                                                    ShuffleElements.option_vanilla}:
             for loc_name, data_name in prizes.items():
