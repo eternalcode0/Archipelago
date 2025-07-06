@@ -176,11 +176,11 @@ class MinishCapRules:
                 self.logic_and([self.has(TMCItem.KINSTONE_GOLD_CLOUD, 5),
                                 self.has_any([TMCItem.MOLE_MITTS, TMCItem.ROCS_CAPE])]),
             (TMCRegion.WIND_TRIBE, TMCRegion.CLOUDS): None,
-            (TMCRegion.WIND_TRIBE, TMCRegion.DUNGEON_POW):
+            (TMCRegion.WIND_TRIBE, TMCRegion.DUNGEON_POW_ENTRANCE):
                 self.logic_and([self.split_rule(3),
                                 self.logic_or([self.has_boomerang(),
                                                self.has_any([TMCItem.ROCS_CAPE, TMCItem.BOMB_BAG])])]),
-            (TMCRegion.DUNGEON_POW, TMCRegion.DUNGEON_POW_CLEAR):
+            (TMCRegion.DUNGEON_POW_ENTRANCE, TMCRegion.DUNGEON_POW_CLEAR):
                 self.logic_and([self.pow_jump(), self.has(TMCItem.SMALL_KEY_POW, 6), self.has(TMCItem.BIG_KEY_POW),
                                 self.has_weapon_boss(), self.dark_room(), self.has_weapon()]),
 

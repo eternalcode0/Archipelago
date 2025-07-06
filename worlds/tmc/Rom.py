@@ -4,7 +4,7 @@ from typing import TYPE_CHECKING
 from BaseClasses import Item, ItemClassification
 from settings import get_settings
 from worlds.Files import APProcedurePatch, APTokenMixin, APTokenTypes
-from .constants import DUNGEON_ABBR, DUNGEON_OFFSET, EXTERNAL_ITEM_MAP, WIND_CRESTS, TMCLocation, TMCItem
+from .constants import DUNGEON_ABBR, EXTERNAL_ITEM_MAP, TMCItem, TMCLocation, WIND_CRESTS
 from .Items import item_table
 from .Locations import location_table_by_name, LocationData
 from .Options import ShuffleElements
@@ -38,10 +38,10 @@ def write_tokens(world: "MinishCapWorld", patch: MinishCapProcedurePatch) -> Non
 
     # Sanctuary fix
     if world.options.goal_vaati.value:
-        # Skip stained glass scene
+        # Skip stained-glass scene
         patch.write_token(APTokenTypes.WRITE, 0x0532F6, bytes([0x10, 0x23]))
     else:
-        # Jump to credits on the stained glass scene
+        # Jump to credits on the stained-glass scene
         func = [0x00, 0x22, 0x05, 0x48, 0x04, 0x23, 0x03, 0x70, 0x42, 0x70, 0x82, 0x70, 0x01, 0x23, 0x8B, 0x71, 0x00,
                 0x24, 0x78, 0x20, 0x01, 0x4B, 0x00, 0x00, 0x02, 0x10, 0x00, 0x03, 0xFF, 0x32, 0x05, 0x08]
         patch.write_token(APTokenTypes.WRITE, 0x0532F4, bytes(func))
@@ -82,16 +82,9 @@ def write_tokens(world: "MinishCapWorld", patch: MinishCapProcedurePatch) -> Non
             if element_address.get(placed_item, 0) == 0:
                 continue
             patch.write_token(APTokenTypes.WRITE, element_address[placed_item], struct.pack("<BB", *data[0]))
-            patch.write_token(APTokenTypes.WRITE, element_address[placed_item]+3, struct.pack("<HH", *data[1]))
+            patch.write_token(APTokenTypes.WRITE, element_address[placed_item] + 3, struct.pack("<HH", *data[1]))
     elif world.options.shuffle_elements.value != ShuffleElements.option_vanilla:
         patch.write_token(APTokenTypes.WRITE, 0x128673, bytes([0x0, 0xF, 0x0, 0xF, 0x0, 0xF, 0x0]))
-
-    # Dungeon Warps
-    for dungeon in DUNGEON_ABBR:
-        if dungeon == "RC": continue
-        patch.write_token(APTokenTypes.WRITE, 0xFF127A + DUNGEON_OFFSET[dungeon],
-                          bytes([world.options.dungeon_warps.get_warps(dungeon, world.options.dungeon_warps.value)]))
-
 
     # Wind Crests
     crest_value = 0x0
@@ -101,13 +94,32 @@ def write_tokens(world: "MinishCapWorld", patch: MinishCapProcedurePatch) -> Non
         crest_value |= crest
     patch.write_token(APTokenTypes.WRITE, 0xFF1279, bytes([crest_value]))
 
+    # Dungeon Warps
+    dungeon_offset = {
+        "DWS": 0x00,
+        "CoF": 0x01,
+        "FoW": 0x02,
+        "ToD": 0x03,
+        "PoW": 0x04,
+        "DHC": 0x05,
+        "RC": 0x06,
+    }
+    for dungeon in DUNGEON_ABBR:
+        if dungeon == "RC": continue
+        warp_bits = world.options.dungeon_warps.get_warps(dungeon, world.options.dungeon_warps.value)
+        patch.write_token(APTokenTypes.WRITE, 0xFF127A + dungeon_offset[dungeon], bytes([warp_bits]))
+        if warp_bits & 1:
+            pass
+        if warp_bits & 2:
+            pass
+
     # Patch Items into Locations
     for location_name, loc in location_table_by_name.items():
         if loc.rom_addr is None:
             continue
         if location_name in world.disabled_locations and (
-                loc.vanilla_item is None or loc.vanilla_item in item_table and item_table[
-                    loc.vanilla_item].classification != ItemClassification.filler):
+                loc.vanilla_item is None or loc.vanilla_item in item_table and
+                item_table[loc.vanilla_item].classification != ItemClassification.filler):
             if loc.rom_addr[0] is None:
                 continue
             item_inject(world, patch, location_table_by_name[location_name], world.create_filler())

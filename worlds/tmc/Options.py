@@ -2,7 +2,7 @@ from dataclasses import dataclass
 
 from Options import (Choice, DeathLink, DefaultOnToggle, OptionSet, PerGameCommonOptions, Range, StartInventoryPool,
                      Toggle)
-from .constants import ALL_TRICKS, WIND_CRESTS, DUNGEON_WARPS
+from .constants import ALL_TRICKS, WIND_CRESTS
 
 
 class DungeonItem(Choice):
@@ -144,8 +144,8 @@ class DungeonWarps(OptionSet):
     @classmethod
     def get_warps(cls, dungeon, value):
         warp_bits = 0x00
-        for colour in DUNGEON_WARPS.keys():
-            if f"{dungeon} {colour}" in value: warp_bits += DUNGEON_WARPS[colour]
+        if f"{dungeon} Blue" in value: warp_bits += 0x01
+        if f"{dungeon} Red" in value: warp_bits += 0x02
         return warp_bits
 
 
