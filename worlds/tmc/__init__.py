@@ -19,7 +19,7 @@ from .Items import (get_filler_item_selection, get_item_pool, get_pre_fill_pool,
                     item_table, ItemData)
 from .Locations import (all_locations, DEFAULT_SET, GOAL_PED, GOAL_VAATI, location_groups, OBSCURE_SET, POOL_RUPEE,
                         POOL_POT, POOL_DIG, POOL_WATER)
-from .Options import DungeonItem, get_option_data, MinishCapOptions, ShuffleElements
+from .Options import DungeonItem, get_option_data, MinishCapOptions, ShuffleElements, DHCAccess
 from .Regions import create_regions
 from .Rom import MinishCapProcedurePatch, write_tokens
 from .Rules import MinishCapRules
@@ -91,6 +91,11 @@ class MinishCapWorld(World):
         if self.options.shuffle_underwater.value:
             enabled_pools.add(POOL_WATER)
 
+        # Default dhc_access to closed when it's been set to ped with goal vaati disabled.
+        # There's too many flags to manage to allow DHC to open after ped completes and vaati is slain.
+        if not self.options.goal_vaati.value and self.options.dhc_access.value == DHCAccess.option_pedestal:
+            self.options.dhc_access.value = DHCAccess.option_closed
+
         self.filler_items = get_filler_item_selection(self)
 
         if self.options.shuffle_elements.value == ShuffleElements.option_dungeon_prize:
@@ -100,9 +105,8 @@ class MinishCapWorld(World):
             self.options.start_hints.value.add(TMCItem.WIND_ELEMENT)
 
         self.disabled_locations = set(loc.name for loc in all_locations if not loc.pools.issubset(enabled_pools))
-
-        if not self.options.goal_vaati.value:
-            self.disabled_locations.update(loc.name for loc in all_locations if loc.region == TMCRegion.DUNGEON_DHC)
+        if self.options.dhc_access.value == DHCAccess.option_closed:
+            self.disabled_locations.update(loc.name for loc in all_locations if loc.region is TMCRegion.DUNGEON_DHC)
 
         # Check if the settings require more dungeons than are included
         self.disabled_dungeons = set(dungeon for dungeon in ["DWS", "CoF", "FoW", "ToD", "RC", "PoW"]
@@ -120,7 +124,7 @@ class MinishCapWorld(World):
                 "RupeeSpot": self.options.rupeesanity.value,
                 "GoalVaati": self.options.goal_vaati.value}
         data |= self.options.as_dict("death_link", "death_link_gameover", "rupeesanity",
-                                     "goal_vaati", "random_bottle_contents", "weapon_bomb", "weapon_bow",
+                                     "goal_vaati", "dhc_access", "random_bottle_contents", "weapon_bomb", "weapon_bow",
                                      "weapon_gust", "weapon_lantern",
                                      "tricks", "dungeon_small_keys", "dungeon_big_keys", "dungeon_compasses",
                                      "dungeon_maps", "shuffle_pots", "shuffle_digging", "shuffle_underwater",
@@ -129,8 +133,8 @@ class MinishCapWorld(World):
 
         # Setup prize location data for tracker to show element hints
         prizes = {TMCLocation.COF_PRIZE: "prize_cof", TMCLocation.CRYPT_PRIZE: "prize_rc",
-                    TMCLocation.PALACE_PRIZE: "prize_pow", TMCLocation.DEEPWOOD_PRIZE: "prize_dws",
-                    TMCLocation.DROPLETS_PRIZE: "prize_tod", TMCLocation.FORTRESS_PRIZE: "prize_fow"}
+                  TMCLocation.PALACE_PRIZE: "prize_pow", TMCLocation.DEEPWOOD_PRIZE: "prize_dws",
+                  TMCLocation.DROPLETS_PRIZE: "prize_tod", TMCLocation.FORTRESS_PRIZE: "prize_fow"}
         if self.options.shuffle_elements.value in {ShuffleElements.option_dungeon_prize,
                                                    ShuffleElements.option_vanilla}:
             for loc_name, data_name in prizes.items():
@@ -154,7 +158,11 @@ class MinishCapWorld(World):
         goal_location = MinishCapLocation(self.player, loc.name, None, goal_region)
         goal_location.place_locked_item(goal_item)
         goal_region.locations.append(goal_location)
-        # self.get_location(TMCEvent.CLEAR_PED).place_locked_item(self.create_event(TMCEvent.CLEAR_PED))
+        if self.options.goal_vaati.value:
+            reg = self.get_region(TMCRegion.STAINED_GLASS)
+            ped = MinishCapLocation(self.player, TMCEvent.CLEAR_PED, None, reg)
+            ped.place_locked_item(self.create_event(TMCEvent.CLEAR_PED))
+            reg.locations.append(ped)
 
     def create_item(self, name: str) -> Item:
         item = item_table[name]
