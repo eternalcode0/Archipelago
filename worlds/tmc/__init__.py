@@ -124,7 +124,7 @@ class MinishCapWorld(World):
                 "RupeeSpot": self.options.rupeesanity.value,
                 "GoalVaati": self.options.goal_vaati.value}
         data |= self.options.as_dict("death_link", "death_link_gameover", "rupeesanity",
-                                     "goal_vaati", "random_bottle_contents", "weapon_bomb", "weapon_bow",
+                                     "goal_vaati", "dhc_access", "random_bottle_contents", "weapon_bomb", "weapon_bow",
                                      "weapon_gust", "weapon_lantern",
                                      "tricks", "dungeon_small_keys", "dungeon_big_keys", "dungeon_compasses",
                                      "dungeon_maps", "shuffle_pots", "shuffle_digging", "shuffle_underwater",
@@ -133,8 +133,8 @@ class MinishCapWorld(World):
 
         # Setup prize location data for tracker to show element hints
         prizes = {TMCLocation.COF_PRIZE: "prize_cof", TMCLocation.CRYPT_PRIZE: "prize_rc",
-                    TMCLocation.PALACE_PRIZE: "prize_pow", TMCLocation.DEEPWOOD_PRIZE: "prize_dws",
-                    TMCLocation.DROPLETS_PRIZE: "prize_tod", TMCLocation.FORTRESS_PRIZE: "prize_fow"}
+                  TMCLocation.PALACE_PRIZE: "prize_pow", TMCLocation.DEEPWOOD_PRIZE: "prize_dws",
+                  TMCLocation.DROPLETS_PRIZE: "prize_tod", TMCLocation.FORTRESS_PRIZE: "prize_fow"}
         if self.options.shuffle_elements.value in {ShuffleElements.option_dungeon_prize,
                                                    ShuffleElements.option_vanilla}:
             for loc_name, data_name in prizes.items():

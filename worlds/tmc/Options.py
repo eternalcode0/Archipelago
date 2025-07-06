@@ -391,11 +391,19 @@ def get_option_data(options: MinishCapOptions):
     Template for the options that will likely be added in the future.
     Intended for trackers to properly match the logic between the standalone randomizer (TMCR) and AP
     """
+    vaati_dhc_map = {
+        (GoalVaati.option_true, DHCAccess.option_closed): 0,
+        (GoalVaati.option_true, DHCAccess.option_pedestal): 1,
+        (GoalVaati.option_true, DHCAccess.option_open): 2,
+        (GoalVaati.option_false, DHCAccess.option_closed): 3,
+        (GoalVaati.option_false, DHCAccess.option_open): 5}
+
     return {
         "goal_dungeons": options.ped_dungeons.value,  # 0-6
         "goal_swords": options.ped_swords.value,  # 0-5
         "goal_elements": options.ped_elements.value,  # 0-4
         "goal_figurines": 0,  # 0-136
+        "goal_vaati_dhc": vaati_dhc_map[(options.goal_vaati.value, options.dhc_access.value)],
         "dungeon_warp_dws": 0,  # 0 = None, 1 = Blue, 2 = Red, 3 = Both
         "dungeon_warp_cof": 0,
         "dungeon_warp_fow": 0,
