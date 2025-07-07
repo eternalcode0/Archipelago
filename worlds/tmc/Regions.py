@@ -1,6 +1,6 @@
 import typing
 
-from .constants import ALL_EVENTS, ALL_REGIONS, MinishCapLocation, MinishCapRegion, TMCEvent, TMCRegion
+from .constants import ALL_EVENTS, ALL_REGIONS, MinishCapLocation, MinishCapRegion, TMCEvent, TMCRegion, TMCTricks
 from .Locations import all_locations
 
 if typing.TYPE_CHECKING:
@@ -36,6 +36,9 @@ def create_regions(world: "MinishCapWorld", disabled_locations: set[str], disabl
     # General Events
     for (region, event) in ALL_EVENTS:
         register_event(world, region, event)
+
+    if TMCTricks.POT_PUZZLE in world.options.tricks.value:
+        register_event(world, TMCRegion.DUNGEON_POW_IN_3F_SWITCH, TMCEvent.POW_1ST_HALF_3F_ITEM_DROP),
 
 
 def register_event(world: "MinishCapWorld", region: str, event: str):

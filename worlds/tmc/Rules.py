@@ -176,13 +176,45 @@ class MinishCapRules:
                 self.logic_and([self.has(TMCItem.KINSTONE_GOLD_CLOUD, 5),
                                 self.has_any([TMCItem.MOLE_MITTS, TMCItem.ROCS_CAPE])]),
             (TMCRegion.WIND_TRIBE, TMCRegion.CLOUDS): None,
-            (TMCRegion.WIND_TRIBE, TMCRegion.DUNGEON_POW_ENTRANCE):
+            (TMCRegion.WIND_TRIBE, TMCRegion.DUNGEON_POW_ENTRANCE): None,
+
+            (TMCRegion.DUNGEON_POW_ENTRANCE, TMCRegion.DUNGEON_POW_BLUE_WARP): self.pow_blue_warp(),
+            (TMCRegion.DUNGEON_POW_ENTRANCE, TMCRegion.DUNGEON_POW_RED_WARP): self.pow_red_warp(),
+            (TMCRegion.DUNGEON_POW_ENTRANCE, TMCRegion.DUNGEON_POW_OUT_1F):
                 self.logic_and([self.split_rule(3),
-                                self.logic_or([self.has_boomerang(),
-                                               self.has_any([TMCItem.ROCS_CAPE, TMCItem.BOMB_BAG])])]),
-            (TMCRegion.DUNGEON_POW_ENTRANCE, TMCRegion.DUNGEON_POW_CLEAR):
-                self.logic_and([self.pow_jump(), self.has(TMCItem.SMALL_KEY_POW, 6), self.has(TMCItem.BIG_KEY_POW),
-                                self.has_weapon_boss(), self.dark_room(), self.has_weapon()]),
+                                self.logic_or([self.can_hit_distance(),
+                                               self.has_any([TMCItem.ROCS_CAPE, TMCItem.GUST_JAR])])]),
+            (TMCRegion.DUNGEON_POW_OUT_1F, TMCRegion.DUNGEON_POW_OUT_2F): self.pow_jump(),
+            (TMCRegion.DUNGEON_POW_OUT_2F, TMCRegion.DUNGEON_POW_OUT_3F):
+                self.logic_and([self.split_rule(3), self.has(TMCItem.ROCS_CAPE)]),
+            (TMCRegion.DUNGEON_POW_OUT_3F, TMCRegion.DUNGEON_POW_OUT_4F):
+                self.logic_and([self.pow_1st_door(), self.has(TMCItem.ROCS_CAPE)]),
+            (TMCRegion.DUNGEON_POW_OUT_4F, TMCRegion.DUNGEON_POW_OUT_5F): self.has(TMCItem.ROCS_CAPE),
+            (TMCRegion.DUNGEON_POW_OUT_5F, TMCRegion.DUNGEON_POW_BLUE_WARP):
+                self.logic_and([self.has(TMCItem.BIG_KEY_POW), self.has_weapon_boss()]),
+            (TMCRegion.DUNGEON_POW_BLUE_WARP, TMCRegion.DUNGEON_POW_IN_1F): self.dark_room(),
+            (TMCRegion.DUNGEON_POW_IN_1F, TMCRegion.DUNGEON_POW_IN_2F): None,
+            (TMCRegion.DUNGEON_POW_IN_2F, TMCRegion.DUNGEON_POW_IN_1F): self.dark_room(),
+            (TMCRegion.DUNGEON_POW_IN_2F, TMCRegion.DUNGEON_POW_IN_3F):
+                self.logic_and([self.pow_2nd_door(), self.has(TMCItem.ROCS_CAPE)]),
+            (TMCRegion.DUNGEON_POW_IN_3F, TMCRegion.DUNGEON_POW_IN_2F): None,
+            (TMCRegion.DUNGEON_POW_IN_3F, TMCRegion.DUNGEON_POW_IN_3F_SWITCH):
+                self.logic_and([self.has_sword(), self.has_boomerang(), self.has_bow(),
+                                self.has_any([TMCItem.GUST_JAR, TMCItem.BOMB_BAG])]),
+            (TMCRegion.DUNGEON_POW_IN_3F, TMCRegion.DUNGEON_POW_IN_4F): self.has_weapon(),
+            (TMCRegion.DUNGEON_POW_IN_4F, TMCRegion.DUNGEON_POW_IN_3F): None,
+            (TMCRegion.DUNGEON_POW_IN_4F, TMCRegion.DUNGEON_POW_RED_WARP):
+                self.logic_and([self.has(TMCItem.ROCS_CAPE), self.can_hit_distance()]),
+            (TMCRegion.DUNGEON_POW_RED_WARP, TMCRegion.DUNGEON_POW_IN_3F): self.has(TMCItem.BOMB_BAG),
+            (TMCRegion.DUNGEON_POW_RED_WARP, TMCRegion.DUNGEON_POW_IN_4F):
+                self.has_all([TMCItem.BOMB_BAG, TMCItem.ROCS_CAPE]),
+            (TMCRegion.DUNGEON_POW_RED_WARP, TMCRegion.DUNGEON_POW_IN_5F):
+                self.logic_and([self.pow_red_warp_door(), self.has(TMCItem.BOMB_BAG)]),
+            (TMCRegion.DUNGEON_POW_IN_5F, TMCRegion.DUNGEON_POW_IN_3F): None,
+            (TMCRegion.DUNGEON_POW_IN_5F, TMCRegion.DUNGEON_POW_IN_4F_END): self.pow_last_door(),
+            (TMCRegion.DUNGEON_POW_IN_4F_END, TMCRegion.DUNGEON_POW_IN_5F_END): self.has(TMCItem.ROCS_CAPE),
+            (TMCRegion.DUNGEON_POW_IN_4F_END, TMCRegion.DUNGEON_POW_CLEAR):
+                self.logic_and([self.has(TMCItem.ROCS_CAPE), self.has(TMCItem.BIG_KEY_POW), self.split_rule(3)]),
 
             (TMCRegion.ROYAL_VALLEY, TMCRegion.NORTH_FIELD): None,  # redundant
             (TMCRegion.ROYAL_VALLEY, TMCRegion.TRILBY_HIGHLANDS): None,  # redundant
@@ -203,9 +235,9 @@ class MinishCapRules:
             (TMCRegion.WIND_RUINS, TMCRegion.DUNGEON_FOW_ENTRANCE):
                 self.logic_and([self.has_sword(), self.has_weapon()]),  # redundancy for later logic improvements
             (TMCRegion.DUNGEON_FOW_ENTRANCE, TMCRegion.DUNGEON_FOW_EYEGORE): self.has_bow(),
-            (TMCRegion.DUNGEON_FOW_ENTRANCE, TMCRegion.DUNGEON_FOW_BLUE): self.fow_blue_warp(),
-            (TMCRegion.DUNGEON_FOW_EYEGORE, TMCRegion.DUNGEON_FOW_BLUE): self.has(TMCItem.SMALL_KEY_FOW, 4),
-            (TMCRegion.DUNGEON_FOW_BLUE, TMCRegion.DUNGEON_FOW_EYEGORE): None,
+            (TMCRegion.DUNGEON_FOW_ENTRANCE, TMCRegion.DUNGEON_FOW_BLUE_WARP): self.fow_blue_warp(),
+            (TMCRegion.DUNGEON_FOW_EYEGORE, TMCRegion.DUNGEON_FOW_BLUE_WARP): self.has(TMCItem.SMALL_KEY_FOW, 4),
+            (TMCRegion.DUNGEON_FOW_BLUE_WARP, TMCRegion.DUNGEON_FOW_EYEGORE): None,
             (TMCRegion.DUNGEON_FOW_ENTRANCE, TMCRegion.DUNGEON_FOW_CLEAR):
                 self.logic_and([self.has(TMCItem.MOLE_MITTS), self.has_bow(),
                                 self.has(TMCItem.BIG_KEY_FOW), self.has_weapon_gleerok_mazaal()]),
@@ -989,54 +1021,65 @@ class MinishCapRules:
             TMCLocation.DROPLETS_PRIZE: None,
             # endregion
 
-            # region Dungeon POW
+            # region Dungeon POW 1st Half 1F
             TMCLocation.PALACE_1ST_HALF_1F_GRATE_CHEST: self.has(TMCItem.ROCS_CAPE),
-            TMCLocation.PALACE_1ST_HALF_1F_WIZZROBE_BIG_CHEST: self.has_weapon_wizzrobe(),
-            TMCLocation.PALACE_1ST_HALF_2F_ITEM1: self.pow_jump(),
-            TMCLocation.PALACE_1ST_HALF_2F_ITEM2: self.pow_jump(),
-            TMCLocation.PALACE_1ST_HALF_2F_ITEM3: self.pow_jump(),
-            TMCLocation.PALACE_1ST_HALF_2F_ITEM4: self.pow_jump(),
-            TMCLocation.PALACE_1ST_HALF_2F_ITEM5: self.pow_jump(),
+            TMCLocation.PALACE_1ST_HALF_1F_WIZZROBE_BIG_CHEST:
+                self.logic_and([self.has_weapon_wizzrobe(),
+                                self.logic_or([self.has_boomerang(),
+                                               self.has_any([TMCItem.ROCS_CAPE, TMCItem.BOMB_BAG])])]),
+            # endregion
+
+            # region Dungeon POW 1st Half 2F
+            TMCLocation.PALACE_1ST_HALF_2F_ITEM1: None,
+            TMCLocation.PALACE_1ST_HALF_2F_ITEM2: None,
+            TMCLocation.PALACE_1ST_HALF_2F_ITEM3: None,
+            TMCLocation.PALACE_1ST_HALF_2F_ITEM4: None,
+            TMCLocation.PALACE_1ST_HALF_2F_ITEM5: None,
+            # endregion
+
+            # region Dungeon POW 1st Half 3F
             TMCLocation.PALACE_1ST_HALF_3F_POT_PUZZLE_ITEM_DROP:
-                self.logic_and([self.has_all([TMCItem.CANE_OF_PACCI, TMCItem.ROCS_CAPE]), self.pow_pot()]),
-            TMCLocation.PALACE_1ST_HALF_4F_BOW_MOBLINS_CHEST:
-                self.logic_and([self.pow_jump(), self.has(TMCItem.SMALL_KEY_POW, 1)]),
-            TMCLocation.PALACE_1ST_HALF_5F_BALL_AND_CHAIN_SOLDIERS_ITEM_DROP:
-                self.logic_and([self.pow_jump(), self.has(TMCItem.SMALL_KEY_POW, 1), self.has_weapon()]),
+                self.logic_and([self.has(TMCItem.CANE_OF_PACCI), self.pow_pot()]),
+            # endregion
+
+            # region Dungeon POW 1st Half 4F
+            TMCLocation.PALACE_1ST_HALF_4F_BOW_MOBLINS_CHEST: None,
+            # endregion
+
+            # region Dungeon POW 1st Half 5F
+            TMCLocation.PALACE_1ST_HALF_5F_BALL_AND_CHAIN_SOLDIERS_ITEM_DROP: self.has_weapon(),
             TMCLocation.PALACE_1ST_HALF_5F_FAN_LOOP_CHEST:
-                self.logic_and([self.pow_jump(), self.has(TMCItem.SMALL_KEY_POW, 5), self.has_weapon()]),
-            TMCLocation.PALACE_1ST_HALF_5F_BIG_CHEST:
-                self.logic_and([self.pow_jump(), self.has(TMCItem.SMALL_KEY_POW, 6)]),
-            TMCLocation.PALACE_2ND_HALF_1F_DARK_ROOM_BIG_CHEST:
-                self.logic_and([self.pow_jump(), self.has(TMCItem.SMALL_KEY_POW, 3), self.has(TMCItem.BIG_KEY_POW),
-                                self.has_weapon_boss(), self.dark_room()]),
-            TMCLocation.PALACE_2ND_HALF_1F_DARK_ROOM_SMALL_CHEST:
-                self.logic_and([self.pow_jump(), self.has(TMCItem.SMALL_KEY_POW, 3), self.has(TMCItem.BIG_KEY_POW),
-                                self.has_weapon_boss(), self.dark_room()]),
+                self.logic_and([self.has(TMCItem.ROCS_CAPE), self.has(TMCItem.SMALL_KEY_POW, 5), self.has_weapon()]),
+            TMCLocation.PALACE_1ST_HALF_5F_BIG_CHEST: self.has(TMCItem.SMALL_KEY_POW, 6),
+            # endregion
+
+            # region Dungeon POW 2nd Half 1F
+            TMCLocation.PALACE_2ND_HALF_1F_DARK_ROOM_BIG_CHEST: None,
+            # endregion
+
+            # region Dungeon POW 2nd Half 2F
+            TMCLocation.PALACE_2ND_HALF_1F_DARK_ROOM_SMALL_CHEST: None,
             TMCLocation.PALACE_2ND_HALF_2F_MANY_ROLLERS_CHEST:
-                self.logic_and([self.pow_jump(), self.has(TMCItem.SMALL_KEY_POW, 3), self.has(TMCItem.BIG_KEY_POW),
-                                self.has_weapon_boss(), self.dark_room()]),
-            TMCLocation.PALACE_2ND_HALF_2F_TWIN_WIZZROBES_CHEST:
-                self.logic_and([self.pow_jump(), self.has(TMCItem.SMALL_KEY_POW, 4), self.has(TMCItem.BIG_KEY_POW),
-                                self.has_weapon_boss(), self.dark_room(), self.has_weapon_wizzrobe()]),
-            TMCLocation.PALACE_2ND_HALF_3F_FIRE_WIZZROBES_BIG_CHEST:
-                self.logic_and([self.pow_jump(), self.has(TMCItem.SMALL_KEY_POW, 4), self.has(TMCItem.BIG_KEY_POW),
-                                self.has_weapon_boss(), self.dark_room(), self.has_weapon_wizzrobe()]),
-            TMCLocation.PALACE_2ND_HALF_4F_HP:
-                self.logic_and([self.pow_jump(), self.has(TMCItem.SMALL_KEY_POW, 4), self.has(TMCItem.BIG_KEY_POW),
-                                self.has_weapon_boss(), self.dark_room(), self.has_weapon()]),
-            TMCLocation.PALACE_2ND_HALF_4F_SWITCH_HIT_CHEST:
-                self.logic_and([self.pow_jump(), self.has(TMCItem.SMALL_KEY_POW, 4), self.has(TMCItem.BIG_KEY_POW),
-                                self.has_weapon_boss(), self.dark_room(), self.has_weapon()]),
-            TMCLocation.PALACE_2ND_HALF_5F_BOMBAROSSA_CHEST:
-                self.logic_and([self.pow_jump(), self.has(TMCItem.SMALL_KEY_POW, 5), self.has(TMCItem.BIG_KEY_POW),
-                                self.has_weapon_boss(), self.dark_room(), self.has_weapon()]),
-            TMCLocation.PALACE_2ND_HALF_4F_BLOCK_MAZE_CHEST:
-                self.logic_and([self.pow_jump(), self.has(TMCItem.SMALL_KEY_POW, 6), self.has(TMCItem.BIG_KEY_POW),
-                                self.has_weapon_boss(), self.dark_room(), self.has_weapon()]),
-            TMCLocation.PALACE_2ND_HALF_5F_RIGHT_SIDE_CHEST:
-                self.logic_and([self.pow_jump(), self.has(TMCItem.SMALL_KEY_POW, 6), self.has(TMCItem.BIG_KEY_POW),
-                                self.has_weapon_boss(), self.dark_room(), self.has_weapon()]),
+                self.logic_and([self.split_rule(3), self.has(TMCItem.ROCS_CAPE)]),  # FUTURE: Bomb Trick
+            # endregion
+
+            # region Dungeon POW 2nd Half 3F
+            TMCLocation.PALACE_2ND_HALF_2F_TWIN_WIZZROBES_CHEST: self.has_weapon_wizzrobe(),
+            TMCLocation.PALACE_2ND_HALF_3F_FIRE_WIZZROBES_BIG_CHEST: self.has_weapon_wizzrobe(),
+            # endregion
+
+            # region Dungeon POW 2nd Half 4F
+            TMCLocation.PALACE_2ND_HALF_4F_HP: self.has(TMCItem.ROCS_CAPE),
+            TMCLocation.PALACE_2ND_HALF_4F_SWITCH_HIT_CHEST: self.pow_red_chest(),
+            # endregion
+
+            # region Dungeon POW End
+            TMCLocation.PALACE_2ND_HALF_5F_BOMBAROSSA_CHEST: None,
+            TMCLocation.PALACE_2ND_HALF_4F_BLOCK_MAZE_CHEST: None,
+            TMCLocation.PALACE_2ND_HALF_5F_RIGHT_SIDE_CHEST: None,
+            # endregion
+
+            # region Dungeon POW Boss
             TMCLocation.PALACE_BOSS_ITEM: None,
             TMCLocation.PALACE_PRIZE: None,
             # endregion
@@ -1113,6 +1156,11 @@ class MinishCapRules:
                                                                TMCItem.LANTERN, TMCItem.ROCS_CAPE]),
                                                  self.has_weapon_scissor()]))
 
+    def pow_red_chest(self) -> CollectionRule:
+        return self.logic_option(TMCWarps.POW_RED in self.world.options.dungeon_warps.value,
+                                 self.can_hit_distance(),
+                                 self.logic_and([self.has(TMCItem.ROCS_CAPE), self.can_hit_distance()]))
+
     def dws_blue_warp(self) -> CollectionRule:
         return self.logic_option(TMCWarps.DWS_BLUE in self.world.options.dungeon_warps.value,
                                  None,
@@ -1154,6 +1202,39 @@ class MinishCapRules:
                                  self.logic_and([self.has_all([TMCItem.BOMB_BAG, TMCItem.LANTERN]),
                                                  self.has_weapon_boss()]),
                                  self.no_access())
+
+    def pow_blue_warp(self) -> CollectionRule:
+        return self.logic_option(TMCWarps.POW_BLUE in self.world.options.dungeon_warps.value,
+                                 self.has_weapon_boss(),
+                                 self.no_access())
+
+    def pow_red_warp(self) -> CollectionRule:
+        return self.logic_option(TMCWarps.POW_RED in self.world.options.dungeon_warps.value,
+                                 None,
+                                 self.no_access())
+
+    def pow_1st_door(self) -> CollectionRule:
+        return self.logic_option(TMCWarps.POW_BLUE in self.world.options.dungeon_warps.value or
+                                 TMCWarps.POW_RED in self.world.options.dungeon_warps.value,
+                                 self.has(TMCItem.SMALL_KEY_POW, 4),
+                                 self.has(TMCItem.SMALL_KEY_POW, 1))
+
+    def pow_fan_door(self) -> CollectionRule:
+        return self.has(TMCItem.SMALL_KEY_POW, 5)  # FUTURE: Key settings
+
+    def pow_big_chest_door(self) -> CollectionRule:
+        return self.has(TMCItem.SMALL_KEY_POW, 6)  # FUTURE: Key settings
+
+    def pow_2nd_door(self) -> CollectionRule:
+        return self.logic_option(TMCWarps.POW_RED in self.world.options.dungeon_warps.value,
+                                 self.has(TMCItem.SMALL_KEY_POW, 6),
+                                 self.has(TMCItem.SMALL_KEY_POW, 4))
+
+    def pow_red_warp_door(self) -> CollectionRule:
+        return self.has(TMCItem.SMALL_KEY_POW, 5)
+
+    def pow_last_door(self) -> CollectionRule:
+        return self.has(TMCItem.SMALL_KEY_POW, 6)
 
     def crenel_crest(self) -> CollectionRule:
         return self.logic_option(TMCCrests.CRENEL in self.world.options.wind_crests.value,
@@ -1228,6 +1309,14 @@ class MinishCapRules:
             self.has_sword(),
             self.has_any([TMCItem.SWORD_BEAM, TMCItem.PERIL_BEAM]),
             self.has_bottle(),
+        ])
+
+    def can_hit_distance(self) -> CollectionRule:
+        return self.logic_or([
+            self.has_boomerang(),
+            self.has(TMCItem.BOMB_BAG),
+            self.has_bow(),
+            self.can_beam(),
         ])
 
     def downthrust(self) -> CollectionRule:
@@ -1383,14 +1472,16 @@ class MinishCapRules:
     def pow_jump(self) -> CollectionRule:
         return self.logic_option(TMCTricks.POW_NOCANE in self.world.options.tricks,
                                  self.has(TMCItem.ROCS_CAPE),
-                                 self.has_all([TMCItem.CANE_OF_PACCI, TMCItem.ROCS_CAPE]))
+                                 self.logic_and([self.has_all([TMCItem.CANE_OF_PACCI, TMCItem.ROCS_CAPE]),
+                                                 self.split_rule(3)]))
 
     def pow_pot(self) -> CollectionRule:
         return self.logic_option(TMCTricks.POT_PUZZLE in self.world.options.tricks,
-                                 self.logic_or([self.can_reach([TMCLocation.PALACE_2ND_HALF_2F_TWIN_WIZZROBES_CHEST]),
-                                                self.has(TMCItem.POWER_BRACELETS)]),
-                                 self.has(TMCItem.POWER_BRACELETS),
-                                 )
+                                 self.logic_or([self.has_all([TMCItem.ROCS_CAPE, TMCEvent.POW_1ST_HALF_3F_ITEM_DROP]),
+                                                self.logic_and([self.split_rule(3), self.has(TMCItem.POWER_BRACELETS),
+                                                                self.can_hit_distance()])]),
+                                 self.logic_and([self.split_rule(3), self.has(TMCItem.POWER_BRACELETS),
+                                                 self.can_hit_distance()]))  # FUTURE: Boomerang/Bomb Trick
 
     def dhc_cannons(self) -> CollectionRule:
         return self.logic_option(TMCTricks.DHC_CANNONS in self.world.options.tricks,

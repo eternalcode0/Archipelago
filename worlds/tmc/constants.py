@@ -720,6 +720,7 @@ class TMCLocation:
     DHC_3F_SOUTH_EAST_CHEST = "DHC 3F South East Chest"
     DHC_2F_BLUE_WARP_BIG_CHEST = "DHC 2F Blue Warp Big Chest"
 
+
 class TMCFlagGroup:
     SIGNATURE = "Signature"
     INITIALISED = "Initialised"
@@ -1585,7 +1586,7 @@ class TMCEvent:
     POW_BLUE_WARP_SWITCH = "PoW: Bridge extends after Red Darknut fight at Blue Warp"
     POW_1ST_HALF_2F_BEETLES = "PoW: 1st Half: 2F: Door opened after Spikey Beetle fight"
     POW_RED_WARP_SWITCH = "PoW: 2nd Half: 4F: Torches lit to spawn Red Warp"
-    POW_1ST_HALF_3F_ITEM_DROP = "PoW: 1st Half: 3F: Door opened from hitting switch after pot puzzle"
+    POW_1ST_HALF_3F_ITEM_DROP = "PoW: 2nd Half: 3F: Door opened from hitting switch avoiding pot puzzle"
 
     DHC_VISIT_00 = "Visited DHC room 0x00: "
     DHC_VISIT_01 = "Visited DHC room 0x01: "
@@ -1657,7 +1658,7 @@ class TMCRegion:
     DUNGEON_COF_CLEAR = "Cave of Flames Clear"
     DUNGEON_FOW_ENTRANCE = "Fortress of Winds Entrance"
     DUNGEON_FOW_EYEGORE = "Fortress of Winds Past Eyegores"
-    DUNGEON_FOW_BLUE = "Fortress of Winds Blue warp"
+    DUNGEON_FOW_BLUE_WARP = "Fortress of Winds Blue warp"
     DUNGEON_FOW_CLEAR = "Fortress of Winds Clear"
     DUNGEON_TOD_ENTRANCE = "Temple of Droplets Entrance"
     DUNGEON_TOD_MAIN = "Temple of Droplets After Big key"
@@ -1668,8 +1669,21 @@ class TMCRegion:
     DUNGEON_TOD_WEST_SWITCH = "Temple of Droplets West Switch"
     DUNGEON_TOD_CLEAR = "Temple of Droplets Clear"
     DUNGEON_POW_ENTRANCE = "Palace of Winds Entrance"
-    DUNGEON_POW_BLUE = "Palace of Winds Blue warp"
-    DUNGEON_POW_RED = "Palace of Winds Red warp"
+    DUNGEON_POW_OUT_1F = "Palace of Winds 1st Half 1F"
+    DUNGEON_POW_OUT_2F = "Palace of Winds 1st Half 2F"
+    DUNGEON_POW_OUT_3F = "Palace of Winds 1st Half 3F"
+    DUNGEON_POW_OUT_4F = "Palace of Winds 1st Half 4F"
+    DUNGEON_POW_OUT_5F = "Palace of Winds 1st Half 5F"
+    DUNGEON_POW_BLUE_WARP = "Palace of Winds Blue warp"
+    DUNGEON_POW_IN_1F = "Palace of Winds 2nd Half 1F"
+    DUNGEON_POW_IN_2F = "Palace of Winds 2nd Half 2F"
+    DUNGEON_POW_IN_3F = "Palace of Winds 2nd Half 3F"
+    DUNGEON_POW_IN_3F_SWITCH = "Palace of Winds 2nd Half 3F Switch"
+    DUNGEON_POW_IN_4F = "Palace of Winds 2nd Half 4F"
+    DUNGEON_POW_RED_WARP = "Palace of Winds Red warp"
+    DUNGEON_POW_IN_5F = "Palace of Winds 2nd Half 5F"
+    DUNGEON_POW_IN_4F_END = "Palace of Winds 2nd Half 4F End Maze"
+    DUNGEON_POW_IN_5F_END = "Palace of Winds 2nd Half 5F End Chest"
     DUNGEON_POW_CLEAR = "Palace of Winds Clear"
     SANCTUARY = "Sanctuary"
     DUNGEON_DHC = "Dark Hyrule Castle"
@@ -1754,12 +1768,16 @@ DUNGEON_REGIONS = {
     "CoF": {TMCRegion.DUNGEON_COF_ENTRANCE, TMCRegion.DUNGEON_COF_MAIN, TMCRegion.DUNGEON_COF_MINECART,
             TMCRegion.DUNGEON_COF_BLUE_WARP, TMCRegion.DUNGEON_COF_LAVA_BASEMENT, TMCRegion.DUNGEON_COF_CLEAR},
     "FoW": {TMCRegion.DUNGEON_FOW_ENTRANCE, TMCRegion.DUNGEON_FOW_EYEGORE,
-            TMCRegion.DUNGEON_FOW_BLUE, TMCRegion.DUNGEON_FOW_CLEAR},
+            TMCRegion.DUNGEON_FOW_BLUE_WARP, TMCRegion.DUNGEON_FOW_CLEAR},
     "ToD": {TMCRegion.DUNGEON_TOD_ENTRANCE, TMCRegion.DUNGEON_TOD_MAIN, TMCRegion.DUNGEON_TOD_LEFT_BASEMENT,
             TMCRegion.DUNGEON_TOD_DARK_MAZE_END, TMCRegion.DUNGEON_TOD_WEST_SWITCH_LEDGE,
             TMCRegion.DUNGEON_TOD_EAST_SWITCH, TMCRegion.DUNGEON_TOD_WEST_SWITCH, TMCRegion.DUNGEON_TOD_CLEAR},
-    "PoW": {TMCRegion.DUNGEON_POW_ENTRANCE, TMCRegion.DUNGEON_POW_BLUE,
-            TMCRegion.DUNGEON_POW_RED, TMCRegion.DUNGEON_POW_CLEAR},
+    "PoW": {TMCRegion.DUNGEON_POW_ENTRANCE, TMCRegion.DUNGEON_POW_OUT_1F, TMCRegion.DUNGEON_POW_OUT_2F,
+            TMCRegion.DUNGEON_POW_OUT_3F, TMCRegion.DUNGEON_POW_OUT_4F, TMCRegion.DUNGEON_POW_OUT_5F,
+            TMCRegion.DUNGEON_POW_BLUE_WARP, TMCRegion.DUNGEON_POW_IN_1F, TMCRegion.DUNGEON_POW_IN_2F,
+            TMCRegion.DUNGEON_POW_IN_3F, TMCRegion.DUNGEON_POW_IN_3F_SWITCH, TMCRegion.DUNGEON_POW_IN_4F,
+            TMCRegion.DUNGEON_POW_RED_WARP, TMCRegion.DUNGEON_POW_IN_5F, TMCRegion.DUNGEON_POW_IN_4F_END,
+            TMCRegion.DUNGEON_POW_IN_5F_END, TMCRegion.DUNGEON_POW_CLEAR},
     "DHC": {TMCRegion.DUNGEON_DHC},
     "RC": {TMCRegion.DUNGEON_RC, TMCRegion.DUNGEON_RC_CLEAR},
 }
@@ -1829,7 +1847,7 @@ ALL_REGIONS = [
     TMCRegion.DUNGEON_COF_CLEAR,
     TMCRegion.DUNGEON_FOW_ENTRANCE,
     TMCRegion.DUNGEON_FOW_EYEGORE,
-    TMCRegion.DUNGEON_FOW_BLUE,
+    TMCRegion.DUNGEON_FOW_BLUE_WARP,
     TMCRegion.DUNGEON_FOW_CLEAR,
     TMCRegion.DUNGEON_TOD_ENTRANCE,
     TMCRegion.DUNGEON_TOD_MAIN,
@@ -1840,8 +1858,21 @@ ALL_REGIONS = [
     TMCRegion.DUNGEON_TOD_WEST_SWITCH,
     TMCRegion.DUNGEON_TOD_CLEAR,
     TMCRegion.DUNGEON_POW_ENTRANCE,
-    TMCRegion.DUNGEON_POW_BLUE,
-    TMCRegion.DUNGEON_POW_RED,
+    TMCRegion.DUNGEON_POW_OUT_1F,
+    TMCRegion.DUNGEON_POW_OUT_2F,
+    TMCRegion.DUNGEON_POW_OUT_3F,
+    TMCRegion.DUNGEON_POW_OUT_4F,
+    TMCRegion.DUNGEON_POW_OUT_5F,
+    TMCRegion.DUNGEON_POW_BLUE_WARP,
+    TMCRegion.DUNGEON_POW_IN_1F,
+    TMCRegion.DUNGEON_POW_IN_2F,
+    TMCRegion.DUNGEON_POW_IN_3F,
+    TMCRegion.DUNGEON_POW_IN_3F_SWITCH,
+    TMCRegion.DUNGEON_POW_IN_4F,
+    TMCRegion.DUNGEON_POW_RED_WARP,
+    TMCRegion.DUNGEON_POW_IN_5F,
+    TMCRegion.DUNGEON_POW_IN_4F_END,
+    TMCRegion.DUNGEON_POW_IN_5F_END,
     TMCRegion.DUNGEON_POW_CLEAR,
     TMCRegion.SANCTUARY,
     TMCRegion.DUNGEON_DHC,
