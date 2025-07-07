@@ -21,37 +21,15 @@ class AddressData:
     Eighth: str | None
 
 
-flag_group_offset_by_name: dict[str, int] = {
-    # "newGameTable": 0xFF1000,
-    # "spawnPoint": 0xFF10FC,  # 0x2002AC8, 0x08
-    # "canOpenMenu": 0xFF1104,  # 0x2002B32, 0x01
-    # "haveMap": 0xFF1105,  # 0x2002B43, 0x01
-    # "fastItems": 0xFF1106,  # 0x2002B46, 0x05
-    # "fastShell": 0xFF110B,  # 0x2002B41, 0x01 - Make sure to & this with grave
-    # "fusionFlags": 0xFF110C,  # 0x2002C81, 0x0D
-    # "allFusions": 0xFF1119,  # 0x2002C81, 0x0D
-    # "kinstoneBag": 0xFF1126,  # 0x2002B4B, 0x01
-    # "fusionNumber": 0xFF1127,  # 0x2002B57, 0x01
-    # "figurines": 0xFF1128,  # 0x2002B0E, 0x12
-    # "worldmap": 0xFF113C,  # 0x2002ADC, 0x04
-    # "elements": 0xFF1140,  # 0x2002A60, 0x01
-    # "map": 0xFF1141,  # 0x2002A80, 0x03
-    # "shells": 0xFF1144,  # 0x2002AFB, 0x01
-    # "startingFlags": 0xFF1145,  # 0x2002C9C, 0x0134
-    # "crests": 0xFF1279,  # 0x2002A83, 0x01
-    # "warps": 0xFF127A,  # 0x2002EBD, 0x06
-    # "visit": 0xFF1280,  # 0x2002AA0, 0x04
-    # "grave": 0xFF1284,  # 0x2002B41, 0x01 - Make sure to & this with fastShell
-    # "startingRupees": 0xFF1285,  # 0x2002B00, 0x02
-
+flag_group_by_name: dict[str, int] = {
     TMCFlagGroup.SIGNATURE: 0xFF1000,  # 0x2002A40, 0x01
     TMCFlagGroup.INITIALISED: 0xFF1001,  # 0x2002A41, 0x01
     TMCFlagGroup.TEXTSPEED: 0xFF1002,  # 0x2002A42, 0x01
     TMCFlagGroup.BRIGHTNESS: 0xFF1003,  # 0x2002A43, 0x01
     TMCFlagGroup.LIGHT_FORCE_ON_FILE_SELECT: 0xFF1006,  # 0x2002A46, 0x01
-    TMCFlagGroup.STATE_OF_DEEPWOOD_SHRINE_BARREL: 0xFF1007,  # 0x2002A47, 0x01
+    TMCFlagGroup.DEEPWOOD_SHRINE_BARREL_STATE: 0xFF1007,  # 0x2002A47, 0x01
     TMCFlagGroup.GAME_STAGE: 0xFF1008,  # 0x2002A48, 0x01
-    TMCFlagGroup.TOTAL_NUMBER_OF_FIGURINES_AVAILABLE: 0xFF1009,  # 0x2002A49, 0x01
+    TMCFlagGroup.FIGURINES_AVAILABLE_COUNT: 0xFF1009,  # 0x2002A49, 0x01
     TMCFlagGroup.QUEST_MAP_MARKERS: 0xFF1020,  # 0x2002A60, 0x02
     TMCFlagGroup.MAP_SQUARE_REVEALED: 0xFF1040,  # 0x2002A80, 0x03
     TMCFlagGroup.WIND_CRESTS: 0xFF1043,  # 0x2002A83, 0x01
@@ -60,21 +38,23 @@ flag_group_offset_by_name: dict[str, int] = {
     TMCFlagGroup.OVERWORLD_VISITED_LOCATIONS: 0xFF1060,  # 0x2002AA0, 0x03
     TMCFlagGroup.DUNGEON_VISITED_LOCATIONS: 0xFF1063,  # 0x2002AA3, 0x01
     TMCFlagGroup.FILE_NAME: 0xFF1080,  # 0x2002AC0, 0x06
-    TMCFlagGroup.AREA_ID_OF_ROOM_TRANSITIONING_TO: 0xFF1088,  # 0x2002AC8, 0x01
-    TMCFlagGroup.ROOM_ID_OF_ROOM_TRANSITIONING_TO: 0xFF1089,  # 0x2002AC9, 0x01
+
+    TMCFlagGroup.ROOM_TRANSITIONING_TO_AREA_ID: 0xFF1088,  # 0x2002AC8, 0x01
+    TMCFlagGroup.ROOM_TRANSITIONING_TO_ROOM_ID: 0xFF1089,  # 0x2002AC9, 0x01
     TMCFlagGroup.TRANSITION_FACING_DIRECTION: 0xFF108A,  # 0x2002ACA, 0x01
     TMCFlagGroup.TRANSITION_ANIMATION: 0xFF108B,  # 0x2002ACB, 0x01
     TMCFlagGroup.TRANSITION_DESTINATION_X_COORDINATE_OFFSET: 0xFF108C,  # 0x2002ACC, 0x02
     TMCFlagGroup.TRANSITION_DESTINATION_Y_COORDINATE_OFFSET: 0xFF108E,  # 0x2002ACE, 0x02
     TMCFlagGroup.TRANSITION_DESTINATION_LAYER: 0xFF1090,  # 0x2002AD0, 0x01
-    TMCFlagGroup.AREA_ID_OF_LAST_DUNGEON_ENTERED: 0xFF1092,  # 0x2002AD2, 0x01
-    TMCFlagGroup.ROOM_ID_OF_LAST_DUNGEON_ENTERED: 0xFF1093,  # 0x2002AD3, 0x01
+    TMCFlagGroup.LAST_DUNGEON_ENTERED_AREA_ID: 0xFF1092,  # 0x2002AD2, 0x01
+    TMCFlagGroup.LAST_DUNGEON_ENTERED_ROOM_ID: 0xFF1093,  # 0x2002AD3, 0x01
     TMCFlagGroup.LAST_DUNGEON_ENTERED_X_COORDINATE: 0xFF1094,  # 0x2002AD4, 0x02
     TMCFlagGroup.LAST_DUNGEON_ENTERED_Y_COORDINATE: 0xFF1096,  # 0x2002AD6, 0x02
     TMCFlagGroup.CURRENT_DUNGEON_X_COORDINATE: 0xFF1098,  # 0x2002AD8, 0x02
     TMCFlagGroup.CURRENT_DUNGEON_Y_COORDINATE: 0xFF109A,  # 0x2002ADA, 0x02
     TMCFlagGroup.CURRENT_OVERWORLD_X_COORDINATE: 0xFF109C,  # 0x2002ADC, 0x02
     TMCFlagGroup.CURRENT_OVERWORLD_Y_COORDINATE: 0xFF109E,  # 0x2002ADE, 0x02
+
     TMCFlagGroup.WALLET_SIZE: 0xFF10A8,  # 0x2002AE8, 0x01
     TMCFlagGroup.HEART_PIECES: 0xFF10A9,  # 0x2002AE9, 0x01
     TMCFlagGroup.LINKS_CURRENT_HEALTH: 0xFF10AA,  # 0x2002AEA, 0x01
@@ -83,7 +63,7 @@ flag_group_offset_by_name: dict[str, int] = {
     TMCFlagGroup.ARROW_COUNT: 0xFF10AD,  # 0x2002AED, 0x01
     TMCFlagGroup.BOMB_BAG: 0xFF10AE,  # 0x2002AEE, 0x01
     TMCFlagGroup.QUIVER: 0xFF10AF,  # 0x2002AEF, 0x01
-    TMCFlagGroup.AMOUNT_OF_FIGURINES: 0xFF10B0,  # 0x2002AF0, 0x01
+    TMCFlagGroup.FIGURINE_COUNT: 0xFF10B0,  # 0x2002AF0, 0x01
     TMCFlagGroup.COLLECTED_ALL_FIGURINES: 0xFF10B1,  # 0x2002AF1, 0x01
     TMCFlagGroup.ACTIVE_CHARM: 0xFF10B2,  # 0x2002AF2, 0x01
     TMCFlagGroup.ACTIVE_PICOLYTE: 0xFF10B3,  # 0x2002AF3, 0x01
@@ -101,46 +81,50 @@ flag_group_offset_by_name: dict[str, int] = {
     TMCFlagGroup.PICOLYTE_TIMER: 0xFF10C6,  # 0x2002B06, 0x02
     TMCFlagGroup.FIGURINE_COLLECTED_FLAGS: 0xFF10CE,  # 0x2002B0E, 0x12
     TMCFlagGroup.INVENTORY: 0xFF10F2,  # 0x2002B32, 0x1E
+
     TMCFlagGroup.DONE_ALL_FUSIONS: 0xFF1116,  # 0x2002B56, 0x01
-    TMCFlagGroup.AMOUNT_OF_FUSES_DONE: 0xFF1117,  # 0x2002B57, 0x01
-    TMCFlagGroup.TYPE_OF_KINSTONE_IN_SLOT_1: 0xFF1118,  # 0x2002B58, 0x01
-    TMCFlagGroup.TYPE_OF_KINSTONE_IN_SLOT_2: 0xFF1119,  # 0x2002B59, 0x01
-    TMCFlagGroup.TYPE_OF_KINSTONE_IN_SLOT_3: 0xFF111A,  # 0x2002B5A, 0x01
-    TMCFlagGroup.TYPE_OF_KINSTONE_IN_SLOT_4: 0xFF111B,  # 0x2002B5B, 0x01
-    TMCFlagGroup.TYPE_OF_KINSTONE_IN_SLOT_5: 0xFF111C,  # 0x2002B5C, 0x01
-    TMCFlagGroup.TYPE_OF_KINSTONE_IN_SLOT_6: 0xFF111D,  # 0x2002B5D, 0x01
-    TMCFlagGroup.TYPE_OF_KINSTONE_IN_SLOT_7: 0xFF111E,  # 0x2002B5E, 0x01
-    TMCFlagGroup.TYPE_OF_KINSTONE_IN_SLOT_8: 0xFF111F,  # 0x2002B5F, 0x01
-    TMCFlagGroup.TYPE_OF_KINSTONE_IN_SLOT_9: 0xFF1120,  # 0x2002B60, 0x01
-    TMCFlagGroup.TYPE_OF_KINSTONE_IN_SLOT_10: 0xFF1121,  # 0x2002B61, 0x01
-    TMCFlagGroup.TYPE_OF_KINSTONE_IN_SLOT_11: 0xFF1122,  # 0x2002B62, 0x01
-    TMCFlagGroup.TYPE_OF_KINSTONE_IN_SLOT_12: 0xFF1123,  # 0x2002B63, 0x01
-    TMCFlagGroup.TYPE_OF_KINSTONE_IN_SLOT_13: 0xFF1124,  # 0x2002B64, 0x01
-    TMCFlagGroup.TYPE_OF_KINSTONE_IN_SLOT_14: 0xFF1125,  # 0x2002B65, 0x01
-    TMCFlagGroup.TYPE_OF_KINSTONE_IN_SLOT_15: 0xFF1126,  # 0x2002B66, 0x01
-    TMCFlagGroup.TYPE_OF_KINSTONE_IN_SLOT_16: 0xFF1127,  # 0x2002B67, 0x01
-    TMCFlagGroup.TYPE_OF_KINSTONE_IN_SLOT_17: 0xFF1128,  # 0x2002B68, 0x01
-    TMCFlagGroup.TYPE_OF_KINSTONE_IN_SLOT_18: 0xFF1129,  # 0x2002B69, 0x01
-    TMCFlagGroup.TYPE_OF_KINSTONE_IN_SLOT_19: 0xFF112A,  # 0x2002B6A, 0x01
-    TMCFlagGroup.AMOUNT_OF_KINSTONE_IN_SLOT_1: 0xFF112B,  # 0x2002B6B, 0x01
-    TMCFlagGroup.AMOUNT_OF_KINSTONE_IN_SLOT_2: 0xFF112C,  # 0x2002B6C, 0x01
-    TMCFlagGroup.AMOUNT_OF_KINSTONE_IN_SLOT_3: 0xFF112D,  # 0x2002B6D, 0x01
-    TMCFlagGroup.AMOUNT_OF_KINSTONE_IN_SLOT_4: 0xFF112E,  # 0x2002B6E, 0x01
-    TMCFlagGroup.AMOUNT_OF_KINSTONE_IN_SLOT_5: 0xFF112F,  # 0x2002B6F, 0x01
-    TMCFlagGroup.AMOUNT_OF_KINSTONE_IN_SLOT_6: 0xFF1130,  # 0x2002B70, 0x01
-    TMCFlagGroup.AMOUNT_OF_KINSTONE_IN_SLOT_7: 0xFF1131,  # 0x2002B71, 0x01
-    TMCFlagGroup.AMOUNT_OF_KINSTONE_IN_SLOT_8: 0xFF1132,  # 0x2002B72, 0x01
-    TMCFlagGroup.AMOUNT_OF_KINSTONE_IN_SLOT_9: 0xFF1133,  # 0x2002B73, 0x01
-    TMCFlagGroup.AMOUNT_OF_KINSTONE_IN_SLOT_10: 0xFF1134,  # 0x2002B74, 0x01
-    TMCFlagGroup.AMOUNT_OF_KINSTONE_IN_SLOT_11: 0xFF1135,  # 0x2002B75, 0x01
-    TMCFlagGroup.AMOUNT_OF_KINSTONE_IN_SLOT_12: 0xFF1136,  # 0x2002B76, 0x01
-    TMCFlagGroup.AMOUNT_OF_KINSTONE_IN_SLOT_13: 0xFF1137,  # 0x2002B77, 0x01
-    TMCFlagGroup.AMOUNT_OF_KINSTONE_IN_SLOT_14: 0xFF1138,  # 0x2002B78, 0x01
-    TMCFlagGroup.AMOUNT_OF_KINSTONE_IN_SLOT_15: 0xFF1139,  # 0x2002B79, 0x01
-    TMCFlagGroup.AMOUNT_OF_KINSTONE_IN_SLOT_16: 0xFF113A,  # 0x2002B7A, 0x01
-    TMCFlagGroup.AMOUNT_OF_KINSTONE_IN_SLOT_17: 0xFF113B,  # 0x2002B7B, 0x01
-    TMCFlagGroup.AMOUNT_OF_KINSTONE_IN_SLOT_18: 0xFF113C,  # 0x2002B7C, 0x01
-    TMCFlagGroup.AMOUNT_OF_KINSTONE_IN_SLOT_19: 0xFF113D,  # 0x2002B7D, 0x01
+    TMCFlagGroup.FUSIONS_COUNT: 0xFF1117,  # 0x2002B57, 0x01
+
+    TMCFlagGroup.KINSTONE_TYPE_IN_SLOT_1: 0xFF1118,  # 0x2002B58, 0x01
+    TMCFlagGroup.KINSTONE_TYPE_IN_SLOT_2: 0xFF1119,  # 0x2002B59, 0x01
+    TMCFlagGroup.KINSTONE_TYPE_IN_SLOT_3: 0xFF111A,  # 0x2002B5A, 0x01
+    TMCFlagGroup.KINSTONE_TYPE_IN_SLOT_4: 0xFF111B,  # 0x2002B5B, 0x01
+    TMCFlagGroup.KINSTONE_TYPE_IN_SLOT_5: 0xFF111C,  # 0x2002B5C, 0x01
+    TMCFlagGroup.KINSTONE_TYPE_IN_SLOT_6: 0xFF111D,  # 0x2002B5D, 0x01
+    TMCFlagGroup.KINSTONE_TYPE_IN_SLOT_7: 0xFF111E,  # 0x2002B5E, 0x01
+    TMCFlagGroup.KINSTONE_TYPE_IN_SLOT_8: 0xFF111F,  # 0x2002B5F, 0x01
+    TMCFlagGroup.KINSTONE_TYPE_IN_SLOT_9: 0xFF1120,  # 0x2002B60, 0x01
+    TMCFlagGroup.KINSTONE_TYPE_IN_SLOT_10: 0xFF1121,  # 0x2002B61, 0x01
+    TMCFlagGroup.KINSTONE_TYPE_IN_SLOT_11: 0xFF1122,  # 0x2002B62, 0x01
+    TMCFlagGroup.KINSTONE_TYPE_IN_SLOT_12: 0xFF1123,  # 0x2002B63, 0x01
+    TMCFlagGroup.KINSTONE_TYPE_IN_SLOT_13: 0xFF1124,  # 0x2002B64, 0x01
+    TMCFlagGroup.KINSTONE_TYPE_IN_SLOT_14: 0xFF1125,  # 0x2002B65, 0x01
+    TMCFlagGroup.KINSTONE_TYPE_IN_SLOT_15: 0xFF1126,  # 0x2002B66, 0x01
+    TMCFlagGroup.KINSTONE_TYPE_IN_SLOT_16: 0xFF1127,  # 0x2002B67, 0x01
+    TMCFlagGroup.KINSTONE_TYPE_IN_SLOT_17: 0xFF1128,  # 0x2002B68, 0x01
+    TMCFlagGroup.KINSTONE_TYPE_IN_SLOT_18: 0xFF1129,  # 0x2002B69, 0x01
+    TMCFlagGroup.KINSTONE_TYPE_IN_SLOT_19: 0xFF112A,  # 0x2002B6A, 0x01
+
+    TMCFlagGroup.KINSTONE_COUNT_IN_SLOT_1: 0xFF112B,  # 0x2002B6B, 0x01
+    TMCFlagGroup.KINSTONE_COUNT_IN_SLOT_2: 0xFF112C,  # 0x2002B6C, 0x01
+    TMCFlagGroup.KINSTONE_COUNT_IN_SLOT_3: 0xFF112D,  # 0x2002B6D, 0x01
+    TMCFlagGroup.KINSTONE_COUNT_IN_SLOT_4: 0xFF112E,  # 0x2002B6E, 0x01
+    TMCFlagGroup.KINSTONE_COUNT_IN_SLOT_5: 0xFF112F,  # 0x2002B6F, 0x01
+    TMCFlagGroup.KINSTONE_COUNT_IN_SLOT_6: 0xFF1130,  # 0x2002B70, 0x01
+    TMCFlagGroup.KINSTONE_COUNT_IN_SLOT_7: 0xFF1131,  # 0x2002B71, 0x01
+    TMCFlagGroup.KINSTONE_COUNT_IN_SLOT_8: 0xFF1132,  # 0x2002B72, 0x01
+    TMCFlagGroup.KINSTONE_COUNT_IN_SLOT_9: 0xFF1133,  # 0x2002B73, 0x01
+    TMCFlagGroup.KINSTONE_COUNT_IN_SLOT_10: 0xFF1134,  # 0x2002B74, 0x01
+    TMCFlagGroup.KINSTONE_COUNT_IN_SLOT_11: 0xFF1135,  # 0x2002B75, 0x01
+    TMCFlagGroup.KINSTONE_COUNT_IN_SLOT_12: 0xFF1136,  # 0x2002B76, 0x01
+    TMCFlagGroup.KINSTONE_COUNT_IN_SLOT_13: 0xFF1137,  # 0x2002B77, 0x01
+    TMCFlagGroup.KINSTONE_COUNT_IN_SLOT_14: 0xFF1138,  # 0x2002B78, 0x01
+    TMCFlagGroup.KINSTONE_COUNT_IN_SLOT_15: 0xFF1139,  # 0x2002B79, 0x01
+    TMCFlagGroup.KINSTONE_COUNT_IN_SLOT_16: 0xFF113A,  # 0x2002B7A, 0x01
+    TMCFlagGroup.KINSTONE_COUNT_IN_SLOT_17: 0xFF113B,  # 0x2002B7B, 0x01
+    TMCFlagGroup.KINSTONE_COUNT_IN_SLOT_18: 0xFF113C,  # 0x2002B7C, 0x01
+    TMCFlagGroup.KINSTONE_COUNT_IN_SLOT_19: 0xFF113D,  # 0x2002B7D, 0x01
+
     TMCFlagGroup.SMITH_LINKS_HOUSE_FUSIONS_COMPLETED: 0xFF1142,  # 0x2002B82, 0x01
     TMCFlagGroup.KING_DALTUS_MISSING_FUSIONS_COMPLETED: 0xFF1143,  # 0x2002B83, 0x01
     TMCFlagGroup.MINISTER_POTHO_MISSING_FUSIONS_COMPLETED: 0xFF1144,  # 0x2002B84, 0x01
@@ -260,6 +244,7 @@ flag_group_offset_by_name: dict[str, int] = {
     TMCFlagGroup.ROOF_CUCCO_FUSIONS_COMPLETED: 0xFF11B6,  # 0x2002BF6, 0x01
     TMCFlagGroup.CUCCO_CHICK_FUSIONS_COMPLETED: 0xFF11B7,  # 0x2002BF7, 0x01
     TMCFlagGroup.ELSIE_LONLON_COW_FUSIONS_COMPLETED: 0xFF11B8,  # 0x2002BF8, 0x01
+
     TMCFlagGroup.SMITH_LINKS_HOUSE_FUSIONS_OFFERED: 0xFF11C2,  # 0x2002C02, 0x01
     TMCFlagGroup.KING_DALTUS_MISSING_FUSIONS_OFFERED: 0xFF11C3,  # 0x2002C03, 0x01
     TMCFlagGroup.MINISTER_POTHO_MISSING_FUSIONS_OFFERED: 0xFF11C4,  # 0x2002C04, 0x01
@@ -379,46 +364,52 @@ flag_group_offset_by_name: dict[str, int] = {
     TMCFlagGroup.ROOF_CUCCO_FUSIONS_OFFERED: 0xFF1236,  # 0x2002C76, 0x01
     TMCFlagGroup.CUCCO_CHICK_FUSIONS_OFFERED: 0xFF1237,  # 0x2002C77, 0x01
     TMCFlagGroup.ELSIE_LONLON_COW_FUSIONS_OFFERED: 0xFF1238,  # 0x2002C78, 0x01
+
     TMCFlagGroup.COMPLETED_FUSIONS: 0xFF1241,  # 0x2002C81, 0x0D
     TMCFlagGroup.FUSION_MAP_ICON_FLAGS: 0xFF124F,  # 0x2002C8F, 0x0C
+
     TMCFlagGroup.GLOBAL_FLAGS: 0xFF125C,  # 0x2002C9C, 0x0D
     TMCFlagGroup.UNUSED_DUNGEON_FLAGS: 0xFF1271,  # 0x2002CB1, 0x02
     TMCFlagGroup.REPEATING_SIMON_SIMULATION_FLAG: 0xFF1274,  # 0x2002CB4, 0x01
     TMCFlagGroup.OVERWORLD_FLAGS: 0xFF127C,  # 0x2002CBC, 0x59
     TMCFlagGroup.OVERWORLD_CAVE_FLAGS: 0xFF12DC,  # 0x2002D1C, 0x11
-    TMCFlagGroup.DEEPWOOD_FLAGS: 0xFF12FC,  # 0x2002D3C, 0x0B
-    TMCFlagGroup.CAVE_OF_FLAMES_FLAGS: 0xFF1314,  # 0x2002D54, 0x09
-    TMCFlagGroup.FORTRESS_FLAGS: 0xFF132C,  # 0x2002D6C, 0x0A
-    TMCFlagGroup.DROPLETS_FLAGS: 0xFF1344,  # 0x2002D84, 0x14
-    TMCFlagGroup.PALACE_FLAGS: 0xFF135C,  # 0x2002D9C, 0x11
+    TMCFlagGroup.DWS_FLAGS: 0xFF12FC,  # 0x2002D3C, 0x0B
+    TMCFlagGroup.COF_FLAGS: 0xFF1314,  # 0x2002D54, 0x09
+    TMCFlagGroup.FOW_FLAGS: 0xFF132C,  # 0x2002D6C, 0x0A
+    TMCFlagGroup.TOD_FLAGS: 0xFF1344,  # 0x2002D84, 0x14
+    TMCFlagGroup.POW_FLAGS: 0xFF135C,  # 0x2002D9C, 0x11
     TMCFlagGroup.DHC_FLAGS: 0xFF1374,  # 0x2002DB4, 0x13
-    TMCFlagGroup.UNUSED_DUNGEON_1_SMALL_KEYS: 0xFF145C,  # 0x2002E9C, 0x01
-    TMCFlagGroup.DEEPWOOD_SHRINE_SMALL_KEYS: 0xFF145D,  # 0x2002E9D, 0x01
-    TMCFlagGroup.CAVE_OF_FLAMES_SMALL_KEYS: 0xFF145E,  # 0x2002E9E, 0x01
-    TMCFlagGroup.FORTRESS_OF_WINDS_SMALL_KEYS: 0xFF145F,  # 0x2002E9F, 0x01
-    TMCFlagGroup.TEMPLE_OF_DROPLETS_SMALL_KEYS: 0xFF1460,  # 0x2002EA0, 0x01
-    TMCFlagGroup.PALACE_OF_WINDS_SMALL_KEYS: 0xFF1461,  # 0x2002EA1, 0x01
-    TMCFlagGroup.DARK_HYRULE_CASTLE_SMALL_KEYS: 0xFF1462,  # 0x2002EA2, 0x01
-    TMCFlagGroup.ROYAL_CRYPT_SMALL_KEYS: 0xFF1463,  # 0x2002EA3, 0x01
-    TMCFlagGroup.UNUSED_DUNGEON_2_SMALL_KEYS: 0xFF1464,  # 0x2002EA4, 0x01
-    TMCFlagGroup.UNUSED_DUNGEON_1_DUNGEON_ITEMS: 0xFF146C,  # 0x2002EAC, 0x01
-    TMCFlagGroup.DEEPWOOD_SHRINE_DUNGEON_ITEMS: 0xFF146D,  # 0x2002EAD, 0x01
-    TMCFlagGroup.CAVE_OF_FLAMES_DUNGEON_ITEMS: 0xFF146E,  # 0x2002EAE, 0x01
-    TMCFlagGroup.FORTRESS_OF_WINDS_DUNGEON_ITEMS: 0xFF146F,  # 0x2002EAF, 0x01
-    TMCFlagGroup.TEMPLE_OF_DROPLETS_DUNGEON_ITEMS: 0xFF1470,  # 0x2002EB0, 0x01
-    TMCFlagGroup.PALACE_OF_WINDS_DUNGEON_ITEMS: 0xFF1471,  # 0x2002EB1, 0x01
-    TMCFlagGroup.DARK_HYRULE_CASTLE_DUNGEON_ITEMS: 0xFF1472,  # 0x2002EB2, 0x01
-    TMCFlagGroup.UNUSED_ROYAL_CRYPT_DUNGEON_ITEMS: 0xFF1473,  # 0x2002EB3, 0x01
-    TMCFlagGroup.UNUSED_DUNGEON_2_DUNGEON_ITEMS: 0xFF1474,  # 0x2002EB4, 0x01
-    TMCFlagGroup.UNUSED_DUNGEON_1_WARPS: 0xFF147C,  # 0x2002EBC, 0x01
-    TMCFlagGroup.DEEPWOOD_SHRINE_WARPS: 0xFF147D,  # 0x2002EBD, 0x01
-    TMCFlagGroup.CAVE_OF_FLAMES_WARPS: 0xFF147E,  # 0x2002EBE, 0x01
-    TMCFlagGroup.FORTRESS_OF_WINDS_WARPS: 0xFF147F,  # 0x2002EBF, 0x01
-    TMCFlagGroup.TEMPLE_OF_DROPLETS_WARPS: 0xFF1480,  # 0x2002EC0, 0x01
-    TMCFlagGroup.PALACE_OF_WINDS_WARPS: 0xFF1481,  # 0x2002EC1, 0x01
-    TMCFlagGroup.DARK_HYRULE_CASTLE_WARPS: 0xFF1482,  # 0x2002EC2, 0x01
-    TMCFlagGroup.UNUSED_ROYAL_CRYPT_WARPS: 0xFF1483,  # 0x2002EC3, 0x01
-    TMCFlagGroup.UNUSED_DUNGEON_2_WARPS: 0xFF1484,  # 0x2002EC4, 0x01
+
+    TMCFlagGroup.UNUSED_D1_SMALL_KEYS: 0xFF145C,  # 0x2002E9C, 0x01
+    TMCFlagGroup.DWS_SMALL_KEYS: 0xFF145D,  # 0x2002E9D, 0x01
+    TMCFlagGroup.COF_SMALL_KEYS: 0xFF145E,  # 0x2002E9E, 0x01
+    TMCFlagGroup.FOW_SMALL_KEYS: 0xFF145F,  # 0x2002E9F, 0x01
+    TMCFlagGroup.TOD_SMALL_KEYS: 0xFF1460,  # 0x2002EA0, 0x01
+    TMCFlagGroup.POW_SMALL_KEYS: 0xFF1461,  # 0x2002EA1, 0x01
+    TMCFlagGroup.DHC_SMALL_KEYS: 0xFF1462,  # 0x2002EA2, 0x01
+    TMCFlagGroup.RC_SMALL_KEYS: 0xFF1463,  # 0x2002EA3, 0x01
+    TMCFlagGroup.UNUSED_D2_SMALL_KEYS: 0xFF1464,  # 0x2002EA4, 0x01
+
+    TMCFlagGroup.UNUSED_D1_DUNGEON_ITEMS: 0xFF146C,  # 0x2002EAC, 0x01
+    TMCFlagGroup.DWS_DUNGEON_ITEMS: 0xFF146D,  # 0x2002EAD, 0x01
+    TMCFlagGroup.COF_DUNGEON_ITEMS: 0xFF146E,  # 0x2002EAE, 0x01
+    TMCFlagGroup.FOW_DUNGEON_ITEMS: 0xFF146F,  # 0x2002EAF, 0x01
+    TMCFlagGroup.TOD_DUNGEON_ITEMS: 0xFF1470,  # 0x2002EB0, 0x01
+    TMCFlagGroup.POW_DUNGEON_ITEMS: 0xFF1471,  # 0x2002EB1, 0x01
+    TMCFlagGroup.DHC_DUNGEON_ITEMS: 0xFF1472,  # 0x2002EB2, 0x01
+    TMCFlagGroup.UNUSED_RC_DUNGEON_ITEMS: 0xFF1473,  # 0x2002EB3, 0x01
+    TMCFlagGroup.UNUSED_D2_DUNGEON_ITEMS: 0xFF1474,  # 0x2002EB4, 0x01
+
+    TMCFlagGroup.UNUSED_D1_WARPS: 0xFF147C,  # 0x2002EBC, 0x01
+    TMCFlagGroup.DWS_WARPS: 0xFF147D,  # 0x2002EBD, 0x01
+    TMCFlagGroup.COF_WARPS: 0xFF147E,  # 0x2002EBE, 0x01
+    TMCFlagGroup.FOW_WARPS: 0xFF147F,  # 0x2002EBF, 0x01
+    TMCFlagGroup.TOD_WARPS: 0xFF1480,  # 0x2002EC0, 0x01
+    TMCFlagGroup.POW_WARPS: 0xFF1481,  # 0x2002EC1, 0x01
+    TMCFlagGroup.DHC_WARPS: 0xFF1482,  # 0x2002EC2, 0x01
+    TMCFlagGroup.UNUSED_RC_WARPS: 0xFF1483,  # 0x2002EC3, 0x01
+    TMCFlagGroup.UNUSED_D2_WARPS: 0xFF1484,  # 0x2002EC4, 0x01
+
     TMCFlagGroup.VAATI_DARKNUT_TIMER: 0xFF148C,  # 0x2002ECC, 0x04
     TMCFlagGroup.STORED_KILL_COUNTER_FOR_PICO_BLOOMS: 0xFF1490,  # 0x2002ED0, 0x04
     TMCFlagGroup.BIGGORON_SHIELD_TIMER: 0xFF1494,  # 0x2002ED4, 0x04
@@ -426,812 +417,673 @@ flag_group_offset_by_name: dict[str, int] = {
     TMCFlagGroup.KIOSK_DEMO_TIMER: 0xFF14A8,  # 0x2002EE8, 0x04
 }
 
-flag_table: dict[int, AddressData] = {
-
+WIND_CRESTS: dict[str, ROMData] = {
+    # 0x2A83
+    TMCEvent.CRENEL_CREST: ROMData(flag_group_by_name[TMCFlagGroup.WIND_CRESTS], 0x01),
+    TMCEvent.FALLS_CREST: ROMData(flag_group_by_name[TMCFlagGroup.WIND_CRESTS], 0x02),
+    TMCEvent.CLOUDS_CREST: ROMData(flag_group_by_name[TMCFlagGroup.WIND_CRESTS], 0x04),
+    TMCEvent.TOWN_CREST: ROMData(flag_group_by_name[TMCFlagGroup.WIND_CRESTS], 0x08),
+    TMCEvent.LAKE_CREST: ROMData(flag_group_by_name[TMCFlagGroup.WIND_CRESTS], 0x10),
+    TMCEvent.SWAMP_CREST: ROMData(flag_group_by_name[TMCFlagGroup.WIND_CRESTS], 0x20),
+    TMCEvent.SHF_CREST: ROMData(flag_group_by_name[TMCFlagGroup.WIND_CRESTS], 0x40),
+    TMCEvent.MINISH_CREST: ROMData(flag_group_by_name[TMCFlagGroup.WIND_CRESTS], 0x80),
 }
 
-starting_flags: dict[str, int] = {
-
+GLOBAL_FLAGS: dict[str, ROMData] = {
+    # 0x2C9C
+    TMCEvent.SIMON_CHEST_OPEN: ROMData(flag_group_by_name[TMCFlagGroup.GLOBAL_FLAGS], 0x02),
+    TMCEvent.DEFEAT_GREEN_CHU: ROMData(flag_group_by_name[TMCFlagGroup.GLOBAL_FLAGS], 0x04),
+    TMCEvent.DEFEAT_GLEEROK: ROMData(flag_group_by_name[TMCFlagGroup.GLOBAL_FLAGS], 0x08),
+    TMCEvent.DEFEAT_MAZAAL: ROMData(flag_group_by_name[TMCFlagGroup.GLOBAL_FLAGS], 0x10),
+    TMCEvent.DEFEAT_OCTO: ROMData(flag_group_by_name[TMCFlagGroup.GLOBAL_FLAGS], 0x20),
+    TMCEvent.DEFEAT_GYORG: ROMData(flag_group_by_name[TMCFlagGroup.GLOBAL_FLAGS], 0x40),
+    # 0x2C9D
+    # 0x2C9E
+    TMCEvent.TOWN_SUCK_DUST: ROMData(flag_group_by_name[TMCFlagGroup.GLOBAL_FLAGS] + 2, 0x04),
+    TMCEvent.MET_ZELDA: ROMData(flag_group_by_name[TMCFlagGroup.GLOBAL_FLAGS] + 2, 0x08),
+    TMCEvent.HAVE_EZLO: ROMData(flag_group_by_name[TMCFlagGroup.GLOBAL_FLAGS] + 2, 0x10),
+    TMCEvent.INTRO_THRONE_CUTSCENE: ROMData(flag_group_by_name[TMCFlagGroup.GLOBAL_FLAGS] + 2, 0x20),
+    TMCEvent.DEEPWOOD_SUCKED_BARREL_WEB: ROMData(flag_group_by_name[TMCFlagGroup.GLOBAL_FLAGS] + 2, 0x80),
+    # 0x2C9F
+    TMCEvent.TOWN_RED_HOUSE: ROMData(flag_group_by_name[TMCFlagGroup.GLOBAL_FLAGS] + 3, 0x01),
+    TMCEvent.TOWN_RED_HOUSE_FRAME: ROMData(flag_group_by_name[TMCFlagGroup.GLOBAL_FLAGS] + 3, 0x02),
+    TMCEvent.CRENEL_HOLDING_BEAN: ROMData(flag_group_by_name[TMCFlagGroup.GLOBAL_FLAGS] + 3, 0x04),
+    TMCEvent.CRENEL_PLACED_BEAN: ROMData(flag_group_by_name[TMCFlagGroup.GLOBAL_FLAGS] + 3, 0x08),
+    TMCEvent.ZELDA_FOLLOWS: ROMData(flag_group_by_name[TMCFlagGroup.GLOBAL_FLAGS] + 3, 0x10),
+    TMCEvent.TALON_LLR_KEY: ROMData(flag_group_by_name[TMCFlagGroup.GLOBAL_FLAGS] + 3, 0x20),
+    TMCEvent.EARLY_BOOTS_FLAG: ROMData(flag_group_by_name[TMCFlagGroup.GLOBAL_FLAGS] + 3, 0x40),
+    TMCEvent.DR_LEFT_DOOR: ROMData(flag_group_by_name[TMCFlagGroup.GLOBAL_FLAGS] + 3, 0x80),
+    # 0x2CA0
+    TMCEvent.GRAVEYARD_KEY_LOST: ROMData(flag_group_by_name[TMCFlagGroup.GLOBAL_FLAGS] + 4, 0x01),
+    TMCEvent.GRAVEYARD_KEY_FOUND: ROMData(flag_group_by_name[TMCFlagGroup.GLOBAL_FLAGS] + 4, 0x02),
+    TMCEvent.VEIL_FALLS_TORNADO: ROMData(flag_group_by_name[TMCFlagGroup.GLOBAL_FLAGS] + 4, 0x08),
+    TMCEvent.CLOUD_TOPS_TORNADO: ROMData(flag_group_by_name[TMCFlagGroup.GLOBAL_FLAGS] + 4, 0x10),
+    # 0x2CA1
+    TMCEvent.BOOK_QUEST_START: ROMData(flag_group_by_name[TMCFlagGroup.GLOBAL_FLAGS] + 5, 0x02),
+    TMCEvent.GREEN_BOOK_FALL: ROMData(flag_group_by_name[TMCFlagGroup.GLOBAL_FLAGS] + 5, 0x04),
+    TMCEvent.RENTED_HOUSE_DIN: ROMData(flag_group_by_name[TMCFlagGroup.GLOBAL_FLAGS] + 5, 0x08),
+    TMCEvent.RENTED_HOUSE_NAYRU: ROMData(flag_group_by_name[TMCFlagGroup.GLOBAL_FLAGS] + 5, 0x10),
+    TMCEvent.RENTED_HOUSE_FARORE: ROMData(flag_group_by_name[TMCFlagGroup.GLOBAL_FLAGS] + 5, 0x20),
+    TMCEvent.NEW_HOUSE_DIN: ROMData(flag_group_by_name[TMCFlagGroup.GLOBAL_FLAGS] + 5, 0x40),
+    TMCEvent.NEW_HOUSE_NAYRU: ROMData(flag_group_by_name[TMCFlagGroup.GLOBAL_FLAGS] + 5, 0x80),
+    # 0x2CA2
+    TMCEvent.NEW_HOUSE_FARORE: ROMData(flag_group_by_name[TMCFlagGroup.GLOBAL_FLAGS] + 6, 0x01),
+    TMCEvent.DEFEATED_RUINS_GOLDEN_OCTO: ROMData(flag_group_by_name[TMCFlagGroup.GLOBAL_FLAGS] + 6, 0x02),
+    TMCEvent.DEFEATED_CRENELBASE_GOLDEN_TEKTITE: ROMData(flag_group_by_name[TMCFlagGroup.GLOBAL_FLAGS] + 6, 0x04),
+    TMCEvent.DEFEATED_SWAMP_GOLDEN_ROPE: ROMData(flag_group_by_name[TMCFlagGroup.GLOBAL_FLAGS] + 6, 0x08),
+    TMCEvent.DEFEATED_HILLS_GOLDEN_ROPE: ROMData(flag_group_by_name[TMCFlagGroup.GLOBAL_FLAGS] + 6, 0x10),
+    TMCEvent.DEFEATED_GARDEN_GOLDEN_ROPE: ROMData(flag_group_by_name[TMCFlagGroup.GLOBAL_FLAGS] + 6, 0x20),
+    TMCEvent.DEFEATED_FALLS_GOLDEN_TEKTITE: ROMData(flag_group_by_name[TMCFlagGroup.GLOBAL_FLAGS] + 6, 0x40),
+    TMCEvent.DEFEATED_CRENEL_GOLDEN_TEKTITE: ROMData(flag_group_by_name[TMCFlagGroup.GLOBAL_FLAGS] + 6, 0x80),
+    # 0x2CA3
+    TMCEvent.DEFEATED_MINISH_GOLDEN_OCTO: ROMData(flag_group_by_name[TMCFlagGroup.GLOBAL_FLAGS] + 7, 0x01),
+    TMCEvent.DEFEATED_WESTERN_GOLDEN_OCTO: ROMData(flag_group_by_name[TMCFlagGroup.GLOBAL_FLAGS] + 7, 0x02),
+    TMCEvent.FUSIONS_COMPLETE: ROMData(flag_group_by_name[TMCFlagGroup.GLOBAL_FLAGS] + 7, 0x04),
+    TMCEvent.YELLOW_PICO_BLOOM: ROMData(flag_group_by_name[TMCFlagGroup.GLOBAL_FLAGS] + 7, 0x08),
+    TMCEvent.BLUE_PICO_BLOOM: ROMData(flag_group_by_name[TMCFlagGroup.GLOBAL_FLAGS] + 7, 0x10),
+    TMCEvent.ORANGE_PICO_BLOOM: ROMData(flag_group_by_name[TMCFlagGroup.GLOBAL_FLAGS] + 7, 0x20),
+    TMCEvent.GORON_MERCHANT_RESTOCK_LV2: ROMData(flag_group_by_name[TMCFlagGroup.GLOBAL_FLAGS] + 7, 0x40),
+    TMCEvent.GORON_MERCHANT_RESTOCK_LV3: ROMData(flag_group_by_name[TMCFlagGroup.GLOBAL_FLAGS] + 7, 0x80),
+    # 0x2CA4
+    TMCEvent.GORON_MERCHANT_RESTOCK_LV4: ROMData(flag_group_by_name[TMCFlagGroup.GLOBAL_FLAGS] + 8, 0x01),
+    TMCEvent.GORON_MERCHANT_RESTOCK_LV5: ROMData(flag_group_by_name[TMCFlagGroup.GLOBAL_FLAGS] + 8, 0x02),
+    TMCEvent.GORON_MERCHANT_SOLD_L: ROMData(flag_group_by_name[TMCFlagGroup.GLOBAL_FLAGS] + 8, 0x04),
+    TMCEvent.GORON_MERCHANT_SOLD_M: ROMData(flag_group_by_name[TMCFlagGroup.GLOBAL_FLAGS] + 8, 0x08),
+    TMCEvent.GORON_MERCHANT_SOLD_R: ROMData(flag_group_by_name[TMCFlagGroup.GLOBAL_FLAGS] + 8, 0x10),
+    TMCEvent.CASTLE_BASEMENT_DOOR_OPEN: ROMData(flag_group_by_name[TMCFlagGroup.GLOBAL_FLAGS] + 8, 0x20),
+    TMCEvent.GORMAN_RENTED_HOUSE: ROMData(flag_group_by_name[TMCFlagGroup.GLOBAL_FLAGS] + 8, 0x80),
+    # 0x2CA5
+    TMCEvent.GORMAN_NEW_HOUSE: ROMData(flag_group_by_name[TMCFlagGroup.GLOBAL_FLAGS] + 9, 0x01),
+    TMCEvent.OUTDOOR: ROMData(flag_group_by_name[TMCFlagGroup.GLOBAL_FLAGS] + 9, 0x02),
+    TMCEvent.FOUNTAIN_BLUE_MINISH: ROMData(flag_group_by_name[TMCFlagGroup.GLOBAL_FLAGS] + 9, 0x04),
+    TMCEvent.CUCCO_LV_BIT0: ROMData(flag_group_by_name[TMCFlagGroup.GLOBAL_FLAGS] + 9, 0x08),
+    TMCEvent.CUCCO_LV_BIT1: ROMData(flag_group_by_name[TMCFlagGroup.GLOBAL_FLAGS] + 9, 0x10),
+    TMCEvent.CUCCO_LV_BIT2: ROMData(flag_group_by_name[TMCFlagGroup.GLOBAL_FLAGS] + 9, 0x20),
+    TMCEvent.CUCCO_LV_BIT3: ROMData(flag_group_by_name[TMCFlagGroup.GLOBAL_FLAGS] + 9, 0x40),
+    TMCEvent.CUCCO_HEART: ROMData(flag_group_by_name[TMCFlagGroup.GLOBAL_FLAGS] + 9, 0x80),
+    # 0x2CA6
+    TMCEvent.SIMON_WAKEUP: ROMData(flag_group_by_name[TMCFlagGroup.GLOBAL_FLAGS] + 0xA, 0x01),
+    TMCEvent.ENDING: ROMData(flag_group_by_name[TMCFlagGroup.GLOBAL_FLAGS] + 0xA, 0x02),
+    TMCEvent.EZLO_OCARINA: ROMData(flag_group_by_name[TMCFlagGroup.GLOBAL_FLAGS] + 0xA, 0x04),
+    TMCEvent.EZLO_CREST: ROMData(flag_group_by_name[TMCFlagGroup.GLOBAL_FLAGS] + 0xA, 0x08),
+    TMCEvent.PICO_BLOOM_ITEM: ROMData(flag_group_by_name[TMCFlagGroup.GLOBAL_FLAGS] + 0xA, 0x10),
+    TMCEvent.GAMECLEAR: ROMData(flag_group_by_name[TMCFlagGroup.GLOBAL_FLAGS] + 0xA, 0x20),
+    TMCEvent.MELARI_MOVE: ROMData(flag_group_by_name[TMCFlagGroup.GLOBAL_FLAGS] + 0xA, 0x40),
+    TMCEvent.NORTH_FIELD_LADDER_SPAWN: ROMData(flag_group_by_name[TMCFlagGroup.GLOBAL_FLAGS] + 0xA, 0x80),
+    # 0x2CA7
+    TMCEvent.WIND_TRIBE_STATE: ROMData(flag_group_by_name[TMCFlagGroup.GLOBAL_FLAGS] + 0xB, 0x01),
+    TMCEvent.FIGURINE_COMPLETE: ROMData(flag_group_by_name[TMCFlagGroup.GLOBAL_FLAGS] + 0xB, 0x02),
+    TMCEvent.SCRUB_BOTTLE: ROMData(flag_group_by_name[TMCFlagGroup.GLOBAL_FLAGS] + 0xB, 0x04),
+    TMCEvent.DOGFOOD_USE: ROMData(flag_group_by_name[TMCFlagGroup.GLOBAL_FLAGS] + 0xB, 0x08),
+    TMCEvent.TINGLE_SPAWN: ROMData(flag_group_by_name[TMCFlagGroup.GLOBAL_FLAGS] + 0xB, 0x10),
+    TMCEvent.SANCTUARY_BGM: ROMData(flag_group_by_name[TMCFlagGroup.GLOBAL_FLAGS] + 0xB, 0x20),
+    TMCEvent.PORTAL_STUMP: ROMData(flag_group_by_name[TMCFlagGroup.GLOBAL_FLAGS] + 0xB, 0x40),
+    TMCEvent.PORTAL_ROCK: ROMData(flag_group_by_name[TMCFlagGroup.GLOBAL_FLAGS] + 0xB, 0x80),
+    # 0x2CA8
+    TMCEvent.PORTAL_POT: ROMData(flag_group_by_name[TMCFlagGroup.GLOBAL_FLAGS] + 0xC, 0x01),
+    TMCEvent.BOOK_QUEST_RECEPTIONIST: ROMData(flag_group_by_name[TMCFlagGroup.GLOBAL_FLAGS] + 0xC, 0x02),
+    TMCEvent.MAZE_CLEAR: ROMData(flag_group_by_name[TMCFlagGroup.GLOBAL_FLAGS] + 0xC, 0x04),
+    TMCEvent.EZLO_COF: ROMData(flag_group_by_name[TMCFlagGroup.GLOBAL_FLAGS] + 0xC, 0x08),
+    TMCEvent.CASTLE_BGM: ROMData(flag_group_by_name[TMCFlagGroup.GLOBAL_FLAGS] + 0xC, 0x10),
 }
 
-GLOBAL_FLAGS: list[tuple[int, AddressData]] = [
-    (0xFF125C, AddressData(  # 0x2C9C
-        None,  # 0x01
-        TMCEvent.SIMON_CHEST_OPEN,  # 0x02
-        TMCEvent.DEFEAT_GREEN_CHU,  # 0x04
-        TMCEvent.DEFEAT_GLEEROK,  # 0x08
-        TMCEvent.DEFEAT_MAZAAL,  # 0x10
-        TMCEvent.DEFEAT_OCTO,  # 0x20
-        TMCEvent.DEFEAT_GYORG,  # 0x40
-        None)  # 0x80
-     ),
-    (0xFF125E, AddressData(  # 0x2C9E
-        None,
-        None,
-        TMCEvent.TOWN_SUCK_DUST,
-        TMCEvent.MET_ZELDA,
-        TMCEvent.HAVE_EZLO,
-        TMCEvent.INTRO_THRONE_CUTSCENE,
-        None,
-        TMCEvent.DEEPWOOD_SUCKED_BARREL_WEB)
-     ),
-    (0xFF125F, AddressData(  # 0x2C9F
-        TMCEvent.TOWN_RED_HOUSE,
-        TMCEvent.TOWN_RED_HOUSE_FRAME,
-        TMCEvent.CRENEL_HOLDING_BEAN,
-        TMCEvent.CRENEL_PLACED_BEAN,
-        TMCEvent.ZELDA_FOLLOWS,
-        TMCEvent.TALON_LLR_KEY,
-        TMCEvent.EARLY_BOOTS_FLAG,
-        TMCEvent.DR_LEFT_DOOR)
-     ),
-    (0xFF1260, AddressData(  # 0x2CA0
-        TMCEvent.GRAVEYARD_KEY_LOST,
-        TMCEvent.GRAVEYARD_KEY_FOUND,
-        None,
-        TMCEvent.VEIL_FALLS_TORNADO,
-        TMCEvent.CLOUD_TOPS_TORNADO,
-        None,
-        None,
-        None)
-     ),
-    (0xFF1261, AddressData(  # 0x2CA1
-        None,
-        TMCEvent.BOOK_QUEST_START,
-        TMCEvent.GREEN_BOOK_FALL,
-        TMCEvent.RENTED_HOUSE_DIN,
-        TMCEvent.RENTED_HOUSE_NAYRU,
-        TMCEvent.RENTED_HOUSE_FARORE,
-        TMCEvent.NEW_HOUSE_DIN,
-        TMCEvent.NEW_HOUSE_NAYRU)
-     ),
-    (0xFF1262, AddressData(  # 0x2CA2
-        TMCEvent.NEW_HOUSE_FARORE,
-        TMCEvent.DEFEATED_RUINS_GOLDEN_OCTO,
-        TMCEvent.DEFEATED_CRENELBASE_GOLDEN_TEKTITE,
-        TMCEvent.DEFEATED_SWAMP_GOLDEN_ROPE,
-        TMCEvent.DEFEATED_HILLS_GOLDEN_ROPE,
-        TMCEvent.DEFEATED_GARDEN_GOLDEN_ROPE,
-        TMCEvent.DEFEATED_FALLS_GOLDEN_TEKTITE,
-        TMCEvent.DEFEATED_CRENEL_GOLDEN_TEKTITE)
-     ),
-    (0xFF1263, AddressData(  # 0x2CA3
-        TMCEvent.DEFEATED_MINISH_GOLDEN_OCTO,
-        TMCEvent.DEFEATED_WESTERN_GOLDEN_OCTO,
-        TMCEvent.FUSIONS_COMPLETE,
-        TMCEvent.YELLOW_PICO_BLOOM,
-        TMCEvent.BLUE_PICO_BLOOM,
-        TMCEvent.ORANGE_PICO_BLOOM,
-        TMCEvent.GORON_MERCHANT_RESTOCK_LV2,
-        TMCEvent.GORON_MERCHANT_RESTOCK_LV3)
-     ),
-    (0xFF1264, AddressData(  # 0x2CA4
-        TMCEvent.GORON_MERCHANT_RESTOCK_LV4,
-        TMCEvent.GORON_MERCHANT_RESTOCK_LV5,
-        TMCEvent.GORON_MERCHANT_SOLD_L,
-        TMCEvent.GORON_MERCHANT_SOLD_M,
-        TMCEvent.GORON_MERCHANT_SOLD_R,
-        TMCEvent.CASTLE_BASEMENT_DOOR_OPEN,
-        None,
-        TMCEvent.GORMAN_RENTED_HOUSE)
-     ),
-    (0xFF1265, AddressData(  # 0x2CA5
-        TMCEvent.GORMAN_NEW_HOUSE,
-        TMCEvent.OUTDOOR,
-        TMCEvent.FOUNTAIN_BLUE_MINISH,
-        TMCEvent.CUCCO_LV_BIT0,
-        TMCEvent.CUCCO_LV_BIT1,
-        TMCEvent.CUCCO_LV_BIT2,
-        TMCEvent.CUCCO_LV_BIT3,
-        TMCEvent.CUCCO_HEART)
-     ),
-    (0xFF1266, AddressData(  # 0x2CA6
-        TMCEvent.SIMON_WAKEUP,
-        TMCEvent.ENDING,
-        TMCEvent.EZLO_OCARINA,
-        TMCEvent.EZLO_CREST,
-        TMCEvent.PICO_BLOOM_ITEM,
-        TMCEvent.GAMECLEAR,
-        TMCEvent.MELARI_MOVE,
-        TMCEvent.NORTH_FIELD_LADDER_SPAWN)
-     ),
-    (0xFF1267, AddressData(  # 0x2CA7
-        TMCEvent.WIND_TRIBE_STATE,
-        TMCEvent.FIGURINE_COMPLETE,
-        TMCEvent.SCRUB_BOTTLE,
-        TMCEvent.DOGFOOD_USE,
-        TMCEvent.TINGLE_SPAWN,
-        TMCEvent.SANCTUARY_BGM,
-        TMCEvent.PORTAL_STUMP,
-        TMCEvent.PORTAL_ROCK)
-     ),
-    (0xFF1268, AddressData(  # 0x2CA8
-        TMCEvent.PORTAL_POT,
-        TMCEvent.BOOK_QUEST_RECEPTIONIST,
-        TMCEvent.MAZE_CLEAR,
-        TMCEvent.EZLO_COF,
-        TMCEvent.CASTLE_BGM,
-        None,
-        None,
-        None)
-     )
-]
+UNUSED_DUNGEON_FLAGS: dict[str, ROMData] = {
+    # 0x2CB1
+    TMCEvent.UNUSED_DUNGEON_DOOR_1: ROMData(flag_group_by_name[TMCFlagGroup.UNUSED_DUNGEON_FLAGS], 0x40),
+    TMCEvent.UNUSED_DUNGEON_DOOR_2L: ROMData(flag_group_by_name[TMCFlagGroup.UNUSED_DUNGEON_FLAGS], 0x80),
+    # 0x2CB2
+    TMCEvent.UNUSED_DUNGEON_DOOR_2R: ROMData(flag_group_by_name[TMCFlagGroup.UNUSED_DUNGEON_FLAGS] + 1, 0x01),
+    TMCEvent.UNUSED_DUNGEON_DOOR_3: ROMData(flag_group_by_name[TMCFlagGroup.UNUSED_DUNGEON_FLAGS] + 1, 0x02),
+}
 
-UNUSED_DUNGEON_FLAGS: list[tuple[int, AddressData]] = [
-    (0xFF1271, AddressData(  # 0x2CB1
-        None,
-        None,
-        None,
-        None,
-        None,
-        None,
-        TMCEvent.UNUSED_DUNGEON_DOOR_1,
-        TMCEvent.UNUSED_DUNGEON_DOOR_2L)
-     ),
-    (0xFF1272, AddressData(  # 0x2CB2
-        TMCEvent.UNUSED_DUNGEON_DOOR_2R,
-        TMCEvent.UNUSED_DUNGEON_DOOR_3,
-        None,
-        None,
-        None,
-        None,
-        None,
-        None)
-     )
-]
+REPEATING_SIMON_SIMULATION_FLAG: dict[str, ROMData] = {
+    # 0x2CB4
+    TMCEvent.SIMON_REPEAT: ROMData(flag_group_by_name[TMCFlagGroup.REPEATING_SIMON_SIMULATION_FLAG], 0x40),
+}
 
-REPEATING_SIMON_SIMULATION_FLAG: list[tuple[int, AddressData]] = [
-    (0xFF1274, AddressData(  # 0x2CB4
-        None,
-        None,
-        None,
-        None,
-        None,
-        None,
-        TMCEvent.SIMON_REPEAT,
-        None)
-     )
-]
+OVERWORLD_FLAGS: dict[str, ROMData] = {
+    # 0x2CBC
+    TMCEvent.EZLO_DWS_CLEAR: ROMData(flag_group_by_name[TMCFlagGroup.OVERWORLD_FLAGS], 0x02),
+    TMCEvent.EZLO_COF_CLEAR: ROMData(flag_group_by_name[TMCFlagGroup.OVERWORLD_FLAGS], 0x04),
+    TMCEvent.EZLO_FOW_CLEAR: ROMData(flag_group_by_name[TMCFlagGroup.OVERWORLD_FLAGS], 0x08),
+    TMCEvent.EZLO_TOD_CLEAR: ROMData(flag_group_by_name[TMCFlagGroup.OVERWORLD_FLAGS], 0x10),
+    TMCEvent.EZLO_POW_CLEAR: ROMData(flag_group_by_name[TMCFlagGroup.OVERWORLD_FLAGS], 0x20),
+    TMCEvent.LAKE_BONK: ROMData(flag_group_by_name[TMCFlagGroup.OVERWORLD_FLAGS], 0x40),
+    TMCEvent.LAKE_BOULDER: ROMData(flag_group_by_name[TMCFlagGroup.OVERWORLD_FLAGS], 0x80),
+    # 0x2CBD
+    TMCEvent.LAKE_NORTH_HEART: ROMData(flag_group_by_name[TMCFlagGroup.OVERWORLD_FLAGS] + 1, 0x01),
+    TMCEvent.LAKE_POND_HEART: ROMData(flag_group_by_name[TMCFlagGroup.OVERWORLD_FLAGS] + 1, 0x02),
+    TMCEvent.LAKE_SOUTH_HEART: ROMData(flag_group_by_name[TMCFlagGroup.OVERWORLD_FLAGS] + 1, 0x04),
+    TMCEvent.SWAMP_CHEST: ROMData(flag_group_by_name[TMCFlagGroup.OVERWORLD_FLAGS] + 1, 0x10),
+    TMCEvent.GARDEN_CASTLE_LADDER: ROMData(flag_group_by_name[TMCFlagGroup.OVERWORLD_FLAGS] + 1, 0x20),
+    TMCEvent.GARDEN_DOJO_LADDER: ROMData(flag_group_by_name[TMCFlagGroup.OVERWORLD_FLAGS] + 1, 0x80),
+    # 0x2CBE
+    TMCEvent.CASTLE_BONK: ROMData(flag_group_by_name[TMCFlagGroup.OVERWORLD_FLAGS] + 2, 0x01),
+    TMCEvent.GUARD_CAPTURE: ROMData(flag_group_by_name[TMCFlagGroup.OVERWORLD_FLAGS] + 2, 0x02),
+    TMCEvent.GARDEN_WATER_CHEST_LEFT: ROMData(flag_group_by_name[TMCFlagGroup.OVERWORLD_FLAGS] + 2, 0x04),
+    TMCEvent.GARDEN_WATER_CHEST_RIGHT: ROMData(flag_group_by_name[TMCFlagGroup.OVERWORLD_FLAGS] + 2, 0x08),
+    TMCEvent.EZLO_GARDEN: ROMData(flag_group_by_name[TMCFlagGroup.OVERWORLD_FLAGS] + 2, 0x10),
+    TMCEvent.EZLO_SANCTUARY: ROMData(flag_group_by_name[TMCFlagGroup.OVERWORLD_FLAGS] + 2, 0x20),
+    TMCEvent.SWAMP_BOULDER_MIDDLE: ROMData(flag_group_by_name[TMCFlagGroup.OVERWORLD_FLAGS] + 2, 0x40),
+    TMCEvent.SWAMP_BOULDER_SOUTH: ROMData(flag_group_by_name[TMCFlagGroup.OVERWORLD_FLAGS] + 2, 0x80),
+    # 0x2CBF
+    TMCEvent.EZLO_SWAMP_0: ROMData(flag_group_by_name[TMCFlagGroup.OVERWORLD_FLAGS] + 3, 0x08),
+    TMCEvent.EZLO_SWAMP_1: ROMData(flag_group_by_name[TMCFlagGroup.OVERWORLD_FLAGS] + 3, 0x10),
+    TMCEvent.EZLO_SWAMP_2: ROMData(flag_group_by_name[TMCFlagGroup.OVERWORLD_FLAGS] + 3, 0x20),
+    TMCEvent.SWAMP_RUINS_BLOCK: ROMData(flag_group_by_name[TMCFlagGroup.OVERWORLD_FLAGS] + 3, 0x40),
+    TMCEvent.SWAMP_BOULDER_NORTH: ROMData(flag_group_by_name[TMCFlagGroup.OVERWORLD_FLAGS] + 3, 0x80),
+    # 0x2CC0
+    TMCEvent.SWAMP_GRAVE: ROMData(flag_group_by_name[TMCFlagGroup.OVERWORLD_FLAGS] + 4, 0x01),
+    TMCEvent.SWAMP_WATER_TOP: ROMData(flag_group_by_name[TMCFlagGroup.OVERWORLD_FLAGS] + 4, 0x04),
+    TMCEvent.SWAMP_WATER_MIDDLE: ROMData(flag_group_by_name[TMCFlagGroup.OVERWORLD_FLAGS] + 4, 0x08),
+    TMCEvent.SWAMP_WATER_BOTTOM: ROMData(flag_group_by_name[TMCFlagGroup.OVERWORLD_FLAGS] + 4, 0x10),
+    TMCEvent.RUINS_ENTER: ROMData(flag_group_by_name[TMCFlagGroup.OVERWORLD_FLAGS] + 4, 0x20),
+    TMCEvent.RUINS_BOULDER_1: ROMData(flag_group_by_name[TMCFlagGroup.OVERWORLD_FLAGS] + 4, 0x40),
+    TMCEvent.RUINS_BOMBWALL: ROMData(flag_group_by_name[TMCFlagGroup.OVERWORLD_FLAGS] + 4, 0x80),
+    # 0x2CC1
+    TMCEvent.RUINS_TEKTITE: ROMData(flag_group_by_name[TMCFlagGroup.OVERWORLD_FLAGS] + 5, 0x01),
+    TMCEvent.RUINS_BOULDER_2: ROMData(flag_group_by_name[TMCFlagGroup.OVERWORLD_FLAGS] + 5, 0x08),
+    TMCEvent.RUINS_GRASS_TOP: ROMData(flag_group_by_name[TMCFlagGroup.OVERWORLD_FLAGS] + 5, 0x10),
+    TMCEvent.RUINS_GRASS_MIDDLE: ROMData(flag_group_by_name[TMCFlagGroup.OVERWORLD_FLAGS] + 5, 0x20),
+    TMCEvent.RUINS_GRASS_LEFT: ROMData(flag_group_by_name[TMCFlagGroup.OVERWORLD_FLAGS] + 5, 0x40),
+    TMCEvent.RUINS_GRASS_RIGHT: ROMData(flag_group_by_name[TMCFlagGroup.OVERWORLD_FLAGS] + 5, 0x80),
+    # 0x2CC2
+    TMCEvent.RUINS_GRASS_BOTTOM: ROMData(flag_group_by_name[TMCFlagGroup.OVERWORLD_FLAGS] + 6, 0x01),
+    TMCEvent.RUINS_ARMOS: ROMData(flag_group_by_name[TMCFlagGroup.OVERWORLD_FLAGS] + 6, 0x02),
+    TMCEvent.RUINS_BEETLES: ROMData(flag_group_by_name[TMCFlagGroup.OVERWORLD_FLAGS] + 6, 0x04),
+    TMCEvent.RUINS_ARMOS_CHEST_LEFT: ROMData(flag_group_by_name[TMCFlagGroup.OVERWORLD_FLAGS] + 6, 0x08),
+    TMCEvent.RUINS_ARMOS_CHEST_RIGHT: ROMData(flag_group_by_name[TMCFlagGroup.OVERWORLD_FLAGS] + 6, 0x10),
+    TMCEvent.UNUSED_MINISH_LEFT_ROCK: ROMData(flag_group_by_name[TMCFlagGroup.OVERWORLD_FLAGS] + 6, 0x20),
+    TMCEvent.UNUSED_MINISH_RIGHT_ROCK: ROMData(flag_group_by_name[TMCFlagGroup.OVERWORLD_FLAGS] + 6, 0x40),
+    TMCEvent.MINISH_LEFT_ROCK: ROMData(flag_group_by_name[TMCFlagGroup.OVERWORLD_FLAGS] + 6, 0x80),
+    # 0x2CC3
+    TMCEvent.MINISH_MIDDLE_ROCK: ROMData(flag_group_by_name[TMCFlagGroup.OVERWORLD_FLAGS] + 7, 0x01),
+    TMCEvent.MINISH_RIGHT_ROCK: ROMData(flag_group_by_name[TMCFlagGroup.OVERWORLD_FLAGS] + 7, 0x02),
+    TMCEvent.EZLO_MINISH_PORTAL: ROMData(flag_group_by_name[TMCFlagGroup.OVERWORLD_FLAGS] + 7, 0x04),
+    TMCEvent.MINISH_NORTH_HEART: ROMData(flag_group_by_name[TMCFlagGroup.OVERWORLD_FLAGS] + 7, 0x08),
+    TMCEvent.MINISH_SOUTH_HEART: ROMData(flag_group_by_name[TMCFlagGroup.OVERWORLD_FLAGS] + 7, 0x10),
+    TMCEvent.EZLO_MINISH_SHRINK: ROMData(flag_group_by_name[TMCFlagGroup.OVERWORLD_FLAGS] + 7, 0x20),
+    TMCEvent.CRENEL_RAIN_BOULDER_BOTTOM: ROMData(flag_group_by_name[TMCFlagGroup.OVERWORLD_FLAGS] + 7, 0x40),
+    TMCEvent.CRENEL_RAIN_BOULDER_TOP: ROMData(flag_group_by_name[TMCFlagGroup.OVERWORLD_FLAGS] + 7, 0x80),
+    # 0x2CC4
+    TMCEvent.CRENEL_WALL_BOMBWALL: ROMData(flag_group_by_name[TMCFlagGroup.OVERWORLD_FLAGS] + 8, 0x01),
+    TMCEvent.CRENEL_SCRUB_BOMBWALL: ROMData(flag_group_by_name[TMCFlagGroup.OVERWORLD_FLAGS] + 8, 0x02),
+    TMCEvent.CRENEL_FAIRY_HP_BOMBWALL: ROMData(flag_group_by_name[TMCFlagGroup.OVERWORLD_FLAGS] + 8, 0x04),
+    TMCEvent.CRENEL_MUSHROOM_BOMBWALL: ROMData(flag_group_by_name[TMCFlagGroup.OVERWORLD_FLAGS] + 8, 0x08),
+    TMCEvent.CRENEL_BASE_HP_BOMBWALL: ROMData(flag_group_by_name[TMCFlagGroup.OVERWORLD_FLAGS] + 8, 0x10),
+    TMCEvent.UNUSED_CRENEL_BASE_TILE: ROMData(flag_group_by_name[TMCFlagGroup.OVERWORLD_FLAGS] + 8, 0x20),
+    TMCEvent.UNUSED_CRENEL_WALL_TILE_BOTTOM: ROMData(flag_group_by_name[TMCFlagGroup.OVERWORLD_FLAGS] + 8, 0x40),
+    TMCEvent.UNUSED_CRENEL_WALL_TILE_TOP: ROMData(flag_group_by_name[TMCFlagGroup.OVERWORLD_FLAGS] + 8, 0x80),
+    # 0x2CC5
+    TMCEvent.EZLO_CRENEL_TORNADO: ROMData(flag_group_by_name[TMCFlagGroup.OVERWORLD_FLAGS] + 9, 0x01),
+    TMCEvent.CRENEL_BASE_RUPEE: ROMData(flag_group_by_name[TMCFlagGroup.OVERWORLD_FLAGS] + 9, 0x02),
+    TMCEvent.CRENEL_BASE_SPRING_ROCK: ROMData(flag_group_by_name[TMCFlagGroup.OVERWORLD_FLAGS] + 9, 0x08),
+    TMCEvent.CRENEL_BASE_GREEN_BEAN: ROMData(flag_group_by_name[TMCFlagGroup.OVERWORLD_FLAGS] + 9, 0x10),
+    TMCEvent.CRENEL_BASE_BLUE_BEAN: ROMData(flag_group_by_name[TMCFlagGroup.OVERWORLD_FLAGS] + 9, 0x20),
+    TMCEvent.CRENEL_BASE_FAIRY_BOMBWALL: ROMData(flag_group_by_name[TMCFlagGroup.OVERWORLD_FLAGS] + 9, 0x40),
+    TMCEvent.CRENEL_BASE_MIDDLE_BOMBWALL: ROMData(flag_group_by_name[TMCFlagGroup.OVERWORLD_FLAGS] + 9, 0x80),
+    # 0x2CC6
+    TMCEvent.CRENEL_BASE_SPRING_BOMBWALL: ROMData(flag_group_by_name[TMCFlagGroup.OVERWORLD_FLAGS] + 0x0A, 0x01),
+    TMCEvent.CRENEL_BASE_PORTAL: ROMData(flag_group_by_name[TMCFlagGroup.OVERWORLD_FLAGS] + 0x0A, 0x02),
+    TMCEvent.CRENEL_BASE_HOLE: ROMData(flag_group_by_name[TMCFlagGroup.OVERWORLD_FLAGS] + 0x0A, 0x04),
+    TMCEvent.CRENEL_BASE_SCRUB_BOMBWALL: ROMData(flag_group_by_name[TMCFlagGroup.OVERWORLD_FLAGS] + 0x0A, 0x08),
+    TMCEvent.VALLEY_CRYPT_ENTRANCE: ROMData(flag_group_by_name[TMCFlagGroup.OVERWORLD_FLAGS] + 0x0A, 0x10),
+    TMCEvent.VALLEY_GRAVE_RIGHT: ROMData(flag_group_by_name[TMCFlagGroup.OVERWORLD_FLAGS] + 0x0A, 0x20),
+    TMCEvent.VALLEY_GRAVE_LEFT: ROMData(flag_group_by_name[TMCFlagGroup.OVERWORLD_FLAGS] + 0x0A, 0x40),
+    TMCEvent.VALLEY_GRAVE_MIDDLE: ROMData(flag_group_by_name[TMCFlagGroup.OVERWORLD_FLAGS] + 0x0A, 0x80),
+    # 0x2CC7
+    TMCEvent.EZLO_VALLEY: ROMData(flag_group_by_name[TMCFlagGroup.OVERWORLD_FLAGS] + 0x0B, 0x01),
+    TMCEvent.VALLEY_BOMBWALL: ROMData(flag_group_by_name[TMCFlagGroup.OVERWORLD_FLAGS] + 0x0B, 0x02),
+    TMCEvent.VALLEY_SECRET_CHEST: ROMData(flag_group_by_name[TMCFlagGroup.OVERWORLD_FLAGS] + 0x0B, 0x04),
+    TMCEvent.EZLO_VALLEY_KEY: ROMData(flag_group_by_name[TMCFlagGroup.OVERWORLD_FLAGS] + 0x0B, 0x08),
+    TMCEvent.SOUTH_FIELD_WEST_TREE_TOP: ROMData(flag_group_by_name[TMCFlagGroup.OVERWORLD_FLAGS] + 0x0B, 0x10),
+    TMCEvent.SOUTH_FIELD_WEST_TREE_MIDDLE: ROMData(flag_group_by_name[TMCFlagGroup.OVERWORLD_FLAGS] + 0x0B, 0x20),
+    TMCEvent.SOUTH_FIELD_WEST_TREE_BOTTOM: ROMData(flag_group_by_name[TMCFlagGroup.OVERWORLD_FLAGS] + 0x0B, 0x40),
+    TMCEvent.SOUTH_FIELD_SOUTHWEST_TREE_TOP: ROMData(flag_group_by_name[TMCFlagGroup.OVERWORLD_FLAGS] + 0x0B, 0x80),
+    # 0x2CC8
+    TMCEvent.SOUTH_FIELD_SOUTHWEST_TREE_MIDDLE: ROMData(flag_group_by_name[TMCFlagGroup.OVERWORLD_FLAGS] + 0x0C, 0x01),
+    TMCEvent.SOUTH_FIELD_SOUTHWEST_TREE_BOTTOM: ROMData(flag_group_by_name[TMCFlagGroup.OVERWORLD_FLAGS] + 0x0C, 0x02),
+    TMCEvent.SOUTH_FIELD_SOUTHEAST_TREE_TOP: ROMData(flag_group_by_name[TMCFlagGroup.OVERWORLD_FLAGS] + 0x0C, 0x04),
+    TMCEvent.SOUTH_FIELD_SOUTHEAST_TREE_MIDDLE: ROMData(flag_group_by_name[TMCFlagGroup.OVERWORLD_FLAGS] + 0x0C, 0x08),
+    TMCEvent.SOUTH_FIELD_SOUTHEAST_TREE_BOTTOM: ROMData(flag_group_by_name[TMCFlagGroup.OVERWORLD_FLAGS] + 0x0C, 0x10),
+    TMCEvent.SOUTH_FIELD_NORTH_TREE_TOP: ROMData(flag_group_by_name[TMCFlagGroup.OVERWORLD_FLAGS] + 0x0C, 0x20),
+    TMCEvent.SOUTH_FIELD_NORTH_TREE_MIDDLE: ROMData(flag_group_by_name[TMCFlagGroup.OVERWORLD_FLAGS] + 0x0C, 0x40),
+    TMCEvent.SOUTH_FIELD_NORTH_TREE_BOTTOM: ROMData(flag_group_by_name[TMCFlagGroup.OVERWORLD_FLAGS] + 0x0C, 0x80),
+    # 0x2CC9
+    TMCEvent.SOUTH_FIELD_NORTH_TREE_HIDDEN: ROMData(flag_group_by_name[TMCFlagGroup.OVERWORLD_FLAGS] + 0x0D, 0x01),
+    TMCEvent.SOUTH_FIELD_BOMBWALL: ROMData(flag_group_by_name[TMCFlagGroup.OVERWORLD_FLAGS] + 0x0D, 0x02),
+    TMCEvent.SOUTH_FIELD_BONK: ROMData(flag_group_by_name[TMCFlagGroup.OVERWORLD_FLAGS] + 0x0D, 0x04),
+    TMCEvent.SOUTH_FIELD_ZELDA_LEAVE: ROMData(flag_group_by_name[TMCFlagGroup.OVERWORLD_FLAGS] + 0x0D, 0x08),
+    TMCEvent.SOUTH_HILLS_LEFT_ROCK: ROMData(flag_group_by_name[TMCFlagGroup.OVERWORLD_FLAGS] + 0x0D, 0x10),
+    TMCEvent.SOUTH_HILLS_RIGHT_ROCK: ROMData(flag_group_by_name[TMCFlagGroup.OVERWORLD_FLAGS] + 0x0D, 0x20),
+    TMCEvent.HILLS_BOMBWALL: ROMData(flag_group_by_name[TMCFlagGroup.OVERWORLD_FLAGS] + 0x0D, 0x40),
+    TMCEvent.HILLS_TOP_ROCK: ROMData(flag_group_by_name[TMCFlagGroup.OVERWORLD_FLAGS] + 0x0D, 0x80),
+    # 0x2CCA
+    TMCEvent.HILLS_LEFT_ROCK: ROMData(flag_group_by_name[TMCFlagGroup.OVERWORLD_FLAGS] + 0x0E, 0x01),
+    TMCEvent.HILLS_RIGHT_ROCK: ROMData(flag_group_by_name[TMCFlagGroup.OVERWORLD_FLAGS] + 0x0E, 0x02),
+    TMCEvent.HILLS_BOTTOM_ROCK: ROMData(flag_group_by_name[TMCFlagGroup.OVERWORLD_FLAGS] + 0x0E, 0x04),
+    TMCEvent.LONLON_TOP_ROCK: ROMData(flag_group_by_name[TMCFlagGroup.OVERWORLD_FLAGS] + 0x0E, 0x08),
+    TMCEvent.LONLON_MIDDLE_TOP_ROCK: ROMData(flag_group_by_name[TMCFlagGroup.OVERWORLD_FLAGS] + 0x0E, 0x10),
+    TMCEvent.LONLON_MIDDLE_BOTTOM_ROCK: ROMData(flag_group_by_name[TMCFlagGroup.OVERWORLD_FLAGS] + 0x0E, 0x20),
+    TMCEvent.LONLON_BOTTOM_ROCK: ROMData(flag_group_by_name[TMCFlagGroup.OVERWORLD_FLAGS] + 0x0E, 0x40),
+    TMCEvent.LONLON_GORON_OPEN: ROMData(flag_group_by_name[TMCFlagGroup.OVERWORLD_FLAGS] + 0x0E, 0x80),
+    # 0x2CCB
+    TMCEvent.LONLON_BOULDER_NORTH: ROMData(flag_group_by_name[TMCFlagGroup.OVERWORLD_FLAGS] + 0x0F, 0x01),
+    TMCEvent.LONLON_BOULDER_SOUTH: ROMData(flag_group_by_name[TMCFlagGroup.OVERWORLD_FLAGS] + 0x0F, 0x02),
+    TMCEvent.LONLON_BOULDER_GORON: ROMData(flag_group_by_name[TMCFlagGroup.OVERWORLD_FLAGS] + 0x0F, 0x04),
+    TMCEvent.LONLON_BONK: ROMData(flag_group_by_name[TMCFlagGroup.OVERWORLD_FLAGS] + 0x0F, 0x08),
+    TMCEvent.LONLON_HEART: ROMData(flag_group_by_name[TMCFlagGroup.OVERWORLD_FLAGS] + 0x0F, 0x10),
+    TMCEvent.LONLON_DIG: ROMData(flag_group_by_name[TMCFlagGroup.OVERWORLD_FLAGS] + 0x0F, 0x20),
+    TMCEvent.EZLO_LONLON: ROMData(flag_group_by_name[TMCFlagGroup.OVERWORLD_FLAGS] + 0x0F, 0x40),
+    TMCEvent.NORTH_FIELD_TREE_TOP: ROMData(flag_group_by_name[TMCFlagGroup.OVERWORLD_FLAGS] + 0x0F, 0x80),
+    # 0x2CCC
+    TMCEvent.NORTH_FIELD_TREE_MIDDLE_TOP: ROMData(flag_group_by_name[TMCFlagGroup.OVERWORLD_FLAGS] + 0x10, 0x01),
+    TMCEvent.NORTH_FIELD_TREE_MIDDLE_BOTTOM: ROMData(flag_group_by_name[TMCFlagGroup.OVERWORLD_FLAGS] + 0x10, 0x02),
+    TMCEvent.NORTH_FIELD_TREE_BOTTOM: ROMData(flag_group_by_name[TMCFlagGroup.OVERWORLD_FLAGS] + 0x10, 0x04),
+    TMCEvent.NORTH_FIELD_EAST_ROCK_LEFT: ROMData(flag_group_by_name[TMCFlagGroup.OVERWORLD_FLAGS] + 0x10, 0x08),
+    TMCEvent.NORTH_FIELD_EAST_ROCK_RIGHT: ROMData(flag_group_by_name[TMCFlagGroup.OVERWORLD_FLAGS] + 0x10, 0x10),
+    TMCEvent.UNUSED_NORTH_FIELD_LEFT_FENCE: ROMData(flag_group_by_name[TMCFlagGroup.OVERWORLD_FLAGS] + 0x10, 0x20),
+    TMCEvent.UNUSED_NORTH_FIELD_RIGHT_FENCE: ROMData(flag_group_by_name[TMCFlagGroup.OVERWORLD_FLAGS] + 0x10, 0x40),
+    TMCEvent.NORTH_FIELD_WEST_ROCK: ROMData(flag_group_by_name[TMCFlagGroup.OVERWORLD_FLAGS] + 0x10, 0x80),
+    # 0x2CCD
+    TMCEvent.NORTH_FIELD_MINISH_HOLE: ROMData(flag_group_by_name[TMCFlagGroup.OVERWORLD_FLAGS] + 0x11, 0x01),
+    TMCEvent.NORTH_FIELD_SCRUB: ROMData(flag_group_by_name[TMCFlagGroup.OVERWORLD_FLAGS] + 0x11, 0x02),
+    TMCEvent.NORTH_FIELD_MOBLINS: ROMData(flag_group_by_name[TMCFlagGroup.OVERWORLD_FLAGS] + 0x11, 0x04),
+    TMCEvent.NORTH_FIELD_BONK: ROMData(flag_group_by_name[TMCFlagGroup.OVERWORLD_FLAGS] + 0x11, 0x08),
+    TMCEvent.NORTH_FIELD_BRIDGE: ROMData(flag_group_by_name[TMCFlagGroup.OVERWORLD_FLAGS] + 0x11, 0x10),
+    TMCEvent.NORTH_FIELD_DIG: ROMData(flag_group_by_name[TMCFlagGroup.OVERWORLD_FLAGS] + 0x11, 0x20),
+    TMCEvent.TRILBY_WEST_BOMBWALL: ROMData(flag_group_by_name[TMCFlagGroup.OVERWORLD_FLAGS] + 0x11, 0x40),
+    TMCEvent.TRILBY_EAST_BOMBWALL: ROMData(flag_group_by_name[TMCFlagGroup.OVERWORLD_FLAGS] + 0x11, 0x80),
+    # 0x2CCE
+    TMCEvent.TRILBY_BOULDER: ROMData(flag_group_by_name[TMCFlagGroup.OVERWORLD_FLAGS] + 0x12, 0x01),
+    TMCEvent.WESTERN_BOULDER: ROMData(flag_group_by_name[TMCFlagGroup.OVERWORLD_FLAGS] + 0x12, 0x04),
+    TMCEvent.WESTERN_DIG_TOP_LEFT: ROMData(flag_group_by_name[TMCFlagGroup.OVERWORLD_FLAGS] + 0x12, 0x08),
+    TMCEvent.WESTERN_DIG_BOTTOM_LEFT: ROMData(flag_group_by_name[TMCFlagGroup.OVERWORLD_FLAGS] + 0x12, 0x10),
+    TMCEvent.WESTERN_DIG_TOP_CENTER: ROMData(flag_group_by_name[TMCFlagGroup.OVERWORLD_FLAGS] + 0x12, 0x20),
+    TMCEvent.WESTERN_DIG_BOTTOM_CENTER: ROMData(flag_group_by_name[TMCFlagGroup.OVERWORLD_FLAGS] + 0x12, 0x40),
+    TMCEvent.WESTERN_DIG_TOP_RIGHT: ROMData(flag_group_by_name[TMCFlagGroup.OVERWORLD_FLAGS] + 0x12, 0x80),
+    # 0x2CCF
+    TMCEvent.WESTERN_DIG_BOTTOM_RIGHT: ROMData(flag_group_by_name[TMCFlagGroup.OVERWORLD_FLAGS] + 0x13, 0x01),
+    TMCEvent.WESTERN_DIG_LEFT: ROMData(flag_group_by_name[TMCFlagGroup.OVERWORLD_FLAGS] + 0x13, 0x02),
+    TMCEvent.WESTERN_DIG_RIGHT: ROMData(flag_group_by_name[TMCFlagGroup.OVERWORLD_FLAGS] + 0x13, 0x04),
+    TMCEvent.WESTERN_CUTSCENE: ROMData(flag_group_by_name[TMCFlagGroup.OVERWORLD_FLAGS] + 0x13, 0x08),
+    TMCEvent.WESTERN_CHEST: ROMData(flag_group_by_name[TMCFlagGroup.OVERWORLD_FLAGS] + 0x13, 0x10),
+    TMCEvent.CASTLE_WAKE: ROMData(flag_group_by_name[TMCFlagGroup.OVERWORLD_FLAGS] + 0x13, 0x40),
+    TMCEvent.CASTLE_MAID: ROMData(flag_group_by_name[TMCFlagGroup.OVERWORLD_FLAGS] + 0x13, 0x80),
+    # 0x2CD0
+    TMCEvent.FALLS_HEART: ROMData(flag_group_by_name[TMCFlagGroup.OVERWORLD_FLAGS] + 0x14, 0x01),
+    TMCEvent.FALLS_CLIFF_CHEST: ROMData(flag_group_by_name[TMCFlagGroup.OVERWORLD_FLAGS] + 0x14, 0x02),
+    TMCEvent.LOWER_FALLS_RUPEE_TOP: ROMData(flag_group_by_name[TMCFlagGroup.OVERWORLD_FLAGS] + 0x14, 0x04),
+    TMCEvent.LOWER_FALLS_RUPEE_LEFT: ROMData(flag_group_by_name[TMCFlagGroup.OVERWORLD_FLAGS] + 0x14, 0x08),
+    TMCEvent.LOWER_FALLS_RUPEE_RIGHT: ROMData(flag_group_by_name[TMCFlagGroup.OVERWORLD_FLAGS] + 0x14, 0x10),
+    TMCEvent.EZLO_FALLS: ROMData(flag_group_by_name[TMCFlagGroup.OVERWORLD_FLAGS] + 0x14, 0x20),
+    TMCEvent.FALLS_DIG_TOP: ROMData(flag_group_by_name[TMCFlagGroup.OVERWORLD_FLAGS] + 0x14, 0x80),
+    # 0x2CD1
+    TMCEvent.LOWER_FALLS_HEART: ROMData(flag_group_by_name[TMCFlagGroup.OVERWORLD_FLAGS] + 0x15, 0x02),
+    TMCEvent.EZLO_FALLS_TOP: ROMData(flag_group_by_name[TMCFlagGroup.OVERWORLD_FLAGS] + 0x15, 0x04),
+    TMCEvent.BIGGORON_SHIELD: ROMData(flag_group_by_name[TMCFlagGroup.OVERWORLD_FLAGS] + 0x15, 0x08),
+    TMCEvent.BIGGORON_EATING: ROMData(flag_group_by_name[TMCFlagGroup.OVERWORLD_FLAGS] + 0x15, 0x10),
+    TMCEvent.CRENEL_BEANSTALK: ROMData(flag_group_by_name[TMCFlagGroup.OVERWORLD_FLAGS] + 0x15, 0x20),
+    TMCEvent.LAKE_BEANSTALK: ROMData(flag_group_by_name[TMCFlagGroup.OVERWORLD_FLAGS] + 0x15, 0x40),
+    TMCEvent.RUINS_BEANSTALK: ROMData(flag_group_by_name[TMCFlagGroup.OVERWORLD_FLAGS] + 0x15, 0x80),
+    # 0x2CD2
+    TMCEvent.HILLS_BEANSTALK: ROMData(flag_group_by_name[TMCFlagGroup.OVERWORLD_FLAGS] + 0x16, 0x01),
+    TMCEvent.WESTERN_BEANSTALK: ROMData(flag_group_by_name[TMCFlagGroup.OVERWORLD_FLAGS] + 0x16, 0x02),
+    TMCEvent.HILLS_FUSION_CHEST: ROMData(flag_group_by_name[TMCFlagGroup.OVERWORLD_FLAGS] + 0x16, 0x04),
+    TMCEvent.MINISH_WEST_FUSION_CHEST: ROMData(flag_group_by_name[TMCFlagGroup.OVERWORLD_FLAGS] + 0x16, 0x08),
+    TMCEvent.RUINS_NEAR_FOW_FUSION_CHEST: ROMData(flag_group_by_name[TMCFlagGroup.OVERWORLD_FLAGS] + 0x16, 0x10),
+    TMCEvent.MINISH_EAST_FUSION_CHEST: ROMData(flag_group_by_name[TMCFlagGroup.OVERWORLD_FLAGS] + 0x16, 0x20),
+    TMCEvent.TRILBY_TOP_FUSION_CHEST: ROMData(flag_group_by_name[TMCFlagGroup.OVERWORLD_FLAGS] + 0x16, 0x40),
+    TMCEvent.MINISH_SOUTH_FUSION_CHEST: ROMData(flag_group_by_name[TMCFlagGroup.OVERWORLD_FLAGS] + 0x16, 0x80),
+    # 0x2CD3
+    TMCEvent.MINISH_NORTH_FUSION_CHEST: ROMData(flag_group_by_name[TMCFlagGroup.OVERWORLD_FLAGS] + 0x17, 0x01),
+    TMCEvent.SOUTH_FIELD_FUSION_CHEST: ROMData(flag_group_by_name[TMCFlagGroup.OVERWORLD_FLAGS] + 0x17, 0x02),
+    TMCEvent.VALLEY_LEFT_FUSION_CHEST: ROMData(flag_group_by_name[TMCFlagGroup.OVERWORLD_FLAGS] + 0x17, 0x04),
+    TMCEvent.VALLEY_RIGHT_FUSION_CHEST: ROMData(flag_group_by_name[TMCFlagGroup.OVERWORLD_FLAGS] + 0x17, 0x08),
+    TMCEvent.TRILBY_MIDDLE_FUSION_CHEST: ROMData(flag_group_by_name[TMCFlagGroup.OVERWORLD_FLAGS] + 0x17, 0x10),
+    TMCEvent.PRE_VALLEY_FUSION_CHEST: ROMData(flag_group_by_name[TMCFlagGroup.OVERWORLD_FLAGS] + 0x17, 0x20),
+    TMCEvent.LOWER_FALLS_FUSION_CHEST: ROMData(flag_group_by_name[TMCFlagGroup.OVERWORLD_FLAGS] + 0x17, 0x40),
+    TMCEvent.FALLS_FUSION_CHEST: ROMData(flag_group_by_name[TMCFlagGroup.OVERWORLD_FLAGS] + 0x17, 0x80),
+    # 0x2CD4
+    TMCEvent.CRENEL_FUSION_CHEST: ROMData(flag_group_by_name[TMCFlagGroup.OVERWORLD_FLAGS] + 0x18, 0x01),
+    TMCEvent.CRENEL_BASE_FUSION_CHEST: ROMData(flag_group_by_name[TMCFlagGroup.OVERWORLD_FLAGS] + 0x18, 0x02),
+    TMCEvent.RUINS_PILLARS_FUSION_CHEST: ROMData(flag_group_by_name[TMCFlagGroup.OVERWORLD_FLAGS] + 0x18, 0x04),
+    TMCEvent.TOWN_GUARD_TALK: ROMData(flag_group_by_name[TMCFlagGroup.OVERWORLD_FLAGS] + 0x18, 0x10),
+    TMCEvent.TOWN_LIBRARY_PORTAL: ROMData(flag_group_by_name[TMCFlagGroup.OVERWORLD_FLAGS] + 0x18, 0x20),
+    TMCEvent.TOWN_SCHOOL_ROOF_PORTAL: ROMData(flag_group_by_name[TMCFlagGroup.OVERWORLD_FLAGS] + 0x18, 0x40),
+    TMCEvent.TOWN_BOX: ROMData(flag_group_by_name[TMCFlagGroup.OVERWORLD_FLAGS] + 0x18, 0x80),
+    # 0x2CD5
+    TMCEvent.TOWN_INN_LEDGE_CHEST: ROMData(flag_group_by_name[TMCFlagGroup.OVERWORLD_FLAGS] + 0x19, 0x01),
+    TMCEvent.TOWN_SCHOOL_ROOF_CHEST: ROMData(flag_group_by_name[TMCFlagGroup.OVERWORLD_FLAGS] + 0x19, 0x02),
+    TMCEvent.TOWN_INTRO: ROMData(flag_group_by_name[TMCFlagGroup.OVERWORLD_FLAGS] + 0x19, 0x04),
+    TMCEvent.TOWN_WEST_GUARD: ROMData(flag_group_by_name[TMCFlagGroup.OVERWORLD_FLAGS] + 0x19, 0x08),
+    TMCEvent.TOWN_DOG: ROMData(flag_group_by_name[TMCFlagGroup.OVERWORLD_FLAGS] + 0x19, 0x10),
+    TMCEvent.TOWN_BELL: ROMData(flag_group_by_name[TMCFlagGroup.OVERWORLD_FLAGS] + 0x19, 0x20),
+    TMCEvent.TOWN_MUSIC_HOUSE: ROMData(flag_group_by_name[TMCFlagGroup.OVERWORLD_FLAGS] + 0x19, 0x40),
+    TMCEvent.TOWN_GOSSIP_1: ROMData(flag_group_by_name[TMCFlagGroup.OVERWORLD_FLAGS] + 0x19, 0x80),
+    # 0x2CD6
+    TMCEvent.TOWN_GOSSIP_2: ROMData(flag_group_by_name[TMCFlagGroup.OVERWORLD_FLAGS] + 0x1A, 0x01),
+    TMCEvent.TOWN_TALK_FOUNTAIN_1: ROMData(flag_group_by_name[TMCFlagGroup.OVERWORLD_FLAGS] + 0x1A, 0x02),
+    TMCEvent.TOWN_TALK_FOUNTAIN_2: ROMData(flag_group_by_name[TMCFlagGroup.OVERWORLD_FLAGS] + 0x1A, 0x04),
+    TMCEvent.TOWN_TALK_GUY_2: ROMData(flag_group_by_name[TMCFlagGroup.OVERWORLD_FLAGS] + 0x1A, 0x08),
+    TMCEvent.TOWN_TALK_GUY_4: ROMData(flag_group_by_name[TMCFlagGroup.OVERWORLD_FLAGS] + 0x1A, 0x10),
+    TMCEvent.TOWN_TALK_GUY_5: ROMData(flag_group_by_name[TMCFlagGroup.OVERWORLD_FLAGS] + 0x1A, 0x20),
+    TMCEvent.TOWN_CAFE_LADY_NPC: ROMData(flag_group_by_name[TMCFlagGroup.OVERWORLD_FLAGS] + 0x1A, 0x40),
+    TMCEvent.TOWN_HERB: ROMData(flag_group_by_name[TMCFlagGroup.OVERWORLD_FLAGS] + 0x1A, 0x80),
+    # 0x2CD7
+    TMCEvent.TOWN_DOG_HUMAN: ROMData(flag_group_by_name[TMCFlagGroup.OVERWORLD_FLAGS] + 0x1B, 0x01),
+    TMCEvent.EZLO_CLOUDS_TOWER: ROMData(flag_group_by_name[TMCFlagGroup.OVERWORLD_FLAGS] + 0x1B, 0x02),
+    TMCEvent.UNUSED_EZLO_CLOUDS: ROMData(flag_group_by_name[TMCFlagGroup.OVERWORLD_FLAGS] + 0x1B, 0x04),
+    TMCEvent.CLOUDS_FREE_CHEST: ROMData(flag_group_by_name[TMCFlagGroup.OVERWORLD_FLAGS] + 0x1B, 0x08),
+    TMCEvent.CLOUDS_SOUTH_MIDDLE_CHEST: ROMData(flag_group_by_name[TMCFlagGroup.OVERWORLD_FLAGS] + 0x1B, 0x10),
+    TMCEvent.CLOUDS_NORTH_WEST_BOTTOM_CHEST: ROMData(flag_group_by_name[TMCFlagGroup.OVERWORLD_FLAGS] + 0x1B, 0x20),
+    TMCEvent.CLOUDS_NORTH_WEST_LEFT_CHEST: ROMData(flag_group_by_name[TMCFlagGroup.OVERWORLD_FLAGS] + 0x1B, 0x40),
+    TMCEvent.CLOUDS_NORTH_WEST_RIGHT_CHEST: ROMData(flag_group_by_name[TMCFlagGroup.OVERWORLD_FLAGS] + 0x1B, 0x80),
+    # 0x2CD8
+    TMCEvent.CLOUDS_SOUTH_LEFT_CHEST: ROMData(flag_group_by_name[TMCFlagGroup.OVERWORLD_FLAGS] + 0x1C, 0x01),
+    TMCEvent.CLOUDS_SOUTH_RIGHT_CHEST: ROMData(flag_group_by_name[TMCFlagGroup.OVERWORLD_FLAGS] + 0x1C, 0x02),
+    TMCEvent.CLOUDS_NORTH_WEST_DIG_SPOT: ROMData(flag_group_by_name[TMCFlagGroup.OVERWORLD_FLAGS] + 0x1C, 0x04),
+    TMCEvent.CLOUDS_NORTH_EAST_DIG_SPOT: ROMData(flag_group_by_name[TMCFlagGroup.OVERWORLD_FLAGS] + 0x1C, 0x08),
+    TMCEvent.CLOUDS_SOUTH_MIDDLE_DIG_SPOT: ROMData(flag_group_by_name[TMCFlagGroup.OVERWORLD_FLAGS] + 0x1C, 0x10),
+    TMCEvent.CLOUDS_SOUTH_EAST_TOP_DIG_SPOT: ROMData(flag_group_by_name[TMCFlagGroup.OVERWORLD_FLAGS] + 0x1C, 0x20),
+    TMCEvent.CLOUDS_SOUTH_LEFT_DIG_SPOT: ROMData(flag_group_by_name[TMCFlagGroup.OVERWORLD_FLAGS] + 0x1C, 0x40),
+    TMCEvent.CLOUDS_SOUTH_RIGHT_DIG_SPOT: ROMData(flag_group_by_name[TMCFlagGroup.OVERWORLD_FLAGS] + 0x1C, 0x80),
+    # 0x2CD9
+    TMCEvent.CLOUDS_SOUTH_EAST_BOTTOM_DIG_SPOT: ROMData(flag_group_by_name[TMCFlagGroup.OVERWORLD_FLAGS] + 0x1D, 0x01),
+    TMCEvent.EZLO_CLOUDS_ENTER: ROMData(flag_group_by_name[TMCFlagGroup.OVERWORLD_FLAGS] + 0x1D, 0x04),
+    TMCEvent.CLOUDS_PINWHEEL_TOP_RIGHT: ROMData(flag_group_by_name[TMCFlagGroup.OVERWORLD_FLAGS] + 0x1D, 0x08),
+    TMCEvent.CLOUDS_PINWHEEL_BOTTOM_LEFT: ROMData(flag_group_by_name[TMCFlagGroup.OVERWORLD_FLAGS] + 0x1D, 0x10),
+    TMCEvent.CLOUDS_PINWHEEL_TOP_LEFT: ROMData(flag_group_by_name[TMCFlagGroup.OVERWORLD_FLAGS] + 0x1D, 0x20),
+    TMCEvent.CLOUDS_PINWHEEL_MIDDLE: ROMData(flag_group_by_name[TMCFlagGroup.OVERWORLD_FLAGS] + 0x1D, 0x40),
+    TMCEvent.CLOUDS_PINWHEEL_BOTTOM_RIGHT: ROMData(flag_group_by_name[TMCFlagGroup.OVERWORLD_FLAGS] + 0x1D, 0x80),
+    # 0x2CDA
+    TMCEvent.CLOUDS_NORTH_KILL: ROMData(flag_group_by_name[TMCFlagGroup.OVERWORLD_FLAGS] + 0x1E, 0x01),
+    TMCEvent.CLOUDS_NORTH_COLLECT: ROMData(flag_group_by_name[TMCFlagGroup.OVERWORLD_FLAGS] + 0x1E, 0x02),
+    TMCEvent.CLOUDS_SOUTH_KILL: ROMData(flag_group_by_name[TMCFlagGroup.OVERWORLD_FLAGS] + 0x1E, 0x04),
+    TMCEvent.CLOUDS_SOUTH_COLLECT: ROMData(flag_group_by_name[TMCFlagGroup.OVERWORLD_FLAGS] + 0x1E, 0x08),
+    TMCEvent.CLOUDS_GALE_TALK: ROMData(flag_group_by_name[TMCFlagGroup.OVERWORLD_FLAGS] + 0x1E, 0x10),
+    TMCEvent.CLOUDS_HAILEY_TALK: ROMData(flag_group_by_name[TMCFlagGroup.OVERWORLD_FLAGS] + 0x1E, 0x20),
+    TMCEvent.FALLS_DIG_BOTTOM: ROMData(flag_group_by_name[TMCFlagGroup.OVERWORLD_FLAGS] + 0x1E, 0x80),
+    # 0x2CDB
+    TMCEvent.EZLO_CRENEL_MINISH:
+        ROMData(flag_group_by_name[TMCFlagGroup.OVERWORLD_FLAGS] + 0x1F, 0x01),
+    TMCEvent.RUINS_ARMOS_CAMERA:
+        ROMData(flag_group_by_name[TMCFlagGroup.OVERWORLD_FLAGS] + 0x1F, 0x02),
+    TMCEvent.RUINS_BEETLES_CAMERA:
+        ROMData(flag_group_by_name[TMCFlagGroup.OVERWORLD_FLAGS] + 0x1F, 0x04),
+    TMCEvent.MINISH_WOODS_POST_VILLAGE_FUSION_CHEST:
+        ROMData(flag_group_by_name[TMCFlagGroup.OVERWORLD_FLAGS] + 0x1F, 0x08),
+}
 
-OVERWORLD_FLAGS: list[tuple[int, AddressData]] = [
-    (0xFF127C, AddressData(  # 0x2CBC
-        None,
-        TMCEvent.EZLO_DWS_CLEAR,
-        TMCEvent.EZLO_COF_CLEAR,
-        TMCEvent.EZLO_FOW_CLEAR,
-        TMCEvent.EZLO_TOD_CLEAR,
-        TMCEvent.EZLO_POW_CLEAR,
-        TMCEvent.LAKE_BONK,
-        TMCEvent.LAKE_BOULDER)
-     ),
-    (0xFF127D, AddressData(  # 0x2CBD
-        TMCEvent.LAKE_NORTH_HEART,
-        TMCEvent.LAKE_POND_HEART,
-        TMCEvent.LAKE_SOUTH_HEART,
-        None,
-        TMCEvent.SWAMP_CHEST,
-        TMCEvent.GARDEN_CASTLE_LADDER,
-        None,
-        TMCEvent.GARDEN_DOJO_LADDER)
-     ),
-    (0xFF127E, AddressData(  # 0x2CBE
-        TMCEvent.CASTLE_BONK,
-        TMCEvent.GUARD_CAPTURE,
-        TMCEvent.GARDEN_WATER_CHEST_LEFT,
-        TMCEvent.GARDEN_WATER_CHEST_RIGHT,
-        TMCEvent.EZLO_GARDEN,
-        TMCEvent.EZLO_SANCTUARY,
-        TMCEvent.SWAMP_BOULDER_MIDDLE,
-        TMCEvent.SWAMP_BOULDER_SOUTH)
-     ),
-    (0xFF127F, AddressData(  # 0x2CBF
-        None,
-        None,
-        None,
-        TMCEvent.EZLO_SWAMP_0,
-        TMCEvent.EZLO_SWAMP_1,
-        TMCEvent.EZLO_SWAMP_2,
-        TMCEvent.SWAMP_RUINS_BLOCK,
-        TMCEvent.SWAMP_BOULDER_NORTH)
-     ),
-    (0xFF1280, AddressData(  # 0x2CC0
-        TMCEvent.SWAMP_GRAVE,
-        None,
-        TMCEvent.SWAMP_WATER_TOP,
-        TMCEvent.SWAMP_WATER_MIDDLE,
-        TMCEvent.SWAMP_WATER_BOTTOM,
-        TMCEvent.RUINS_ENTER,
-        TMCEvent.RUINS_BOULDER_1,
-        TMCEvent.RUINS_BOMBWALL)
-     ),
-    (0xFF1281, AddressData(  # 0x2CC1
-        TMCEvent.RUINS_TEKTITE,
-        None,
-        None,
-        TMCEvent.RUINS_BOULDER_2,
-        TMCEvent.RUINS_GRASS_TOP,
-        TMCEvent.RUINS_GRASS_MIDDLE,
-        TMCEvent.RUINS_GRASS_LEFT,
-        TMCEvent.RUINS_GRASS_RIGHT)
-     ),
-    (0xFF1282, AddressData(  # 0x2CC2
-        TMCEvent.RUINS_GRASS_BOTTOM,
-        TMCEvent.RUINS_ARMOS,
-        TMCEvent.RUINS_BEETLES,
-        TMCEvent.RUINS_ARMOS_CHEST_LEFT,
-        TMCEvent.RUINS_ARMOS_CHEST_RIGHT,
-        TMCEvent.UNUSED_MINISH_LEFT_ROCK,
-        TMCEvent.UNUSED_MINISH_RIGHT_ROCK,
-        TMCEvent.MINISH_LEFT_ROCK)
-     ),
-    (0xFF1283, AddressData(  # 0x2CC3
-        TMCEvent.MINISH_MIDDLE_ROCK,
-        TMCEvent.MINISH_RIGHT_ROCK,
-        TMCEvent.EZLO_MINISH_PORTAL,
-        TMCEvent.MINISH_NORTH_HEART,
-        TMCEvent.MINISH_SOUTH_HEART,
-        TMCEvent.EZLO_MINISH_SHRINK,
-        TMCEvent.CRENEL_RAIN_BOULDER_BOTTOM,
-        TMCEvent.CRENEL_RAIN_BOULDER_TOP)
-     ),
-    (0xFF1284, AddressData(  # 0x2CC4
-        TMCEvent.CRENEL_WALL_BOMBWALL,
-        TMCEvent.CRENEL_SCRUB_BOMBWALL,
-        TMCEvent.CRENEL_FAIRY_HP_BOMBWALL,
-        TMCEvent.CRENEL_MUSHROOM_BOMBWALL,
-        TMCEvent.CRENEL_BASE_HP_BOMBWALL,
-        TMCEvent.UNUSED_CRENEL_BASE_TILE,
-        TMCEvent.UNUSED_CRENEL_WALL_TILE_BOTTOM,
-        TMCEvent.UNUSED_CRENEL_WALL_TILE_TOP)
-     ),
-    (0xFF1285, AddressData(  # 0x2CC5
-        TMCEvent.EZLO_CRENEL_TORNADO,
-        TMCEvent.CRENEL_BASE_RUPEE,
-        None,
-        TMCEvent.CRENEL_BASE_SPRING_ROCK,
-        TMCEvent.CRENEL_BASE_GREEN_BEAN,
-        TMCEvent.CRENEL_BASE_BLUE_BEAN,
-        TMCEvent.CRENEL_BASE_FAIRY_BOMBWALL,
-        TMCEvent.CRENEL_BASE_MIDDLE_BOMBWALL)
-     ),
-    (0xFF1286, AddressData(  # 0x2CC6
-        TMCEvent.CRENEL_BASE_SPRING_BOMBWALL,
-        TMCEvent.CRENEL_BASE_PORTAL,
-        TMCEvent.CRENEL_BASE_HOLE,
-        TMCEvent.CRENEL_BASE_SCRUB_BOMBWALL,
-        TMCEvent.VALLEY_CRYPT_ENTRANCE,
-        TMCEvent.VALLEY_GRAVE_RIGHT,
-        TMCEvent.VALLEY_GRAVE_LEFT,
-        TMCEvent.VALLEY_GRAVE_MIDDLE)
-     ),
-    (0xFF1287, AddressData(  # 0x2CC7
-        TMCEvent.EZLO_VALLEY,
-        TMCEvent.VALLEY_BOMBWALL,
-        TMCEvent.VALLEY_SECRET_CHEST,
-        TMCEvent.EZLO_VALLEY_KEY,
-        TMCEvent.SOUTH_FIELD_WEST_TREE_TOP,
-        TMCEvent.SOUTH_FIELD_WEST_TREE_MIDDLE,
-        TMCEvent.SOUTH_FIELD_WEST_TREE_BOTTOM,
-        TMCEvent.SOUTH_FIELD_SOUTHWEST_TREE_TOP)
-     ),
-    (0xFF1288, AddressData(  # 0x2CC8
-        TMCEvent.SOUTH_FIELD_SOUTHWEST_TREE_MIDDLE,
-        TMCEvent.SOUTH_FIELD_SOUTHWEST_TREE_BOTTOM,
-        TMCEvent.SOUTH_FIELD_SOUTHEAST_TREE_TOP,
-        TMCEvent.SOUTH_FIELD_SOUTHEAST_TREE_MIDDLE,
-        TMCEvent.SOUTH_FIELD_SOUTHEAST_TREE_BOTTOM,
-        TMCEvent.SOUTH_FIELD_NORTH_TREE_TOP,
-        TMCEvent.SOUTH_FIELD_NORTH_TREE_MIDDLE,
-        TMCEvent.SOUTH_FIELD_NORTH_TREE_BOTTOM)
-     ),
-    (0xFF1289, AddressData(  # 0x2CC9
-        TMCEvent.SOUTH_FIELD_NORTH_TREE_HIDDEN,
-        TMCEvent.SOUTH_FIELD_BOMBWALL,
-        TMCEvent.SOUTH_FIELD_BONK,
-        TMCEvent.SOUTH_FIELD_ZELDA_LEAVE,
-        TMCEvent.SOUTH_HILLS_LEFT_ROCK,
-        TMCEvent.SOUTH_HILLS_RIGHT_ROCK,
-        TMCEvent.HILLS_BOMBWALL,
-        TMCEvent.HILLS_TOP_ROCK)
-     ),
-    (0xFF128A, AddressData(  # 0x2CCA
-        TMCEvent.HILLS_LEFT_ROCK,
-        TMCEvent.HILLS_RIGHT_ROCK,
-        TMCEvent.HILLS_BOTTOM_ROCK,
-        TMCEvent.LONLON_TOP_ROCK,
-        TMCEvent.LONLON_MIDDLE_TOP_ROCK,
-        TMCEvent.LONLON_MIDDLE_BOTTOM_ROCK,
-        TMCEvent.LONLON_BOTTOM_ROCK,
-        TMCEvent.LONLON_GORON_OPEN)
-     ),
-    (0xFF128B, AddressData(  # 0x2CCB
-        TMCEvent.LONLON_BOULDER_NORTH,
-        TMCEvent.LONLON_BOULDER_SOUTH,
-        TMCEvent.LONLON_BOULDER_GORON,
-        TMCEvent.LONLON_BONK,
-        TMCEvent.LONLON_HEART,
-        TMCEvent.LONLON_DIG,
-        TMCEvent.EZLO_LONLON,
-        TMCEvent.NORTH_FIELD_TREE_TOP)
-     ),
-    (0xFF128C, AddressData(  # 0x2CCC
-        TMCEvent.NORTH_FIELD_TREE_MIDDLE_TOP,
-        TMCEvent.NORTH_FIELD_TREE_MIDDLE_BOTTOM,
-        TMCEvent.NORTH_FIELD_TREE_BOTTOM,
-        TMCEvent.NORTH_FIELD_EAST_ROCK_LEFT,
-        TMCEvent.NORTH_FIELD_EAST_ROCK_RIGHT,
-        TMCEvent.UNUSED_NORTH_FIELD_LEFT_FENCE,
-        TMCEvent.UNUSED_NORTH_FIELD_RIGHT_FENCE,
-        TMCEvent.NORTH_FIELD_WEST_ROCK)
-     ),
-    (0xFF128D, AddressData(  # 0x2CCD
-        TMCEvent.NORTH_FIELD_MINISH_HOLE,
-        TMCEvent.NORTH_FIELD_SCRUB,
-        TMCEvent.NORTH_FIELD_MOBLINS,
-        TMCEvent.NORTH_FIELD_BONK,
-        TMCEvent.NORTH_FIELD_BRIDGE,
-        TMCEvent.NORTH_FIELD_DIG,
-        TMCEvent.TRILBY_WEST_BOMBWALL,
-        TMCEvent.TRILBY_EAST_BOMBWALL)
-     ),
-    (0xFF128E, AddressData(  # 0x2CCE
-        TMCEvent.TRILBY_BOULDER,
-        None,
-        TMCEvent.WESTERN_BOULDER,
-        TMCEvent.WESTERN_DIG_TOP_LEFT,
-        TMCEvent.WESTERN_DIG_BOTTOM_LEFT,
-        TMCEvent.WESTERN_DIG_TOP_CENTER,
-        TMCEvent.WESTERN_DIG_BOTTOM_CENTER,
-        TMCEvent.WESTERN_DIG_TOP_RIGHT)
-     ),
-    (0xFF128F, AddressData(  # 0x2CCF
-        TMCEvent.WESTERN_DIG_BOTTOM_RIGHT,
-        TMCEvent.WESTERN_DIG_LEFT,
-        TMCEvent.WESTERN_DIG_RIGHT,
-        TMCEvent.WESTERN_CUTSCENE,
-        TMCEvent.WESTERN_CHEST,
-        None,
-        TMCEvent.CASTLE_WAKE,
-        TMCEvent.CASTLE_MAID)
-     ),
-    (0xFF1290, AddressData(  # 0x2CD0
-        TMCEvent.FALLS_HEART,
-        TMCEvent.FALLS_CLIFF_CHEST,
-        TMCEvent.LOWER_FALLS_RUPEE_TOP,
-        TMCEvent.LOWER_FALLS_RUPEE_LEFT,
-        TMCEvent.LOWER_FALLS_RUPEE_RIGHT,
-        TMCEvent.EZLO_FALLS,
-        None,
-        TMCEvent.FALLS_DIG_TOP)
-     ),
-    (0xFF1291, AddressData(  # 0x2CD1
-        None,
-        TMCEvent.LOWER_FALLS_HEART,
-        TMCEvent.EZLO_FALLS_TOP,
-        TMCEvent.BIGGORON_SHIELD,
-        TMCEvent.BIGGORON_EATING,
-        TMCEvent.CRENEL_BEANSTALK,
-        TMCEvent.LAKE_BEANSTALK,
-        TMCEvent.RUINS_BEANSTALK)
-     ),
-    (0xFF1292, AddressData(  # 0x2CD2
-        TMCEvent.HILLS_BEANSTALK,
-        TMCEvent.WESTERN_BEANSTALK,
-        TMCEvent.HILLS_FUSION_CHEST,
-        TMCEvent.MINISH_WEST_FUSION_CHEST,
-        TMCEvent.RUINS_NEAR_FOW_FUSION_CHEST,
-        TMCEvent.MINISH_EAST_FUSION_CHEST,
-        TMCEvent.TRILBY_TOP_FUSION_CHEST,
-        TMCEvent.MINISH_SOUTH_FUSION_CHEST)
-     ),
-    (0xFF1293, AddressData(  # 0x2CD3
-        TMCEvent.MINISH_NORTH_FUSION_CHEST,
-        TMCEvent.SOUTH_FIELD_FUSION_CHEST,
-        TMCEvent.VALLEY_LEFT_FUSION_CHEST,
-        TMCEvent.VALLEY_RIGHT_FUSION_CHEST,
-        TMCEvent.TRILBY_MIDDLE_FUSION_CHEST,
-        TMCEvent.PRE_VALLEY_FUSION_CHEST,
-        TMCEvent.LOWER_FALLS_FUSION_CHEST,
-        TMCEvent.FALLS_FUSION_CHEST)
-     ),
-    (0xFF1294, AddressData(  # 0x2CD4
-        TMCEvent.CRENEL_FUSION_CHEST,
-        TMCEvent.CRENEL_BASE_FUSION_CHEST,
-        TMCEvent.RUINS_PILLARS_FUSION_CHEST,
-        None,
-        TMCEvent.TOWN_GUARD_TALK,
-        TMCEvent.TOWN_LIBRARY_PORTAL,
-        TMCEvent.TOWN_SCHOOL_ROOF_PORTAL,
-        TMCEvent.TOWN_BOX)
-     ),
-    (0xFF1295, AddressData(  # 0x2CD5
-        TMCEvent.TOWN_INN_LEDGE_CHEST,
-        TMCEvent.TOWN_SCHOOL_ROOF_CHEST,
-        TMCEvent.TOWN_INTRO,
-        TMCEvent.TOWN_WEST_GUARD,
-        TMCEvent.TOWN_DOG,
-        TMCEvent.TOWN_BELL,
-        TMCEvent.TOWN_MUSIC_HOUSE,
-        TMCEvent.TOWN_GOSSIP_1)
-     ),
-    (0xFF1296, AddressData(  # 0x2CD6
-        TMCEvent.TOWN_GOSSIP_2,
-        TMCEvent.TOWN_TALK_FOUNTAIN_1,
-        TMCEvent.TOWN_TALK_FOUNTAIN_2,
-        TMCEvent.TOWN_TALK_GUY_2,
-        TMCEvent.TOWN_TALK_GUY_4,
-        TMCEvent.TOWN_TALK_GUY_5,
-        TMCEvent.TOWN_CAFE_LADY_NPC,
-        TMCEvent.TOWN_HERB)
-     ),
-    (0xFF1297, AddressData(  # 0x2CD7
-        TMCEvent.TOWN_DOG_HUMAN,
-        TMCEvent.EZLO_CLOUDS_TOWER,
-        TMCEvent.UNUSED_EZLO_CLOUDS,
-        TMCEvent.CLOUDS_FREE_CHEST,
-        TMCEvent.CLOUDS_SOUTH_MIDDLE_CHEST,
-        TMCEvent.CLOUDS_NORTH_WEST_BOTTOM_CHEST,
-        TMCEvent.CLOUDS_NORTH_WEST_LEFT_CHEST,
-        TMCEvent.CLOUDS_NORTH_WEST_RIGHT_CHEST)
-     ),
-    (0xFF1298, AddressData(  # 0x2CD8
-        TMCEvent.CLOUDS_SOUTH_LEFT_CHEST,
-        TMCEvent.CLOUDS_SOUTH_RIGHT_CHEST,
-        TMCEvent.CLOUDS_NORTH_WEST_DIG_SPOT,
-        TMCEvent.CLOUDS_NORTH_EAST_DIG_SPOT,
-        TMCEvent.CLOUDS_SOUTH_MIDDLE_DIG_SPOT,
-        TMCEvent.CLOUDS_SOUTH_EAST_TOP_DIG_SPOT,
-        TMCEvent.CLOUDS_SOUTH_LEFT_DIG_SPOT,
-        TMCEvent.CLOUDS_SOUTH_RIGHT_DIG_SPOT)
-     ),
-    (0xFF1299, AddressData(  # 0x2CD9
-        TMCEvent.CLOUDS_SOUTH_EAST_BOTTOM_DIG_SPOT,
-        None,
-        TMCEvent.EZLO_CLOUDS_ENTER,
-        TMCEvent.CLOUDS_PINWHEEL_TOP_RIGHT,
-        TMCEvent.CLOUDS_PINWHEEL_BOTTOM_LEFT,
-        TMCEvent.CLOUDS_PINWHEEL_TOP_LEFT,
-        TMCEvent.CLOUDS_PINWHEEL_MIDDLE,
-        TMCEvent.CLOUDS_PINWHEEL_BOTTOM_RIGHT)
-     ),
-    (0xFF129A, AddressData(  # 0x2CDA
-        TMCEvent.CLOUDS_NORTH_KILL,
-        TMCEvent.CLOUDS_NORTH_COLLECT,
-        TMCEvent.CLOUDS_SOUTH_KILL,
-        TMCEvent.CLOUDS_SOUTH_COLLECT,
-        TMCEvent.CLOUDS_GALE_TALK,
-        TMCEvent.CLOUDS_HAILEY_TALK,
-        None,
-        TMCEvent.FALLS_DIG_BOTTOM)
-     ),
-    (0xFF129B, AddressData(  # 0x2CDB
-        TMCEvent.EZLO_CRENEL_MINISH,
-        TMCEvent.RUINS_ARMOS_CAMERA,
-        TMCEvent.RUINS_BEETLES_CAMERA,
-        TMCEvent.MINISH_WOODS_POST_VILLAGE_FUSION_CHEST,
-        None,
-        None,
-        None,
-        None)
-     ),
-]
+DWS_FLAGS: dict[str, ROMData] = {
+    # 0x2D3C
+    TMCEvent.UNUSED_DWS_DOOR: ROMData(flag_group_by_name[TMCFlagGroup.DWS_FLAGS], 0x01),
+    TMCEvent.DWS_VISIT_00: ROMData(flag_group_by_name[TMCFlagGroup.DWS_FLAGS], 0x02),
+    TMCEvent.DWS_VISIT_01: ROMData(flag_group_by_name[TMCFlagGroup.DWS_FLAGS], 0x04),
+    TMCEvent.DWS_VISIT_02: ROMData(flag_group_by_name[TMCFlagGroup.DWS_FLAGS], 0x08),
+    TMCEvent.DWS_VISIT_03: ROMData(flag_group_by_name[TMCFlagGroup.DWS_FLAGS], 0x10),
+    TMCEvent.DWS_VISIT_04: ROMData(flag_group_by_name[TMCFlagGroup.DWS_FLAGS], 0x20),
+    TMCEvent.DWS_VISIT_05: ROMData(flag_group_by_name[TMCFlagGroup.DWS_FLAGS], 0x40),
+    TMCEvent.DWS_VISIT_06: ROMData(flag_group_by_name[TMCFlagGroup.DWS_FLAGS], 0x80),
+    # 0x2D3D
+    # 0x2D3E
+    # 0x2D3F
+    TMCEvent.DWS_1F_MADDER_RIGHT_WEB: ROMData(flag_group_by_name[TMCFlagGroup.DWS_FLAGS] + 3, 0x02),
+    TMCEvent.DWS_1F_MADDER_BOTTOM_WEB: ROMData(flag_group_by_name[TMCFlagGroup.DWS_FLAGS] + 3, 0x04),
+    TMCEvent.DWS_1F_MADDER_BIG_CHEST: ROMData(flag_group_by_name[TMCFlagGroup.DWS_FLAGS] + 3, 0x08),
+    TMCEvent.DWS_1F_BLUE_WARP_SOUTH_DOOR: ROMData(flag_group_by_name[TMCFlagGroup.DWS_FLAGS] + 3, 0x10),
+    TMCEvent.DWS_1F_BLUE_WARP_SWITCH: ROMData(flag_group_by_name[TMCFlagGroup.DWS_FLAGS] + 3, 0x20),
+    TMCEvent.DWS_1F_BLUE_WARP_LEFT_DOOR: ROMData(flag_group_by_name[TMCFlagGroup.DWS_FLAGS] + 3, 0x40),
+    TMCEvent.DWS_1F_BLUE_WARP_LEFT_CHEST_SWITCH: ROMData(flag_group_by_name[TMCFlagGroup.DWS_FLAGS] + 3, 0x80),
+    # 0x2D40
+    # 0x2D41
+    # 0x2D42
+    # 0x2D43
+    TMCEvent.DWS_1F_SLUG_TOP_LEFT: ROMData(flag_group_by_name[TMCFlagGroup.DWS_FLAGS] + 7, 0x01),
+    TMCEvent.DWS_1F_SLUG_BOTTOM_LEFT: ROMData(flag_group_by_name[TMCFlagGroup.DWS_FLAGS] + 7, 0x02),
+    TMCEvent.DWS_1F_SLUG_TOP_RIGHT: ROMData(flag_group_by_name[TMCFlagGroup.DWS_FLAGS] + 7, 0x04),
+    TMCEvent.DWS_1F_SLUG_BOTTOM_RIGHT: ROMData(flag_group_by_name[TMCFlagGroup.DWS_FLAGS] + 7, 0x08),
+    TMCEvent.DWS_1F_SLUG_DOOR: ROMData(flag_group_by_name[TMCFlagGroup.DWS_FLAGS] + 7, 0x10),
+    TMCEvent.DWS_1F_SLUG_CHEST: ROMData(flag_group_by_name[TMCFlagGroup.DWS_FLAGS] + 7, 0x20),
+    TMCEvent.DWS_B1_RED_WARP_SWITCH: ROMData(flag_group_by_name[TMCFlagGroup.DWS_FLAGS] + 7, 0x40),
+    TMCEvent.DWS_B1_RED_WARP_BIG_CHEST: ROMData(flag_group_by_name[TMCFlagGroup.DWS_FLAGS] + 7, 0x80),
 
-DEEPWOOD_FLAGS: list[tuple[int, AddressData]] = [
-    (0xFF12FC, AddressData(  # 0x2D3C
-        TMCEvent.UNUSED_DWS_DOOR,
-        TMCEvent.DWS_VISIT_00,
-        TMCEvent.DWS_VISIT_01,
-        TMCEvent.DWS_VISIT_02,
-        TMCEvent.DWS_VISIT_03,
-        TMCEvent.DWS_VISIT_04,
-        TMCEvent.DWS_VISIT_05,
-        TMCEvent.DWS_VISIT_06)
-     ),
-    (0xFF12FF, AddressData(  # 0x2D3F
-        None,
-        TMCEvent.DWS_1F_MADDER_RIGHT_WEB,
-        TMCEvent.DWS_1F_MADDER_BOTTOM_WEB,
-        TMCEvent.DWS_1F_MADDER_BIG_CHEST,
-        TMCEvent.DWS_1F_BLUE_WARP_SOUTH_DOOR,
-        TMCEvent.DWS_1F_BLUE_WARP_SWITCH,
-        TMCEvent.DWS_1F_BLUE_WARP_LEFT_DOOR,
-        TMCEvent.DWS_1F_BLUE_WARP_LEFT_CHEST_SWITCH)
-     ),
-    (0xFF1303, AddressData(  # 0x2D43
-        TMCEvent.DWS_1F_SLUG_TOP_LEFT,
-        TMCEvent.DWS_1F_SLUG_BOTTOM_LEFT,
-        TMCEvent.DWS_1F_SLUG_TOP_RIGHT,
-        TMCEvent.DWS_1F_SLUG_BOTTOM_RIGHT,
-        TMCEvent.DWS_1F_SLUG_DOOR,
-        TMCEvent.DWS_1F_SLUG_CHEST,
-        TMCEvent.DWS_B1_RED_WARP_SWITCH,
-        TMCEvent.DWS_B1_RED_WARP_BIG_CHEST)
-     )
+}
+COF_FLAGS: dict[str, ROMData] = {
+    # 0x2D54
+    TMCEvent.COF_VISIT_00: ROMData(flag_group_by_name[TMCFlagGroup.COF_FLAGS], 0x02),
+    TMCEvent.COF_VISIT_01: ROMData(flag_group_by_name[TMCFlagGroup.COF_FLAGS], 0x04),
+    TMCEvent.COF_VISIT_02: ROMData(flag_group_by_name[TMCFlagGroup.COF_FLAGS], 0x08),
+    TMCEvent.COF_VISIT_03: ROMData(flag_group_by_name[TMCFlagGroup.COF_FLAGS], 0x10),
+    TMCEvent.COF_VISIT_04: ROMData(flag_group_by_name[TMCFlagGroup.COF_FLAGS], 0x20),
+    TMCEvent.COF_VISIT_05: ROMData(flag_group_by_name[TMCFlagGroup.COF_FLAGS], 0x40),
+    TMCEvent.COF_VISIT_06: ROMData(flag_group_by_name[TMCFlagGroup.COF_FLAGS], 0x80),
+    # 0x2D55
+    TMCEvent.COF_VISIT_07: ROMData(flag_group_by_name[TMCFlagGroup.COF_FLAGS] + 1, 0x01),
+    TMCEvent.COF_VISIT_08: ROMData(flag_group_by_name[TMCFlagGroup.COF_FLAGS] + 1, 0x02),
+    TMCEvent.COF_VISIT_09: ROMData(flag_group_by_name[TMCFlagGroup.COF_FLAGS] + 1, 0x04),
+    TMCEvent.COF_VISIT_10: ROMData(flag_group_by_name[TMCFlagGroup.COF_FLAGS] + 1, 0x08),
+    TMCEvent.COF_VISIT_11: ROMData(flag_group_by_name[TMCFlagGroup.COF_FLAGS] + 1, 0x10),
+    TMCEvent.COF_VISIT_12: ROMData(flag_group_by_name[TMCFlagGroup.COF_FLAGS] + 1, 0x20),
+    TMCEvent.COF_VISIT_13: ROMData(flag_group_by_name[TMCFlagGroup.COF_FLAGS] + 1, 0x40),
+    TMCEvent.COF_VISIT_14: ROMData(flag_group_by_name[TMCFlagGroup.COF_FLAGS] + 1, 0x80),
+    # 0x2D56
+    TMCEvent.COF_VISIT_15: ROMData(flag_group_by_name[TMCFlagGroup.COF_FLAGS] + 2, 0x01),
+    TMCEvent.COF_VISIT_16: ROMData(flag_group_by_name[TMCFlagGroup.COF_FLAGS] + 2, 0x02),
+    TMCEvent.COF_VISIT_17: ROMData(flag_group_by_name[TMCFlagGroup.COF_FLAGS] + 2, 0x04),
+    TMCEvent.COF_VISIT_BOSS: ROMData(flag_group_by_name[TMCFlagGroup.COF_FLAGS] + 2, 0x08),
+    TMCEvent.COF_B1_BLUE_WARP_DOOR: ROMData(flag_group_by_name[TMCFlagGroup.COF_FLAGS] + 2, 0x10),
+    TMCEvent.COF_B1_BLUE_WARP_SWITCH: ROMData(flag_group_by_name[TMCFlagGroup.COF_FLAGS] + 2, 0x20),
+    TMCEvent.COF_B1_SPINY_CHU_DEFEATED: ROMData(flag_group_by_name[TMCFlagGroup.COF_FLAGS] + 2, 0x40),
+    TMCEvent.COF_B1_SPINY_CHU_PILLAR: ROMData(flag_group_by_name[TMCFlagGroup.COF_FLAGS] + 2, 0x80),
+    # 0x2D57
+    # 0x2D58
+    # 0x2D59
+    # 0x2D5A
+    TMCEvent.COF_B2_SPIKE_TRAP_CHEST: ROMData(flag_group_by_name[TMCFlagGroup.COF_FLAGS] + 6, 0x01),
+    TMCEvent.COF_1F_BEETLES_DEFEATED: ROMData(flag_group_by_name[TMCFlagGroup.COF_FLAGS] + 6, 0x02),
+    TMCEvent.COF_1F_BEETLES_BIG_CHEST: ROMData(flag_group_by_name[TMCFlagGroup.COF_FLAGS] + 6, 0x04),
+    TMCEvent.EZLO_COF_BEETLES: ROMData(flag_group_by_name[TMCFlagGroup.COF_FLAGS] + 6, 0x08),
+    TMCEvent.COF_1F_BOBOMB_WALL: ROMData(flag_group_by_name[TMCFlagGroup.COF_FLAGS] + 6, 0x10),
+    TMCEvent.COF_B2_RED_WARP_SWITCH: ROMData(flag_group_by_name[TMCFlagGroup.COF_FLAGS] + 6, 0x20),
+    TMCEvent.COF_B2_BOSS_DOOR: ROMData(flag_group_by_name[TMCFlagGroup.COF_FLAGS] + 6, 0x40),
+    TMCEvent.COF_B2_LAVA_LEFT_CHEST: ROMData(flag_group_by_name[TMCFlagGroup.COF_FLAGS] + 6, 0x80),
+}
 
-]
-CAVE_OF_FLAMES_FLAGS: list[tuple[int, AddressData]] = [
-    (0xFF1314, AddressData(  # 0x2002D54
-        None,
-        TMCEvent.COF_VISIT_00,
-        TMCEvent.COF_VISIT_01,
-        TMCEvent.COF_VISIT_02,
-        TMCEvent.COF_VISIT_03,
-        TMCEvent.COF_VISIT_04,
-        TMCEvent.COF_VISIT_05,
-        TMCEvent.COF_VISIT_06)
-     ),
-    (0xFF1315, AddressData(  # 0x2002D55
-        TMCEvent.COF_VISIT_07,
-        TMCEvent.COF_VISIT_08,
-        TMCEvent.COF_VISIT_09,
-        TMCEvent.COF_VISIT_10,
-        TMCEvent.COF_VISIT_11,
-        TMCEvent.COF_VISIT_12,
-        TMCEvent.COF_VISIT_13,
-        TMCEvent.COF_VISIT_14)
-     ),
-    (0xFF1316, AddressData(  # 0x2002D56
-        TMCEvent.COF_VISIT_15,
-        TMCEvent.COF_VISIT_16,
-        TMCEvent.COF_VISIT_17,
-        TMCEvent.COF_VISIT_BOSS,
-        TMCEvent.COF_B1_BLUE_WARP_DOOR,
-        TMCEvent.COF_B1_BLUE_WARP_SWITCH,
-        TMCEvent.COF_B1_SPINY_CHU_DEFEATED,
-        TMCEvent.COF_B1_SPINY_CHU_PILLAR)
-     ),
-    (0xFF131A, AddressData(  # 0x2002D5A
-        TMCEvent.COF_B2_SPIKE_TRAP_CHEST,
-        TMCEvent.COF_1F_BEETLES_DEFEATED,
-        TMCEvent.COF_1F_BEETLES_BIG_CHEST,
-        TMCEvent.EZLO_COF_BEETLES,
-        TMCEvent.COF_1F_BOBOMB_WALL,
-        TMCEvent.COF_B2_RED_WARP_SWITCH,
-        TMCEvent.COF_B2_BOSS_DOOR,
-        TMCEvent.COF_B2_LAVA_LEFT_CHEST)
-     )
-]
+FOW_FLAGS: dict[str, ROMData] = {
+    # 0x2D6C
+    TMCEvent.FOW_VISIT_00: ROMData(flag_group_by_name[TMCFlagGroup.FOW_FLAGS], 0x02),
+    TMCEvent.FOW_VISIT_01: ROMData(flag_group_by_name[TMCFlagGroup.FOW_FLAGS], 0x04),
+    TMCEvent.FOW_VISIT_02: ROMData(flag_group_by_name[TMCFlagGroup.FOW_FLAGS], 0x08),
+    TMCEvent.FOW_VISIT_03: ROMData(flag_group_by_name[TMCFlagGroup.FOW_FLAGS], 0x10),
+    TMCEvent.FOW_VISIT_04: ROMData(flag_group_by_name[TMCFlagGroup.FOW_FLAGS], 0x20),
+    # 0x2D6D
+    # 0x2D6E
+    # 0x2D6F
+    # 0x2D70
+    TMCEvent.FOW_3F_RIGHT_LEVER: ROMData(flag_group_by_name[TMCFlagGroup.FOW_FLAGS] + 4, 0x01),
+    TMCEvent.FOW_3F_TOP_EYES: ROMData(flag_group_by_name[TMCFlagGroup.FOW_FLAGS] + 4, 0x02),
+    TMCEvent.FOW_3F_RIGHT_EYES: ROMData(flag_group_by_name[TMCFlagGroup.FOW_FLAGS] + 4, 0x04),
+    TMCEvent.FOW_3F_LEFT_DROPPED: ROMData(flag_group_by_name[TMCFlagGroup.FOW_FLAGS] + 4, 0x08),
+    TMCEvent.FOW_3F_LEFT_LEVER: ROMData(flag_group_by_name[TMCFlagGroup.FOW_FLAGS] + 4, 0x10),
+    TMCEvent.FOW_RED_WARP_SWITCH: ROMData(flag_group_by_name[TMCFlagGroup.FOW_FLAGS] + 4, 0x20),
+    TMCEvent.FOW_BOSS_DOOR: ROMData(flag_group_by_name[TMCFlagGroup.FOW_FLAGS] + 4, 0x40),
+    TMCEvent.FOW_DEFEAT_DARKNUT: ROMData(flag_group_by_name[TMCFlagGroup.FOW_FLAGS] + 4, 0x80),
+}
 
-FORTRESS_FLAGS: list[tuple[int, AddressData]] = [
-    (0xFF132C, AddressData(  # 0x2002D6C
-        None,
-        TMCEvent.FOW_VISIT_00,
-        TMCEvent.FOW_VISIT_01,
-        TMCEvent.FOW_VISIT_02,
-        TMCEvent.FOW_VISIT_03,
-        TMCEvent.FOW_VISIT_04,
-        None,
-        None)
-     ),
-    (0xFF1330, AddressData(  # 0x2002D70
-        TMCEvent.FOW_3F_RIGHT_LEVER,
-        TMCEvent.FOW_3F_TOP_EYES,
-        TMCEvent.FOW_3F_RIGHT_EYES,
-        TMCEvent.FOW_3F_LEFT_DROPPED,
-        TMCEvent.FOW_3F_LEFT_LEVER,
-        TMCEvent.FOW_RED_WARP_SWITCH,
-        TMCEvent.FOW_BOSS_DOOR,
-        TMCEvent.FOW_DEFEAT_DARKNUT)
-     )
-]
-DROPLETS_FLAGS: list[tuple[int, AddressData]] = [
-    (0xFF1344, AddressData(  # 0x2002D84
-        None,
-        TMCEvent.TOD_VISIT_00,
-        TMCEvent.TOD_VISIT_01,
-        TMCEvent.TOD_VISIT_02,
-        TMCEvent.TOD_VISIT_03,
-        TMCEvent.TOD_VISIT_04,
-        TMCEvent.TOD_VISIT_05,
-        TMCEvent.TOD_VISIT_06)
-     ),
-    (0xFF1345, AddressData(  # 0x2002D85
-        TMCEvent.TOD_VISIT_07,
-        TMCEvent.TOD_VISIT_08,
-        TMCEvent.TOD_VISIT_09,
-        TMCEvent.TOD_VISIT_0A,
-        TMCEvent.TOD_VISIT_0B,
-        TMCEvent.TOD_VISIT_0C,
-        TMCEvent.TOD_VISIT_0D,
-        TMCEvent.TOD_VISIT_0E)
-     ),
-    (0xFF1346, AddressData(  # 0x2002D86
-        TMCEvent.TOD_VISIT_0F,
-        TMCEvent.TOD_VISIT_10,
-        TMCEvent.TOD_VISIT_11,
-        TMCEvent.TOD_VISIT_20,
-        TMCEvent.TOD_VISIT_21,
-        TMCEvent.TOD_VISIT_22,
-        TMCEvent.TOD_VISIT_23,
-        TMCEvent.TOD_VISIT_24)
-     ),
-    (0xFF1347, AddressData(  # 0x2002D87
-        TMCEvent.TOD_VISIT_25,
-        TMCEvent.TOD_VISIT_26,
-        TMCEvent.TOD_VISIT_27,
-        TMCEvent.TOD_VISIT_28,
-        TMCEvent.TOD_VISIT_29,
-        TMCEvent.TOD_VISIT_2A,
-        TMCEvent.TOD_VISIT_2B,
-        TMCEvent.TOD_VISIT_2C)
-     ),
-    (0xFF1348, AddressData(  # 0x2002D88
-        TMCEvent.TOD_VISIT_2D,
-        TMCEvent.TOD_VISIT_2E,
-        TMCEvent.TOD_VISIT_2F,
-        TMCEvent.TOD_VISIT_30,
-        TMCEvent.TOD_VISIT_31,
-        TMCEvent.TOD_VISIT_32,
-        TMCEvent.TOD_VISIT_33,
-        TMCEvent.TOD_VISIT_34)
-     ),
-    (0xFF1349, AddressData(  # 0x2002D89
-        TMCEvent.TOD_VISIT_35,
-        TMCEvent.TOD_INIT_LIGHT,
-        TMCEvent.TOD_ENTRANCE_WEST_DOOR,
-        TMCEvent.EZLO_TOD_ENTRANCE,
-        TMCEvent.TOD_BOSS_DOOR,
-        None,
-        TMCEvent.TOD_DEFEAT_SCISSOR_BLUE,
-        None)
-     ),
-    (0xFF1352, AddressData(  # 0x2002D92
-        TMCEvent.TOD_RED_WARP_SWITCH,
-        TMCEvent.TOD_RED_WARP_BOMBWALL,
-        TMCEvent.TOD_LEFTPATH_B2_GATE1_SWITCH,
-        TMCEvent.TOD_LEFTPATH_B2_LILYPAD,
-        TMCEvent.TOD_RIGHTPATH_B2_ICE_CHEST,
-        TMCEvent.TOD_RIGHTPATH_B2_ICE_RIGHT,
-        TMCEvent.TOD_RIGHTPATH_B2_ICECHEST,
-        TMCEvent.TOD_ICEMADDERPILLAR_BIGCHEST)
-     )
-]
-PALACE_FLAGS: list[tuple[int, AddressData]] = [
-    (0xFF135C, AddressData(  # 0x2002D9C
-        None,
-        TMCEvent.POW_VISIT_00,
-        TMCEvent.POW_VISIT_01,
-        TMCEvent.POW_VISIT_02,
-        TMCEvent.POW_VISIT_03,
-        TMCEvent.POW_VISIT_04,
-        TMCEvent.POW_VISIT_05,
-        TMCEvent.POW_VISIT_06)
-     ),
-    (0xFF1365, AddressData(  # 0x2002DA5
-        None,
-        TMCEvent.POW_2ND_HALF_4F_BLOCK_MAZE_CHEST,
-        TMCEvent.POW_2ND_HALF_4F_FINAL_DOOR,
-        TMCEvent.POW_2ND_HALF_4F_MIDDLE_DOOR,
-        TMCEvent.POW_2ND_HALF_4F_SWITCH_HIT,
-        TMCEvent.POW_2ND_HALF_4F_LEFT_TORCH,
-        TMCEvent.POW_2ND_HALF_4F_RIGHT_TORCH,
-        TMCEvent.POW_2ND_HALF_4F_SWITCH_HIT_CHEST)
-     ),
-    (0xFF136C, AddressData(  # 0x2002DAC
-        TMCEvent.POW_2ND_HALF_4F_HEART,
-        TMCEvent.POW_1ST_HALF_5F_MOBLIN_DOOR,
-        TMCEvent.POW_1ST_HALF_5F_ITEM_DROP,
-        None,
-        TMCEvent.POW_BLUE_WARP_SWITCH,
-        TMCEvent.POW_1ST_HALF_2F_BEETLES,
-        TMCEvent.POW_RED_WARP_SWITCH,
-        TMCEvent.POW_1ST_HALF_3F_ITEM_DROP)
-     )
-]
-DHC_FLAGS: list[tuple[int, AddressData]] = [
-    (0xFF1374, AddressData(  # 0x2002DB4
-        None,
-        TMCEvent.DHC_VISIT_00,
-        TMCEvent.DHC_VISIT_01,
-        TMCEvent.DHC_VISIT_02,
-        TMCEvent.DHC_VISIT_03,
-        TMCEvent.DHC_VISIT_04,
-        TMCEvent.DHC_VISIT_05,
-        TMCEvent.DHC_VISIT_06)
-     )
-]
+TOD_FLAGS: dict[str, ROMData] = {
+    # 0x2D84
+    TMCEvent.TOD_VISIT_00: ROMData(flag_group_by_name[TMCFlagGroup.TOD_FLAGS], 0x02),
+    TMCEvent.TOD_VISIT_01: ROMData(flag_group_by_name[TMCFlagGroup.TOD_FLAGS], 0x04),
+    TMCEvent.TOD_VISIT_02: ROMData(flag_group_by_name[TMCFlagGroup.TOD_FLAGS], 0x08),
+    TMCEvent.TOD_VISIT_03: ROMData(flag_group_by_name[TMCFlagGroup.TOD_FLAGS], 0x10),
+    TMCEvent.TOD_VISIT_04: ROMData(flag_group_by_name[TMCFlagGroup.TOD_FLAGS], 0x20),
+    TMCEvent.TOD_VISIT_05: ROMData(flag_group_by_name[TMCFlagGroup.TOD_FLAGS], 0x40),
+    TMCEvent.TOD_VISIT_06: ROMData(flag_group_by_name[TMCFlagGroup.TOD_FLAGS], 0x80),
+    # 0x2D85
+    TMCEvent.TOD_VISIT_07: ROMData(flag_group_by_name[TMCFlagGroup.TOD_FLAGS] + 1, 0x01),
+    TMCEvent.TOD_VISIT_08: ROMData(flag_group_by_name[TMCFlagGroup.TOD_FLAGS] + 1, 0x02),
+    TMCEvent.TOD_VISIT_09: ROMData(flag_group_by_name[TMCFlagGroup.TOD_FLAGS] + 1, 0x04),
+    TMCEvent.TOD_VISIT_0A: ROMData(flag_group_by_name[TMCFlagGroup.TOD_FLAGS] + 1, 0x08),
+    TMCEvent.TOD_VISIT_0B: ROMData(flag_group_by_name[TMCFlagGroup.TOD_FLAGS] + 1, 0x10),
+    TMCEvent.TOD_VISIT_0C: ROMData(flag_group_by_name[TMCFlagGroup.TOD_FLAGS] + 1, 0x20),
+    TMCEvent.TOD_VISIT_0D: ROMData(flag_group_by_name[TMCFlagGroup.TOD_FLAGS] + 1, 0x40),
+    TMCEvent.TOD_VISIT_0E: ROMData(flag_group_by_name[TMCFlagGroup.TOD_FLAGS] + 1, 0x80),
+    # 0x2D86
+    TMCEvent.TOD_VISIT_0F: ROMData(flag_group_by_name[TMCFlagGroup.TOD_FLAGS] + 2, 0x01),
+    TMCEvent.TOD_VISIT_10: ROMData(flag_group_by_name[TMCFlagGroup.TOD_FLAGS] + 2, 0x02),
+    TMCEvent.TOD_VISIT_11: ROMData(flag_group_by_name[TMCFlagGroup.TOD_FLAGS] + 2, 0x04),
+    TMCEvent.TOD_VISIT_20: ROMData(flag_group_by_name[TMCFlagGroup.TOD_FLAGS] + 2, 0x08),
+    TMCEvent.TOD_VISIT_21: ROMData(flag_group_by_name[TMCFlagGroup.TOD_FLAGS] + 2, 0x10),
+    TMCEvent.TOD_VISIT_22: ROMData(flag_group_by_name[TMCFlagGroup.TOD_FLAGS] + 2, 0x20),
+    TMCEvent.TOD_VISIT_23: ROMData(flag_group_by_name[TMCFlagGroup.TOD_FLAGS] + 2, 0x40),
+    TMCEvent.TOD_VISIT_24: ROMData(flag_group_by_name[TMCFlagGroup.TOD_FLAGS] + 2, 0x80),
+    # 0x2D87
+    TMCEvent.TOD_VISIT_25: ROMData(flag_group_by_name[TMCFlagGroup.TOD_FLAGS] + 3, 0x01),
+    TMCEvent.TOD_VISIT_26: ROMData(flag_group_by_name[TMCFlagGroup.TOD_FLAGS] + 3, 0x02),
+    TMCEvent.TOD_VISIT_27: ROMData(flag_group_by_name[TMCFlagGroup.TOD_FLAGS] + 3, 0x04),
+    TMCEvent.TOD_VISIT_28: ROMData(flag_group_by_name[TMCFlagGroup.TOD_FLAGS] + 3, 0x08),
+    TMCEvent.TOD_VISIT_29: ROMData(flag_group_by_name[TMCFlagGroup.TOD_FLAGS] + 3, 0x10),
+    TMCEvent.TOD_VISIT_2A: ROMData(flag_group_by_name[TMCFlagGroup.TOD_FLAGS] + 3, 0x20),
+    TMCEvent.TOD_VISIT_2B: ROMData(flag_group_by_name[TMCFlagGroup.TOD_FLAGS] + 3, 0x40),
+    TMCEvent.TOD_VISIT_2C: ROMData(flag_group_by_name[TMCFlagGroup.TOD_FLAGS] + 3, 0x80),
+    # 0x2D88
+    TMCEvent.TOD_VISIT_2D: ROMData(flag_group_by_name[TMCFlagGroup.TOD_FLAGS] + 4, 0x01),
+    TMCEvent.TOD_VISIT_2E: ROMData(flag_group_by_name[TMCFlagGroup.TOD_FLAGS] + 4, 0x02),
+    TMCEvent.TOD_VISIT_2F: ROMData(flag_group_by_name[TMCFlagGroup.TOD_FLAGS] + 4, 0x04),
+    TMCEvent.TOD_VISIT_30: ROMData(flag_group_by_name[TMCFlagGroup.TOD_FLAGS] + 4, 0x08),
+    TMCEvent.TOD_VISIT_31: ROMData(flag_group_by_name[TMCFlagGroup.TOD_FLAGS] + 4, 0x10),
+    TMCEvent.TOD_VISIT_32: ROMData(flag_group_by_name[TMCFlagGroup.TOD_FLAGS] + 4, 0x20),
+    TMCEvent.TOD_VISIT_33: ROMData(flag_group_by_name[TMCFlagGroup.TOD_FLAGS] + 4, 0x40),
+    TMCEvent.TOD_VISIT_34: ROMData(flag_group_by_name[TMCFlagGroup.TOD_FLAGS] + 4, 0x80),
+    # 0x2D89
+    TMCEvent.TOD_VISIT_35: ROMData(flag_group_by_name[TMCFlagGroup.TOD_FLAGS] + 5, 0x01),
+    TMCEvent.TOD_INIT_LIGHT: ROMData(flag_group_by_name[TMCFlagGroup.TOD_FLAGS] + 5, 0x02),
+    TMCEvent.TOD_ENTRANCE_WEST_DOOR: ROMData(flag_group_by_name[TMCFlagGroup.TOD_FLAGS] + 5, 0x04),
+    TMCEvent.EZLO_TOD_ENTRANCE: ROMData(flag_group_by_name[TMCFlagGroup.TOD_FLAGS] + 5, 0x08),
+    TMCEvent.TOD_BOSS_DOOR: ROMData(flag_group_by_name[TMCFlagGroup.TOD_FLAGS] + 5, 0x10),
+    TMCEvent.TOD_DEFEAT_SCISSOR_BLUE: ROMData(flag_group_by_name[TMCFlagGroup.TOD_FLAGS] + 5, 0x40),
+    # 0x2D8A
+    # 0x2D8B
+    # 0x2D8C
+    # 0x2D8D
+    # 0x2D8E
+    # 0x2D8F
+    # 0x2D90
+    # 0x2D91
+    # 0x2D92
+    TMCEvent.TOD_RED_WARP_SWITCH: ROMData(flag_group_by_name[TMCFlagGroup.TOD_FLAGS] + 0x0E, 0x01),
+    TMCEvent.TOD_RED_WARP_BOMBWALL: ROMData(flag_group_by_name[TMCFlagGroup.TOD_FLAGS] + 0x0E, 0x02),
+    TMCEvent.TOD_LEFTPATH_B2_GATE1_SWITCH: ROMData(flag_group_by_name[TMCFlagGroup.TOD_FLAGS] + 0x0E, 0x04),
+    TMCEvent.TOD_LEFTPATH_B2_LILYPAD: ROMData(flag_group_by_name[TMCFlagGroup.TOD_FLAGS] + 0x0E, 0x08),
+    TMCEvent.TOD_RIGHTPATH_B2_ICE_CHEST: ROMData(flag_group_by_name[TMCFlagGroup.TOD_FLAGS] + 0x0E, 0x10),
+    TMCEvent.TOD_RIGHTPATH_B2_ICE_RIGHT: ROMData(flag_group_by_name[TMCFlagGroup.TOD_FLAGS] + 0x0E, 0x20),
+    TMCEvent.TOD_RIGHTPATH_B2_ICECHEST: ROMData(flag_group_by_name[TMCFlagGroup.TOD_FLAGS] + 0x0E, 0x40),
+    TMCEvent.TOD_ICEMADDERPILLAR_BIGCHEST: ROMData(flag_group_by_name[TMCFlagGroup.TOD_FLAGS] + 0x0E, 0x80),
+}
 
-DEEPWOOD_SHRINE_WARPS: list[tuple[int, AddressData]] = [
-    (0xFF147D, AddressData(  # 0x2002EBD
-        TMCEvent.DWS_BLUE_WARP,
-        TMCEvent.DWS_RED_WARP,
-        None,
-        None,
-        None,
-        None,
-        None,
-        None)
-     )
-]
+POW_FLAGS: dict[str, ROMData] = {
+    # 0x2D9C
+    TMCEvent.POW_VISIT_00: ROMData(flag_group_by_name[TMCFlagGroup.POW_FLAGS], 0x02),
+    TMCEvent.POW_VISIT_01: ROMData(flag_group_by_name[TMCFlagGroup.POW_FLAGS], 0x04),
+    TMCEvent.POW_VISIT_02: ROMData(flag_group_by_name[TMCFlagGroup.POW_FLAGS], 0x08),
+    TMCEvent.POW_VISIT_03: ROMData(flag_group_by_name[TMCFlagGroup.POW_FLAGS], 0x10),
+    TMCEvent.POW_VISIT_04: ROMData(flag_group_by_name[TMCFlagGroup.POW_FLAGS], 0x20),
+    TMCEvent.POW_VISIT_05: ROMData(flag_group_by_name[TMCFlagGroup.POW_FLAGS], 0x40),
+    TMCEvent.POW_VISIT_06: ROMData(flag_group_by_name[TMCFlagGroup.POW_FLAGS], 0x80),
+    # 0x2D9D
+    # 0x2D9E
+    # 0x2D9F
+    # 0x2DA0
+    # 0x2DA1
+    # 0x2DA2
+    # 0x2DA3
+    # 0x2DA4
+    # 0x2DA5
+    TMCEvent.POW_2ND_HALF_4F_BLOCK_MAZE_CHEST: ROMData(flag_group_by_name[TMCFlagGroup.POW_FLAGS] + 9, 0x02),
+    TMCEvent.POW_2ND_HALF_4F_FINAL_DOOR: ROMData(flag_group_by_name[TMCFlagGroup.POW_FLAGS] + 9, 0x04),
+    TMCEvent.POW_2ND_HALF_4F_MIDDLE_DOOR: ROMData(flag_group_by_name[TMCFlagGroup.POW_FLAGS] + 9, 0x08),
+    TMCEvent.POW_2ND_HALF_4F_SWITCH_HIT: ROMData(flag_group_by_name[TMCFlagGroup.POW_FLAGS] + 9, 0x10),
+    TMCEvent.POW_2ND_HALF_4F_LEFT_TORCH: ROMData(flag_group_by_name[TMCFlagGroup.POW_FLAGS] + 9, 0x20),
+    TMCEvent.POW_2ND_HALF_4F_RIGHT_TORCH: ROMData(flag_group_by_name[TMCFlagGroup.POW_FLAGS] + 9, 0x40),
+    TMCEvent.POW_2ND_HALF_4F_SWITCH_HIT_CHEST: ROMData(flag_group_by_name[TMCFlagGroup.POW_FLAGS] + 9, 0x80),
+    # 0x2DA6
+    # 0x2DA7
+    # 0x2DA8
+    # 0x2DA9
+    # 0x2DAA
+    # 0x2DAB
+    # 0x2DAC
+    TMCEvent.POW_2ND_HALF_4F_HEART: ROMData(flag_group_by_name[TMCFlagGroup.POW_FLAGS] + 0x10, 0x01),
+    TMCEvent.POW_1ST_HALF_5F_MOBLIN_DOOR: ROMData(flag_group_by_name[TMCFlagGroup.POW_FLAGS] + 0x10, 0x02),
+    TMCEvent.POW_1ST_HALF_5F_ITEM_DROP: ROMData(flag_group_by_name[TMCFlagGroup.POW_FLAGS] + 0x10, 0x04),
+    TMCEvent.POW_BLUE_WARP_SWITCH: ROMData(flag_group_by_name[TMCFlagGroup.POW_FLAGS] + 0x10, 0x10),
+    TMCEvent.POW_1ST_HALF_2F_BEETLES: ROMData(flag_group_by_name[TMCFlagGroup.POW_FLAGS] + 0x10, 0x20),
+    TMCEvent.POW_RED_WARP_SWITCH: ROMData(flag_group_by_name[TMCFlagGroup.POW_FLAGS] + 0x10, 0x40),
+    TMCEvent.POW_1ST_HALF_3F_ITEM_DROP: ROMData(flag_group_by_name[TMCFlagGroup.POW_FLAGS] + 0x10, 0x80),
+}
+DHC_FLAGS: dict[str, ROMData] = {
+    # 0x2DB4
+    TMCEvent.DHC_VISIT_00: ROMData(flag_group_by_name[TMCFlagGroup.DHC_FLAGS], 0x02),
+    TMCEvent.DHC_VISIT_01: ROMData(flag_group_by_name[TMCFlagGroup.DHC_FLAGS], 0x04),
+    TMCEvent.DHC_VISIT_02: ROMData(flag_group_by_name[TMCFlagGroup.DHC_FLAGS], 0x08),
+    TMCEvent.DHC_VISIT_03: ROMData(flag_group_by_name[TMCFlagGroup.DHC_FLAGS], 0x10),
+    TMCEvent.DHC_VISIT_04: ROMData(flag_group_by_name[TMCFlagGroup.DHC_FLAGS], 0x20),
+    TMCEvent.DHC_VISIT_05: ROMData(flag_group_by_name[TMCFlagGroup.DHC_FLAGS], 0x40),
+    TMCEvent.DHC_VISIT_06: ROMData(flag_group_by_name[TMCFlagGroup.DHC_FLAGS], 0x80),
+}
 
-CAVE_OF_FLAMES_WARPS: list[tuple[int, AddressData]] = [
-    (0xFF147E, AddressData(  # 0x2002EBE
-        TMCEvent.COF_BLUE_WARP,
-        TMCEvent.COF_RED_WARP,
-        None,
-        None,
-        None,
-        None,
-        None,
-        None)
-     )
-]
-FORTRESS_OF_WINDS_WARPS: list[tuple[int, AddressData]] = [
-    (0xFF147F, AddressData(  # 0x2002EBF
-        TMCEvent.FOW_BLUE_WARP,
-        TMCEvent.FOW_RED_WARP,
-        None,
-        None,
-        None,
-        None,
-        None,
-        None)
-     )
-]
-TEMPLE_OF_DROPLETS_WARPS: list[tuple[int, AddressData]] = [
-    (0xFF1480, AddressData(  # 0x2002EA0
-        TMCEvent.TOD_BLUE_WARP,
-        TMCEvent.TOD_RED_WARP,
-        None,
-        None,
-        None,
-        None,
-        None,
-        None)
-     )
-]
-PALACE_OF_WINDS_WARPS: list[tuple[int, AddressData]] = [
-    (0xFF1481, AddressData(  # 0x2002EA1
-        TMCEvent.POW_BLUE_WARP,
-        TMCEvent.POW_RED_WARP,
-        None,
-        None,
-        None,
-        None,
-        None,
-        None)
-     )
-]
-DARK_HYRULE_CASTLE_WARPS: list[tuple[int, AddressData]] = [
-    (0xFF1482, AddressData(  # 0x2002EA2
-        TMCEvent.DHC_BLUE_WARP,
-        TMCEvent.DHC_RED_WARP,
-        None,
-        None,
-        None,
-        None,
-        None,
-        None)
-     )
-]
+DWS_WARPS: dict[str, ROMData] = {
+    # 0x2EBD
+    TMCEvent.DWS_BLUE_WARP: ROMData(flag_group_by_name[TMCFlagGroup.DWS_WARPS], 0x01),
+    TMCEvent.DWS_RED_WARP: ROMData(flag_group_by_name[TMCFlagGroup.DWS_WARPS], 0x02),
+}
 
-ALL_FLAGS: list[tuple[int, AddressData]] = [
-    *GLOBAL_FLAGS,
-    *UNUSED_DUNGEON_FLAGS,
-    *REPEATING_SIMON_SIMULATION_FLAG,
-    *OVERWORLD_FLAGS,
-    *DEEPWOOD_FLAGS,
-    *CAVE_OF_FLAMES_FLAGS,
-    *FORTRESS_FLAGS,
-    *DROPLETS_FLAGS,
-    *PALACE_FLAGS,
-    *DHC_FLAGS,
-    *DEEPWOOD_SHRINE_WARPS,
-    *CAVE_OF_FLAMES_WARPS,
-    *FORTRESS_OF_WINDS_WARPS,
-    *TEMPLE_OF_DROPLETS_WARPS,
-    *PALACE_OF_WINDS_WARPS,
-    *DARK_HYRULE_CASTLE_WARPS,
-]
+COF_WARPS: dict[str, ROMData] = {
+    # 0x2EBE
+    TMCEvent.COF_BLUE_WARP: ROMData(flag_group_by_name[TMCFlagGroup.COF_WARPS], 0x01),
+    TMCEvent.COF_RED_WARP: ROMData(flag_group_by_name[TMCFlagGroup.COF_WARPS], 0x02),
+}
 
-flag_table_by_name: dict[str, ROMData | None] = {}
-for address, flags in ALL_FLAGS:
-    flag_table_by_name[flags.First] = ROMData(address, 0x01)
-    flag_table_by_name[flags.Second] = ROMData(address, 0x02)
-    flag_table_by_name[flags.Third] = ROMData(address, 0x04)
-    flag_table_by_name[flags.Fourth] = ROMData(address, 0x08)
-    flag_table_by_name[flags.Fifth] = ROMData(address, 0x10)
-    flag_table_by_name[flags.Sixth] = ROMData(address, 0x20)
-    flag_table_by_name[flags.Seventh] = ROMData(address, 0x40)
-    flag_table_by_name[flags.Eighth] = ROMData(address, 0x80)
-flag_table_by_name["None"] = None
+FOW_WARPS: dict[str, ROMData] = {
+    # 0x2EBF
+    TMCEvent.FOW_BLUE_WARP: ROMData(flag_group_by_name[TMCFlagGroup.FOW_WARPS], 0x01),
+    TMCEvent.FOW_RED_WARP: ROMData(flag_group_by_name[TMCFlagGroup.FOW_WARPS], 0x02),
+}
+
+TOD_WARPS: dict[str, ROMData] = {
+    # 0x2EA0
+    TMCEvent.TOD_BLUE_WARP: ROMData(flag_group_by_name[TMCFlagGroup.TOD_WARPS], 0x01),
+    TMCEvent.TOD_RED_WARP: ROMData(flag_group_by_name[TMCFlagGroup.TOD_WARPS], 0x02),
+}
+
+POW_WARPS: dict[str, ROMData] = {
+    # 0x2EA1
+    TMCEvent.POW_BLUE_WARP: ROMData(flag_group_by_name[TMCFlagGroup.POW_WARPS], 0x01),
+    TMCEvent.POW_RED_WARP: ROMData(flag_group_by_name[TMCFlagGroup.POW_WARPS], 0x02),
+}
+DHC_WARPS: dict[str, ROMData] = {
+    # 0x2EA2
+    TMCEvent.DHC_BLUE_WARP: ROMData(flag_group_by_name[TMCFlagGroup.DHC_WARPS], 0x01),
+    TMCEvent.DHC_RED_WARP: ROMData(flag_group_by_name[TMCFlagGroup.DHC_WARPS], 0x02),
+}
+
+flag_table_by_name: dict[str, ROMData] = (
+        WIND_CRESTS |
+        GLOBAL_FLAGS |
+        UNUSED_DUNGEON_FLAGS |
+        REPEATING_SIMON_SIMULATION_FLAG |
+        OVERWORLD_FLAGS |
+        DWS_FLAGS |
+        COF_FLAGS |
+        FOW_FLAGS |
+        TOD_FLAGS |
+        POW_FLAGS |
+        DHC_FLAGS |
+        DWS_WARPS |
+        COF_WARPS |
+        FOW_WARPS |
+        TOD_WARPS |
+        POW_WARPS |
+        DHC_WARPS
+)

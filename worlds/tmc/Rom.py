@@ -4,8 +4,8 @@ from typing import TYPE_CHECKING
 from BaseClasses import Item, ItemClassification
 from settings import get_settings
 from worlds.Files import APProcedurePatch, APTokenMixin, APTokenTypes
-from .constants import DUNGEON_ABBR, EXTERNAL_ITEM_MAP, TMCEvent, TMCFlagGroup, TMCItem, TMCLocation, WIND_CRESTS
-from .Flags import flag_group_offset_by_name, flag_table_by_name
+from .constants import DUNGEON_ABBR, EXTERNAL_ITEM_MAP, TMCEvent, TMCItem, TMCLocation, WIND_CRESTS
+from .Flags import flag_table_by_name
 from .Items import item_table
 from .Locations import location_table_by_name, LocationData
 from .Options import ShuffleElements
@@ -93,16 +93,16 @@ def write_tokens(world: "MinishCapWorld", patch: MinishCapProcedurePatch) -> Non
     enabled_crests.append(0x10)  # Lake Hylia wind crest
     for crest in enabled_crests:
         crest_value |= crest
-    patch.write_token(APTokenTypes.WRITE, flag_group_offset_by_name[TMCFlagGroup.WIND_CRESTS], bytes([crest_value]))
+    patch.write_token(APTokenTypes.WRITE, flag_table_by_name[TMCEvent.MINISH_CREST].offset, bytes([crest_value]))
 
     # Dungeon Warps
     dungeon_offset = {
-        "DWS": TMCFlagGroup.DEEPWOOD_SHRINE_WARPS,
-        "CoF": TMCFlagGroup.CAVE_OF_FLAMES_WARPS,
-        "FoW": TMCFlagGroup.FORTRESS_OF_WINDS_WARPS,
-        "ToD": TMCFlagGroup.TEMPLE_OF_DROPLETS_WARPS,
-        "PoW": TMCFlagGroup.PALACE_OF_WINDS_WARPS,
-        "DHC": TMCFlagGroup.DARK_HYRULE_CASTLE_WARPS,
+        "DWS": TMCEvent.DWS_BLUE_WARP,
+        "CoF": TMCEvent.COF_BLUE_WARP,
+        "FoW": TMCEvent.FOW_BLUE_WARP,
+        "ToD": TMCEvent.TOD_BLUE_WARP,
+        "PoW": TMCEvent.POW_BLUE_WARP,
+        "DHC": TMCEvent.DHC_BLUE_WARP,
     }
     extra_flags = {
         "DWS": {
@@ -123,7 +123,8 @@ def write_tokens(world: "MinishCapWorld", patch: MinishCapProcedurePatch) -> Non
         },
         "PoW": {
             "Blue": {},  # Currently leave bridge closed to force fight
-            "Red": {TMCEvent.POW_RED_WARP_SWITCH},
+            "Red": {TMCEvent.POW_RED_WARP_SWITCH, TMCEvent.POW_2ND_HALF_4F_LEFT_TORCH,
+                    TMCEvent.POW_2ND_HALF_4F_RIGHT_TORCH},
         },
         "DHC": {
             "Blue": {},  # Currently leave doors closed to force fight
@@ -138,18 +139,18 @@ def write_tokens(world: "MinishCapWorld", patch: MinishCapProcedurePatch) -> Non
     for dungeon in DUNGEON_ABBR:
         if dungeon == "RC": continue
         warp_bits = world.options.dungeon_warps.get_warps(dungeon, world.options.dungeon_warps.value)
-        offset = flag_group_offset_by_name.get(dungeon_offset[dungeon])
+        offset = flag_table_by_name.get(dungeon_offset[dungeon]).offset
         # logging.debug(f'Write Warps: {dungeon}, Address: {hex(offset)}, bits: {bytes([warp_bits])}')
         patch.write_token(APTokenTypes.WRITE, offset, bytes([warp_bits]))
         if warp_bits & 1:
             for flag in extra_flags[dungeon]["Blue"]:
-                data = flag_table_by_name.get(flag)
-                offset_extra, bit = data.offset, data.data
+                romdata = flag_table_by_name.get(flag)
+                offset_extra, bit = romdata.offset, romdata.data
                 patch.write_token(APTokenTypes.OR_8, offset_extra, bit)
         if warp_bits & 2:
             for flag in extra_flags[dungeon]["Red"]:
-                data = flag_table_by_name.get(flag)
-                offset_extra, bit = data.offset, data.data
+                romdata = flag_table_by_name.get(flag)
+                offset_extra, bit = romdata.offset, romdata.data
                 patch.write_token(APTokenTypes.OR_8, offset_extra, bit)
 
     # Patch Items into Locations
