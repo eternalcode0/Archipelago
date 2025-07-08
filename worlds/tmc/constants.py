@@ -1686,7 +1686,12 @@ class TMCRegion:
     UPPER_FALLS = "Upper Falls"
     CLOUDS = "Clouds"
     WIND_TRIBE = "Wind Tribe"
-    DUNGEON_DWS = "Deepwood Shrine"
+    DUNGEON_DWS_ENTRANCE = "Deepwood Shrine Entrance"
+    DUNGEON_DWS_BARREL = "Deepwood Shrine Barrel Area"
+    DUNGEON_DWS_MULLDOZER = "Deepwood Shrine East Side through locked door"
+    DUNGEON_DWS_BACK_HALF = "Deepwood Shrine Back Half"
+    DUNGEON_DWS_BLUE_WARP = "Deepwood Shrine Blue Warp"
+    DUNGEON_DWS_RED_WARP = "Deepwood Shrine Red Warp"
     DUNGEON_DWS_CLEAR = "Deepwood Shrine Clear"
     DUNGEON_COF_ENTRANCE = "Cave of Flames Entrance"
     DUNGEON_COF_MAIN = "Cave of Flames After Spikey Beetles"
@@ -1809,7 +1814,9 @@ ALL_TRICKS = [
 
 DUNGEON_ABBR = frozenset({"DWS", "CoF", "FoW", "ToD", "PoW", "DHC", "RC"})
 DUNGEON_REGIONS = {
-    "DWS": {TMCRegion.DUNGEON_DWS, TMCRegion.DUNGEON_DWS_CLEAR},
+    "DWS": {TMCRegion.DUNGEON_DWS_ENTRANCE, TMCRegion.DUNGEON_DWS_BARREL, TMCRegion.DUNGEON_DWS_MULLDOZER,
+            TMCRegion.DUNGEON_DWS_BACK_HALF, TMCRegion.DUNGEON_DWS_BLUE_WARP, TMCRegion.DUNGEON_DWS_RED_WARP,
+            TMCRegion.DUNGEON_DWS_CLEAR},
     "CoF": {TMCRegion.DUNGEON_COF_ENTRANCE, TMCRegion.DUNGEON_COF_MAIN, TMCRegion.DUNGEON_COF_MINECART,
             TMCRegion.DUNGEON_COF_BLUE_WARP, TMCRegion.DUNGEON_COF_LAVA_BASEMENT, TMCRegion.DUNGEON_COF_CLEAR},
     "FoW": {TMCRegion.DUNGEON_FOW_ENTRANCE, TMCRegion.DUNGEON_FOW_EYEGORE,
@@ -1884,7 +1891,12 @@ ALL_REGIONS = [
     TMCRegion.UPPER_FALLS,
     TMCRegion.CLOUDS,
     TMCRegion.WIND_TRIBE,
-    TMCRegion.DUNGEON_DWS,
+    TMCRegion.DUNGEON_DWS_ENTRANCE,
+    TMCRegion.DUNGEON_DWS_BARREL,
+    TMCRegion.DUNGEON_DWS_MULLDOZER,
+    TMCRegion.DUNGEON_DWS_BACK_HALF,
+    TMCRegion.DUNGEON_DWS_BLUE_WARP,
+    TMCRegion.DUNGEON_DWS_RED_WARP,
     TMCRegion.DUNGEON_DWS_CLEAR,
     TMCRegion.DUNGEON_COF_ENTRANCE,
     TMCRegion.DUNGEON_COF_MAIN,
