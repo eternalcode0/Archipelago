@@ -1031,6 +1031,38 @@ DHC_FLAGS: dict[str, ROMData] = {
     TMCEvent.DHC_VISIT_04: ROMData(flag_group_by_name[TMCFlagGroup.DHC_FLAGS], 0x20),
     TMCEvent.DHC_VISIT_05: ROMData(flag_group_by_name[TMCFlagGroup.DHC_FLAGS], 0x40),
     TMCEvent.DHC_VISIT_06: ROMData(flag_group_by_name[TMCFlagGroup.DHC_FLAGS], 0x80),
+    # 0x2DB5
+    # 0x2DB6
+    # 0x2DB7
+    # 0x2DB8
+    # 0x2DB9
+    # 0x2DBA
+    # 0x2DBB
+    # 0x2DBC
+    # 0x2DBD
+    # 0x2DBE
+    # 0x2DBF
+    # 0x2DC0
+    # 0x2DC1
+    # 0x2DC2
+    # 0x2DC3
+    # 0x2DC4
+    TMCEvent.DHC_2F_NW_EYES: ROMData(flag_group_by_name[TMCFlagGroup.DHC_FLAGS] + 0x10, 0x01),
+    TMCEvent.DHC_B2_JAIL: ROMData(flag_group_by_name[TMCFlagGroup.DHC_FLAGS] + 0x10, 0x02),
+    TMCEvent.DHC_2F_OUT_BRIDGE_1: ROMData(flag_group_by_name[TMCFlagGroup.DHC_FLAGS] + 0x10, 0x04),
+    TMCEvent.DHC_2F_OUT_BRIDGE_2: ROMData(flag_group_by_name[TMCFlagGroup.DHC_FLAGS] + 0x10, 0x08),
+    TMCEvent.EZLO_DHC_SANC: ROMData(flag_group_by_name[TMCFlagGroup.DHC_FLAGS] + 0x10, 0x20),
+    TMCEvent.DHC_BLUE_WARP_DOOR: ROMData(flag_group_by_name[TMCFlagGroup.DHC_FLAGS] + 0x10, 0x40),
+    TMCEvent.DHC_2F_NE_GHINI_DOOR: ROMData(flag_group_by_name[TMCFlagGroup.DHC_FLAGS] + 0x10, 0x80),
+    # 0x2DC5
+    TMCEvent.DHC_2F_NW_DARKNUT_DOOR: ROMData(flag_group_by_name[TMCFlagGroup.DHC_FLAGS] + 0x11, 0x01),
+    TMCEvent.DHC_2F_NE_DARKNUT_DOOR: ROMData(flag_group_by_name[TMCFlagGroup.DHC_FLAGS] + 0x11, 0x02),
+    TMCEvent.DHC_2F_SW_DARKNUT_DOOR: ROMData(flag_group_by_name[TMCFlagGroup.DHC_FLAGS] + 0x11, 0x04),
+    TMCEvent.DHC_RED_WARP_DOOR: ROMData(flag_group_by_name[TMCFlagGroup.DHC_FLAGS] + 0x11, 0x08),
+    TMCEvent.DHC_2F_SE_DARKNUT_DOOR: ROMData(flag_group_by_name[TMCFlagGroup.DHC_FLAGS] + 0x11, 0x10),
+    TMCEvent.DHC_2F_SW_GHINI_DOOR: ROMData(flag_group_by_name[TMCFlagGroup.DHC_FLAGS] + 0x11, 0x20),
+    TMCEvent.DHC_1F_THRONE_DOOR: ROMData(flag_group_by_name[TMCFlagGroup.DHC_FLAGS] + 0x11, 0x40),
+    TMCEvent.DHC_B2_CAMERA: ROMData(flag_group_by_name[TMCFlagGroup.DHC_FLAGS] + 0x11, 0x80),
 }
 
 DWS_WARPS: dict[str, ROMData] = {

@@ -2142,45 +2142,45 @@ all_locations: list[LocationData] = [
     # endregion
     # region Dungeon DHC
     LocationData(
-        6029544, TMCLocation.DHC_B2_KING, TMCRegion.DUNGEON_DHC,
+        6029544, TMCLocation.DHC_B2_KING, TMCRegion.DUNGEON_DHC_B2,
         TMCItem.RUPEES_1, (0x00E46A, None), (0x2DC2, 0x02), 0x3988
     ),
     LocationData(
-        6029545, TMCLocation.DHC_B1_BIG_CHEST, TMCRegion.DUNGEON_DHC,
+        6029545, TMCLocation.DHC_B1_BIG_CHEST, TMCRegion.DUNGEON_DHC_B1_WEST,
         TMCItem.DUNGEON_MAP_DHC, (0x0EDC12, None), (0x2DC1, 0x08), 0x3788
     ),
     LocationData(
-        6029546, TMCLocation.DHC_1F_BLADE_CHEST, TMCRegion.DUNGEON_DHC,
+        6029546, TMCLocation.DHC_1F_BLADE_CHEST, TMCRegion.DUNGEON_DHC_ENTRANCE,
         TMCItem.SMALL_KEY_DHC, (0x0ECE22, None), (0x2DC0, 0x20), 0x2788
     ),
     LocationData(
-        6029547, TMCLocation.DHC_1F_THRONE_BIG_CHEST, TMCRegion.DUNGEON_DHC,
+        6029547, TMCLocation.DHC_1F_THRONE_BIG_CHEST, TMCRegion.DUNGEON_DHC_1F,
         TMCItem.DUNGEON_COMPASS_DHC, (0x0EC94E, None), (0x2DBF, 0x80), 0x2088
     ),
     LocationData(
-        6029548, TMCLocation.DHC_3F_NORTH_WEST_CHEST, TMCRegion.DUNGEON_DHC,
+        6029548, TMCLocation.DHC_3F_NORTH_WEST_CHEST, TMCRegion.DUNGEON_DHC_BLUE_WARP,
         TMCItem.SMALL_KEY_DHC, (0x0EAE12, None), (0x2DBB, 0x40), 0x0188
     ),
     LocationData(
-        6029549, TMCLocation.DHC_3F_NORTH_EAST_CHEST, TMCRegion.DUNGEON_DHC,
+        6029549, TMCLocation.DHC_3F_NORTH_EAST_CHEST, TMCRegion.DUNGEON_DHC_BLUE_WARP,
         TMCItem.SMALL_KEY_DHC, (0x0EAE6A, None), (0x2DBB, 0x80), 0x0288
     ),
     LocationData(
-        6029550, TMCLocation.DHC_3F_SOUTH_WEST_CHEST, TMCRegion.DUNGEON_DHC,
+        6029550, TMCLocation.DHC_3F_SOUTH_WEST_CHEST, TMCRegion.DUNGEON_DHC_BLUE_WARP,
         TMCItem.SMALL_KEY_DHC, (0x0EAEC2, None), (0x2DBC, 0x01), 0x0388
     ),
     LocationData(
-        6029551, TMCLocation.DHC_3F_SOUTH_EAST_CHEST, TMCRegion.DUNGEON_DHC,
+        6029551, TMCLocation.DHC_3F_SOUTH_EAST_CHEST, TMCRegion.DUNGEON_DHC_BLUE_WARP,
         TMCItem.SMALL_KEY_DHC, (0x0EAF1A, None), (0x2DBC, 0x02), 0x0488
     ),
     LocationData(
-        6029552, TMCLocation.DHC_2F_BLUE_WARP_BIG_CHEST, TMCRegion.DUNGEON_DHC,
+        6029552, TMCLocation.DHC_2F_BLUE_WARP_BIG_CHEST, TMCRegion.DUNGEON_DHC_BLUE_WARP,
         TMCItem.BIG_KEY_DHC, (0x0EB556, None), (0x2DBC, 0x08), 0x0988
     ),
     # endregion
 ]
 
-GOAL_PED = LocationData(None, TMCEvent.CLEAR_PED, TMCRegion.DUNGEON_DHC, None, None, (0x2D0B, 0x01), 0x0178)
+GOAL_PED = LocationData(None, TMCEvent.CLEAR_PED, TMCRegion.DUNGEON_DHC_B1_WEST, None, None, (0x2D0B, 0x01), 0x0178)
 GOAL_VAATI = LocationData(None, TMCEvent.CLEAR_DHC, TMCRegion.VAATI_FIGHT, None, None, (0x2CA6, 0x02), 0x008B)
 
 events: dict[tuple[int, int], str] = {

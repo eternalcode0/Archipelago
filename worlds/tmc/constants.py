@@ -1618,6 +1618,22 @@ class TMCEvent:
     DHC_VISIT_05 = "Visited DHC room 0x05: "
     DHC_VISIT_06 = "Visited DHC room 0x06: "
 
+    DHC_2F_NW_EYES = "DHC: North West: Hit all the eye switches"
+    DHC_B2_JAIL = "DHC: Basement: Opened the Jail doors"
+    DHC_2F_OUT_BRIDGE_1 = "DHC: Outside: Extended the first bridge to the doorway"
+    DHC_2F_OUT_BRIDGE_2 = "DHC: Outside: Extended the second bridge to the pots"
+    EZLO_DHC_SANC = "Ezlo talks about the frozen NPCs"
+    DHC_BLUE_WARP_DOOR = "DHC: Blue Warp: Doors opened and Darknuts Spawn around the Dungeon"
+    DHC_2F_NE_GHINI_DOOR = "DHC: North East: Doors opened from defeating ghini's"
+    DHC_2F_NW_DARKNUT_DOOR = "DHC: North West: Doors opened from defeating Darknut"
+    DHC_2F_NE_DARKNUT_DOOR = "DHC: North East: Doors opened from defeating Darknuts"
+    DHC_2F_SW_DARKNUT_DOOR = "DHC: South West: Doors opened from defeating Darknuts"
+    DHC_RED_WARP_DOOR = "DHC: Red Warp: Doors opened"
+    DHC_2F_SE_DARKNUT_DOOR = "DHC: South East: Doors opened from defeating Darknut"
+    DHC_2F_SW_GHINI_DOOR = "DHC: South West: Doors opened from defeating ghini's"
+    DHC_1F_THRONE_DOOR = "DHC: Throne: Doors opened from defeating Darknut"
+    DHC_B2_CAMERA = "DHC: Basement: Camera pans after opening the jail doors"
+
     DWS_BLUE_WARP = "DWS: Blue Warp active"
     DWS_RED_WARP = "DWS: Red Warp active"
     COF_BLUE_WARP = "COF: Blue Warp active"
@@ -1708,7 +1724,14 @@ class TMCRegion:
     DUNGEON_POW_IN_5F_END = "Palace of Winds 2nd Half 5F End Chest"
     DUNGEON_POW_CLEAR = "Palace of Winds Clear"
     SANCTUARY = "Sanctuary"
-    DUNGEON_DHC = "Dark Hyrule Castle"
+    DUNGEON_DHC_B1_WEST = "Dark Hyrule Castle Basement Sanctuary Entrance"
+    DUNGEON_DHC_B2 = "Dark Hyrule Castle Basement Jail"
+    DUNGEON_DHC_ENTRANCE = "Dark Hyrule Castle Main Entrance"
+    DUNGEON_DHC_B1_EAST = "Dark Hyrule Castle Basement Canon Puzzle"
+    DUNGEON_DHC_1F = "Dark Hyrule Castle Throne Room"
+    DUNGEON_DHC_OUTSIDE = "Dark Hyrule Castle Outside"
+    DUNGEON_DHC_RED_WARP = "Dark Hyrule Castle Red Warp"
+    DUNGEON_DHC_BLUE_WARP = "Dark Hyrule Castle Blue Warp"
     VAATI_FIGHT = "Vaati Fight"
 
 
@@ -1800,7 +1823,9 @@ DUNGEON_REGIONS = {
             TMCRegion.DUNGEON_POW_IN_3F, TMCRegion.DUNGEON_POW_IN_3F_SWITCH, TMCRegion.DUNGEON_POW_IN_4F,
             TMCRegion.DUNGEON_POW_RED_WARP, TMCRegion.DUNGEON_POW_IN_5F, TMCRegion.DUNGEON_POW_IN_4F_END,
             TMCRegion.DUNGEON_POW_IN_5F_END, TMCRegion.DUNGEON_POW_CLEAR},
-    "DHC": {TMCRegion.DUNGEON_DHC},
+    "DHC": {TMCRegion.DUNGEON_DHC_B1_WEST, TMCRegion.DUNGEON_DHC_B2, TMCRegion.DUNGEON_DHC_ENTRANCE,
+            TMCRegion.DUNGEON_DHC_B1_EAST, TMCRegion.DUNGEON_DHC_1F, TMCRegion.DUNGEON_DHC_OUTSIDE,
+            TMCRegion.DUNGEON_DHC_RED_WARP, TMCRegion.DUNGEON_DHC_BLUE_WARP},
     "RC": {TMCRegion.DUNGEON_RC, TMCRegion.DUNGEON_RC_CLEAR},
 }
 
@@ -1897,6 +1922,13 @@ ALL_REGIONS = [
     TMCRegion.DUNGEON_POW_IN_5F_END,
     TMCRegion.DUNGEON_POW_CLEAR,
     TMCRegion.SANCTUARY,
-    TMCRegion.DUNGEON_DHC,
+    TMCRegion.DUNGEON_DHC_B1_WEST,
+    TMCRegion.DUNGEON_DHC_B2,
+    TMCRegion.DUNGEON_DHC_ENTRANCE,
+    TMCRegion.DUNGEON_DHC_B1_EAST,
+    TMCRegion.DUNGEON_DHC_1F,
+    TMCRegion.DUNGEON_DHC_OUTSIDE,
+    TMCRegion.DUNGEON_DHC_RED_WARP,
+    TMCRegion.DUNGEON_DHC_BLUE_WARP,
     TMCRegion.VAATI_FIGHT,
 ]

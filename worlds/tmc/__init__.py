@@ -7,16 +7,18 @@ import logging
 import os
 import pkgutil
 import typing
+
 import settings
 from BaseClasses import Item, ItemClassification, Tutorial
-from worlds.AutoWorld import WebWorld, World
 from Options import OptionError
+from worlds.AutoWorld import WebWorld, World
 from .Client import MinishCapClient
 from .constants import MinishCapEvent, MinishCapItem, MinishCapLocation, TMCEvent, TMCItem, TMCLocation, TMCRegion
 from .dungeons import fill_dungeons
-from .Items import get_filler_item_selection, get_item_pool, get_pre_fill_pool, item_frequencies, item_groups, item_table, ItemData
-from .Locations import (all_locations, DEFAULT_SET, GOAL_PED, GOAL_VAATI, location_groups, OBSCURE_SET, POOL_RUPEE,
-                        POOL_POT, POOL_DIG, POOL_WATER)
+from .Items import (get_filler_item_selection, get_item_pool, get_pre_fill_pool, item_frequencies, item_groups,
+                    item_table, ItemData)
+from .Locations import (all_locations, DEFAULT_SET, GOAL_PED, GOAL_VAATI, location_groups, OBSCURE_SET, POOL_DIG,
+                        POOL_POT, POOL_RUPEE, POOL_WATER)
 from .Options import DungeonItem, get_option_data, MinishCapOptions, ShuffleElements
 from .Regions import create_regions
 from .Rom import MinishCapProcedurePatch, write_tokens
@@ -100,7 +102,7 @@ class MinishCapWorld(World):
         self.disabled_locations = set(loc.name for loc in all_locations if not loc.pools.issubset(enabled_pools))
 
         if not self.options.goal_vaati.value:
-            self.disabled_locations.update(loc.name for loc in all_locations if loc.region == TMCRegion.DUNGEON_DHC)
+            self.disabled_locations.update(loc for loc in location_groups["DHC"])
 
         # Check if the settings require more dungeons than are included
         self.disabled_dungeons = set(dungeon for dungeon in ["DWS", "CoF", "FoW", "ToD", "RC", "PoW"]
@@ -128,8 +130,8 @@ class MinishCapWorld(World):
 
         # Setup prize location data for tracker to show element hints
         prizes = {TMCLocation.COF_PRIZE: "prize_cof", TMCLocation.CRYPT_PRIZE: "prize_rc",
-                    TMCLocation.PALACE_PRIZE: "prize_pow", TMCLocation.DEEPWOOD_PRIZE: "prize_dws",
-                    TMCLocation.DROPLETS_PRIZE: "prize_tod", TMCLocation.FORTRESS_PRIZE: "prize_fow"}
+                  TMCLocation.PALACE_PRIZE: "prize_pow", TMCLocation.DEEPWOOD_PRIZE: "prize_dws",
+                  TMCLocation.DROPLETS_PRIZE: "prize_tod", TMCLocation.FORTRESS_PRIZE: "prize_fow"}
         if self.options.shuffle_elements.value in {ShuffleElements.option_dungeon_prize,
                                                    ShuffleElements.option_vanilla}:
             for loc_name, data_name in prizes.items():
