@@ -1,10 +1,9 @@
 from typing import TYPE_CHECKING
 
 from BaseClasses import CollectionState
-from Fill import fill_restrictive
+from Fill import fill_restrictive, FillError
 from .constants import TMCItem, TMCLocation
 from .Locations import location_groups
-from .Options import ShuffleElements
 
 if TYPE_CHECKING:
     from . import MinishCapWorld
@@ -44,6 +43,7 @@ MAPS_COMPASSES = frozenset({TMCItem.DUNGEON_MAP_DWS, TMCItem.DUNGEON_COMPASS_DWS
                             TMCItem.DUNGEON_MAP_POW, TMCItem.DUNGEON_COMPASS_POW,
                             TMCItem.DUNGEON_MAP_DHC, TMCItem.DUNGEON_COMPASS_DHC})
 
+
 def fill_dungeons(world: "MinishCapWorld"):
     multiworld = world.multiworld
 
@@ -51,30 +51,6 @@ def fill_dungeons(world: "MinishCapWorld"):
     base_state = CollectionState(multiworld)
     for item in world.item_pool:
         base_state.collect(item)
-
-    # Element Shuffle
-    elements = list(map(world.create_item, [TMCItem.EARTH_ELEMENT, TMCItem.FIRE_ELEMENT, TMCItem.WATER_ELEMENT,
-                                            TMCItem.WIND_ELEMENT]))
-    # Create an element state that will have all the items from future pre_fill stages
-    element_state = base_state.copy()
-    for pre_fill_item in world.get_pre_fill_items():
-        if pre_fill_item.name not in ELEMENTS:
-            element_state.collect(pre_fill_item, prevent_sweep=True)
-    element_state.sweep_for_advancements(multiworld.get_locations(world.player))
-
-    if world.options.shuffle_elements.value is ShuffleElements.option_dungeon_prize:
-        # Place elements into any "prize" location, shuffle locations
-        locations = [world.get_location(element_loc) for element_loc in ELEMENT_LOCATIONS]
-        world.random.shuffle(locations)
-        # Don't allow excluded locations so that players can ban specific dungeons
-        fill_restrictive(multiworld, element_state, locations, elements, single_player_placement=True, lock=True,
-                         allow_excluded=False, name="TMC Element Fill")
-    elif world.options.shuffle_elements.value is ShuffleElements.option_vanilla:
-        # Place elements into ordered locations, don't shuffle
-        locations = [world.get_location(TMCLocation.PALACE_PRIZE), world.get_location(TMCLocation.DROPLETS_PRIZE),
-                     world.get_location(TMCLocation.COF_PRIZE), world.get_location(TMCLocation.DEEPWOOD_PRIZE)]
-        fill_restrictive(multiworld, element_state, locations, elements, single_player_placement=True, lock=True,
-                         allow_excluded=True, name="TMC Element Fill")
 
     # Big Key, Small Key, Maps & Compass Fill
     for stage in [KEYS, MAPS_COMPASSES]:
@@ -98,8 +74,13 @@ def fill_dungeon(world: "MinishCapWorld", dungeon: str, stage_items: frozenset[s
         return
 
     # Get list of locations that we can place items, filtered for current dungeon group
-    fill_locations = [loc for loc in world_locations \
+    fill_locations = [loc for loc in world_locations
                       if loc.name in location_groups[dungeon] and loc.name not in BANNED_KEY_LOCATIONS]
+
+    if len(fill_locations) < len(fill_stage_items):
+        raise FillError(f"Not enough locations to pre_fill for slot '{world.player_name}', did plando or other "
+                        f"worlds fill too many of our dungeon locations?")
+
     world.random.shuffle(fill_locations)
     world.random.shuffle(fill_stage_items)
 

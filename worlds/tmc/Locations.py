@@ -579,7 +579,7 @@ all_locations: list[LocationData] = [
     # region Lake Hylia
     LocationData(
         6029138, TMCLocation.HYLIA_SUNKEN_HP, TMCRegion.LAKE_HYLIA_NORTH,
-        TMCItem.HEART_PIECE, (0x0F323B, None), (0x2CBD, 0x02), 0x000B, pools={POOL_HP}
+        TMCItem.HEART_PIECE, (0x0F323B, None), (0x2CBD, 0x02), 0x000B, pools={POOL_HP, POOL_WATER}
     ),
     LocationData(
         6029139, TMCLocation.HYLIA_DOG_NPC, TMCRegion.LAKE_HYLIA_NORTH,

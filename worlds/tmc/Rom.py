@@ -162,9 +162,9 @@ def write_tokens(world: "MinishCapWorld", patch: MinishCapProcedurePatch) -> Non
                 item_table[loc.vanilla_item].classification != ItemClassification.filler):
             if loc.rom_addr[0] is None:
                 continue
-            item_inject(world, patch, location_table_by_name[location_name], world.create_filler())
+            item_inject(world, patch, location_table_by_name[location_name], world.create_item(TMCItem.RUPEES_1))
             continue
-        elif location_name in world.disabled_locations:
+        if location_name in world.disabled_locations:
             continue
         location = world.get_location(location_name)
         item = location.item

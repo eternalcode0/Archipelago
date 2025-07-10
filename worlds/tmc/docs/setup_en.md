@@ -6,6 +6,11 @@
 - An EU copy of The Legend of Zelda: The Minish Cap. The Archipelago community cannot provide this.
 - [BizHawk](https://tasvideos.org/BizHawk/ReleaseHistory) 2.7 or later
 
+## Optional Software
+
+- [TMC AP Tracker by Deoxis](https://github.com/deoxis9001/tmcrando_maptracker_deoxis/releases/latest), for use with
+[PopTracker](https://github.com/black-sliver/PopTracker/releases)
+
 ### Configuring BizHawk
 
 Once you have installed BizHawk, open `EmuHawk.exe` and change the following settings:
@@ -19,15 +24,27 @@ tabbed out of EmuHawk.
 - Consider clearing keybinds in `Config > Hotkeys…` if you don't intend to use them. Select the keybind and press Esc to
 clear it.
 
-## Optional Software
+## Installing the apworld
 
-- [TMC AP Tracker by Deoxis](https://github.com/deoxis9001/tmcrando_maptracker_deoxis/releases/latest), for use with
-[PopTracker](https://github.com/black-sliver/PopTracker/releases)
+How to use an .apworld:
+Place the .apworld in your Archipelago/custom_worlds folder, or double-click
+the .apworld to do so automatically.
+Use ArchipelagoLauncher.exe to open the Launcher, and click on Generate
+Template Options to create template yamls for your custom .apworlds.
+Place the desired player yamls in the Players folder, and customize them as
+you see fit.
+Use ArchipelagoGenerate.exe to generate the game.
+Upload the generated game (in the output folder) on the website at
+https://archipelago.gg/uploads and create a new room.
+Refer to the individual game's setup guide for further instruction (usually in
+the pins for the game's ⁠future-game-design⁠ post or its github).
+Patch files can be found inside the zipped file in your output folder instead
+of the room page.
 
 ## Generating and Patching a Game
 
-1. Create your options file (YAML). You can make one on
-[The Minish Cap options page](../../../games/The%20Minish%20Cap/player-options).
+1. Create your options file (YAML). You can download one from the GitHub
+Releases page or create the default YAML from your Launcher with the "Generate Template Options"
 2. Follow the general Archipelago instructions for [generating a game](../../Archipelago/setup/en#generating-a-game).
 This will generate an output file for you. Your patch file will have the `.aptmc` file extension.
 3. Open `ArchipelagoLauncher.exe`
