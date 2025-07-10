@@ -1,4 +1,4 @@
-from . import MinishCapTestBase
+from worlds.tmc.test import MinishCapTestBase
 
 
 class TestVaati(MinishCapTestBase):
@@ -18,6 +18,7 @@ class TestVaati(MinishCapTestBase):
         self.assertBeatable(False)
         self.collect_by_name(["Gust Jar", "Progressive Bow", "Cane of Pacci", "Lantern", "Bomb Bag", "Spin Attack"])
         self.assertBeatable(True)
+
 
 class TestPedestalElements(MinishCapTestBase):
     options = {

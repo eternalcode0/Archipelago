@@ -4,7 +4,8 @@ from typing import TYPE_CHECKING
 from BaseClasses import Item, ItemClassification
 from settings import get_settings
 from worlds.Files import APProcedurePatch, APTokenMixin, APTokenTypes
-from .constants import EXTERNAL_ITEM_MAP, TMCLocation, TMCItem
+from .constants import DUNGEON_ABBR, EXTERNAL_ITEM_MAP, TMCEvent, TMCItem, TMCLocation, WIND_CRESTS
+from .Flags import flag_table_by_name
 from .Items import item_table
 from .Locations import location_table_by_name, LocationData
 from .Options import ShuffleElements
@@ -38,10 +39,10 @@ def write_tokens(world: "MinishCapWorld", patch: MinishCapProcedurePatch) -> Non
 
     # Sanctuary fix
     if world.options.goal_vaati.value:
-        # Skip stained glass scene
+        # Skip stained-glass scene
         patch.write_token(APTokenTypes.WRITE, 0x0532F6, bytes([0x10, 0x23]))
     else:
-        # Jump to credits on the stained glass scene
+        # Jump to credits on the stained-glass scene
         func = [0x00, 0x22, 0x05, 0x48, 0x04, 0x23, 0x03, 0x70, 0x42, 0x70, 0x82, 0x70, 0x01, 0x23, 0x8B, 0x71, 0x00,
                 0x24, 0x78, 0x20, 0x01, 0x4B, 0x00, 0x00, 0x02, 0x10, 0x00, 0x03, 0xFF, 0x32, 0x05, 0x08]
         patch.write_token(APTokenTypes.WRITE, 0x0532F4, bytes(func))
@@ -82,17 +83,83 @@ def write_tokens(world: "MinishCapWorld", patch: MinishCapProcedurePatch) -> Non
             if element_address.get(placed_item, 0) == 0:
                 continue
             patch.write_token(APTokenTypes.WRITE, element_address[placed_item], struct.pack("<BB", *data[0]))
-            patch.write_token(APTokenTypes.WRITE, element_address[placed_item]+3, struct.pack("<HH", *data[1]))
+            patch.write_token(APTokenTypes.WRITE, element_address[placed_item] + 3, struct.pack("<HH", *data[1]))
     elif world.options.shuffle_elements.value != ShuffleElements.option_vanilla:
         patch.write_token(APTokenTypes.WRITE, 0x128673, bytes([0x0, 0xF, 0x0, 0xF, 0x0, 0xF, 0x0]))
+
+    # Wind Crests
+    crest_value = 0x0
+    enabled_crests = [WIND_CRESTS[crest] for crest in world.options.wind_crests.value]
+    enabled_crests.append(0x10)  # Lake Hylia wind crest
+    for crest in enabled_crests:
+        crest_value |= crest
+    patch.write_token(APTokenTypes.WRITE, flag_table_by_name[TMCEvent.MINISH_CREST].offset, bytes([crest_value]))
+
+    # Dungeon Warps
+    dungeon_offset = {
+        "DWS": TMCEvent.DWS_BLUE_WARP,
+        "CoF": TMCEvent.COF_BLUE_WARP,
+        "FoW": TMCEvent.FOW_BLUE_WARP,
+        "ToD": TMCEvent.TOD_BLUE_WARP,
+        "PoW": TMCEvent.POW_BLUE_WARP,
+        "DHC": TMCEvent.DHC_BLUE_WARP,
+    }
+    extra_flags = {
+        "DWS": {
+            "Blue": {TMCEvent.DWS_1F_BLUE_WARP_SWITCH},
+            "Red": {TMCEvent.DWS_B1_RED_WARP_SWITCH},
+        },
+        "CoF": {
+            "Blue": {TMCEvent.COF_B1_BLUE_WARP_SWITCH},
+            "Red": {TMCEvent.COF_B2_RED_WARP_SWITCH},
+        },
+        "FoW": {
+            "Blue": {},  # Currently leave doors closed to force fight
+            "Red": {TMCEvent.FOW_RED_WARP_SWITCH},
+        },
+        "ToD": {
+            "Blue": {},  # Currently leave doors closed to force fight
+            "Red": {TMCEvent.TOD_RED_WARP_SWITCH},
+        },
+        "PoW": {
+            "Blue": {},  # Currently leave bridge closed to force fight
+            "Red": {TMCEvent.POW_RED_WARP_SWITCH, TMCEvent.POW_2ND_HALF_4F_LEFT_TORCH,
+                    TMCEvent.POW_2ND_HALF_4F_RIGHT_TORCH},
+        },
+        "DHC": {
+            "Blue": {},  # Currently leave doors closed to force fight
+            "Red": {}  # Currently leave doors closed to force fight
+        }
+    }
+    # logging.debug(f"Flag table: {flag_table_by_name.items()}")
+    # for flag,address in flag_table_by_name.items():
+    #     if flag is not "None":
+    #         logging.debug(f'Name: {flag}, Address: {hex(address.offset)}, Flag: {hex(address.data)}')
+
+    for dungeon in DUNGEON_ABBR:
+        if dungeon == "RC": continue
+        warp_bits = world.options.dungeon_warps.get_warps(dungeon, world.options.dungeon_warps.value)
+        offset = flag_table_by_name.get(dungeon_offset[dungeon]).offset
+        # logging.debug(f'Write Warps: {dungeon}, Address: {hex(offset)}, bits: {bytes([warp_bits])}')
+        patch.write_token(APTokenTypes.WRITE, offset, bytes([warp_bits]))
+        if warp_bits & 1:
+            for flag in extra_flags[dungeon]["Blue"]:
+                romdata = flag_table_by_name.get(flag)
+                offset_extra, bit = romdata.offset, romdata.data
+                patch.write_token(APTokenTypes.OR_8, offset_extra, bit)
+        if warp_bits & 2:
+            for flag in extra_flags[dungeon]["Red"]:
+                romdata = flag_table_by_name.get(flag)
+                offset_extra, bit = romdata.offset, romdata.data
+                patch.write_token(APTokenTypes.OR_8, offset_extra, bit)
 
     # Patch Items into Locations
     for location_name, loc in location_table_by_name.items():
         if loc.rom_addr is None:
             continue
         if location_name in world.disabled_locations and (
-                loc.vanilla_item is None or loc.vanilla_item in item_table and item_table[
-                    loc.vanilla_item].classification != ItemClassification.filler):
+                loc.vanilla_item is None or loc.vanilla_item in item_table and
+                item_table[loc.vanilla_item].classification != ItemClassification.filler):
             if loc.rom_addr[0] is None:
                 continue
             item_inject(world, patch, location_table_by_name[location_name], world.create_item(TMCItem.RUPEES_1))
@@ -109,7 +176,7 @@ def write_tokens(world: "MinishCapWorld", patch: MinishCapProcedurePatch) -> Non
 
 
 def item_inject(world: "MinishCapWorld", patch: MinishCapProcedurePatch, location: LocationData, item: Item):
-    item_byte_first = 0x00
+    # item_byte_first = 0x00
     item_byte_second = 0x00
 
     if item.player == world.player:
