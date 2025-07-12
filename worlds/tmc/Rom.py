@@ -137,7 +137,8 @@ def write_tokens(world: "MinishCapWorld", patch: MinishCapProcedurePatch) -> Non
     #         logging.debug(f'Name: {flag}, Address: {hex(address.offset)}, Flag: {hex(address.data)}')
 
     for dungeon in DUNGEON_ABBR:
-        if dungeon == "RC": continue
+        if dungeon == "RC":
+            continue
         warp_bits = world.options.dungeon_warps.get_warps(dungeon, world.options.dungeon_warps.value)
         offset = flag_table_by_name.get(dungeon_offset[dungeon]).offset
         # logging.debug(f'Write Warps: {dungeon}, Address: {hex(offset)}, bits: {bytes([warp_bits])}')
@@ -152,6 +153,16 @@ def write_tokens(world: "MinishCapWorld", patch: MinishCapProcedurePatch) -> Non
                 romdata = flag_table_by_name.get(flag)
                 offset_extra, bit = romdata.offset, romdata.data
                 patch.write_token(APTokenTypes.OR_8, offset_extra, bit)
+
+    # Cucco/Goron Rounds
+    cucco_complete = int(world.options.cucco_rounds.value == 0)
+    cucco_skipped = 10 - world.options.cucco_rounds.value
+    patch.write_token(APTokenTypes.WRITE, 0xFF1265, bytes([cucco_complete << 7 | cucco_skipped << 3]))
+    patch.write_token(APTokenTypes.WRITE, 0xFF00E6, bytes([world.options.goron_sets.value]))
+
+    if world.options.goron_jp_prices.value:
+        patch.write_token(APTokenTypes.WRITE, 0x1112F0, struct.pack(
+            "<HHHHHHHHHHHHHHH", [x for _ in range(0, 5) for x in [300, 200, 50]]))
 
     # Patch Items into Locations
     for location_name, loc in location_table_by_name.items():

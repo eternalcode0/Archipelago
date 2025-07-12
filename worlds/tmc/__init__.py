@@ -20,7 +20,7 @@ from .dungeons import fill_dungeons
 from .Items import (get_filler_item_selection, get_item_pool, get_pre_fill_pool, item_frequencies, item_groups,
                     item_table, ItemData)
 from .Locations import (all_locations, DEFAULT_SET, GOAL_PED, GOAL_VAATI, location_groups, OBSCURE_SET, POOL_DIG,
-                        POOL_POT, POOL_RUPEE, POOL_WATER)
+                        POOL_ENEMY, POOL_POT, POOL_RUPEE, POOL_WATER)
 from .Options import DungeonItem, get_option_data, MinishCapOptions, ShuffleElements
 from .Regions import create_regions
 from .Rom import MinishCapProcedurePatch, write_tokens
@@ -92,6 +92,12 @@ class MinishCapWorld(World):
             enabled_pools.add(POOL_DIG)
         if self.options.shuffle_underwater.value:
             enabled_pools.add(POOL_WATER)
+        if self.options.shuffle_gold_enemies.value:
+            enabled_pools.add(POOL_ENEMY)
+
+        enabled_pools.update([f"cucco:{round_num}" for round_num in range(
+            10, 10 - self.options.cucco_rounds.value, -1)])
+        enabled_pools.update([f"goron:{round_num}" for round_num in range(1, self.options.goron_sets.value + 1)])
 
         self.filler_items = get_filler_item_selection(self)
 

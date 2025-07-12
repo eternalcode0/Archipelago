@@ -48,6 +48,11 @@ class ShuffleUnderwater(Toggle):
     display_name = "Shuffle Underwater"
 
 
+class ShuffleGoldEnemies(Toggle):
+    """Add the drops from the 9 golden enemies to the pool."""
+    display_name = "Shuffle Gold Enemy Drops"
+
+
 class ObscureSpots(Toggle):
     """Add all special pots, dig spots, etc. that drop a unique item to the pool."""
     display_name = "Obscure Spots"
@@ -144,8 +149,10 @@ class DungeonWarps(OptionSet):
     @classmethod
     def get_warps(cls, dungeon, value):
         warp_bits = 0x00
-        if f"{dungeon} Blue" in value: warp_bits += 0x01
-        if f"{dungeon} Red" in value: warp_bits += 0x02
+        if f"{dungeon} Blue" in value:
+            warp_bits += 0x01
+        if f"{dungeon} Red" in value:
+            warp_bits += 0x02
         return warp_bits
 
 
@@ -350,6 +357,51 @@ class Tricks(OptionSet):
     valid_keys = ALL_TRICKS
 
 
+class PedReward(Choice):
+    """What item should you get as soon as you complete the pedestal requirements?"""
+    display_name = "Pedestal Requirement Reward"
+    option_none = 0
+    option_dhc_big_key = 1
+    option_random_item = 2
+
+
+class CuccoRounds(Range):
+    """
+    How many rounds of the cucco catching minigame do you want to play?
+    Rounds 1-9 are accessible from Sphere 1, Round 10 is accessible with either Roc's Cape or Flippers.
+    Rounds are always included from the end to ensure the Round 10 reward is always accessible. Ex, if you play with 3
+    rounds, Rounds 8-10 are playable.
+    """
+    display_name = "# of Cucco Rounds"
+    range_start = 0
+    range_end = 10
+    default = 1
+
+
+class GoronSets(Range):
+    """
+    How many sets of items do you want to purchase from the Goron Shop in town?
+    There are 5 total sets with 3 items each.
+    """
+    display_name = "# of Goron Merchant Sets"
+    range_start = 0
+    range_end = 5
+    default = 0
+
+
+class GoronJPPrices(Toggle):
+    """
+    Should the Goron Merchant use JP/US prices instead of EU prices for the item sets. They are as follows:
+    EU 1st set: 200/100/50
+    EU 2nd set: 300/200/100
+    EU 3rd set: 400/300/200
+    EU 4th set: 500/400/300
+    EU 5th set: 600/500/400
+    JP all sets: 300/200/50
+    """
+    display_name = "Goron Merchant JP/US Prices"
+
+
 @dataclass
 class MinishCapOptions(PerGameCommonOptions):
     # AP settings / DL settings
@@ -368,11 +420,16 @@ class MinishCapOptions(PerGameCommonOptions):
     dungeon_big_keys: BigKeys
     dungeon_maps: DungeonMaps
     dungeon_compasses: DungeonCompasses
+    ped_reward: PedReward
     shuffle_elements: ShuffleElements
     rupeesanity: Rupeesanity
     shuffle_pots: ShufflePots
     shuffle_digging: ShuffleDigging
     shuffle_underwater: ShuffleUnderwater
+    shuffle_gold_enemies: ShuffleGoldEnemies
+    cucco_rounds: CuccoRounds
+    goron_sets: GoronSets
+    goron_jp_prices: GoronJPPrices
     traps_enabled: Traps
     random_bottle_contents: RandomBottleContents
     # Weapon Settings
@@ -393,6 +450,7 @@ def get_option_data(options: MinishCapOptions):
     Intended for trackers to properly match the logic between the standalone randomizer (TMCR) and AP
     """
     return {
+        "version": "0.1.1",
         "goal_dungeons": options.ped_dungeons.value,  # 0-6
         "goal_swords": options.ped_swords.value,  # 0-5
         "goal_elements": options.ped_elements.value,  # 0-4
@@ -404,12 +462,9 @@ def get_option_data(options: MinishCapOptions):
         "dungeon_warp_tod": options.dungeon_warps.get_warps("ToD", options.dungeon_warps.value),
         "dungeon_warp_pow": options.dungeon_warps.get_warps("PoW", options.dungeon_warps.value),
         "dungeon_warp_dhc": options.dungeon_warps.get_warps("DHC", options.dungeon_warps.value),
-        "cucco_rounds": 1,  # 0-10
-        "goron_sets": 0,  # 0-5
         "goron_jp_prices": 0,  # 0 = EU prices, 1 = JP/US prices
         "shuffle_heart_pieces": 1,
         "shuffle_rupees": options.rupeesanity.value,
-        "shuffle_gold_enemies": 0,
         "shuffle_pedestal": 0,
         "shuffle_biggoron": 0,  # 0 = Disabled, 1 = Requires Shield, 2 = Requires Mirror Shield
         "kinstones_gold": 1,  # 0 = Closed, 1 = Vanilla, 2 = Combined, 3 = Open
