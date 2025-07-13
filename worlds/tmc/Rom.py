@@ -113,6 +113,7 @@ def write_tokens(world: "MinishCapWorld", patch: MinishCapProcedurePatch) -> Non
 
     # DHC Skip
     if world.options.dhc_access.value == DHCAccess.option_closed and world.options.goal_vaati.value:
+        patch.write_token(APTokenTypes.WRITE, 0x127649, bytes([0x1D]))  # Change locationIndex of sanctuary to match DHC
         ped_to_altar = Transition(warp_type=1, start_x=0xE8, start_y=0x28, end_x=0x78, end_y=0x168,
                                   area_id=0x89, room_id=0)
         patch.write_token(APTokenTypes.WRITE, 0x139E80, ped_to_altar.serialize())
