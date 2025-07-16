@@ -279,7 +279,7 @@ class MinishCapRules:
             (TMCRegion.DUNGEON_DHC_ENTRANCE, TMCRegion.DUNGEON_DHC_B1_WEST): None,  # Ped items
             (TMCRegion.DUNGEON_DHC_ENTRANCE, TMCRegion.CASTLE_EXTERIOR): None,  # redundant
             (TMCRegion.DUNGEON_DHC_ENTRANCE, TMCRegion.DUNGEON_DHC_BLUE_WARP): self.dhc_blue_warp(),
-            (TMCRegion.DUNGEON_DHC_ENTRANCE, TMCRegion.DUNGEON_DHC_RED_WARP): self.dhc_blue_warp(),
+            (TMCRegion.DUNGEON_DHC_ENTRANCE, TMCRegion.DUNGEON_DHC_RED_WARP): self.dhc_red_warp(),
             (TMCRegion.DUNGEON_DHC_ENTRANCE, TMCRegion.DUNGEON_DHC_B1_EAST):
                 self.logic_and([self.dhc_door(), self.dhc_cannons(), self.has(TMCItem.BOMB_BAG)]),
             (TMCRegion.DUNGEON_DHC_B1_EAST, TMCRegion.DUNGEON_DHC_1F): self.has_weapon_boss(),
