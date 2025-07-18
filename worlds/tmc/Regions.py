@@ -1,7 +1,6 @@
 import typing
 
-from BaseClasses import Region
-from .constants import ALL_REGIONS, MinishCapLocation, TMCRegion, TMCEvent
+from .constants import ALL_EVENTS, ALL_REGIONS, MinishCapLocation, MinishCapRegion, TMCEvent, TMCRegion, TMCTricks
 from .Locations import all_locations
 
 if typing.TYPE_CHECKING:
@@ -13,7 +12,7 @@ def excluded_locations_by_region(region: str, disabled_locations: set[str]):
 
 
 def create_regions(world: "MinishCapWorld", disabled_locations: set[str], disabled_dungeons: set[str]):
-    menu_region = Region("Menu", world.player, world.multiworld)
+    menu_region = MinishCapRegion("Menu", world.player, world.multiworld)
     world.multiworld.regions.append(menu_region)
 
     for region_key in ALL_REGIONS:
@@ -32,14 +31,25 @@ def create_regions(world: "MinishCapWorld", disabled_locations: set[str], disabl
         # If the entire dungeon has been excluded, don't add the dungeon clear so players aren't expected to beat it
         if dungeon in disabled_dungeons:
             continue
-        reg = world.get_region(clear)
-        loc = MinishCapLocation(world.player, event, None, reg)
-        loc.place_locked_item(world.create_event(event))
-        reg.locations.append(loc)
+        register_event(world, clear, event)
+
+    # General Events
+    for (region, event) in ALL_EVENTS:
+        register_event(world, region, event)
+
+    if TMCTricks.POT_PUZZLE in world.options.tricks.value:
+        register_event(world, TMCRegion.DUNGEON_POW_IN_3F_SWITCH, TMCEvent.POW_1ST_HALF_3F_ITEM_DROP),
+
+
+def register_event(world: "MinishCapWorld", region: str, event: str):
+    reg = world.get_region(region)
+    loc = MinishCapLocation(world.player, event, None, reg)
+    loc.place_locked_item(world.create_event(event))
+    reg.locations.append(loc)
 
 
 def create_region(world: "MinishCapWorld", name, locations):
-    ret = Region(name, world.player, world.multiworld)
+    ret = MinishCapRegion(name, world.player, world.multiworld)
     for location in locations:
         if location.name in world.disabled_locations:
             continue
