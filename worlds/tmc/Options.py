@@ -2,7 +2,7 @@ from dataclasses import dataclass
 
 from Options import (Choice, DeathLink, DefaultOnToggle, OptionSet, PerGameCommonOptions, Range, StartInventoryPool,
                      Toggle)
-from .constants import ALL_TRICKS
+from .constants import ALL_TRICKS, WIND_CRESTS
 
 
 class DungeonItem(Choice):
@@ -126,6 +126,38 @@ class DungeonCompasses(DungeonItem):
     """
     display_name = "Dungeon Compasses Shuffle"
     default = DungeonItem.option_own_dungeon
+
+
+class DungeonWarps(OptionSet):
+    """
+    A list of which dungeon warps are available at the start. Warp name is any of the 6 dungeon abbreviations
+    (excluding Royal Crypt) followed by "Blue" or "Red". Ex.
+    - "DWS Blue"
+    - "ToD Red"
+    - "DHC Red"
+    """
+    display_name = "Starting Dungeon Warps"
+    valid_keys = [f"{dungeon} {warp}"
+                  for dungeon in ["DWS", "CoF", "FoW", "ToD", "PoW", "DHC"]
+                  for warp in ["Blue", "Red"]]
+
+    @classmethod
+    def get_warps(cls, dungeon, value):
+        warp_bits = 0x00
+        if f"{dungeon} Blue" in value:
+            warp_bits += 0x01
+        if f"{dungeon} Red" in value:
+            warp_bits += 0x02
+        return warp_bits
+
+
+class WindCrests(OptionSet):
+    """
+    A list of which wind crests to start with. Lake Hylia is always enabled to ensure Library is reachable
+    """
+    display_name = "Starting Wind Crests"
+    default = ["Hyrule Town"]
+    valid_keys = WIND_CRESTS.keys()
 
 
 class Traps(Toggle):
@@ -383,6 +415,8 @@ class MinishCapOptions(PerGameCommonOptions):
     weapon_gust: WeaponGust
     weapon_lantern: WeaponLantern
     # Logic Settings
+    dungeon_warps: DungeonWarps
+    wind_crests: WindCrests
     tricks: Tricks
 
 
@@ -404,12 +438,13 @@ def get_option_data(options: MinishCapOptions):
         "goal_elements": options.ped_elements.value,  # 0-4
         "goal_figurines": 0,  # 0-136
         "goal_vaati_dhc": vaati_dhc_map[(options.goal_vaati.value, options.dhc_access.value)],
-        "dungeon_warp_dws": 0,  # 0 = None, 1 = Blue, 2 = Red, 3 = Both
-        "dungeon_warp_cof": 0,
-        "dungeon_warp_fow": 0,
-        "dungeon_warp_tod": 0,
-        "dungeon_warp_pow": 0,
-        "dungeon_warp_dhc": 0,
+        "dungeon_warp_dws": options.dungeon_warps.get_warps("DWS", options.dungeon_warps.value),  # 0 = None, 1 = Blue,
+        # 2 = Red, 3 = Both
+        "dungeon_warp_cof": options.dungeon_warps.get_warps("CoF", options.dungeon_warps.value),
+        "dungeon_warp_fow": options.dungeon_warps.get_warps("FoW", options.dungeon_warps.value),
+        "dungeon_warp_tod": options.dungeon_warps.get_warps("ToD", options.dungeon_warps.value),
+        "dungeon_warp_pow": options.dungeon_warps.get_warps("PoW", options.dungeon_warps.value),
+        "dungeon_warp_dhc": options.dungeon_warps.get_warps("DHC", options.dungeon_warps.value),
         "cucco_rounds": 1,  # 0-10
         "goron_sets": 0,  # 0-5
         "goron_jp_prices": 0,  # 0 = EU prices, 1 = JP/US prices
@@ -428,14 +463,14 @@ def get_option_data(options: MinishCapOptions):
         "open_tingle_brothers": 0,
         "open_library": 0,
         "extra_shop_item": 0,
-        "wind_crest_crenel": 0,
-        "wind_crest_castor": 0,
-        "wind_crest_clouds": 0,
-        "wind_crest_lake": 1,
+        "wind_crest_crenel": 1 if "Mount Crenel" in options.wind_crests.value else 0,
+        "wind_crest_falls": 1 if "Veil Falls" in options.wind_crests.value else 0,
+        "wind_crest_clouds": 1 if "Cloud Tops" in options.wind_crests.value else 0,
         "wind_crest_town": 1,
-        "wind_crest_falls": 0,
-        "wind_crest_south_field": 0,
-        "wind_crest_minish_woods": 0,
+        "wind_crest_lake": 1,
+        "wind_crest_castor": 1 if "Castor Wilds" in options.wind_crests.value else 0,
+        "wind_crest_south_field": 1 if "South Hyrule Field" in options.wind_crests.value else 0,
+        "wind_crest_minish_woods": 1 if "Minish Woods" in options.wind_crests.value else 0,
         "weapon_bombs": options.weapon_bomb.value,  # No, Yes, Yes + Bosses
         "weapon_bows": options.weapon_bow.value,
         "weapon_gust_jar": options.weapon_gust.value,  # No, Yes

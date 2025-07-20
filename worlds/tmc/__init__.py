@@ -7,19 +7,20 @@ import logging
 import os
 import pkgutil
 import typing
+
 import settings
 from BaseClasses import Item, ItemClassification, Tutorial
 from worlds.AutoWorld import WebWorld, World
 from Fill import FillError
 from Options import OptionError
 from .Client import MinishCapClient
-from .constants import MinishCapItem, MinishCapLocation, TMCEvent, TMCItem, TMCLocation, TMCRegion
+from .constants import MinishCapEvent, MinishCapItem, MinishCapLocation, TMCEvent, TMCItem, TMCLocation, TMCRegion
 from .dungeons import fill_dungeons
 from .Items import (get_filler_item_selection, get_item_pool, get_pre_fill_pool, item_frequencies, item_groups,
                     item_table, ItemData)
-from .Locations import (all_locations, DEFAULT_SET, GOAL_PED, GOAL_VAATI, location_groups, OBSCURE_SET, POOL_RUPEE,
-                        POOL_POT, POOL_DIG, POOL_WATER)
-from .Options import DungeonItem, get_option_data, MinishCapOptions, ShuffleElements, DHCAccess
+from .Locations import (all_locations, DEFAULT_SET, GOAL_PED, GOAL_VAATI, location_groups, OBSCURE_SET, POOL_DIG,
+                        POOL_POT, POOL_RUPEE, POOL_WATER)
+from .Options import DHCAccess, DungeonItem, get_option_data, MinishCapOptions, ShuffleElements
 from .Regions import create_regions
 from .Rom import MinishCapProcedurePatch, write_tokens
 from .Rules import MinishCapRules
@@ -105,8 +106,9 @@ class MinishCapWorld(World):
             self.options.start_hints.value.add(TMCItem.WIND_ELEMENT)
 
         self.disabled_locations = set(loc.name for loc in all_locations if not loc.pools.issubset(enabled_pools))
+
         if self.options.dhc_access.value == DHCAccess.option_closed:
-            self.disabled_locations.update(loc.name for loc in all_locations if loc.region is TMCRegion.DUNGEON_DHC)
+            self.disabled_locations.update(loc for loc in location_groups["DHC"])
 
         # Check if the settings require more dungeons than are included
         self.disabled_dungeons = set(dungeon for dungeon in ["DWS", "CoF", "FoW", "ToD", "RC", "PoW"]
@@ -119,7 +121,7 @@ class MinishCapWorld(World):
                 self.options.ped_dungeons,
                 len(self.disabled_dungeons)))
 
-    def fill_slot_data(self) -> dict[str, any]:
+    def fill_slot_data(self) -> dict[str, typing.Any]:
         data = {"DeathLink": self.options.death_link.value, "DeathLinkGameover": self.options.death_link_gameover.value,
                 "RupeeSpot": self.options.rupeesanity.value,
                 "GoalVaati": self.options.goal_vaati.value}
@@ -127,6 +129,7 @@ class MinishCapWorld(World):
                                      "goal_vaati", "dhc_access", "random_bottle_contents", "weapon_bomb", "weapon_bow",
                                      "weapon_gust", "weapon_lantern",
                                      "tricks", "dungeon_small_keys", "dungeon_big_keys", "dungeon_compasses",
+                                     "dungeon_warps", "wind_crests",
                                      "dungeon_maps", "shuffle_pots", "shuffle_digging", "shuffle_underwater",
                                      casing="snake")
         data |= get_option_data(self.options)
@@ -164,12 +167,12 @@ class MinishCapWorld(World):
             ped.place_locked_item(self.create_event(TMCEvent.CLEAR_PED))
             reg.locations.append(ped)
 
-    def create_item(self, name: str) -> Item:
+    def create_item(self, name: str) -> MinishCapItem:
         item = item_table[name]
         return MinishCapItem(name, item.classification, self.item_name_to_id[name], self.player)
 
-    def create_event(self, name: str) -> MinishCapItem:
-        return MinishCapItem(name, ItemClassification.progression, None, self.player)
+    def create_event(self, name: str) -> MinishCapEvent:
+        return MinishCapEvent(name, ItemClassification.progression, None, self.player)
 
     def get_filler_item_name(self) -> str:
         return self.random.choice(self.filler_items)
@@ -212,7 +215,9 @@ class MinishCapWorld(World):
     def set_rules(self) -> None:
         MinishCapRules(self).set_rules(self.disabled_locations, self.location_name_to_id)
         # from Utils import visualize_regions
-        # visualize_regions(self.multiworld.get_region("Menu", self.player), "tmc_world.puml")
+        # visualize_regions(self.multiworld.get_region("Menu", self.player), f"{self.player_name}_world.puml",
+        #                   regions_to_highlight=self.multiworld.get_all_state(self.player).reachable_regions[
+        #                  self.player])
 
     def get_pre_fill_items(self) -> list[Item]:
         return self.pre_fill_pool

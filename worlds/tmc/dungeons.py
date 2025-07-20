@@ -44,6 +44,7 @@ MAPS_COMPASSES = frozenset({TMCItem.DUNGEON_MAP_DWS, TMCItem.DUNGEON_COMPASS_DWS
                             TMCItem.DUNGEON_MAP_POW, TMCItem.DUNGEON_COMPASS_POW,
                             TMCItem.DUNGEON_MAP_DHC, TMCItem.DUNGEON_COMPASS_DHC})
 
+
 def fill_dungeons(world: "MinishCapWorld"):
     multiworld = world.multiworld
 
@@ -63,7 +64,7 @@ def fill_dungeons(world: "MinishCapWorld"):
             fill_dungeon(world, dungeon, stage, base_state)
 
 
-def fill_dungeon(world: "MinishCapWorld", dungeon: str, stage_items: set[str], base_state: CollectionState):
+def fill_dungeon(world: "MinishCapWorld", dungeon: str, stage_items: frozenset[str], base_state: CollectionState):
     multiworld = world.multiworld
     world_locations = multiworld.get_unfilled_locations(world.player)
     pre_fill_items = world.get_pre_fill_items()
@@ -74,7 +75,7 @@ def fill_dungeon(world: "MinishCapWorld", dungeon: str, stage_items: set[str], b
         return
 
     # Get list of locations that we can place items, filtered for current dungeon group
-    fill_locations = [loc for loc in world_locations \
+    fill_locations = [loc for loc in world_locations
                       if loc.name in location_groups[dungeon] and loc.name not in BANNED_KEY_LOCATIONS]
 
     if len(fill_locations) < len(fill_stage_items):
