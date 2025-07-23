@@ -13,17 +13,17 @@ from BaseClasses import Item, ItemClassification, Tutorial
 from worlds.AutoWorld import WebWorld, World
 from Fill import FillError
 from Options import OptionError
-from .Client import MinishCapClient
+from .client import MinishCapClient
 from .constants import MinishCapEvent, MinishCapItem, MinishCapLocation, TMCEvent, TMCItem, TMCLocation, TMCRegion
 from .dungeons import fill_dungeons
-from .Items import (get_filler_item_selection, get_item_pool, get_pre_fill_pool, item_frequencies, item_groups,
+from .items import (get_filler_item_selection, get_item_pool, get_pre_fill_pool, item_frequencies, item_groups,
                     item_table, ItemData)
-from .Locations import (all_locations, DEFAULT_SET, GOAL_PED, GOAL_VAATI, location_groups, OBSCURE_SET, POOL_DIG,
+from .locations import (all_locations, DEFAULT_SET, GOAL_PED, GOAL_VAATI, location_groups, OBSCURE_SET, POOL_DIG,
                         POOL_POT, POOL_RUPEE, POOL_WATER)
-from .Options import DHCAccess, DungeonItem, get_option_data, MinishCapOptions, ShuffleElements
-from .Regions import create_regions
-from .Rom import MinishCapProcedurePatch, write_tokens
-from .Rules import MinishCapRules
+from .options import DHCAccess, DungeonItem, get_option_data, MinishCapOptions, ShuffleElements
+from .regions import create_regions
+from .rom import MinishCapProcedurePatch, write_tokens
+from .rules import MinishCapRules
 
 tmc_logger = logging.getLogger("The Minish Cap")
 

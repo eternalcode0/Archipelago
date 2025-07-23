@@ -6,7 +6,7 @@ from NetUtils import ClientStatus
 from Utils import async_start
 from .._bizhawk import guarded_write, RequestFailedError, read, ConnectorError, write
 from .._bizhawk.client import BizHawkClient
-from .Locations import all_locations, events, LocationData
+from .locations import all_locations, events, LocationData
 
 if TYPE_CHECKING:
     from .._bizhawk.context import BizHawkClientContext, BizHawkClientCommandProcessor

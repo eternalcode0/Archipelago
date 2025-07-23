@@ -3,8 +3,8 @@ from typing import TYPE_CHECKING
 from BaseClasses import CollectionState
 from Fill import fill_restrictive, FillError
 from .constants import TMCItem, TMCLocation
-from .Locations import location_groups
-from .Options import DHCAccess
+from .locations import location_groups
+from .options import DHCAccess
 
 if TYPE_CHECKING:
     from . import MinishCapWorld

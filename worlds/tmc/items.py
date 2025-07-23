@@ -2,7 +2,7 @@ from dataclasses import dataclass
 from typing import TYPE_CHECKING
 
 from BaseClasses import ItemClassification
-from .Options import DHCAccess, DungeonItem, GoalVaati, ShuffleElements
+from .options import DHCAccess, DungeonItem, GoalVaati, ShuffleElements
 from .constants import TMCItem, TMCLocation, MinishCapItem
 
 if TYPE_CHECKING:
@@ -231,6 +231,7 @@ def get_item_pool(world: "MinishCapWorld") -> list[MinishCapItem]:
 
     return [world.create_item(item) for item in item_pool]
 
+
 def get_pre_fill_pool(world: "MinishCapWorld") -> list[MinishCapItem]:
     start_inv = world.options.start_inventory_from_pool.value
     pre_fill_pool = []
@@ -247,11 +248,13 @@ def get_pre_fill_pool(world: "MinishCapWorld") -> list[MinishCapItem]:
 
     # Keep track of items that need to be removed due to start_inv
     known_start_inv = {}
+
     def keep_item(s):
         known_start_inv[s] = known_start_inv.get(s, 0) + 1
         return s not in start_inv or known_start_inv[s] > start_inv[s]
 
     return [world.create_item(item) for item in pre_fill_pool if keep_item(item)]
+
 
 item_table: dict[str, ItemData] = {
     # TMCItem.SMITHS_SWORD: ItemData(ItemClassification.progression, (0x01, 0x00)),
@@ -446,12 +449,14 @@ trap_frequencies: dict[str, int] = {
     TMCItem.TRAP_CURSE: 10,
 }
 
+
 def get_filler_item_selection(world: "MinishCapWorld"):
     frequencies = item_frequencies.copy()
     if world.options.traps_enabled:
         traps = trap_frequencies.copy()
         frequencies.update(traps)
     return [name for name, count in frequencies.items() for _ in range(count)]
+
 
 item_groups: dict[str, set[str]] = {
     "Spin Scrolls": {TMCItem.SPIN_ATTACK, TMCItem.GREATSPIN, TMCItem.FAST_SPIN_SCROLL, TMCItem.FAST_SPLIT_SCROLL,

@@ -5,11 +5,10 @@ from BaseClasses import Item, ItemClassification
 from settings import get_settings
 from worlds.Files import APProcedurePatch, APTokenMixin, APTokenTypes
 from .constants import DUNGEON_ABBR, EXTERNAL_ITEM_MAP, TMCEvent, TMCItem, TMCLocation, WIND_CRESTS
-from .Flags import flag_table_by_name
-from .Items import item_table
-from .Locations import location_table_by_name, LocationData
-from .constants import EXTERNAL_ITEM_MAP, TMCItem, TMCLocation
-from .Options import DHCAccess, ShuffleElements
+from .flags import flag_table_by_name
+from .items import item_table
+from .locations import location_table_by_name, LocationData
+from .options import DHCAccess, ShuffleElements
 
 
 if TYPE_CHECKING:

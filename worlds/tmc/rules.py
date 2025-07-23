@@ -3,7 +3,7 @@ from typing import Callable, TYPE_CHECKING
 from BaseClasses import CollectionState
 from worlds.generic.Rules import add_rule, CollectionRule
 from .constants import TMCCrests, TMCEvent, TMCItem, TMCLocation, TMCRegion, TMCTricks, TMCWarps
-from .Options import DHCAccess, DungeonItem, GoalVaati
+from .options import DHCAccess, DungeonItem, GoalVaati
 
 if TYPE_CHECKING:
     from . import MinishCapWorld
@@ -1627,9 +1627,6 @@ class MinishCapRules:
 
     def can_reach(self, locations: list[str]) -> CollectionRule:
         return lambda state: all(state.can_reach(loc, "Location", self.player) for loc in locations)
-
-    def no_access(self) -> CollectionRule:
-        return lambda state: False
 
     def set_rules(self, disabled_locations: set[str], location_name_to_id: dict[str, int]) -> None:
         multiworld = self.world.multiworld
