@@ -6,7 +6,7 @@ Handles the Web page for yaml generation, saving rom file and high-level generat
 import logging
 import os
 import pkgutil
-import typing
+from typing import ClassVar, TextIO
 
 import settings
 from BaseClasses import Item, ItemClassification, Tutorial
@@ -70,7 +70,7 @@ class MinishCapWorld(World):
     web = MinishCapWebWorld()
     options_dataclass = MinishCapOptions
     options: MinishCapOptions
-    settings: typing.ClassVar[MinishCapSettings]
+    settings: ClassVar[MinishCapSettings]
     item_name_to_id = {name: data.item_id for name, data in item_table.items()}
     location_name_to_id = {loc_data.name: loc_data.id for loc_data in all_locations}
     item_name_groups = item_groups
@@ -80,6 +80,9 @@ class MinishCapWorld(World):
     filler_items = []
     disabled_locations: set[str]
     disabled_dungeons: set[str]
+
+    # region APWorld Generation
+    # sorted in execution order
 
     def generate_early(self) -> None:
         enabled_pools = set(DEFAULT_SET)
@@ -121,36 +124,7 @@ class MinishCapWorld(World):
                 self.options.ped_dungeons,
                 len(self.disabled_dungeons)))
 
-    def fill_slot_data(self) -> dict[str, typing.Any]:
-        data = {"DeathLink": self.options.death_link.value, "DeathLinkGameover": self.options.death_link_gameover.value,
-                "RupeeSpot": self.options.rupeesanity.value,
-                "GoalVaati": self.options.goal_vaati.value}
-        data |= self.options.as_dict("death_link", "death_link_gameover", "rupeesanity",
-                                     "goal_vaati", "dhc_access", "random_bottle_contents", "weapon_bomb", "weapon_bow",
-                                     "weapon_gust", "weapon_lantern",
-                                     "tricks", "dungeon_small_keys", "dungeon_big_keys", "dungeon_compasses",
-                                     "dungeon_warps", "wind_crests",
-                                     "dungeon_maps", "shuffle_pots", "shuffle_digging", "shuffle_underwater",
-                                     casing="snake")
-        data |= get_option_data(self.options)
-
-        # Setup prize location data for tracker to show element hints
-        prizes = {TMCLocation.COF_PRIZE: "prize_cof", TMCLocation.CRYPT_PRIZE: "prize_rc",
-                  TMCLocation.PALACE_PRIZE: "prize_pow", TMCLocation.DEEPWOOD_PRIZE: "prize_dws",
-                  TMCLocation.DROPLETS_PRIZE: "prize_tod", TMCLocation.FORTRESS_PRIZE: "prize_fow"}
-        if self.options.shuffle_elements.value in {ShuffleElements.option_dungeon_prize,
-                                                   ShuffleElements.option_vanilla}:
-            for loc_name, data_name in prizes.items():
-                placed_item = self.get_location(loc_name).item.name
-                if placed_item in self.item_name_groups["Elements"]:
-                    data[data_name] = item_table[placed_item].byte_ids[0]
-                else:
-                    data[data_name] = 0
-        else:
-            for slot_key in prizes.values():
-                data[slot_key] = 0
-
-        return data
+    # push start_inventory and start_inventory_from_pool into precollected_items
 
     def create_regions(self) -> None:
         create_regions(self, self.disabled_locations, self.disabled_dungeons)
@@ -167,15 +141,7 @@ class MinishCapWorld(World):
             ped.place_locked_item(self.create_event(TMCEvent.CLEAR_PED))
             reg.locations.append(ped)
 
-    def create_item(self, name: str) -> MinishCapItem:
-        item = item_table[name]
-        return MinishCapItem(name, item.classification, self.item_name_to_id[name], self.player)
-
-    def create_event(self, name: str) -> MinishCapEvent:
-        return MinishCapEvent(name, ItemClassification.progression, None, self.player)
-
-    def get_filler_item_name(self) -> str:
-        return self.random.choice(self.filler_items)
+    # All non-event locations finalized
 
     def create_items(self):
         # Force vanilla elements into their pre-determined locations (must happen before pre_fill for plando)
@@ -212,18 +178,44 @@ class MinishCapWorld(World):
         filler = [self.create_filler() for _ in range(total_locations - len(self.item_pool) - len(self.pre_fill_pool))]
         self.multiworld.itempool.extend(filler)
 
+    # local_items overrides non_local_items
+
     def set_rules(self) -> None:
         MinishCapRules(self).set_rules(self.disabled_locations, self.location_name_to_id)
+
+    def connect_entrances(self) -> None:
+        pass
+        # if options.randomize_entrances.value:
+        #     self.rule_builder.randomize_entrances()
+
         # from Utils import visualize_regions
         # visualize_regions(self.multiworld.get_region("Menu", self.player), f"{self.player_name}_world.puml",
         #                   regions_to_highlight=self.multiworld.get_all_state(self.player).reachable_regions[
         #                  self.player])
 
-    def get_pre_fill_items(self) -> list[Item]:
-        return self.pre_fill_pool
+    # All rules finalized
+    # location progress type assigned, excluded overrides priority
+    # locality for local_items and non_local_item set
+
+    def generate_basic(self) -> None:
+        pass
+
+    # remove start_inventory_from_pool from the pool
+    # process item_links
+    # item plando is processed
 
     def pre_fill(self) -> None:
         fill_dungeons(self)
+
+    # finalize item pool
+    # perform standard fill
+
+    def post_fill(self):
+        pass
+
+    # finalize randomization, no more calls to self.random
+    # process progression balancing
+    # perform accessibility check
 
     def generate_output(self, output_directory: str) -> None:
         patch = MinishCapProcedurePatch(player=self.player, player_name=self.multiworld.player_name[self.player])
@@ -231,3 +223,64 @@ class MinishCapWorld(World):
         write_tokens(self, patch)
         out_file_name = self.multiworld.get_out_file_name_base(self.player)
         patch.write(os.path.join(output_directory, f"{out_file_name}" f"{patch.patch_file_ending}"))
+
+    def extend_hint_information(self, hint_data: dict[int, dict[int, str]]):
+        pass
+
+    def fill_slot_data(self) -> dict[str, any]:
+        data = {"DeathLink": self.options.death_link.value, "DeathLinkGameover": self.options.death_link_gameover.value,
+                "RupeeSpot": self.options.rupeesanity.value,
+                "GoalVaati": self.options.goal_vaati.value}
+        data |= self.options.as_dict("death_link", "death_link_gameover", "rupeesanity",
+                                     "goal_vaati", "dhc_access", "random_bottle_contents", "weapon_bomb", "weapon_bow",
+                                     "weapon_gust", "weapon_lantern",
+                                     "tricks", "dungeon_small_keys", "dungeon_big_keys", "dungeon_compasses",
+                                     "dungeon_warps", "wind_crests",
+                                     "dungeon_maps", "shuffle_pots", "shuffle_digging", "shuffle_underwater",
+                                     casing="snake")
+        data |= get_option_data(self.options)
+
+        # Setup prize location data for tracker to show element hints
+        prizes = {TMCLocation.COF_PRIZE: "prize_cof", TMCLocation.CRYPT_PRIZE: "prize_rc",
+                  TMCLocation.PALACE_PRIZE: "prize_pow", TMCLocation.DEEPWOOD_PRIZE: "prize_dws",
+                  TMCLocation.DROPLETS_PRIZE: "prize_tod", TMCLocation.FORTRESS_PRIZE: "prize_fow"}
+        if self.options.shuffle_elements.value in {ShuffleElements.option_dungeon_prize,
+                                                   ShuffleElements.option_vanilla}:
+            for loc_name, data_name in prizes.items():
+                placed_item = self.get_location(loc_name).item.name
+                if placed_item in self.item_name_groups["Elements"]:
+                    data[data_name] = item_table[placed_item].byte_ids[0]
+                else:
+                    data[data_name] = 0
+        else:
+            for slot_key in prizes.values():
+                data[slot_key] = 0
+
+        return data
+
+    # playthrough is calculated
+
+    def write_spoiler_header(self, spoiler_handle: TextIO):
+        pass
+
+    def write_spoiler(self, spoiler_handle: TextIO):
+        pass
+
+    def write_spoiler_end(self, spoiler_handle: TextIO):
+        pass
+
+    # output zip
+    # endregion
+
+    def create_item(self, name: str) -> MinishCapItem:
+        item = item_table[name]
+        return MinishCapItem(name, item.classification, self.item_name_to_id[name], self.player)
+
+    def create_event(self, name: str) -> MinishCapEvent:
+        return MinishCapEvent(name, ItemClassification.progression, None, self.player)
+
+    def get_filler_item_name(self) -> str:
+        return self.random.choice(self.filler_items)
+
+    def get_pre_fill_items(self) -> list[Item]:
+        return self.pre_fill_pool
