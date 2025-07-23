@@ -153,7 +153,8 @@ class DungeonWarps(OptionSet):
 
 class WindCrests(OptionSet):
     """
-    A list of which wind crests to start with. Lake Hylia is always enabled to ensure Library is reachable
+    A list of which wind crests to start with. Lake Hylia is always enabled to ensure Library is reachable.
+    Valid crests are: Hyrule Town, Mt Crenel, Veil Falls, Cloud Tops, Castor Wilds, South Hyrule Field, Minish Woods
     """
     display_name = "Starting Wind Crests"
     default = ["Hyrule Town"]
@@ -172,8 +173,9 @@ class Traps(Toggle):
 
 class GoalVaati(DefaultOnToggle):
     """
-    If enabled, DHC will open after completing Pedestal. Kill Vaati to goal.
+    If enabled, you'll need to kill Vaati after completing pedestal to goal.
     If disabled, complete Pedestal to goal. DHC is unnecessary, Big Key (DHC) is removed from the pool.
+    Use dhc_access to change access to DHC/Vaati.
     """
     display_name = "Vaati Goal"
 
@@ -194,10 +196,10 @@ class GoalVaati(DefaultOnToggle):
 class DHCAccess(Choice):
     """
     When should DHC be accessible?
-    If goal_vaati is disabled, dhc_access can only be open/closed, pedestal will use closed instead.
-    'Closed' (false): DHC is never accessible. If goal_vaati is enabled, sanctuary will take you straight to Vaati.
-    'Pedestal' (default): DHC is locked until pedestal is completed. The vanilla option.
-    'Open' (true): DHC is accessible from the very beginning. Pedestal Requirements don't do anything with this setting.
+    If goal_vaati is disabled, dhc_access can only be open/closed, "pedestal" will default to closed instead.
+    'Closed' (false): DHC is never accessible. If goal_vaati is enabled, the room after pedestal goes straight to Vaati.
+    'Pedestal' (default): DHC is locked until pedestal is completed.
+    'Open' (true): DHC is accessible from the beginning. Pedestal Requirements don't do anything with this setting.
     """
     display_name = "DHC Access"
     option_closed = 0
