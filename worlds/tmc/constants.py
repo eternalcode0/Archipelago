@@ -1730,6 +1730,7 @@ class TMCRegion:
     DUNGEON_POW_IN_5F_END = "Palace of Winds 2nd Half 5F End Chest"
     DUNGEON_POW_CLEAR = "Palace of Winds Clear"
     SANCTUARY = "Sanctuary"
+    STAINED_GLASS = "Sanctuary - Stained Glass"
     DUNGEON_DHC_B1_WEST = "Dark Hyrule Castle Basement Sanctuary Entrance"
     DUNGEON_DHC_B2 = "Dark Hyrule Castle Basement Jail"
     DUNGEON_DHC_ENTRANCE = "Dark Hyrule Castle Main Entrance"
@@ -1933,6 +1934,7 @@ ALL_REGIONS = [
     TMCRegion.DUNGEON_POW_IN_5F_END,
     TMCRegion.DUNGEON_POW_CLEAR,
     TMCRegion.SANCTUARY,
+    TMCRegion.STAINED_GLASS,
     TMCRegion.DUNGEON_DHC_B1_WEST,
     TMCRegion.DUNGEON_DHC_B2,
     TMCRegion.DUNGEON_DHC_ENTRANCE,
