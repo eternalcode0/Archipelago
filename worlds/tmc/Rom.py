@@ -158,7 +158,7 @@ def write_tokens(world: "MinishCapWorld", patch: MinishCapProcedurePatch) -> Non
     cucco_complete = int(world.options.cucco_rounds.value == 0)
     cucco_skipped = 10 - world.options.cucco_rounds.value
     patch.write_token(APTokenTypes.WRITE, 0xFF1265, bytes([cucco_complete << 7 | cucco_skipped << 3]))
-    patch.write_token(APTokenTypes.WRITE, 0xFF00E6, bytes([world.options.goron_sets.value]))
+    patch.write_token(APTokenTypes.WRITE, 0xFF00F6, bytes([world.options.goron_sets.value]))
 
     if world.options.goron_jp_prices.value:
         patch.write_token(APTokenTypes.WRITE, 0x1112F0, struct.pack(

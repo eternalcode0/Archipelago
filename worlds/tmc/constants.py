@@ -220,9 +220,9 @@ class TMCLocation:
     TOWN_INN_LEDGE_CHEST = "Town Inn Ledge Chest"
     TOWN_INN_POT = "Town Inn Pot"
     TOWN_WELL_RIGHT_CHEST = "Town Well Right Chest"
-    TOWN_GORON_MERCHANT_1_LEFT = "Town Goron Merchant Left"  # "Town Goron Merchant 1 Left"
-    TOWN_GORON_MERCHANT_1_MIDDLE = "Town Goron Merchant Middle"  # "Town Goron Merchant 1 Middle"
-    TOWN_GORON_MERCHANT_1_RIGHT = "Town Goron Merchant Right"  # "Town Goron Merchant 1 Right"
+    TOWN_GORON_MERCHANT_1_LEFT = "Town Goron Merchant 1 Left"
+    TOWN_GORON_MERCHANT_1_MIDDLE = "Town Goron Merchant 1 Middle"
+    TOWN_GORON_MERCHANT_1_RIGHT = "Town Goron Merchant 1 Right"
     TOWN_GORON_MERCHANT_2_LEFT = "Town Goron Merchant 2 Left"
     TOWN_GORON_MERCHANT_2_MIDDLE = "Town Goron Merchant 2 Middle"
     TOWN_GORON_MERCHANT_2_RIGHT = "Town Goron Merchant 2 Right"
@@ -1768,7 +1768,6 @@ class TMCCrests:
 
 
 class TMCTricks:
-    MITTS_FARM = "mitts_farm_rupees"
     BOMB_DUST = "bombable_dust"
     MUSHROOM = "crenel_mushroom_gust_jar"
     ARROWS_BREAK = "light_arrows_break_objects"
@@ -1791,7 +1790,6 @@ class TMCTricks:
 
 
 ALL_TRICKS = [
-    TMCTricks.MITTS_FARM,
     TMCTricks.BOMB_DUST,
     TMCTricks.MUSHROOM,
     TMCTricks.ARROWS_BREAK,

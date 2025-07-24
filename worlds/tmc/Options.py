@@ -319,8 +319,6 @@ class WeaponLantern(Toggle):
 
 class Tricks(OptionSet):
     """
-    mitts_farm_rupees: Mole Mitts may be required to farm rupees by digging an infinitely respawning red rupee next to
-        link's house
     bombable_dust: Bombs may be required to blow away dust instead of Gust Jar
     crenel_mushroom_gust_jar: The mushroom near the edge of a cliff on Mt Crenel may be required to be grabbed with the
         gust jar to climb higher
@@ -367,7 +365,7 @@ class PedReward(Choice):
 
 class CuccoRounds(Range):
     """
-    How many rounds of the cucco catching minigame do you want to play?
+    How many rounds of the cucco catching minigame will be shuffled and playable?
     Rounds 1-9 are accessible from Sphere 1, Round 10 is accessible with either Roc's Cape or Flippers.
     Rounds are always included from the end to ensure the Round 10 reward is always accessible. Ex, if you play with 3
     rounds, Rounds 8-10 are playable.
@@ -490,24 +488,24 @@ def get_option_data(options: MinishCapOptions):
         "weapon_gust_jar": options.weapon_gust.value,  # No, Yes
         "weapon_lantern": options.weapon_lantern.value,
         "entrance_rando": 0,  # 0 = Disabled, 1 = Dungeons, 2 = Regions?, 3 = Rooms? (? = subject to change)
-        "trick_mitts_farm_rupees": int(ALL_TRICKS[0] in options.tricks),  # No, Yes
-        "trick_bombable_dust": int(ALL_TRICKS[1] in options.tricks),
-        "trick_crenel_mushroom_gust_jar": int(ALL_TRICKS[2] in options.tricks),
-        "trick_light_arrows_break_objects": int(ALL_TRICKS[3] in options.tricks),
-        "trick_bobombs_destroy_walls": int(ALL_TRICKS[4] in options.tricks),
-        "trick_like_like_cave_no_sword": int(ALL_TRICKS[5] in options.tricks),
-        "trick_boots_skip_town_guard": int(ALL_TRICKS[6] in options.tricks),
-        "trick_beam_crenel_switch": int(ALL_TRICKS[7] in options.tricks),
-        "trick_down_thrust_spikey_beetle": int(ALL_TRICKS[8] in options.tricks),
-        "trick_dark_rooms_no_lantern": int(ALL_TRICKS[9] in options.tricks),
-        "trick_cape_extensions": int(ALL_TRICKS[10] in options.tricks),
-        "trick_lake_minish_no_boots": int(ALL_TRICKS[11] in options.tricks),
-        "trick_cabin_swim_no_lilypad": int(ALL_TRICKS[12] in options.tricks),
-        "trick_cloud_sharks_no_weapons": int(ALL_TRICKS[13] in options.tricks),
-        "trick_pow_2f_no_cane": int(ALL_TRICKS[14] in options.tricks),
-        "trick_pot_puzzle_no_bracelets": int(ALL_TRICKS[15] in options.tricks),
-        "trick_fow_pot_gust_jar": int(ALL_TRICKS[16] in options.tricks),
-        "trick_dhc_cannons_no_four_sword": int(ALL_TRICKS[17] in options.tricks),
-        "trick_dhc_pads_no_four_sword": int(ALL_TRICKS[18] in options.tricks),
-        "trick_dhc_switches_no_four_sword": int(ALL_TRICKS[19] in options.tricks),
+        "trick_mitts_farm_rupees": 0,  # No, Yes
+        "trick_bombable_dust": int(ALL_TRICKS[0] in options.tricks),
+        "trick_crenel_mushroom_gust_jar": int(ALL_TRICKS[1] in options.tricks),
+        "trick_light_arrows_break_objects": int(ALL_TRICKS[2] in options.tricks),
+        "trick_bobombs_destroy_walls": int(ALL_TRICKS[3] in options.tricks),
+        "trick_like_like_cave_no_sword": int(ALL_TRICKS[4] in options.tricks),
+        "trick_boots_skip_town_guard": int(ALL_TRICKS[5] in options.tricks),
+        "trick_beam_crenel_switch": int(ALL_TRICKS[6] in options.tricks),
+        "trick_down_thrust_spikey_beetle": int(ALL_TRICKS[7] in options.tricks),
+        "trick_dark_rooms_no_lantern": int(ALL_TRICKS[8] in options.tricks),
+        "trick_cape_extensions": int(ALL_TRICKS[9] in options.tricks),
+        "trick_lake_minish_no_boots": int(ALL_TRICKS[10] in options.tricks),
+        "trick_cabin_swim_no_lilypad": int(ALL_TRICKS[11] in options.tricks),
+        "trick_cloud_sharks_no_weapons": int(ALL_TRICKS[12] in options.tricks),
+        "trick_pow_2f_no_cane": int(ALL_TRICKS[13] in options.tricks),
+        "trick_pot_puzzle_no_bracelets": int(ALL_TRICKS[14] in options.tricks),
+        "trick_fow_pot_gust_jar": int(ALL_TRICKS[15] in options.tricks),
+        "trick_dhc_cannons_no_four_sword": int(ALL_TRICKS[16] in options.tricks),
+        "trick_dhc_pads_no_four_sword": int(ALL_TRICKS[17] in options.tricks),
+        "trick_dhc_switches_no_four_sword": int(ALL_TRICKS[18] in options.tricks),
     }
