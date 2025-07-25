@@ -2,7 +2,7 @@ from dataclasses import dataclass
 
 from Options import (Choice, DeathLink, DefaultOnToggle, OptionSet, PerGameCommonOptions, Range, StartInventoryPool,
                      Toggle)
-from .constants import ALL_TRICKS, WIND_CRESTS
+from .constants import ALL_TRICKS, TMCTricks, WIND_CRESTS
 
 
 class DungeonItem(Choice):
@@ -451,7 +451,7 @@ class MinishCapOptions(PerGameCommonOptions):
     dungeon_big_keys: BigKeys
     dungeon_maps: DungeonMaps
     dungeon_compasses: DungeonCompasses
-    ped_reward: PedReward
+    # ped_reward: PedReward
     shuffle_elements: ShuffleElements
     rupeesanity: Rupeesanity
     shuffle_pots: ShufflePots
@@ -488,7 +488,7 @@ def get_option_data(options: MinishCapOptions):
         (GoalVaati.option_false, DHCAccess.option_open): 5}
 
     return {
-        "version": "0.1.1",
+        "version": "0.2.0",
         "goal_dungeons": options.ped_dungeons.value,  # 0-6
         "goal_swords": options.ped_swords.value,  # 0-5
         "goal_elements": options.ped_elements.value,  # 0-4
@@ -528,25 +528,28 @@ def get_option_data(options: MinishCapOptions):
         "weapon_bows": options.weapon_bow.value,
         "weapon_gust_jar": options.weapon_gust.value,  # No, Yes
         "weapon_lantern": options.weapon_lantern.value,
+        "weapon_mirror": 0,
         "entrance_rando": 0,  # 0 = Disabled, 1 = Dungeons, 2 = Regions?, 3 = Rooms? (? = subject to change)
         "trick_mitts_farm_rupees": 0,  # No, Yes
-        "trick_bombable_dust": int(ALL_TRICKS[0] in options.tricks),
-        "trick_crenel_mushroom_gust_jar": int(ALL_TRICKS[1] in options.tricks),
-        "trick_light_arrows_break_objects": int(ALL_TRICKS[2] in options.tricks),
-        "trick_bobombs_destroy_walls": int(ALL_TRICKS[3] in options.tricks),
-        "trick_like_like_cave_no_sword": int(ALL_TRICKS[4] in options.tricks),
-        "trick_boots_skip_town_guard": int(ALL_TRICKS[5] in options.tricks),
-        "trick_beam_crenel_switch": int(ALL_TRICKS[6] in options.tricks),
-        "trick_down_thrust_spikey_beetle": int(ALL_TRICKS[7] in options.tricks),
-        "trick_dark_rooms_no_lantern": int(ALL_TRICKS[8] in options.tricks),
-        "trick_cape_extensions": int(ALL_TRICKS[9] in options.tricks),
-        "trick_lake_minish_no_boots": int(ALL_TRICKS[10] in options.tricks),
-        "trick_cabin_swim_no_lilypad": int(ALL_TRICKS[11] in options.tricks),
-        "trick_cloud_sharks_no_weapons": int(ALL_TRICKS[12] in options.tricks),
-        "trick_pow_2f_no_cane": int(ALL_TRICKS[13] in options.tricks),
-        "trick_pot_puzzle_no_bracelets": int(ALL_TRICKS[14] in options.tricks),
-        "trick_fow_pot_gust_jar": int(ALL_TRICKS[15] in options.tricks),
-        "trick_dhc_cannons_no_four_sword": int(ALL_TRICKS[16] in options.tricks),
-        "trick_dhc_pads_no_four_sword": int(ALL_TRICKS[17] in options.tricks),
-        "trick_dhc_switches_no_four_sword": int(ALL_TRICKS[18] in options.tricks),
+        "trick_bombable_dust": int(TMCTricks.BOMB_DUST in options.tricks),
+        "trick_crenel_mushroom_gust_jar": int(TMCTricks.MUSHROOM in options.tricks),
+        "trick_light_arrows_break_objects": int(TMCTricks.ARROWS_BREAK in options.tricks),
+        "trick_bobombs_destroy_walls": int(TMCTricks.BOBOMB_WALLS in options.tricks),
+        "trick_like_like_cave_no_sword": int(TMCTricks.LIKELIKE_SWORDLESS in options.tricks),
+        "trick_boots_skip_town_guard": int(TMCTricks.BOOTS_GUARDS in options.tricks),
+        "trick_beam_crenel_switch": int(TMCTricks.BEAM_CRENEL_SWITCH in options.tricks),
+        "trick_down_thrust_spikey_beetle": int(TMCTricks.DOWNTHRUST_BEETLE in options.tricks),
+        "trick_dark_rooms_no_lantern": int(TMCTricks.DARK_ROOMS in options.tricks),
+        "trick_cape_extensions": int(TMCTricks.CAPE_EXTENSIONS in options.tricks),
+        "trick_lake_minish_no_boots": int(TMCTricks.LAKE_MINISH in options.tricks),
+        "trick_cabin_swim_no_lilypad": int(TMCTricks.CABIN_SWIM in options.tricks),
+        "trick_cloud_sharks_no_weapons": int(TMCTricks.SHARKS_SWORDLESS in options.tricks),
+        "trick_pow_2f_no_cane": int(TMCTricks.POW_NOCANE in options.tricks),
+        "trick_pot_puzzle_no_bracelets": int(TMCTricks.POT_PUZZLE in options.tricks),
+        "trick_fow_pot_gust_jar": int(TMCTricks.FOW_POT in options.tricks),
+        "trick_dhc_cannons_no_four_sword": int(TMCTricks.DHC_CANNONS in options.tricks),
+        "trick_dhc_pads_no_four_sword": int(TMCTricks.DHC_CLONES in options.tricks),
+        "trick_dhc_switches_no_four_sword": int(TMCTricks.DHC_SPIN in options.tricks),
+        "trick_clone_movement": 0,
+        "trick_pow_switches_without_clones": 0,
     }
