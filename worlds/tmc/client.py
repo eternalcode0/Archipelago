@@ -251,14 +251,32 @@ class MinishCapClient(BizHawkClient):
 
     async def handle_location_sending(self, ctx: "BizHawkClientContext") -> None:
         # Read all location flags in area and add to pending location checks if updates
-        locations_to_read = [self.location_by_id[loc_id] for loc_id in ctx.missing_locations]
+        locations_to_read = [self.location_by_id[loc_id] for loc_id in ctx.missing_locations
+                             if self.location_by_id[loc_id].ram_addr is not None]
         location_reads = [(loc.ram_addr[0], 1, "EWRAM") for loc in locations_to_read]
         loc_bytes = await read(ctx.bizhawk_ctx, location_reads)
         locs_to_send = [locations_to_read[i].id for i, loc_ram in enumerate(loc_bytes)
                         if loc_ram[0] | locations_to_read[i].ram_addr[1] == loc_ram[0]]
+        await self.handle_special_sending(ctx, locs_to_send)
         # Send location checks
         if len(locs_to_send) > 0:
             await ctx.send_msgs([{"cmd": "LocationChecks", "locations": locs_to_send}])
+
+    async def handle_special_sending(self, ctx: "BizHawkClientContext", locs_to_send: list[int]) -> None:
+        """Goron Merchant and Cucco Rounds require special handling since they store their bit flags differently"""
+        if len(ctx.missing_locations.intersection(SPECIAL_ADDRESSES)) == 0:
+            return
+        special_read = await read(ctx.bizhawk_ctx, [(0x2CA3, 3, "EWRAM")])
+        goron_restocks = (special_read[0][0] & 0xC0).bit_count() + (special_read[0][1] & 0x03).bit_count()
+        goron_slot_purchases = (special_read[0][1] & 0x1C) >> 2
+        goron_stock = SPECIAL_ADDRESSES[goron_restocks * 3:goron_restocks*3 + 3]
+        new_locs = [goron_stock[i] for i in range(3) if goron_slot_purchases & (1 << i)]
+
+        cucco_rounds = special_read[0][2] >> 3  # Reads for rounds 1-9
+        final_cucco_round = special_read[0][2] | 0x80 == special_read[0][2]  # Round 10
+        new_locs.extend(SPECIAL_ADDRESSES[15:15+cucco_rounds+int(final_cucco_round)])
+
+        locs_to_send.extend(ctx.missing_locations.intersection(new_locs))
 
     async def handle_death_link(self, ctx: "BizHawkClientContext", link_health: int, game_over: bool,
                                 action_state: int) -> None:
@@ -338,3 +356,13 @@ class MinishCapClient(BizHawkClient):
                 "want_reply": False,
                 "operations": [{"operation": "replace", "value": 1}]
             }])
+
+
+SPECIAL_ADDRESSES = [
+    6029034, 6029035, 6029036,  # Goron Set 1
+    6029037, 6029038, 6029039,  # Goron Set 2
+    6029040, 6029041, 6029042,  # Goron Set 3
+    6029043, 6029044, 6029045,  # Goron Set 4
+    6029046, 6029047, 6029048,  # Goron Set 5
+    6029068, 6029069, 6029070, 6029071, 6029072, 6029073, 6029074, 6029075, 6029076, 6029077,  # Cucco Rounds 1-10
+]

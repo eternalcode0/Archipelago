@@ -19,7 +19,7 @@ from .dungeons import fill_dungeons
 from .items import (get_filler_item_selection, get_item_pool, get_pre_fill_pool, item_frequencies, item_groups,
                     item_table, ItemData)
 from .locations import (all_locations, DEFAULT_SET, GOAL_PED, GOAL_VAATI, location_groups, OBSCURE_SET, POOL_DIG,
-                        POOL_POT, POOL_RUPEE, POOL_WATER)
+                        POOL_ENEMY, POOL_POT, POOL_RUPEE, POOL_WATER)
 from .options import DHCAccess, DungeonItem, get_option_data, MinishCapOptions, ShuffleElements
 from .regions import create_regions
 from .rom import MinishCapProcedurePatch, write_tokens
@@ -94,6 +94,12 @@ class MinishCapWorld(World):
             enabled_pools.add(POOL_DIG)
         if self.options.shuffle_underwater.value:
             enabled_pools.add(POOL_WATER)
+        if self.options.shuffle_gold_enemies.value:
+            enabled_pools.add(POOL_ENEMY)
+
+        enabled_pools.update([f"cucco:{round_num}" for round_num in range(
+            10, 10 - self.options.cucco_rounds.value, -1)])
+        enabled_pools.update([f"goron:{round_num}" for round_num in range(1, self.options.goron_sets.value + 1)])
 
         # Default dhc_access to closed when it's been set to ped with goal vaati disabled.
         # There's too many flags to manage to allow DHC to open after ped completes and vaati is slain.
@@ -280,6 +286,8 @@ class MinishCapWorld(World):
         return MinishCapEvent(name, ItemClassification.progression, None, self.player)
 
     def get_filler_item_name(self) -> str:
+        if len(self.filler_items) == 0:
+            self.filler_items = get_filler_item_selection(self)
         return self.random.choice(self.filler_items)
 
     def get_pre_fill_items(self) -> list[Item]:

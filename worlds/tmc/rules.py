@@ -3,7 +3,7 @@ from typing import Callable, TYPE_CHECKING
 from BaseClasses import CollectionState
 from worlds.generic.Rules import add_rule, CollectionRule
 from .constants import TMCCrests, TMCEvent, TMCItem, TMCLocation, TMCRegion, TMCTricks, TMCWarps
-from .options import DHCAccess, DungeonItem, GoalVaati
+from .options import DHCAccess, DungeonItem, GoalVaati, MinishCapOptions
 
 if TYPE_CHECKING:
     from . import MinishCapWorld
@@ -12,6 +12,7 @@ if TYPE_CHECKING:
 class MinishCapRules:
     player: int
     world: "MinishCapWorld"
+    options: MinishCapOptions
     connection_rules: dict[tuple[str, str], CollectionRule]
     region_rules: dict[str, CollectionRule]
     location_rules: dict[str, CollectionRule]
@@ -19,6 +20,7 @@ class MinishCapRules:
     def __init__(self, world: "MinishCapWorld") -> None:
         self.player = world.player
         self.world = world
+        self.options = world.options
 
         self.connection_rules = {
             # region Connections
@@ -349,9 +351,9 @@ class MinishCapRules:
 
             # region Hyrule Town
             TMCLocation.TOWN_CAFE_LADY_NPC: None,
-            TMCLocation.TOWN_SHOP_80_ITEM: self.mitts_farm(),
-            TMCLocation.TOWN_SHOP_300_ITEM: self.logic_and([self.has(TMCItem.BIG_WALLET), self.mitts_farm()]),
-            TMCLocation.TOWN_SHOP_600_ITEM: self.logic_and([self.has(TMCItem.BIG_WALLET, 3), self.mitts_farm()]),
+            TMCLocation.TOWN_SHOP_80_ITEM: self.cost(80),
+            TMCLocation.TOWN_SHOP_300_ITEM: self.cost(300),
+            TMCLocation.TOWN_SHOP_600_ITEM: self.cost(600),
             TMCLocation.TOWN_SHOP_BEHIND_COUNTER_ITEM: self.access_town_left(),
             TMCLocation.TOWN_SHOP_ATTIC_CHEST: self.access_town_left(),
             TMCLocation.TOWN_BAKERY_ATTIC_CHEST: self.access_town_left(),
@@ -360,10 +362,26 @@ class MinishCapRules:
             TMCLocation.TOWN_INN_POT: None,
             TMCLocation.TOWN_WELL_RIGHT_CHEST: None,
 
-            TMCLocation.TOWN_GORON_MERCHANT_1_LEFT:  # Fusion 33
-                self.logic_and([self.has(TMCItem.BIG_WALLET), self.mitts_farm()]),
-            TMCLocation.TOWN_GORON_MERCHANT_1_MIDDLE: self.mitts_farm(),  # Fusion 33
-            TMCLocation.TOWN_GORON_MERCHANT_1_RIGHT: self.mitts_farm(),  # Fusion 33
+            # Fusion 33
+            TMCLocation.TOWN_GORON_MERCHANT_1_LEFT: self.cost(300 if self.options.goron_jp_prices.value else 200),
+            TMCLocation.TOWN_GORON_MERCHANT_1_MIDDLE: self.cost(200 if self.options.goron_jp_prices.value else 100),
+            TMCLocation.TOWN_GORON_MERCHANT_1_RIGHT: self.cost(50 if self.options.goron_jp_prices.value else 50),
+            # Fusion 33
+            TMCLocation.TOWN_GORON_MERCHANT_2_LEFT: self.cost(300 if self.options.goron_jp_prices.value else 300),
+            TMCLocation.TOWN_GORON_MERCHANT_2_MIDDLE: self.cost(300 if self.options.goron_jp_prices.value else 200),
+            TMCLocation.TOWN_GORON_MERCHANT_2_RIGHT: self.cost(300 if self.options.goron_jp_prices.value else 200),
+            # Fusion 33
+            TMCLocation.TOWN_GORON_MERCHANT_3_LEFT: self.cost(300 if self.options.goron_jp_prices.value else 400),
+            TMCLocation.TOWN_GORON_MERCHANT_3_MIDDLE: self.cost(300 if self.options.goron_jp_prices.value else 300),
+            TMCLocation.TOWN_GORON_MERCHANT_3_RIGHT: self.cost(300 if self.options.goron_jp_prices.value else 300),
+            # Fusion 33
+            TMCLocation.TOWN_GORON_MERCHANT_4_LEFT: self.cost(300 if self.options.goron_jp_prices.value else 500),
+            TMCLocation.TOWN_GORON_MERCHANT_4_MIDDLE: self.cost(300 if self.options.goron_jp_prices.value else 400),
+            TMCLocation.TOWN_GORON_MERCHANT_4_RIGHT: self.cost(300 if self.options.goron_jp_prices.value else 400),
+            # Fusion 33
+            TMCLocation.TOWN_GORON_MERCHANT_5_LEFT: self.cost(300 if self.options.goron_jp_prices.value else 600),
+            TMCLocation.TOWN_GORON_MERCHANT_5_MIDDLE: self.cost(300 if self.options.goron_jp_prices.value else 500),
+            TMCLocation.TOWN_GORON_MERCHANT_5_RIGHT: self.cost(300 if self.options.goron_jp_prices.value else 500),
             TMCLocation.TOWN_DOJO_NPC_1: self.has_sword(),
             TMCLocation.TOWN_DOJO_NPC_2:
                 self.logic_or([self.has(TMCItem.WHITE_SWORD_GREEN), self.has(TMCItem.PROGRESSIVE_SWORD, 2)]),
@@ -399,7 +417,7 @@ class MinishCapRules:
             TMCLocation.TOWN_CUCCOS_LV_9_NPC: None,
             TMCLocation.TOWN_CUCCOS_LV_10_NPC: self.has_any([TMCItem.ROCS_CAPE, TMCItem.FLIPPERS]),
             TMCLocation.TOWN_JULLIETA_ITEM: self.logic_and([self.access_town_left(), self.has_bottle()]),
-            TMCLocation.TOWN_SIMULATION_CHEST: self.logic_and([self.has_sword(), self.mitts_farm()]),
+            TMCLocation.TOWN_SIMULATION_CHEST: self.logic_and([self.has_sword(), self.cost(10)]),
             TMCLocation.TOWN_SHOE_SHOP_NPC: self.has(TMCItem.WAKEUP_MUSHROOM),
             TMCLocation.TOWN_MUSIC_HOUSE_LEFT_CHEST: self.has(TMCItem.CARLOV_MEDAL),
             TMCLocation.TOWN_MUSIC_HOUSE_MIDDLE_CHEST: self.has(TMCItem.CARLOV_MEDAL),
@@ -548,7 +566,7 @@ class MinishCapRules:
             TMCLocation.MINISH_WOODS_GOLDEN_OCTO:  # Fusion 56
                 self.logic_and([self.access_minish_woods_top_left(), self.has_sword()]),
             TMCLocation.MINISH_WOODS_WITCH_HUT_ITEM:
-                self.logic_and([self.access_minish_woods_top_left(), self.mitts_farm()]),
+                self.logic_and([self.access_minish_woods_top_left(), self.cost(60)]),
             TMCLocation.WITCH_DIGGING_CAVE_CHEST:
                 self.logic_and([self.access_minish_woods_top_left(), self.has(TMCItem.MOLE_MITTS)]),
             TMCLocation.MINISH_WOODS_NORTH_FUSION_CHEST: self.access_minish_woods_top_left(),  # fusion 44
@@ -583,7 +601,7 @@ class MinishCapRules:
             TMCLocation.TRILBY_DIG_CAVE_WATER_FUSION_CHEST:  # fusion 22
                 self.logic_and([self.has(TMCItem.MOLE_MITTS), self.has_any([TMCItem.ROCS_CAPE, TMCItem.FLIPPERS])]),
             TMCLocation.TRILBY_SCRUB_NPC:
-                self.logic_and([self.can_shield(), self.has(TMCItem.BOMB_BAG), self.mitts_farm()]),
+                self.logic_and([self.can_shield(), self.has(TMCItem.BOMB_BAG), self.cost(20)]),
             # endregion
 
             # region Western Woods
@@ -663,7 +681,7 @@ class MinishCapRules:
             TMCLocation.CRENEL_BELOW_COF_GOLDEN_TEKTITE:  # Fusion 0D
                 self.logic_and([self.has_sword(), self.mushroom()]),
             TMCLocation.CRENEL_SCRUB_NPC:
-                self.logic_and([self.has(TMCItem.BOMB_BAG), self.can_shield(), self.mitts_farm(), self.mushroom()]),
+                self.logic_and([self.has(TMCItem.BOMB_BAG), self.can_shield(), self.cost(40), self.mushroom()]),
             TMCLocation.CRENEL_DOJO_LEFT_CHEST:
                 self.logic_and([self.has(TMCItem.GRIP_RING), self.split_rule(2)]),
             TMCLocation.CRENEL_DOJO_RIGHT_CHEST:
@@ -1490,10 +1508,16 @@ class MinishCapRules:
                                  self.logic_or([self.has(TMCItem.BOMB_BAG, 2), self.has_sword()]),
                                  self.has_sword())
 
-    def mitts_farm(self) -> CollectionRule:
-        return self.logic_option(TMCTricks.MITTS_FARM in self.world.options.tricks,
-                                 self.has(TMCItem.MOLE_MITTS),
-                                 None)
+    def cost(self, price: int) -> CollectionRule:
+        wallet_count = [(100, 0), (300, 1), (500, 2), (999, 3)]
+        needed_wallets = None
+        for size, count in wallet_count:
+            if price <= size:
+                needed_wallets = count
+                break
+        if needed_wallets is None:
+            return self.no_access()
+        return self.has(TMCItem.BIG_WALLET, needed_wallets)
 
     def blow_dust(self) -> CollectionRule:
         return self.logic_option(TMCTricks.BOMB_DUST in self.world.options.tricks,
