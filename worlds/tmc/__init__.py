@@ -286,6 +286,8 @@ class MinishCapWorld(World):
         return MinishCapEvent(name, ItemClassification.progression, None, self.player)
 
     def get_filler_item_name(self) -> str:
+        if len(self.filler_items) == 0:
+            self.filler_items = get_filler_item_selection(self)
         return self.random.choice(self.filler_items)
 
     def get_pre_fill_items(self) -> list[Item]:
