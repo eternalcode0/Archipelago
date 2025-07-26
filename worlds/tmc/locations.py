@@ -1027,7 +1027,7 @@ all_locations: list[LocationData] = [
     ),
     LocationData(
         6029248, TMCLocation.CRENEL_VINE_TOP_GOLDEN_TEKTITE, TMCRegion.CRENEL,
-        TMCItem.RUPEES_100, (0xFF0108, None), (0x2CA2, 0x80), 0x0306, pools={POOL_ENEMY}
+        TMCItem.RUPEES_100, (0xFF0108, None), (0x2CA2, 0x04), 0x0306, pools={POOL_ENEMY}
     ),
     LocationData(
         6029249, TMCLocation.CRENEL_BRIDGE_CAVE_CHEST, TMCRegion.CRENEL,
@@ -1039,7 +1039,7 @@ all_locations: list[LocationData] = [
     ),
     LocationData(
         6029251, TMCLocation.CRENEL_BELOW_COF_GOLDEN_TEKTITE, TMCRegion.CRENEL,
-        TMCItem.RUPEES_100, (0xFF0126, None), (0x2CA2, 0x04), 0x0206, pools={POOL_ENEMY}
+        TMCItem.RUPEES_100, (0xFF0126, None), (0x2CA2, 0x80), 0x0206, pools={POOL_ENEMY}
     ),
     LocationData(
         6029252, TMCLocation.CRENEL_SCRUB_NPC, TMCRegion.CRENEL,
