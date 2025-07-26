@@ -1,6 +1,6 @@
+from dataclasses import dataclass
 import struct
 from typing import TYPE_CHECKING
-
 from BaseClasses import Item, ItemClassification
 from settings import get_settings
 from worlds.Files import APProcedurePatch, APTokenMixin, APTokenTypes
@@ -8,7 +8,9 @@ from .constants import DUNGEON_ABBR, EXTERNAL_ITEM_MAP, TMCEvent, TMCItem, TMCLo
 from .Flags import flag_table_by_name
 from .Items import item_table
 from .Locations import location_table_by_name, LocationData
-from .Options import ShuffleElements
+from .constants import EXTERNAL_ITEM_MAP, TMCItem, TMCLocation
+from .Options import DHCAccess, ShuffleElements
+
 
 if TYPE_CHECKING:
     from . import MinishCapWorld
@@ -30,6 +32,27 @@ class MinishCapProcedurePatch(APProcedurePatch, APTokenMixin):
         return base_rom_bytes
 
 
+@dataclass
+class Transition:
+    start_x: int
+    start_y: int
+    end_x: int
+    end_y: int
+    area_id: int
+    room_id: int
+    warp_type: int = 0
+    subtype: int = 0
+    shape: int = 0
+    height: int = 1
+    transition_type: int = 0
+    facing_direction: int = 0
+
+    def serialize(self) -> bytes:
+        return struct.pack("<BBHHHHBBBBBB", self.warp_type, self.subtype, self.start_x, self.start_y, self.end_x,
+                           self.end_y, self.shape, self.area_id, self.room_id, self.height, self.transition_type,
+                           self.facing_direction)
+
+
 def write_tokens(world: "MinishCapWorld", patch: MinishCapProcedurePatch) -> None:
     # Bake player name into ROM
     patch.write_token(APTokenTypes.WRITE, 0x000600, world.multiworld.player_name[world.player].encode("UTF-8"))
@@ -48,10 +71,12 @@ def write_tokens(world: "MinishCapWorld", patch: MinishCapProcedurePatch) -> Non
         patch.write_token(APTokenTypes.WRITE, 0x0532F4, bytes(func))
 
     # Goal Settings
-    if world.options.goal_vaati.value:
-        # 0b0000_0001 = Goal Vaati
-        # 0b0000_0010 = Open DHC
-        patch.write_token(APTokenTypes.WRITE, 0xFE0000, bytes([1]))
+    setting_bits = [world.options.goal_vaati.value, world.options.dhc_access == DHCAccess.option_open]
+    setting_value = 0
+    for setting, i in enumerate(setting_bits, 0):
+        if setting:
+            setting_value |= 2 ** i
+    patch.write_token(APTokenTypes.WRITE, 0xFE0000, bytes([setting_value]))
 
     # Pedestal Settings
     if 0 <= world.options.ped_elements.value <= 4:
@@ -86,6 +111,13 @@ def write_tokens(world: "MinishCapWorld", patch: MinishCapProcedurePatch) -> Non
             patch.write_token(APTokenTypes.WRITE, element_address[placed_item] + 3, struct.pack("<HH", *data[1]))
     elif world.options.shuffle_elements.value != ShuffleElements.option_vanilla:
         patch.write_token(APTokenTypes.WRITE, 0x128673, bytes([0x0, 0xF, 0x0, 0xF, 0x0, 0xF, 0x0]))
+
+    # DHC Skip
+    if world.options.dhc_access.value == DHCAccess.option_closed and world.options.goal_vaati.value:
+        patch.write_token(APTokenTypes.WRITE, 0x127649, bytes([0x1D]))  # Change locationIndex of sanctuary to match DHC
+        ped_to_altar = Transition(warp_type=1, start_x=0xE8, start_y=0x28, end_x=0x78, end_y=0x168,
+                                  area_id=0x89, room_id=0)
+        patch.write_token(APTokenTypes.WRITE, 0x139E80, ped_to_altar.serialize())
 
     # Wind Crests
     crest_value = 0x0
@@ -137,7 +169,8 @@ def write_tokens(world: "MinishCapWorld", patch: MinishCapProcedurePatch) -> Non
     #         logging.debug(f'Name: {flag}, Address: {hex(address.offset)}, Flag: {hex(address.data)}')
 
     for dungeon in DUNGEON_ABBR:
-        if dungeon == "RC": continue
+        if dungeon == "RC":
+            continue
         warp_bits = world.options.dungeon_warps.get_warps(dungeon, world.options.dungeon_warps.value)
         offset = flag_table_by_name.get(dungeon_offset[dungeon]).offset
         # logging.debug(f'Write Warps: {dungeon}, Address: {hex(offset)}, bits: {bytes([warp_bits])}')

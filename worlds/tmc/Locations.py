@@ -2180,7 +2180,7 @@ all_locations: list[LocationData] = [
     # endregion
 ]
 
-GOAL_PED = LocationData(None, TMCEvent.CLEAR_PED, TMCRegion.DUNGEON_DHC_B1_WEST, None, None, (0x2D0B, 0x01), 0x0178)
+GOAL_PED = LocationData(None, TMCEvent.CLEAR_PED, TMCRegion.STAINED_GLASS, None, None, (0x2D0B, 0x01), 0x0178)
 GOAL_VAATI = LocationData(None, TMCEvent.CLEAR_DHC, TMCRegion.VAATI_FIGHT, None, None, (0x2CA6, 0x02), 0x008B)
 
 events: dict[tuple[int, int], str] = {

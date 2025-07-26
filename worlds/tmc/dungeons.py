@@ -4,6 +4,7 @@ from BaseClasses import CollectionState
 from Fill import fill_restrictive, FillError
 from .constants import TMCItem, TMCLocation
 from .Locations import location_groups
+from .Options import DHCAccess
 
 if TYPE_CHECKING:
     from . import MinishCapWorld
@@ -57,7 +58,7 @@ def fill_dungeons(world: "MinishCapWorld"):
         # Randomize dungeon order but keep DHC last to ensure access conditions are met
         dungeon_fill_order = ["DWS", "CoF", "ToD", "FoW", "PoW", "RC"]
         world.random.shuffle(dungeon_fill_order)
-        if world.options.goal_vaati.value:
+        if world.options.dhc_access.value != DHCAccess.option_closed:
             dungeon_fill_order.append("DHC")
         for dungeon in dungeon_fill_order:
             fill_dungeon(world, dungeon, stage, base_state)

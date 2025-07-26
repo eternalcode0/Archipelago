@@ -13,7 +13,6 @@ from BaseClasses import Item, ItemClassification, Tutorial
 from worlds.AutoWorld import WebWorld, World
 from Fill import FillError
 from Options import OptionError
-from worlds.AutoWorld import WebWorld, World
 from .Client import MinishCapClient
 from .constants import MinishCapEvent, MinishCapItem, MinishCapLocation, TMCEvent, TMCItem, TMCLocation, TMCRegion
 from .dungeons import fill_dungeons
@@ -21,7 +20,7 @@ from .Items import (get_filler_item_selection, get_item_pool, get_pre_fill_pool,
                     item_table, ItemData)
 from .Locations import (all_locations, DEFAULT_SET, GOAL_PED, GOAL_VAATI, location_groups, OBSCURE_SET, POOL_DIG,
                         POOL_POT, POOL_RUPEE, POOL_WATER)
-from .Options import DungeonItem, get_option_data, MinishCapOptions, ShuffleElements
+from .Options import DHCAccess, DungeonItem, get_option_data, MinishCapOptions, ShuffleElements
 from .Regions import create_regions
 from .Rom import MinishCapProcedurePatch, write_tokens
 from .Rules import MinishCapRules
@@ -93,6 +92,11 @@ class MinishCapWorld(World):
         if self.options.shuffle_underwater.value:
             enabled_pools.add(POOL_WATER)
 
+        # Default dhc_access to closed when it's been set to ped with goal vaati disabled.
+        # There's too many flags to manage to allow DHC to open after ped completes and vaati is slain.
+        if not self.options.goal_vaati.value and self.options.dhc_access.value == DHCAccess.option_pedestal:
+            self.options.dhc_access.value = DHCAccess.option_closed
+
         self.filler_items = get_filler_item_selection(self)
 
         if self.options.shuffle_elements.value == ShuffleElements.option_dungeon_prize:
@@ -103,7 +107,7 @@ class MinishCapWorld(World):
 
         self.disabled_locations = set(loc.name for loc in all_locations if not loc.pools.issubset(enabled_pools))
 
-        if not self.options.goal_vaati.value:
+        if self.options.dhc_access.value == DHCAccess.option_closed:
             self.disabled_locations.update(loc for loc in location_groups["DHC"])
 
         # Check if the settings require more dungeons than are included
@@ -122,7 +126,7 @@ class MinishCapWorld(World):
                 "RupeeSpot": self.options.rupeesanity.value,
                 "GoalVaati": self.options.goal_vaati.value}
         data |= self.options.as_dict("death_link", "death_link_gameover", "rupeesanity",
-                                     "goal_vaati", "random_bottle_contents", "weapon_bomb", "weapon_bow",
+                                     "goal_vaati", "dhc_access", "random_bottle_contents", "weapon_bomb", "weapon_bow",
                                      "weapon_gust", "weapon_lantern",
                                      "tricks", "dungeon_small_keys", "dungeon_big_keys", "dungeon_compasses",
                                      "dungeon_warps", "wind_crests",
@@ -157,7 +161,11 @@ class MinishCapWorld(World):
         goal_location = MinishCapLocation(self.player, loc.name, None, goal_region)
         goal_location.place_locked_item(goal_item)
         goal_region.locations.append(goal_location)
-        # self.get_location(TMCEvent.CLEAR_PED).place_locked_item(self.create_event(TMCEvent.CLEAR_PED))
+        if self.options.goal_vaati.value:
+            reg = self.get_region(TMCRegion.STAINED_GLASS)
+            ped = MinishCapLocation(self.player, TMCEvent.CLEAR_PED, None, reg)
+            ped.place_locked_item(self.create_event(TMCEvent.CLEAR_PED))
+            reg.locations.append(ped)
 
     def create_item(self, name: str) -> MinishCapItem:
         item = item_table[name]

@@ -89,7 +89,7 @@ class SmallKeys(DungeonItem):
         have safely been added to your inventory from the pool.
     """
     display_name = "Small Key Shuffle"
-    default = 3
+    default = DungeonItem.option_own_dungeon
 
 
 class BigKeys(DungeonItem):
@@ -101,7 +101,7 @@ class BigKeys(DungeonItem):
         have safely been added to your inventory from the pool.
     """
     display_name = "Big Key Shuffle"
-    default = 3
+    default = DungeonItem.option_own_dungeon
 
 
 class DungeonMaps(DungeonItem):
@@ -113,7 +113,7 @@ class DungeonMaps(DungeonItem):
         have safely been added to your inventory from the pool.
     """
     display_name = "Dungeon Maps Shuffle"
-    default = 3
+    default = DungeonItem.option_own_dungeon
 
 
 class DungeonCompasses(DungeonItem):
@@ -125,7 +125,7 @@ class DungeonCompasses(DungeonItem):
         has safely been added to your inventory from the pool.
     """
     display_name = "Dungeon Compasses Shuffle"
-    default = 3
+    default = DungeonItem.option_own_dungeon
 
 
 class DungeonWarps(OptionSet):
@@ -144,14 +144,17 @@ class DungeonWarps(OptionSet):
     @classmethod
     def get_warps(cls, dungeon, value):
         warp_bits = 0x00
-        if f"{dungeon} Blue" in value: warp_bits += 0x01
-        if f"{dungeon} Red" in value: warp_bits += 0x02
+        if f"{dungeon} Blue" in value:
+            warp_bits += 0x01
+        if f"{dungeon} Red" in value:
+            warp_bits += 0x02
         return warp_bits
 
 
 class WindCrests(OptionSet):
     """
-    A list of which wind crests to start with. Lake Hylia is always enabled to ensure Library is reachable
+    A list of which wind crests to start with. Lake Hylia is always enabled to ensure Library is reachable.
+    Valid crests are: Hyrule Town, Mt Crenel, Veil Falls, Cloud Tops, Castor Wilds, South Hyrule Field, Minish Woods
     """
     display_name = "Starting Wind Crests"
     default = ["Hyrule Town"]
@@ -170,10 +173,41 @@ class Traps(Toggle):
 
 class GoalVaati(DefaultOnToggle):
     """
-    If enabled, DHC will open after completing Pedestal. Kill Vaati to goal.
-    If disabled, complete Pedestal to goal. DHC/Vaati is unnecessary.
+    If enabled, you'll need to kill Vaati after completing pedestal to goal.
+    If disabled, complete Pedestal to goal. DHC is unnecessary, Big Key (DHC) is removed from the pool.
+    Use dhc_access to change access to DHC/Vaati.
     """
     display_name = "Vaati Goal"
+
+
+# Future Goal setting to replace GoalVaati:
+# class Goal(Choice):
+#     """
+#     Vaati (default): Kill Vaati to goal. dhc_access and the ped requirements change how soon you can reach Vaati.
+#     Pedestal: Complete Pedestal to goal. The ped requirements change what's needed.
+#     Requirements: Goal the moment each ped requirement is met. Activating pedestal is unnecessary.
+#     """
+#     display_name = "Goal"
+#     option_vaati = 0
+#     option_pedestal = 1
+#     option_requirements = 2
+
+
+class DHCAccess(Choice):
+    """
+    When should DHC be accessible?
+    If goal_vaati is disabled, dhc_access can only be open/closed, "pedestal" will default to closed instead.
+    'Closed' (false): DHC is never accessible. If goal_vaati is enabled, the room after pedestal goes straight to Vaati.
+    'Pedestal' (default): DHC is locked until pedestal is completed.
+    'Open' (true): DHC is accessible from the beginning. Pedestal Requirements don't do anything with this setting.
+    """
+    display_name = "DHC Access"
+    option_closed = 0
+    option_pedestal = 1
+    option_open = 2
+    alias_false = 0
+    alias_true = 2
+    default = 1
 
 
 class PedDungeons(Range):
@@ -358,6 +392,7 @@ class MinishCapOptions(PerGameCommonOptions):
     death_link_gameover: DeathLinkGameover
     # Goal Settings
     goal_vaati: GoalVaati
+    dhc_access: DHCAccess
     ped_elements: PedElements
     ped_swords: PedSword
     ped_dungeons: PedDungeons
@@ -392,11 +427,19 @@ def get_option_data(options: MinishCapOptions):
     Template for the options that will likely be added in the future.
     Intended for trackers to properly match the logic between the standalone randomizer (TMCR) and AP
     """
+    vaati_dhc_map = {
+        (GoalVaati.option_true, DHCAccess.option_closed): 0,
+        (GoalVaati.option_true, DHCAccess.option_pedestal): 1,
+        (GoalVaati.option_true, DHCAccess.option_open): 2,
+        (GoalVaati.option_false, DHCAccess.option_closed): 3,
+        (GoalVaati.option_false, DHCAccess.option_open): 5}
+
     return {
         "goal_dungeons": options.ped_dungeons.value,  # 0-6
         "goal_swords": options.ped_swords.value,  # 0-5
         "goal_elements": options.ped_elements.value,  # 0-4
         "goal_figurines": 0,  # 0-136
+        "goal_vaati_dhc": vaati_dhc_map[(options.goal_vaati.value, options.dhc_access.value)],
         "dungeon_warp_dws": options.dungeon_warps.get_warps("DWS", options.dungeon_warps.value),  # 0 = None, 1 = Blue,
         # 2 = Red, 3 = Both
         "dungeon_warp_cof": options.dungeon_warps.get_warps("CoF", options.dungeon_warps.value),

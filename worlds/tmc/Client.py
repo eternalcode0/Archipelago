@@ -160,7 +160,7 @@ class MinishCapClient(BizHawkClient):
                                 "Please make sure the host has sent you the correct patch file,"
                                 "and that you have opened the correct ROM.")
                     raise ConnectorError("Loaded ROM is for Incorrect lobby.")
-                logger.info("Seed verified: %s", seed)
+                logger.info("Seed verified")
                 self.seed_verify = True
 
             if self.death_link_mode < 0:

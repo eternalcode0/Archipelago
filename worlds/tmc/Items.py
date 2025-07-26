@@ -2,7 +2,7 @@ from dataclasses import dataclass
 from typing import TYPE_CHECKING
 
 from BaseClasses import ItemClassification
-from .Options import DungeonItem, ShuffleElements
+from .Options import DHCAccess, DungeonItem, GoalVaati, ShuffleElements
 from .constants import TMCItem, TMCLocation, MinishCapItem
 
 if TYPE_CHECKING:
@@ -131,35 +131,40 @@ def pool_traps() -> list[str]:
 
 
 def pool_dungeonmaps(world: "MinishCapWorld") -> list[str]:
-    items = [TMCItem.DUNGEON_MAP_DWS, TMCItem.DUNGEON_MAP_COF, TMCItem.DUNGEON_MAP_FOW, TMCItem.DUNGEON_MAP_TOD,
+    maps = [TMCItem.DUNGEON_MAP_DWS, TMCItem.DUNGEON_MAP_COF, TMCItem.DUNGEON_MAP_FOW, TMCItem.DUNGEON_MAP_TOD,
             TMCItem.DUNGEON_MAP_POW]
-    if world.options.goal_vaati.value:
-        items.append(TMCItem.DUNGEON_MAP_DHC)
-    return items
+    if world.options.dhc_access != DHCAccess.option_closed:
+        maps.append(TMCItem.DUNGEON_MAP_DHC)
+    return maps
 
 
 def pool_compass(world: "MinishCapWorld") -> list[str]:
-    items = [TMCItem.DUNGEON_COMPASS_DWS, TMCItem.DUNGEON_COMPASS_COF, TMCItem.DUNGEON_COMPASS_FOW,
-            TMCItem.DUNGEON_COMPASS_TOD, TMCItem.DUNGEON_COMPASS_POW]
-    if world.options.goal_vaati.value:
-        items.append(TMCItem.DUNGEON_COMPASS_DHC)
-    return items
+    compasses = [TMCItem.DUNGEON_COMPASS_DWS, TMCItem.DUNGEON_COMPASS_COF, TMCItem.DUNGEON_COMPASS_FOW,
+                 TMCItem.DUNGEON_COMPASS_TOD, TMCItem.DUNGEON_COMPASS_POW]
+    if world.options.dhc_access != DHCAccess.option_closed:
+        compasses.append(TMCItem.DUNGEON_COMPASS_DHC)
+    return compasses
 
 
 def pool_bigkeys(world: "MinishCapWorld") -> list[str]:
-    # ToD key is always placed manually
-    items = [TMCItem.BIG_KEY_DWS, TMCItem.BIG_KEY_COF, TMCItem.BIG_KEY_FOW, TMCItem.BIG_KEY_POW]
-    if world.options.goal_vaati.value:
-        items.append(TMCItem.BIG_KEY_DHC)
-    return items
+    keys = [TMCItem.BIG_KEY_DWS, TMCItem.BIG_KEY_COF, TMCItem.BIG_KEY_FOW, TMCItem.BIG_KEY_POW]
+    if world.options.dhc_access != DHCAccess.option_closed and world.options.goal_vaati == GoalVaati.option_true:
+        keys.append(TMCItem.BIG_KEY_DHC)
+    return keys
 
 
 def pool_smallkeys(world: "MinishCapWorld") -> list[str]:
-    items = [*[TMCItem.SMALL_KEY_DWS] * 4, *[TMCItem.SMALL_KEY_COF] * 2, *[TMCItem.SMALL_KEY_FOW] * 4,
-            *[TMCItem.SMALL_KEY_TOD] * 4, *[TMCItem.SMALL_KEY_POW] * 6, *[TMCItem.SMALL_KEY_RC] * 3]
-    if world.options.goal_vaati.value:
-        items.extend([TMCItem.SMALL_KEY_DHC] * 5)
-    return items
+    keys = [
+        *[TMCItem.SMALL_KEY_DWS] * 4,
+        *[TMCItem.SMALL_KEY_COF] * 2,
+        *[TMCItem.SMALL_KEY_FOW] * 4,
+        *[TMCItem.SMALL_KEY_TOD] * 4,
+        *[TMCItem.SMALL_KEY_POW] * 6,
+        *[TMCItem.SMALL_KEY_RC] * 3,
+    ]
+    if world.options.dhc_access != DHCAccess.option_closed:
+        keys.extend([TMCItem.SMALL_KEY_DHC] * 5)
+    return keys
 
 
 def pool_kinstone_gold() -> list[str]:
