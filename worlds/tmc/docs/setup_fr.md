@@ -6,6 +6,11 @@
 - Une copie EU de The Legend of Zelda : The Minish Cap. La communauté Archipelago ne peut pas fournir ce logiciel.
 - [BizHawk](https://tasvideos.org/BizHawk/ReleaseHistory) 2.7 ou plus récent
 
+## Logiciel en option
+
+- [TMC AP Tracker par Deoxis](https://github.com/deoxis9001/tmcrando_maptracker_deoxis/releases/latest), à utiliser avec
+[PopTracker](https://github.com/black-sliver/PopTracker/releases)
+
 ### Configuration de BizHawk
 
 Une fois que vous avez installé BizHawk, ouvrez `EmuHawk.exe` et modifiez les paramètres suivants :
@@ -17,11 +22,6 @@ lorsque vous êtes déconnecté d'EmuHawk.
 - Ouvrez un fichier `.gba` dans EmuHawk et allez dans `Config > Controllers...` pour configurer vos entrées. Si vous ne pouvez pas cliquer sur
 `Contrôleurs...`, chargez d'abord n'importe quel ROM `.gba`.
 - Pensez à effacer les raccourcis clavier dans `Config > Hotkeys...` si vous n'avez pas l'intention de les utiliser. Sélectionnez le raccourci clavier et appuyez sur Esc pour l'effacer.
-
-## Logiciel en option
-
-- [TMC AP Tracker par Deoxis](https://github.com/deoxis9001/tmcrando_maptracker_deoxis/releases/latest), à utiliser avec
-[PopTracker](https://github.com/black-sliver/PopTracker/releases)
 
 ## Générer et patcher un jeu
 

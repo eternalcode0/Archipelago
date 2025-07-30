@@ -2,13 +2,15 @@
 
 ## Where is the options page?
 
-You can read through all the options and generate a YAML [here](../player-options).
+This is currently a custom world so there is no options page yet. In order to
+create your options you'll need to download one of the starter YAMLs on the GitHub releases page. Alternatively you can create the default yaml by following the Archipelago `&template` guide:
+
+How to generate a template yaml:  For Core-Verified apworlds, your \Players\Templates folder will already have template yamls by default.  For Custom apworlds, install the apworld first by double clicking on it, then open ArchipelagoLauncher.exe to start the Launcher, and click on Generate Template Options to create template yamls for all of the apworlds in your \custom_worlds folder as well as your \lib\worlds folder.  After you click on this button, a File Explorer window will open (on Windows) pointing directly to your \Players\Templates folder, with all of the new template files.  Use these to create player options for any of the apworlds you have installed, Core-Verified or Custom.
 
 ## What does randomization do to this game?
 
 This randomizer handles item randomization only. Inventory items, Quest items, Elements, Heart Pieces/Containers,
-Scrolls and rupees can all be randomized. Check the [options page](../player-options) for a more comprehensive list of
-what can be changed.
+Scrolls and rupees can all be randomized.
 
 Kinstones & Fusions are not *yet* included. The game will act as if every fusion has already occurred and no kinstones
 will drop from grass/enemies.
@@ -35,7 +37,7 @@ Items:
 
 ## What other changes are made to the game?
 
-The game has been modified to open the world up much more than vanilla. You will start with Ezlo and all of the opening
+The game has been modified to open the world up much more than vanilla. You will start with Ezlo, and all the opening
 cutscenes along with many other story events will be skipped. Hyrule Town has also been modified to make nearly every
 location accessible at any point.
 
