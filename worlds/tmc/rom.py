@@ -185,6 +185,17 @@ def write_tokens(world: "MinishCapWorld", patch: MinishCapProcedurePatch) -> Non
                 offset_extra, bit = romdata.offset, romdata.data
                 patch.write_token(APTokenTypes.OR_8, offset_extra, bit)
 
+    # Cucco/Goron Rounds
+    cucco_complete = int(world.options.cucco_rounds.value == 0)
+    cucco_skipped = 10 - world.options.cucco_rounds.value if world.options.cucco_rounds.value > 0 else 9
+    flags_2ca5 = 0b0000_0010  # Exited Link's House
+    patch.write_token(APTokenTypes.WRITE, 0xFF1265, bytes([cucco_complete << 7 | cucco_skipped << 3 | flags_2ca5]))
+    patch.write_token(APTokenTypes.WRITE, 0xFF00F6, bytes([world.options.goron_sets.value]))
+
+    if world.options.goron_jp_prices.value:
+        patch.write_token(APTokenTypes.WRITE, 0x1112F0, struct.pack(
+            "<HHHHHHHHHHHHHHH", *[x for _ in range(0, 5) for x in [300, 200, 50]]))
+
     # Patch Items into Locations
     for location_name, loc in location_table_by_name.items():
         if loc.rom_addr is None:

@@ -2,7 +2,7 @@ from dataclasses import dataclass
 
 from Options import (Choice, DeathLink, DefaultOnToggle, OptionSet, PerGameCommonOptions, Range, StartInventoryPool,
                      Toggle)
-from .constants import ALL_TRICKS, WIND_CRESTS
+from .constants import ALL_TRICKS, TMCTricks, WIND_CRESTS
 
 
 class DungeonItem(Choice):
@@ -46,6 +46,11 @@ class ShuffleDigging(Toggle):
 class ShuffleUnderwater(Toggle):
     """Add all underwater items to the pool. Includes the ToD underwater pot"""
     display_name = "Shuffle Underwater"
+
+
+class ShuffleGoldEnemies(Toggle):
+    """Add the drops from the 9 golden enemies to the pool."""
+    display_name = "Shuffle Gold Enemy Drops"
 
 
 class ObscureSpots(Toggle):
@@ -346,8 +351,6 @@ class WeaponLantern(Toggle):
 
 class Tricks(OptionSet):
     """
-    mitts_farm_rupees: Mole Mitts may be required to farm rupees by digging an infinitely respawning red rupee next to
-        link's house
     bombable_dust: Bombs may be required to blow away dust instead of Gust Jar
     crenel_mushroom_gust_jar: The mushroom near the edge of a cliff on Mt Crenel may be required to be grabbed with the
         gust jar to climb higher
@@ -384,6 +387,51 @@ class Tricks(OptionSet):
     valid_keys = ALL_TRICKS
 
 
+class PedReward(Choice):
+    """What item should you get as soon as you complete the pedestal requirements?"""
+    display_name = "Pedestal Requirement Reward"
+    option_none = 0
+    option_dhc_big_key = 1
+    option_random_item = 2
+
+
+class CuccoRounds(Range):
+    """
+    How many rounds of the cucco catching minigame will be shuffled and playable?
+    Rounds 1-9 are accessible from Sphere 1, Round 10 is accessible with either Roc's Cape or Flippers.
+    Rounds are always included from the end to ensure the Round 10 reward is always accessible. Ex, if you play with 3
+    rounds, Rounds 8-10 are playable.
+    """
+    display_name = "# of Cucco Rounds"
+    range_start = 0
+    range_end = 10
+    default = 1
+
+
+class GoronSets(Range):
+    """
+    How many sets of items do you want to purchase from the Goron Shop in town?
+    There are 5 total sets with 3 items each.
+    """
+    display_name = "# of Goron Merchant Sets"
+    range_start = 0
+    range_end = 5
+    default = 0
+
+
+class GoronJPPrices(Toggle):
+    """
+    Should the Goron Merchant use JP/US prices instead of EU prices for the item sets. They are as follows:
+    EU 1st set: 200/100/50
+    EU 2nd set: 300/200/100
+    EU 3rd set: 400/300/200
+    EU 4th set: 500/400/300
+    EU 5th set: 600/500/400
+    JP all sets: 300/200/50
+    """
+    display_name = "Goron Merchant JP/US Prices"
+
+
 @dataclass
 class MinishCapOptions(PerGameCommonOptions):
     # AP settings / DL settings
@@ -403,11 +451,16 @@ class MinishCapOptions(PerGameCommonOptions):
     dungeon_big_keys: BigKeys
     dungeon_maps: DungeonMaps
     dungeon_compasses: DungeonCompasses
+    # ped_reward: PedReward
     shuffle_elements: ShuffleElements
     rupeesanity: Rupeesanity
     shuffle_pots: ShufflePots
     shuffle_digging: ShuffleDigging
     shuffle_underwater: ShuffleUnderwater
+    shuffle_gold_enemies: ShuffleGoldEnemies
+    cucco_rounds: CuccoRounds
+    goron_sets: GoronSets
+    goron_jp_prices: GoronJPPrices
     traps_enabled: Traps
     random_bottle_contents: RandomBottleContents
     # Weapon Settings
@@ -435,6 +488,7 @@ def get_option_data(options: MinishCapOptions):
         (GoalVaati.option_false, DHCAccess.option_open): 5}
 
     return {
+        "version": "0.2.0",
         "goal_dungeons": options.ped_dungeons.value,  # 0-6
         "goal_swords": options.ped_swords.value,  # 0-5
         "goal_elements": options.ped_elements.value,  # 0-4
@@ -447,12 +501,8 @@ def get_option_data(options: MinishCapOptions):
         "dungeon_warp_tod": options.dungeon_warps.get_warps("ToD", options.dungeon_warps.value),
         "dungeon_warp_pow": options.dungeon_warps.get_warps("PoW", options.dungeon_warps.value),
         "dungeon_warp_dhc": options.dungeon_warps.get_warps("DHC", options.dungeon_warps.value),
-        "cucco_rounds": 1,  # 0-10
-        "goron_sets": 0,  # 0-5
-        "goron_jp_prices": 0,  # 0 = EU prices, 1 = JP/US prices
         "shuffle_heart_pieces": 1,
         "shuffle_rupees": options.rupeesanity.value,
-        "shuffle_gold_enemies": 0,
         "shuffle_pedestal": 0,
         "shuffle_biggoron": 0,  # 0 = Disabled, 1 = Requires Shield, 2 = Requires Mirror Shield
         "kinstones_gold": 1,  # 0 = Closed, 1 = Vanilla, 2 = Combined, 3 = Open
@@ -477,25 +527,40 @@ def get_option_data(options: MinishCapOptions):
         "weapon_bows": options.weapon_bow.value,
         "weapon_gust_jar": options.weapon_gust.value,  # No, Yes
         "weapon_lantern": options.weapon_lantern.value,
+        "weapon_mirror": 0,
         "entrance_rando": 0,  # 0 = Disabled, 1 = Dungeons, 2 = Regions?, 3 = Rooms? (? = subject to change)
-        "trick_mitts_farm_rupees": int(ALL_TRICKS[0] in options.tricks),  # No, Yes
-        "trick_bombable_dust": int(ALL_TRICKS[1] in options.tricks),
-        "trick_crenel_mushroom_gust_jar": int(ALL_TRICKS[2] in options.tricks),
-        "trick_light_arrows_break_objects": int(ALL_TRICKS[3] in options.tricks),
-        "trick_bobombs_destroy_walls": int(ALL_TRICKS[4] in options.tricks),
-        "trick_like_like_cave_no_sword": int(ALL_TRICKS[5] in options.tricks),
-        "trick_boots_skip_town_guard": int(ALL_TRICKS[6] in options.tricks),
-        "trick_beam_crenel_switch": int(ALL_TRICKS[7] in options.tricks),
-        "trick_down_thrust_spikey_beetle": int(ALL_TRICKS[8] in options.tricks),
-        "trick_dark_rooms_no_lantern": int(ALL_TRICKS[9] in options.tricks),
-        "trick_cape_extensions": int(ALL_TRICKS[10] in options.tricks),
-        "trick_lake_minish_no_boots": int(ALL_TRICKS[11] in options.tricks),
-        "trick_cabin_swim_no_lilypad": int(ALL_TRICKS[12] in options.tricks),
-        "trick_cloud_sharks_no_weapons": int(ALL_TRICKS[13] in options.tricks),
-        "trick_pow_2f_no_cane": int(ALL_TRICKS[14] in options.tricks),
-        "trick_pot_puzzle_no_bracelets": int(ALL_TRICKS[15] in options.tricks),
-        "trick_fow_pot_gust_jar": int(ALL_TRICKS[16] in options.tricks),
-        "trick_dhc_cannons_no_four_sword": int(ALL_TRICKS[17] in options.tricks),
-        "trick_dhc_pads_no_four_sword": int(ALL_TRICKS[18] in options.tricks),
-        "trick_dhc_switches_no_four_sword": int(ALL_TRICKS[19] in options.tricks),
+        "trick_mitts_farm_rupees": 0,  # No, Yes
+        "trick_bombable_dust": int(TMCTricks.BOMB_DUST in options.tricks),
+        "trick_crenel_mushroom_gust_jar": int(TMCTricks.MUSHROOM in options.tricks),
+        "trick_light_arrows_break_objects": int(TMCTricks.ARROWS_BREAK in options.tricks),
+        "trick_bobombs_destroy_walls": int(TMCTricks.BOBOMB_WALLS in options.tricks),
+        "trick_like_like_cave_no_sword": int(TMCTricks.LIKELIKE_SWORDLESS in options.tricks),
+        "trick_boots_skip_town_guard": int(TMCTricks.BOOTS_GUARDS in options.tricks),
+        "trick_beam_crenel_switch": int(TMCTricks.BEAM_CRENEL_SWITCH in options.tricks),
+        "trick_down_thrust_spikey_beetle": int(TMCTricks.DOWNTHRUST_BEETLE in options.tricks),
+        "trick_dark_rooms_no_lantern": int(TMCTricks.DARK_ROOMS in options.tricks),
+        "trick_cape_extensions": int(TMCTricks.CAPE_EXTENSIONS in options.tricks),
+        "trick_lake_minish_no_boots": int(TMCTricks.LAKE_MINISH in options.tricks),
+        "trick_cabin_swim_no_lilypad": int(TMCTricks.CABIN_SWIM in options.tricks),
+        "trick_cloud_sharks_no_weapons": int(TMCTricks.SHARKS_SWORDLESS in options.tricks),
+        "trick_pow_2f_no_cane": int(TMCTricks.POW_NOCANE in options.tricks),
+        "trick_pot_puzzle_no_bracelets": int(TMCTricks.POT_PUZZLE in options.tricks),
+        "trick_fow_pot_gust_jar": int(TMCTricks.FOW_POT in options.tricks),
+        "trick_dhc_cannons_no_four_sword": int(TMCTricks.DHC_CANNONS in options.tricks),
+        "trick_dhc_pads_no_four_sword": int(TMCTricks.DHC_CLONES in options.tricks),
+        "trick_dhc_switches_no_four_sword": int(TMCTricks.DHC_SPIN in options.tricks),
+        "trick_clone_movement": 0,
+        "trick_pow_switches_without_clones": 0,
     }
+
+
+SLOT_DATA_OPTIONS = [
+    "death_link", "death_link_gameover",
+    "goal_vaati", "dhc_access", "ped_elements", "ped_swords", "ped_dungeons",
+    "shuffle_elements", "dungeon_small_keys", "dungeon_big_keys", "dungeon_maps", "dungeon_compasses",
+    "rupeesanity", "shuffle_pots", "shuffle_digging", "shuffle_underwater", "shuffle_gold_enemies",
+    "cucco_rounds", "goron_sets", "goron_jp_prices",
+    "random_bottle_contents", "traps_enabled",
+    "early_weapon", "weapon_bomb", "weapon_bow", "weapon_gust", "weapon_lantern",
+    "dungeon_warps", "wind_crests", "tricks",
+]

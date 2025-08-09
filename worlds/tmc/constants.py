@@ -220,9 +220,9 @@ class TMCLocation:
     TOWN_INN_LEDGE_CHEST = "Town Inn Ledge Chest"
     TOWN_INN_POT = "Town Inn Pot"
     TOWN_WELL_RIGHT_CHEST = "Town Well Right Chest"
-    TOWN_GORON_MERCHANT_1_LEFT = "Town Goron Merchant Left"  # "Town Goron Merchant 1 Left"
-    TOWN_GORON_MERCHANT_1_MIDDLE = "Town Goron Merchant Middle"  # "Town Goron Merchant 1 Middle"
-    TOWN_GORON_MERCHANT_1_RIGHT = "Town Goron Merchant Right"  # "Town Goron Merchant 1 Right"
+    TOWN_GORON_MERCHANT_1_LEFT = "Town Goron Merchant 1 Left"
+    TOWN_GORON_MERCHANT_1_MIDDLE = "Town Goron Merchant 1 Middle"
+    TOWN_GORON_MERCHANT_1_RIGHT = "Town Goron Merchant 1 Right"
     TOWN_GORON_MERCHANT_2_LEFT = "Town Goron Merchant 2 Left"
     TOWN_GORON_MERCHANT_2_MIDDLE = "Town Goron Merchant 2 Middle"
     TOWN_GORON_MERCHANT_2_RIGHT = "Town Goron Merchant 2 Right"
@@ -254,16 +254,16 @@ class TMCLocation:
     TOWN_WATERFALL_FUSION_CHEST = "Town Waterfall Fusion Chest"
     TOWN_CARLOV_NPC = "Town Carlov NPC"
     TOWN_WELL_BOTTOM_CHEST = "Town Well Bottom Chest"
-    TOWN_CUCCOS_LV_1_NPC = "Town Cuccos Lv 1 NPC"
-    TOWN_CUCCOS_LV_2_NPC = "Town Cuccos Lv 2 NPC"
-    TOWN_CUCCOS_LV_3_NPC = "Town Cuccos Lv 3 NPC"
-    TOWN_CUCCOS_LV_4_NPC = "Town Cuccos Lv 4 NPC"
-    TOWN_CUCCOS_LV_5_NPC = "Town Cuccos Lv 5 NPC"
-    TOWN_CUCCOS_LV_6_NPC = "Town Cuccos Lv 6 NPC"
-    TOWN_CUCCOS_LV_7_NPC = "Town Cuccos Lv 7 NPC"
-    TOWN_CUCCOS_LV_8_NPC = "Town Cuccos Lv 8 NPC"
-    TOWN_CUCCOS_LV_9_NPC = "Town Cuccos Lv 9 NPC"
-    TOWN_CUCCOS_LV_10_NPC = "Town Cuccos NPC"  # "Town Cuccos Lv 10 NPC"
+    TOWN_CUCCOS_LV_1_NPC = "Town Cuccos Lv 1"
+    TOWN_CUCCOS_LV_2_NPC = "Town Cuccos Lv 2"
+    TOWN_CUCCOS_LV_3_NPC = "Town Cuccos Lv 3"
+    TOWN_CUCCOS_LV_4_NPC = "Town Cuccos Lv 4"
+    TOWN_CUCCOS_LV_5_NPC = "Town Cuccos Lv 5"
+    TOWN_CUCCOS_LV_6_NPC = "Town Cuccos Lv 6"
+    TOWN_CUCCOS_LV_7_NPC = "Town Cuccos Lv 7"
+    TOWN_CUCCOS_LV_8_NPC = "Town Cuccos Lv 8"
+    TOWN_CUCCOS_LV_9_NPC = "Town Cuccos Lv 9"
+    TOWN_CUCCOS_LV_10_NPC = "Town Cuccos Lv 10"
     TOWN_JULLIETA_ITEM = "Town Jullieta Item"
     TOWN_SIMULATION_CHEST = "Town Simulation Chest"
     TOWN_SHOE_SHOP_NPC = "Town Shoe Shop NPC"
@@ -710,6 +710,7 @@ class TMCLocation:
     SANCTUARY_PEDESTAL_ITEM1 = "Sanctuary Pedestal Item1"
     SANCTUARY_PEDESTAL_ITEM2 = "Sanctuary Pedestal Item2"
     SANCTUARY_PEDESTAL_ITEM3 = "Sanctuary Pedestal Item3"
+    PEDESTAL_REQUIREMENT_REWARD = "Pedestal Requirement Reward"
     DHC_B2_KING = "DHC B2 King"
     DHC_B1_BIG_CHEST = "DHC B1 Big Chest"
     DHC_1F_BLADE_CHEST = "DHC 1F Blade Chest"
@@ -1768,7 +1769,6 @@ class TMCCrests:
 
 
 class TMCTricks:
-    MITTS_FARM = "mitts_farm_rupees"
     BOMB_DUST = "bombable_dust"
     MUSHROOM = "crenel_mushroom_gust_jar"
     ARROWS_BREAK = "light_arrows_break_objects"
@@ -1791,7 +1791,6 @@ class TMCTricks:
 
 
 ALL_TRICKS = [
-    TMCTricks.MITTS_FARM,
     TMCTricks.BOMB_DUST,
     TMCTricks.MUSHROOM,
     TMCTricks.ARROWS_BREAK,
