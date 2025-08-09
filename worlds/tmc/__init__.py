@@ -20,7 +20,7 @@ from .items import (get_filler_item_selection, get_item_pool, get_pre_fill_pool,
                     item_table, ItemData)
 from .locations import (all_locations, DEFAULT_SET, GOAL_PED, GOAL_VAATI, location_groups, OBSCURE_SET, POOL_DIG,
                         POOL_ENEMY, POOL_POT, POOL_RUPEE, POOL_WATER)
-from .options import DHCAccess, DungeonItem, get_option_data, MinishCapOptions, ShuffleElements
+from .options import DHCAccess, DungeonItem, get_option_data, MinishCapOptions, ShuffleElements, SLOT_DATA_OPTIONS
 from .regions import create_regions
 from .rom import MinishCapProcedurePatch, write_tokens
 from .rules import MinishCapRules
@@ -237,13 +237,8 @@ class MinishCapWorld(World):
         data = {"DeathLink": self.options.death_link.value, "DeathLinkGameover": self.options.death_link_gameover.value,
                 "RupeeSpot": self.options.rupeesanity.value,
                 "GoalVaati": self.options.goal_vaati.value}
-        data |= self.options.as_dict("death_link", "death_link_gameover", "rupeesanity",
-                                     "goal_vaati", "dhc_access", "random_bottle_contents", "weapon_bomb", "weapon_bow",
-                                     "weapon_gust", "weapon_lantern",
-                                     "tricks", "dungeon_small_keys", "dungeon_big_keys", "dungeon_compasses",
-                                     "dungeon_warps", "wind_crests",
-                                     "dungeon_maps", "shuffle_pots", "shuffle_digging", "shuffle_underwater",
-                                     casing="snake")
+
+        data |= self.options.as_dict(*SLOT_DATA_OPTIONS, casing="snake")
         data |= get_option_data(self.options)
 
         # Setup prize location data for tracker to show element hints

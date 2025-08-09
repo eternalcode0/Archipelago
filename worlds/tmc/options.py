@@ -501,7 +501,6 @@ def get_option_data(options: MinishCapOptions):
         "dungeon_warp_tod": options.dungeon_warps.get_warps("ToD", options.dungeon_warps.value),
         "dungeon_warp_pow": options.dungeon_warps.get_warps("PoW", options.dungeon_warps.value),
         "dungeon_warp_dhc": options.dungeon_warps.get_warps("DHC", options.dungeon_warps.value),
-        "goron_jp_prices": 0,  # 0 = EU prices, 1 = JP/US prices
         "shuffle_heart_pieces": 1,
         "shuffle_rupees": options.rupeesanity.value,
         "shuffle_pedestal": 0,
@@ -553,3 +552,15 @@ def get_option_data(options: MinishCapOptions):
         "trick_clone_movement": 0,
         "trick_pow_switches_without_clones": 0,
     }
+
+
+SLOT_DATA_OPTIONS = [
+    "death_link", "death_link_gameover",
+    "goal_vaati", "dhc_access", "ped_elements", "ped_swords", "ped_dungeons",
+    "shuffle_elements", "dungeon_small_keys", "dungeon_big_keys", "dungeon_maps", "dungeon_compasses",
+    "rupeesanity", "shuffle_pots", "shuffle_digging", "shuffle_underwater", "shuffle_gold_enemies",
+    "cucco_rounds", "goron_sets", "goron_jp_prices",
+    "random_bottle_contents", "traps_enabled",
+    "early_weapon", "weapon_bomb", "weapon_bow", "weapon_gust", "weapon_lantern",
+    "dungeon_warps", "wind_crests", "tricks",
+]
