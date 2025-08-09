@@ -2237,6 +2237,7 @@ location_groups: dict[str, set[str]] = {
                TMCLocation.TOWN_CUCCOS_LV_4_NPC, TMCLocation.TOWN_CUCCOS_LV_5_NPC, TMCLocation.TOWN_CUCCOS_LV_6_NPC,
                TMCLocation.TOWN_CUCCOS_LV_7_NPC, TMCLocation.TOWN_CUCCOS_LV_8_NPC, TMCLocation.TOWN_CUCCOS_LV_9_NPC,
                TMCLocation.TOWN_CUCCOS_LV_10_NPC},
+    "Gold Enemies": set(loc.name for loc in all_locations if loc.pools.issubset({POOL_ENEMY}) and len(loc.pools)),
     "Obscure": set(loc.name for loc in all_locations if loc.pools.issubset(OBSCURE_SET) and len(loc.pools)),
     "Shop": set(loc.name for loc in all_locations if loc.pools.issubset(SHOP_SET) and len(loc.pools)),
     "Rupees": set(loc.name for loc in all_locations if loc.pools.issubset({POOL_RUPEE}) and len(loc.pools)),
