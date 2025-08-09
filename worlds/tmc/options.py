@@ -154,10 +154,10 @@ class DungeonWarps(OptionSet):
 class WindCrests(OptionSet):
     """
     A list of which wind crests to start with. Lake Hylia is always enabled to ensure Library is reachable.
-    Valid crests are: Hyrule Town, Mt Crenel, Veil Falls, Cloud Tops, Castor Wilds, South Hyrule Field, Minish Woods
+    Valid crests are: Mt Crenel, Veil Falls, Cloud Tops, Castor Wilds, South Hyrule Field, Minish Woods
     """
     display_name = "Starting Wind Crests"
-    default = ["Hyrule Town"]
+    default = []
     valid_keys = WIND_CRESTS.keys()
 
 
@@ -384,6 +384,24 @@ class Tricks(OptionSet):
     valid_keys = ALL_TRICKS
 
 
+def wind_crest_class(name: str):
+    class WindCrest(Toggle):
+        __doc__ = f"""Whether you should start with the {name} Wind Crest"""
+        display_name = f"{name} Wind Crest"
+
+    return WindCrest
+
+
+WindCrestCrenel = wind_crest_class("Mount Crenel")
+WindCrestFalls = wind_crest_class("Veil Falls")
+WindCrestClouds = wind_crest_class("Cloud Tops")
+WindCrestSwamp = wind_crest_class("Castor Wilds")
+WindCrestTown = wind_crest_class("Hyrule Town")
+WindCrestLake = wind_crest_class("Hylia Lake")
+WindCrestSmith = wind_crest_class("South Field")
+WindCrestMinish = wind_crest_class("Minish Woods")
+
+
 @dataclass
 class MinishCapOptions(PerGameCommonOptions):
     # AP settings / DL settings
@@ -418,7 +436,14 @@ class MinishCapOptions(PerGameCommonOptions):
     weapon_lantern: WeaponLantern
     # Logic Settings
     dungeon_warps: DungeonWarps
-    wind_crests: WindCrests
+    wind_crest_crenel: WindCrestCrenel
+    wind_crest_falls: WindCrestFalls
+    wind_crest_clouds: WindCrestClouds
+    wind_crest_castor: WindCrestSwamp
+    # wind_crest_town: WindCrestTown
+    # wind_crest_lake: WindCrestLake
+    wind_crest_south_field: WindCrestSmith
+    wind_crest_minish_woods: WindCrestMinish
     tricks: Tricks
 
 
@@ -465,14 +490,8 @@ def get_option_data(options: MinishCapOptions):
         "open_tingle_brothers": 0,
         "open_library": 0,
         "extra_shop_item": 0,
-        "wind_crest_crenel": 1 if "Mount Crenel" in options.wind_crests.value else 0,
-        "wind_crest_falls": 1 if "Veil Falls" in options.wind_crests.value else 0,
-        "wind_crest_clouds": 1 if "Cloud Tops" in options.wind_crests.value else 0,
         "wind_crest_town": 1,
         "wind_crest_lake": 1,
-        "wind_crest_castor": 1 if "Castor Wilds" in options.wind_crests.value else 0,
-        "wind_crest_south_field": 1 if "South Hyrule Field" in options.wind_crests.value else 0,
-        "wind_crest_minish_woods": 1 if "Minish Woods" in options.wind_crests.value else 0,
         "weapon_bombs": options.weapon_bomb.value,  # No, Yes, Yes + Bosses
         "weapon_bows": options.weapon_bow.value,
         "weapon_gust_jar": options.weapon_gust.value,  # No, Yes

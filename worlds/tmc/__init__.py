@@ -235,7 +235,9 @@ class MinishCapWorld(World):
                                      "goal_vaati", "dhc_access", "random_bottle_contents", "weapon_bomb", "weapon_bow",
                                      "weapon_gust", "weapon_lantern",
                                      "tricks", "dungeon_small_keys", "dungeon_big_keys", "dungeon_compasses",
-                                     "dungeon_warps", "wind_crests",
+                                     "dungeon_warps",
+                                     "wind_crest_crenel", "wind_crest_falls", "wind_crest_clouds", "wind_crest_castor",
+                                     "wind_crest_south_field", "wind_crest_minish_woods",
                                      "dungeon_maps", "shuffle_pots", "shuffle_digging", "shuffle_underwater",
                                      casing="snake")
         data |= get_option_data(self.options)

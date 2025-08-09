@@ -120,8 +120,9 @@ def write_tokens(world: "MinishCapWorld", patch: MinishCapProcedurePatch) -> Non
 
     # Wind Crests
     crest_value = 0x0
-    enabled_crests = [WIND_CRESTS[crest] for crest in world.options.wind_crests.value]
-    enabled_crests.append(0x10)  # Lake Hylia wind crest
+    crest_settings = world.options.as_dict(*WIND_CRESTS.keys())
+    enabled_crests = [WIND_CRESTS[crest] for (crest, enabled) in crest_settings.items() if enabled]
+    enabled_crests.extend([0x08, 0x10])  # Hyrule Town & Lake Hylia wind crest
     for crest in enabled_crests:
         crest_value |= crest
     patch.write_token(APTokenTypes.WRITE, flag_table_by_name[TMCEvent.MINISH_CREST].offset, bytes([crest_value]))

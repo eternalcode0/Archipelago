@@ -2,7 +2,7 @@ from typing import Callable, TYPE_CHECKING
 
 from BaseClasses import CollectionState
 from worlds.generic.Rules import add_rule, CollectionRule
-from .constants import TMCCrests, TMCEvent, TMCItem, TMCLocation, TMCRegion, TMCTricks, TMCWarps
+from .constants import TMCEvent, TMCItem, TMCLocation, TMCRegion, TMCTricks, TMCWarps
 from .options import DHCAccess, DungeonItem, GoalVaati
 
 if TYPE_CHECKING:
@@ -1314,32 +1314,32 @@ class MinishCapRules:
         return self.logic_or([self.has_bow(), self.has_boomerang(), self.can_beam()])
 
     def crenel_crest(self) -> CollectionRule:
-        return self.logic_option(TMCCrests.CRENEL in self.world.options.wind_crests.value,
+        return self.logic_option(self.world.options.wind_crest_crenel.value,
                                  self.has(TMCItem.OCARINA),
                                  self.no_access())
 
     def falls_crest(self) -> CollectionRule:
-        return self.logic_option(TMCCrests.FALLS in self.world.options.wind_crests.value,
+        return self.logic_option(self.world.options.wind_crest_falls.value,
                                  self.has(TMCItem.OCARINA),
                                  self.no_access())
 
     def clouds_crest(self) -> CollectionRule:
-        return self.logic_option(TMCCrests.CLOUDS in self.world.options.wind_crests.value,
+        return self.logic_option(self.world.options.wind_crest_clouds.value,
                                  self.has(TMCItem.OCARINA),
                                  self.no_access())
 
     def swamp_crest(self) -> CollectionRule:
-        return self.logic_option(TMCCrests.SWAMP in self.world.options.wind_crests.value,
+        return self.logic_option(self.world.options.wind_crest_castor.value,
                                  self.has(TMCItem.OCARINA),
                                  self.no_access())
 
     def smith_crest(self) -> CollectionRule:
-        return self.logic_option(TMCCrests.SMITH in self.world.options.wind_crests.value,
+        return self.logic_option(self.world.options.wind_crest_south_field.value,
                                  self.logic_or([self.can_pass_trees(), self.has(TMCItem.OCARINA)]),
                                  self.can_pass_trees())
 
     def minish_crest(self) -> CollectionRule:
-        return self.logic_option(TMCCrests.MINISH in self.world.options.wind_crests.value,
+        return self.logic_option(self.world.options.wind_crest_minish_woods.value,
                                  self.has(TMCItem.OCARINA),
                                  self.no_access())
 
