@@ -1,7 +1,7 @@
 from dataclasses import dataclass
 
-from Options import (Choice, DeathLink, DefaultOnToggle, OptionSet, PerGameCommonOptions, Range, StartInventoryPool,
-                     Toggle)
+from Options import (Choice, DeathLink, DefaultOnToggle, OptionGroup, OptionSet, PerGameCommonOptions, Range,
+                     StartInventoryPool, Toggle)
 from .constants import ALL_TRICKS, TMCTricks, WIND_CRESTS
 
 
@@ -624,3 +624,17 @@ SLOT_DATA_OPTIONS = [
     "tricks",
 ]
 """The yaml options that'll be transfered into slot_data for the tracker"""
+
+
+OPTION_GROUPS = [
+    OptionGroup("Goal", [GoalVaati, DHCAccess, PedElements, PedSword, PedDungeons]),
+    OptionGroup("Dungeon Shuffle", [ShuffleElements, SmallKeys, BigKeys, DungeonMaps, DungeonCompasses,
+                                    NonElementDungeons]),
+    OptionGroup("Location Shuffle", [Rupeesanity, ShufflePots, ShuffleDigging, ShuffleUnderwater, ShuffleGoldEnemies,
+                                     CuccoRounds, GoronSets]),
+    OptionGroup("Weapons", [EarlyWeapon, WeaponBomb, WeaponBow, WeaponGust, WeaponLantern]),
+    OptionGroup("Fast Travel", [WarpDWS, WarpCoF, WarpFoW, WarpToD, WarpPoW, WarpDHC, WindCrestCrenel, WindCrestFalls,
+                                WindCrestClouds, WindCrestSwamp, WindCrestSmith, WindCrestMinish]),
+    OptionGroup("Misc", [RandomBottleContents, Traps, GoronJPPrices]),
+    OptionGroup("Advanced", [Tricks])
+]
