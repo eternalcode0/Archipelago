@@ -1182,8 +1182,9 @@ class MinishCapRules:
             # region Dungeon DHC Blue Warp
             TMCLocation.DHC_3F_NORTH_WEST_CHEST: self.logic_and([self.has_weapon_boss(), self.has_bow()]),
             TMCLocation.DHC_3F_NORTH_EAST_CHEST: self.logic_and([self.has_weapon_boss(), self.has(TMCItem.LANTERN)]),
-            TMCLocation.DHC_3F_SOUTH_WEST_CHEST: self.has_weapon_boss(),
-            TMCLocation.DHC_3F_SOUTH_EAST_CHEST: self.logic_and([self.has_weapon_boss(), self.dhc_spin()]),
+            TMCLocation.DHC_3F_SOUTH_WEST_CHEST: self.logic_and([self.has_weapon_boss(), self.dhc_south_towers()]),
+            TMCLocation.DHC_3F_SOUTH_EAST_CHEST:
+                self.logic_and([self.has_weapon_boss(), self.dhc_south_towers(), self.dhc_spin()]),
             TMCLocation.DHC_2F_BLUE_WARP_BIG_CHEST:
                 self.logic_and([self.has(TMCItem.SMALL_KEY_DHC, 5), self.split_rule(4)]),
             # endregion
@@ -1330,6 +1331,12 @@ class MinishCapRules:
 
     def dhc_switch_gap(self) -> CollectionRule:
         return self.logic_or([self.has_bow(), self.has_boomerang(), self.can_beam()])
+
+    def dhc_south_towers(self) -> CollectionRule:
+        return  self.logic_option(TMCWarps.DHC_BLUE in self.world.options.dungeon_warps.value and
+                                  TMCWarps.DHC_RED in self.world.options.dungeon_warps.value,
+                                  None,
+                                  self.has_any([TMCItem.BOMB_BAG, TMCItem.ROCS_CAPE]))
 
     def crenel_crest(self) -> CollectionRule:
         return self.logic_option(TMCCrests.CRENEL in self.world.options.wind_crests.value,

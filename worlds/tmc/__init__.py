@@ -20,7 +20,7 @@ from .items import (get_filler_item_selection, get_item_pool, get_pre_fill_pool,
                     item_table, ItemData)
 from .locations import (all_locations, DEFAULT_SET, GOAL_PED, GOAL_VAATI, location_groups, OBSCURE_SET, POOL_DIG,
                         POOL_ENEMY, POOL_POT, POOL_RUPEE, POOL_WATER)
-from .options import DHCAccess, DungeonItem, get_option_data, MinishCapOptions, ShuffleElements, SLOT_DATA_OPTIONS
+from .options import DHCAccess, DungeonItem, get_option_data, MinishCapOptions, NonElementDungeons, ShuffleElements, SLOT_DATA_OPTIONS
 from .regions import create_regions
 from .rom import MinishCapProcedurePatch, write_tokens
 from .rules import MinishCapRules
@@ -170,10 +170,26 @@ class MinishCapWorld(World):
             if len(locations) < 4:
                 raise FillError(f"Slot '{self.player_name}' used 'shuffle_elements: dungeon_prize' but only "
                                 f"{len(locations)}/6 prize locations are available to fill the 4 elements")
-            locations = self.random.sample(locations, k=4)
+            element_locations = self.random.sample(locations, k=4)
             item_names = [TMCItem.EARTH_ELEMENT, TMCItem.FIRE_ELEMENT, TMCItem.WATER_ELEMENT, TMCItem.WIND_ELEMENT]
-            for location, item_name in zip(locations, item_names):
+            for location, item_name in zip(element_locations, item_names):
                 location.place_locked_item(self.create_item(item_name))
+        if self.options.non_element_dungeons.value == NonElementDungeons.option_excluded and \
+                self.options.shuffle_elements.on_prize and \
+                self.options.ped_dungeons.value <= 4:
+            locations = list(loc.name for loc in self.multiworld.get_unfilled_locations_for_players(
+                location_names, [self.player]))
+            prize_name_to_region = {
+                TMCLocation.DEEPWOOD_PRIZE: "DWS",
+                TMCLocation.COF_PRIZE: "CoF",
+                TMCLocation.FORTRESS_PRIZE: "FoW",
+                TMCLocation.DROPLETS_PRIZE: "ToD",
+                TMCLocation.PALACE_PRIZE: "PoW",
+                TMCLocation.CRYPT_PRIZE: "RC"}
+            self.options.exclude_locations.value.update(
+                region_locations
+                for prize_name in locations
+                for region_locations in location_groups[prize_name_to_region[prize_name]])
 
         # Add in all progression and useful items
         self.item_pool = get_item_pool(self)

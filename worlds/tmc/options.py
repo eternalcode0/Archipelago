@@ -84,6 +84,10 @@ class ShuffleElements(Choice):
     alias_true = 8
     alias_false = 7
 
+    @property
+    def on_prize(self) -> bool:
+        return self.value in {self.option_vanilla, self.option_dungeon_prize}
+
 
 class SmallKeys(DungeonItem):
     """
@@ -432,6 +436,26 @@ class GoronJPPrices(Toggle):
     display_name = "Goron Merchant JP/US Prices"
 
 
+class NonElementDungeons(Choice):
+    """
+    Should dungeons that don't have elements restrict the items that can be placed in them?
+    Only takes effect when shuffle_elements is dungeon_prize or vanilla and ped_dungeons is 4 or less.
+
+    Standard: Non-Element dungeons are filled just like any other location with no restrictions.
+    Excluded: Non-Element dungeons are automatically added to the excluded_locations list, only placing filler inside.
+    """
+    display_name = "Non-Element Dungeons"
+
+    option_standard = 0
+    # option_unrequired = 1
+    option_excluded = 2
+    # option_region_unrequired = 3
+    # option_region_excluded = 4
+    alias_true = option_standard
+    alias_false = option_excluded
+    default = option_standard
+
+
 @dataclass
 class MinishCapOptions(PerGameCommonOptions):
     # AP settings / DL settings
@@ -453,6 +477,7 @@ class MinishCapOptions(PerGameCommonOptions):
     dungeon_compasses: DungeonCompasses
     # ped_reward: PedReward
     shuffle_elements: ShuffleElements
+    non_element_dungeons: NonElementDungeons
     rupeesanity: Rupeesanity
     shuffle_pots: ShufflePots
     shuffle_digging: ShuffleDigging
@@ -564,3 +589,4 @@ SLOT_DATA_OPTIONS = [
     "early_weapon", "weapon_bomb", "weapon_bow", "weapon_gust", "weapon_lantern",
     "dungeon_warps", "wind_crests", "tricks",
 ]
+"""The yaml options that'll be transfered into slot_data for the tracker"""
