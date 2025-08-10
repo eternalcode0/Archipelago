@@ -137,27 +137,40 @@ class DungeonCompasses(DungeonItem):
     default = DungeonItem.option_own_dungeon
 
 
-class DungeonWarps(OptionSet):
-    """
-    A list of which dungeon warps are available at the start. Warp name is any of the 6 dungeon abbreviations
-    (excluding Royal Crypt) followed by "Blue" or "Red". Ex.
-    - "DWS Blue"
-    - "ToD Red"
-    - "DHC Red"
-    """
-    display_name = "Starting Dungeon Warps"
-    valid_keys = [f"{dungeon} {warp}"
-                  for dungeon in ["DWS", "CoF", "FoW", "ToD", "PoW", "DHC"]
-                  for warp in ["Blue", "Red"]]
+def dungeon_warp_class(dungeon: str, abbr: str):
+    """Generate a DungeonWarp setting class complete with docstring and display_name.
 
-    @classmethod
-    def get_warps(cls, dungeon, value):
-        warp_bits = 0x00
-        if f"{dungeon} Blue" in value:
-            warp_bits += 0x01
-        if f"{dungeon} Red" in value:
-            warp_bits += 0x02
-        return warp_bits
+    Arguments:
+        dungeon -- The full dungeon name to be used in the docstring and display_name
+        abbr -- The abbreviation to be used for internal mapping
+    """
+    class DungeonWarp(Choice):
+        __doc__ = f"Whether you should start with the Blue/Red warps for {dungeon}"
+        display_name = f"{dungeon} Warps"
+        internal_abbr = abbr
+
+        option_none = 0
+        option_blue = 0b01
+        option_red = 0b10
+        option_both = option_blue | option_red
+
+        @property
+        def has_blue(self) -> bool:
+            return self.value & self.option_blue
+
+        @property
+        def has_red(self) -> bool:
+            return self.value & self.option_red
+
+    return DungeonWarp
+
+
+WarpDWS = dungeon_warp_class("DeepWood Shrine", "DWS")
+WarpCoF = dungeon_warp_class("Cave of Flames", "CoF")
+WarpFoW = dungeon_warp_class("Fortress of Winds", "FoW")
+WarpToD = dungeon_warp_class("Temple of Droplets", "ToD")
+WarpPoW = dungeon_warp_class("Palace of Winds", "PoW")
+WarpDHC = dungeon_warp_class("Dark Hyrule Castle", "DHC")
 
 
 class WindCrests(OptionSet):
@@ -513,15 +526,20 @@ class MinishCapOptions(PerGameCommonOptions):
     weapon_gust: WeaponGust
     weapon_lantern: WeaponLantern
     # Logic Settings
-    dungeon_warps: DungeonWarps
+    dungeon_warp_dws: WarpDWS
+    dungeon_warp_cof: WarpCoF
+    dungeon_warp_fow: WarpFoW
+    dungeon_warp_tod: WarpToD
+    dungeon_warp_pow: WarpPoW
+    dungeon_warp_dhc: WarpDHC
     wind_crest_crenel: WindCrestCrenel
     wind_crest_falls: WindCrestFalls
     wind_crest_clouds: WindCrestClouds
     wind_crest_castor: WindCrestSwamp
-    # wind_crest_town: WindCrestTown
-    # wind_crest_lake: WindCrestLake
     wind_crest_south_field: WindCrestSmith
     wind_crest_minish_woods: WindCrestMinish
+    # wind_crest_town: WindCrestTown
+    # wind_crest_lake: WindCrestLake
     tricks: Tricks
 
 
@@ -544,13 +562,6 @@ def get_option_data(options: MinishCapOptions):
         "goal_elements": options.ped_elements.value,  # 0-4
         "goal_figurines": 0,  # 0-136
         "goal_vaati_dhc": vaati_dhc_map[(options.goal_vaati.value, options.dhc_access.value)],
-        "dungeon_warp_dws": options.dungeon_warps.get_warps("DWS", options.dungeon_warps.value),  # 0 = None, 1 = Blue,
-        # 2 = Red, 3 = Both
-        "dungeon_warp_cof": options.dungeon_warps.get_warps("CoF", options.dungeon_warps.value),
-        "dungeon_warp_fow": options.dungeon_warps.get_warps("FoW", options.dungeon_warps.value),
-        "dungeon_warp_tod": options.dungeon_warps.get_warps("ToD", options.dungeon_warps.value),
-        "dungeon_warp_pow": options.dungeon_warps.get_warps("PoW", options.dungeon_warps.value),
-        "dungeon_warp_dhc": options.dungeon_warps.get_warps("DHC", options.dungeon_warps.value),
         "shuffle_heart_pieces": 1,
         "shuffle_rupees": options.rupeesanity.value,
         "shuffle_pedestal": 0,
@@ -606,6 +617,10 @@ SLOT_DATA_OPTIONS = [
     "cucco_rounds", "goron_sets", "goron_jp_prices",
     "random_bottle_contents", "traps_enabled",
     "early_weapon", "weapon_bomb", "weapon_bow", "weapon_gust", "weapon_lantern",
-    "dungeon_warps", "wind_crests", "tricks",
+    "dungeon_warp_dws", "dungeon_warp_cof", "dungeon_warp_fow", "dungeon_warp_tod", "dungeon_warp_pow",
+    "dungeon_warp_dhc",
+    "wind_crest_crenel", "wind_crest_falls", "wind_crest_clouds", "wind_crest_castor", "wind_crest_south_field",
+    "wind_crest_minish_woods",
+    "tricks",
 ]
 """The yaml options that'll be transfered into slot_data for the tracker"""
