@@ -2,7 +2,7 @@
 
 # from worlds.tmc import TMCEvent
 from worlds.tmc.constants import TMCItem, TMCLocation
-from worlds.tmc.Options import DungeonItem, DungeonWarps, ShuffleElements, WindCrests
+from worlds.tmc.options import DungeonItem, DungeonWarps, ShuffleElements, WindCrests
 from worlds.tmc.test import MinishCapTestBase
 
 
