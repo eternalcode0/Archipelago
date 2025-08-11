@@ -20,7 +20,8 @@ from .items import (get_filler_item_selection, get_item_pool, get_pre_fill_pool,
                     item_table, ItemData)
 from .locations import (all_locations, DEFAULT_SET, GOAL_PED, GOAL_VAATI, location_groups, OBSCURE_SET, POOL_DIG,
                         POOL_ENEMY, POOL_POT, POOL_RUPEE, POOL_WATER)
-from .options import DHCAccess, DungeonItem, get_option_data, MinishCapOptions, NonElementDungeons, ShuffleElements, SLOT_DATA_OPTIONS
+from .options import (DHCAccess, DungeonItem, get_option_data, MinishCapOptions, NonElementDungeons, ShuffleElements,
+                      SLOT_DATA_OPTIONS, VAATI_DHC_MAP)
 from .regions import create_regions
 from .rom import MinishCapProcedurePatch, write_tokens
 from .rules import MinishCapRules
@@ -256,6 +257,7 @@ class MinishCapWorld(World):
 
         data |= self.options.as_dict(*SLOT_DATA_OPTIONS, casing="snake")
         data |= get_option_data(self.options)
+        data["goal_vaati_dhc"] = VAATI_DHC_MAP[(self.options.goal_vaati.value, self.options.dhc_access.value)]
 
         # Setup prize location data for tracker to show element hints
         prizes = {TMCLocation.COF_PRIZE: "prize_cof", TMCLocation.CRYPT_PRIZE: "prize_rc",

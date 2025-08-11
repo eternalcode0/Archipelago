@@ -505,20 +505,12 @@ def get_option_data(options: MinishCapOptions):
     Template for the options that will likely be added in the future.
     Intended for trackers to properly match the logic between the standalone randomizer (TMCR) and AP
     """
-    vaati_dhc_map = {
-        (GoalVaati.option_true, DHCAccess.option_closed): 0,
-        (GoalVaati.option_true, DHCAccess.option_pedestal): 1,
-        (GoalVaati.option_true, DHCAccess.option_open): 2,
-        (GoalVaati.option_false, DHCAccess.option_closed): 3,
-        (GoalVaati.option_false, DHCAccess.option_open): 5}
-
     return {
         "version": "0.2.0",
         "goal_dungeons": options.ped_dungeons.value,  # 0-6
         "goal_swords": options.ped_swords.value,  # 0-5
         "goal_elements": options.ped_elements.value,  # 0-4
         "goal_figurines": 0,  # 0-136
-        "goal_vaati_dhc": vaati_dhc_map[(options.goal_vaati.value, options.dhc_access.value)],
         "dungeon_warp_dws": options.dungeon_warps.get_warps("DWS", options.dungeon_warps.value),  # 0 = None, 1 = Blue,
         # 2 = Red, 3 = Both
         "dungeon_warp_cof": options.dungeon_warps.get_warps("CoF", options.dungeon_warps.value),
@@ -590,3 +582,10 @@ SLOT_DATA_OPTIONS = [
     "dungeon_warps", "wind_crests", "tricks",
 ]
 """The yaml options that'll be transfered into slot_data for the tracker"""
+
+VAATI_DHC_MAP = {
+    (GoalVaati.option_true, DHCAccess.option_closed): 0,
+    (GoalVaati.option_true, DHCAccess.option_pedestal): 1,
+    (GoalVaati.option_true, DHCAccess.option_open): 2,
+    (GoalVaati.option_false, DHCAccess.option_closed): 3,
+    (GoalVaati.option_false, DHCAccess.option_open): 5}

@@ -68,6 +68,12 @@ def write_tokens(world: "MinishCapWorld", patch: MinishCapProcedurePatch) -> Non
         func = [0x00, 0x22, 0x05, 0x48, 0x04, 0x23, 0x03, 0x70, 0x42, 0x70, 0x82, 0x70, 0x01, 0x23, 0x8B, 0x71, 0x00,
                 0x24, 0x78, 0x20, 0x01, 0x4B, 0x00, 0x00, 0x02, 0x10, 0x00, 0x03, 0xFF, 0x32, 0x05, 0x08]
         patch.write_token(APTokenTypes.WRITE, 0x0532F4, bytes(func))
+        # Patch the stained-glass scene so that it's repeatable
+        no_op = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+        patch.write_token(APTokenTypes.WRITE, 0x04EB12, bytes(no_op))
+        if world.options.dhc_access.value == DHCAccess.option_open:
+            visit_move_guards = flag_table_by_name[TMCEvent.DWS_VISIT_00]
+            patch.write_token(APTokenTypes.WRITE, visit_move_guards.offset, bytes([visit_move_guards.data]))
 
     # Goal Settings
     setting_bits = [world.options.goal_vaati.value, world.options.dhc_access == DHCAccess.option_open]
