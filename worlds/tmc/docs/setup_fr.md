@@ -23,10 +23,27 @@ lorsque vous êtes déconnecté d'EmuHawk.
 `Contrôleurs...`, chargez d'abord n'importe quel ROM `.gba`.
 - Pensez à effacer les raccourcis clavier dans `Config > Hotkeys...` si vous n'avez pas l'intention de les utiliser. Sélectionnez le raccourci clavier et appuyez sur Esc pour l'effacer.
 
+## Installing the apworld
+
+Comment utiliser un fichier .apworld : 
+Placez le fichier .apworld dans votre dossier Archipelago/custom_worlds, ou 
+double-cliquez sur le fichier .apworld pour le faire automatiquement.
+Utilisez ArchipelagoLauncher.exe pour ouvrir le lanceur, puis cliquez sur 
+`Generate Template Options` pour créer des fichiers yamls pour
+vos fichiers .apworld personnalisés.
+Placez les fichiers yaml des joueurs souhaités dans le dossier Players et
+personnalisez-les comme bon vous semble.
+Utilisez ArchipelagoGenerate.exe pour générer le jeu.
+Téléchargez le jeu généré (dans le dossier de `output`) sur le site Web à l'adresse
+https://archipelago.gg/uploads et créez une nouvelle salle.
+Pour plus d'informations, consultez le guide de configuration de chaque jeu 
+(généralement disponible dans les épingles de la rubrique « future-game-design » du jeu ou sur GitHub).
+Les fichiers de correctifs se trouvent dans le fichier compressé de
+votre dossier de `output` plutôt que surla page de la salle.
+
 ## Générer et patcher un jeu
 
-1. Créez votre fichier d'options (YAML). Vous pouvez en créer un sur
-[La page des options de Minish Cap](../../../games/The%20Minish%20Cap/player-options).
+1. Créez votre fichier d'options (YAML). Vous pouvez en télécharger un depuis la page GitHub Releases ou créer le fichier YAML par défaut à partir de votre Launcher avec l'option « Generate Template Options ».
 2. Suivez les instructions générales d'Archipelago pour [générer un jeu] (../../Archipelago/setup/en#generating-a-game).
 Cela générera un fichier de sortie pour vous. Votre fichier patch aura l'extension `.aptmc`.
 3. Ouvrez `ArchipelagoLauncher.exe`
