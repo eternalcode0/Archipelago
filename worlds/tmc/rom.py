@@ -8,7 +8,7 @@ from .constants import DUNGEON_ABBR, EXTERNAL_ITEM_MAP, TMCEvent, TMCItem, TMCLo
 from .flags import flag_table_by_name
 from .items import item_table
 from .locations import location_table_by_name, LocationData
-from .options import DHCAccess, ShuffleElements
+from .options import DHCAccess, Goal, ShuffleElements
 
 
 if TYPE_CHECKING:
@@ -60,7 +60,7 @@ def write_tokens(world: "MinishCapWorld", patch: MinishCapProcedurePatch) -> Non
     patch.write_token(APTokenTypes.WRITE, 0x000620, world.multiworld.seed_name.encode("UTF-8"))
 
     # Sanctuary fix
-    if world.options.goal_vaati.value:
+    if world.options.goal.value == Goal.option_vaati:
         # Skip stained-glass scene
         patch.write_token(APTokenTypes.WRITE, 0x0532F6, bytes([0x10, 0x23]))
     else:
@@ -70,7 +70,7 @@ def write_tokens(world: "MinishCapWorld", patch: MinishCapProcedurePatch) -> Non
         patch.write_token(APTokenTypes.WRITE, 0x0532F4, bytes(func))
 
     # Goal Settings
-    setting_bits = [world.options.goal_vaati.value, world.options.dhc_access == DHCAccess.option_open]
+    setting_bits = [world.options.goal.value == Goal.option_vaati, world.options.dhc_access == DHCAccess.option_open]
     setting_value = 0
     for setting, i in enumerate(setting_bits, 0):
         if setting:
@@ -112,7 +112,7 @@ def write_tokens(world: "MinishCapWorld", patch: MinishCapProcedurePatch) -> Non
         patch.write_token(APTokenTypes.WRITE, 0x128673, bytes([0x0, 0xF, 0x0, 0xF, 0x0, 0xF, 0x0]))
 
     # DHC Skip
-    if world.options.dhc_access.value == DHCAccess.option_closed and world.options.goal_vaati.value:
+    if world.options.dhc_access.value == DHCAccess.option_closed and world.options.goal.value == Goal.option_vaati:
         patch.write_token(APTokenTypes.WRITE, 0x127649, bytes([0x1D]))  # Change locationIndex of sanctuary to match DHC
         ped_to_altar = Transition(warp_type=1, start_x=0xE8, start_y=0x28, end_x=0x78, end_y=0x168,
                                   area_id=0x89, room_id=0)

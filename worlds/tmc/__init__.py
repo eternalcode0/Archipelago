@@ -20,7 +20,8 @@ from .items import (get_filler_item_selection, get_item_pool, get_pre_fill_pool,
                     item_table, ItemData)
 from .locations import (all_locations, DEFAULT_SET, GOAL_PED, GOAL_VAATI, location_groups, OBSCURE_SET, POOL_DIG,
                         POOL_ENEMY, POOL_POT, POOL_RUPEE, POOL_WATER)
-from .options import DHCAccess, DungeonItem, get_option_data, MinishCapOptions, NonElementDungeons, ShuffleElements, SLOT_DATA_OPTIONS
+from .options import (DHCAccess, DungeonItem, get_option_data, Goal, MinishCapOptions, NonElementDungeons,
+                      ShuffleElements, SLOT_DATA_OPTIONS)
 from .regions import create_regions
 from .rom import MinishCapProcedurePatch, write_tokens
 from .rules import MinishCapRules
@@ -103,7 +104,7 @@ class MinishCapWorld(World):
 
         # Default dhc_access to closed when it's been set to ped with goal vaati disabled.
         # There's too many flags to manage to allow DHC to open after ped completes and vaati is slain.
-        if not self.options.goal_vaati.value and self.options.dhc_access.value == DHCAccess.option_pedestal:
+        if self.options.goal.value == Goal.option_pedestal and self.options.dhc_access.value == DHCAccess.option_pedestal:
             self.options.dhc_access.value = DHCAccess.option_closed
 
         self.filler_items = get_filler_item_selection(self)
@@ -135,13 +136,13 @@ class MinishCapWorld(World):
     def create_regions(self) -> None:
         create_regions(self, self.disabled_locations, self.disabled_dungeons)
 
-        loc = GOAL_VAATI if self.options.goal_vaati.value else GOAL_PED
+        loc = GOAL_VAATI if self.options.goal.value == Goal.option_vaati else GOAL_PED
         goal_region = self.get_region(loc.region)
         goal_item = MinishCapItem("Victory", ItemClassification.progression, None, self.player)
         goal_location = MinishCapLocation(self.player, loc.name, None, goal_region)
         goal_location.place_locked_item(goal_item)
         goal_region.locations.append(goal_location)
-        if self.options.goal_vaati.value:
+        if self.options.goal.value == Goal.option_vaati:
             reg = self.get_region(TMCRegion.STAINED_GLASS)
             ped = MinishCapLocation(self.player, TMCEvent.CLEAR_PED, None, reg)
             ped.place_locked_item(self.create_event(TMCEvent.CLEAR_PED))
@@ -252,7 +253,7 @@ class MinishCapWorld(World):
     def fill_slot_data(self) -> dict[str, any]:
         data = {"DeathLink": self.options.death_link.value, "DeathLinkGameover": self.options.death_link_gameover.value,
                 "RupeeSpot": self.options.rupeesanity.value,
-                "GoalVaati": self.options.goal_vaati.value}
+                "GoalVaati": int(self.options.goal.value == Goal.option_vaati)}
 
         data |= self.options.as_dict(*SLOT_DATA_OPTIONS, casing="snake")
         data |= get_option_data(self.options)

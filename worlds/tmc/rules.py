@@ -3,7 +3,7 @@ from typing import Callable, TYPE_CHECKING
 from BaseClasses import CollectionState
 from worlds.generic.Rules import add_rule, CollectionRule
 from .constants import TMCCrests, TMCEvent, TMCItem, TMCLocation, TMCRegion, TMCTricks, TMCWarps
-from .options import DHCAccess, DungeonItem, GoalVaati, MinishCapOptions
+from .options import DHCAccess, DungeonItem, Goal, MinishCapOptions
 
 if TYPE_CHECKING:
     from . import MinishCapWorld
@@ -276,7 +276,7 @@ class MinishCapRules:
 
             (TMCRegion.STAINED_GLASS, TMCRegion.VAATI_FIGHT):
                 self.logic_option(self.world.options.dhc_access.value == DHCAccess.option_closed and
-                                  self.world.options.goal_vaati == GoalVaati.option_true,
+                                  self.world.options.goal.value == Goal.option_vaati,
                                   self.logic_and([
                                       self.has_all([TMCItem.GUST_JAR, TMCItem.CANE_OF_PACCI]),
                                       self.dark_room(),  # Don't make people do the final boss in the dark
@@ -1333,10 +1333,10 @@ class MinishCapRules:
         return self.logic_or([self.has_bow(), self.has_boomerang(), self.can_beam()])
 
     def dhc_south_towers(self) -> CollectionRule:
-        return  self.logic_option(TMCWarps.DHC_BLUE in self.world.options.dungeon_warps.value and
-                                  TMCWarps.DHC_RED in self.world.options.dungeon_warps.value,
-                                  None,
-                                  self.has_any([TMCItem.BOMB_BAG, TMCItem.ROCS_CAPE]))
+        return self.logic_option(TMCWarps.DHC_BLUE in self.world.options.dungeon_warps.value and
+                                 TMCWarps.DHC_RED in self.world.options.dungeon_warps.value,
+                                 None,
+                                 self.has_any([TMCItem.BOMB_BAG, TMCItem.ROCS_CAPE]))
 
     def crenel_crest(self) -> CollectionRule:
         return self.logic_option(TMCCrests.CRENEL in self.world.options.wind_crests.value,
