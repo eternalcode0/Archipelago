@@ -190,7 +190,7 @@ def write_tokens(world: "MinishCapWorld", patch: MinishCapProcedurePatch) -> Non
     # Cucco/Goron Rounds
     cucco_complete = int(world.options.cucco_rounds.value == 0)
     cucco_skipped = 10 - world.options.cucco_rounds.value if world.options.cucco_rounds.value > 0 else 9
-    flags_2ca5 = 0b0000_0010  # Exited Link's House
+    flags_2ca5 = 0b0000_0110  # Exited Link's House / Spoke to Minish to get to fountain
     patch.write_token(APTokenTypes.WRITE, 0xFF1265, bytes([cucco_complete << 7 | cucco_skipped << 3 | flags_2ca5]))
     patch.write_token(APTokenTypes.WRITE, 0xFF00F6, bytes([world.options.goron_sets.value]))
 
