@@ -2,7 +2,7 @@
 
 # from worlds.tmc import TMCEvent
 from worlds.tmc.constants import TMCItem, TMCLocation
-from worlds.tmc.options import DungeonItem, DungeonWarps, ShuffleElements, WindCrests
+from worlds.tmc.options import DungeonItem, DungeonWarp, ShuffleElements
 from worlds.tmc.test import MinishCapTestBase
 
 
@@ -68,7 +68,12 @@ class TestBigKeysDungeon(MinishCapTestBase):
 
 class TestWindCrests(MinishCapTestBase):
     options = {
-        "wind_crests": set(WindCrests.valid_keys)
+        "wind_crest_crenel": 1,
+        "wind_crest_falls": 1,
+        "wind_crest_clouds": 1,
+        "wind_crest_castor": 1,
+        "wind_crest_south_field": 1,
+        "wind_crest_minish_woods": 1,
     }
 
 
@@ -235,5 +240,10 @@ class TestWindCrests(MinishCapTestBase):
 
 class TestDungeonWarps(MinishCapTestBase):
     options = {
-        "dungeon_warps": DungeonWarps.valid_keys
+        "dungeon_warp_dws": DungeonWarp.option_both,
+        "dungeon_warp_cof": DungeonWarp.option_both,
+        "dungeon_warp_fow": DungeonWarp.option_both,
+        "dungeon_warp_tod": DungeonWarp.option_both,
+        "dungeon_warp_pow": DungeonWarp.option_both,
+        "dungeon_warp_dhc": DungeonWarp.option_both,
     }

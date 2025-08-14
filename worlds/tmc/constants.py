@@ -1758,14 +1758,14 @@ class TMCWarps:
 
 
 class TMCCrests:
-    CRENEL = "Mount Crenel"
-    FALLS = "Veil Falls"
-    CLOUDS = "Cloud Tops"
-    TOWN = "Hyrule Town"
-    LAKE = "Lake Hylia"
-    SWAMP = "Castor Wilds"
-    SMITH = "South Hyrule Field"
-    MINISH = "Minish Woods"
+    CRENEL = "wind_crest_crenel"
+    FALLS = "wind_crest_falls"
+    CLOUDS = "wind_crest_clouds"
+    SWAMP = "wind_crest_castor"
+    SMITH = "wind_crest_south_field"
+    MINISH = "wind_crest_minish_woods"
+    TOWN = "wind_crest_town"
+    LAKE = "wind_crest_lake"
 
 
 class TMCTricks:
@@ -1837,14 +1837,14 @@ DUNGEON_REGIONS = {
 }
 
 WIND_CRESTS = {
-    "Mt Crenel": 0x01,
-    "Veil Falls": 0x02,
-    "Cloud Tops": 0x04,
-    "Hyrule Town": 0x08,
-    # "Lake Hylia": 0x10, # Temporarily excluded to keep always enabled
-    "Castor Wilds": 0x20,
-    "South Hyrule Field": 0x40,
-    "Minish Woods": 0x80
+    TMCCrests.CRENEL: 0x01,
+    TMCCrests.FALLS: 0x02,
+    TMCCrests.CLOUDS: 0x04,
+    # TMCCrests.TOWN: 0x08, # Temporarily excluded to keep always enabled
+    # TMCCrests.LAKE: 0x10, # Temporarily excluded to keep always enabled
+    TMCCrests.SWAMP: 0x20,
+    TMCCrests.SMITH: 0x40,
+    TMCCrests.MINISH: 0x80,
 }
 
 EXTERNAL_ITEMS = [0x18, 0x19, 0x1A]

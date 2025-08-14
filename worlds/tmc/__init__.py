@@ -20,7 +20,8 @@ from .items import (get_filler_item_selection, get_item_pool, get_pre_fill_pool,
                     item_table, ItemData)
 from .locations import (all_locations, DEFAULT_SET, GOAL_PED, GOAL_VAATI, location_groups, OBSCURE_SET, POOL_DIG,
                         POOL_ENEMY, POOL_POT, POOL_RUPEE, POOL_WATER)
-from .options import DHCAccess, DungeonItem, get_option_data, MinishCapOptions, NonElementDungeons, ShuffleElements, SLOT_DATA_OPTIONS
+from .options import (DHCAccess, DungeonItem, get_option_data, MinishCapOptions, NonElementDungeons, OPTION_GROUPS,
+                      ShuffleElements, SLOT_DATA_OPTIONS)
 from .regions import create_regions
 from .rom import MinishCapProcedurePatch, write_tokens
 from .rules import MinishCapRules
@@ -33,6 +34,7 @@ class MinishCapWebWorld(WebWorld):
 
     theme = "grassFlowers"
     bug_report_page = "https://github.com/eternalcode0/Archipelago/issues"
+    option_groups = OPTION_GROUPS
     tutorials = [
         Tutorial(tutorial_name="Setup Guide",
                  description="A guide to setting up The Legend of Zelda: The Minish Cap for Archipelago.",

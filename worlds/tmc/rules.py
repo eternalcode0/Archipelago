@@ -2,7 +2,7 @@ from typing import Callable, TYPE_CHECKING
 
 from BaseClasses import CollectionState
 from worlds.generic.Rules import add_rule, CollectionRule
-from .constants import TMCCrests, TMCEvent, TMCItem, TMCLocation, TMCRegion, TMCTricks, TMCWarps
+from .constants import TMCEvent, TMCItem, TMCLocation, TMCRegion, TMCTricks, TMCWarps
 from .options import DHCAccess, DungeonItem, GoalVaati, MinishCapOptions
 
 if TYPE_CHECKING:
@@ -191,7 +191,7 @@ class MinishCapRules:
                                                      self.has_any([TMCItem.CANE_OF_PACCI, TMCItem.BOMB_BAG])]))
                 ]),
             (TMCRegion.DUNGEON_COF_MAIN, TMCRegion.DUNGEON_COF_MINECART):
-                self.logic_and([self.logic_option(TMCWarps.COF_BLUE in self.world.options.dungeon_warps,
+                self.logic_and([self.logic_option(self.world.options.dungeon_warp_cof.has_blue,
                                                   self.has(TMCItem.SMALL_KEY_COF, 2),
                                                   self.has(TMCItem.SMALL_KEY_COF, 1)),
                                 self.has_sword()]),
@@ -1213,73 +1213,73 @@ class MinishCapRules:
         return rule_true if option else rule_false
 
     def dws_blue_warp(self) -> CollectionRule:
-        return self.logic_option(TMCWarps.DWS_BLUE in self.world.options.dungeon_warps.value,
+        return self.logic_option(self.world.options.dungeon_warp_dws.has_blue,
                                  None,
                                  self.no_access())
 
     def dws_red_warp(self) -> CollectionRule:
-        return self.logic_option(TMCWarps.DWS_RED in self.world.options.dungeon_warps.value,
+        return self.logic_option(self.world.options.dungeon_warp_dws.has_red,
                                  None,
                                  self.no_access())
 
     def cof_blue_warp(self) -> CollectionRule:
-        return self.logic_option(TMCWarps.COF_BLUE in self.world.options.dungeon_warps.value,
+        return self.logic_option(self.world.options.dungeon_warp_cof.has_blue,
                                  None,
                                  self.no_access())
 
     def cof_red_warp(self) -> CollectionRule:
-        return self.logic_option(TMCWarps.COF_RED in self.world.options.dungeon_warps.value,
+        return self.logic_option(self.world.options.dungeon_warp_cof.has_red,
                                  None,
                                  self.no_access())
 
     def fow_blue_warp(self) -> CollectionRule:
-        return self.logic_option(TMCWarps.FOW_BLUE in self.world.options.dungeon_warps.value,
+        return self.logic_option(self.world.options.dungeon_warp_fow.has_blue,
                                  self.has_weapon_boss(),
                                  self.no_access())
 
     def fow_red_warp(self) -> CollectionRule:
-        return self.logic_option(TMCWarps.FOW_RED in self.world.options.dungeon_warps.value,
+        return self.logic_option(self.world.options.dungeon_warp_fow.has_red,
                                  None,
                                  self.no_access())
 
     def tod_blue_warp(self) -> CollectionRule:
-        return self.logic_option(TMCWarps.TOD_BLUE in self.world.options.dungeon_warps.value,
+        return self.logic_option(self.world.options.dungeon_warp_tod.has_blue,
                                  self.has_weapon_scissor(),
                                  self.no_access())
 
     def tod_red_warp(self) -> CollectionRule:
-        return self.logic_option(TMCWarps.TOD_RED in self.world.options.dungeon_warps.value,
+        return self.logic_option(self.world.options.dungeon_warp_tod.has_red,
                                  self.logic_and([self.has_all([TMCItem.BOMB_BAG, TMCItem.LANTERN]),
                                                  self.has_weapon_boss()]),
                                  self.no_access())
 
     def pow_blue_warp(self) -> CollectionRule:
-        return self.logic_option(TMCWarps.POW_BLUE in self.world.options.dungeon_warps.value,
+        return self.logic_option(self.world.options.dungeon_warp_pow.has_blue,
                                  self.has_weapon_boss(),
                                  self.no_access())
 
     def pow_red_warp(self) -> CollectionRule:
-        return self.logic_option(TMCWarps.POW_RED in self.world.options.dungeon_warps.value,
+        return self.logic_option(self.world.options.dungeon_warp_pow.has_red,
                                  None,
                                  self.no_access())
 
     def dhc_blue_warp(self) -> CollectionRule:
-        return self.logic_option(TMCWarps.DHC_BLUE in self.world.options.dungeon_warps.value,
+        return self.logic_option(self.world.options.dungeon_warp_dhc.has_blue,
                                  self.has_weapon_boss(),
                                  self.no_access())
 
     def dhc_red_warp(self) -> CollectionRule:
-        return self.logic_option(TMCWarps.DHC_RED in self.world.options.dungeon_warps.value,
+        return self.logic_option(self.world.options.dungeon_warp_dhc.has_red,
                                  self.has_weapon(),
                                  self.no_access())
 
     def dws_1st_door(self) -> CollectionRule:
-        return self.logic_option(TMCWarps.DWS_BLUE in self.world.options.dungeon_warps.value,
+        return self.logic_option(self.world.options.dungeon_warp_dws.has_blue,
                                  self.has(TMCItem.SMALL_KEY_DWS, 4),
                                  self.has(TMCItem.SMALL_KEY_DWS, 1))
 
     def dws_2nd_half(self) -> CollectionRule:
-        return self.logic_option(TMCWarps.DWS_BLUE in self.world.options.dungeon_warps.value,
+        return self.logic_option(self.world.options.dungeon_warp_dws.has_blue,
                                  self.no_access(),
                                  self.logic_or([self.has(TMCItem.SMALL_KEY_DWS, 2),
                                                 self.has(TMCItem.GUST_JAR)]))
@@ -1296,8 +1296,8 @@ class MinishCapRules:
                                                  self.has_weapon_scissor()]))
 
     def pow_1st_door(self) -> CollectionRule:
-        return self.logic_option(TMCWarps.POW_BLUE in self.world.options.dungeon_warps.value or
-                                 TMCWarps.POW_RED in self.world.options.dungeon_warps.value,
+        return self.logic_option(self.world.options.dungeon_warp_pow.has_blue or
+                                 self.world.options.dungeon_warp_pow.has_red,
                                  self.has(TMCItem.SMALL_KEY_POW, 4),
                                  self.has(TMCItem.SMALL_KEY_POW, 1))
 
@@ -1308,12 +1308,12 @@ class MinishCapRules:
         return self.has(TMCItem.SMALL_KEY_POW, 6)  # FUTURE: Key settings
 
     def pow_2nd_door(self) -> CollectionRule:
-        return self.logic_option(TMCWarps.POW_RED in self.world.options.dungeon_warps.value,
+        return self.logic_option(self.world.options.dungeon_warp_pow.has_red,
                                  self.has(TMCItem.SMALL_KEY_POW, 6),
                                  self.has(TMCItem.SMALL_KEY_POW, 4))
 
     def pow_red_chest(self) -> CollectionRule:
-        return self.logic_option(TMCWarps.POW_RED in self.world.options.dungeon_warps.value,
+        return self.logic_option(self.world.options.dungeon_warp_pow.has_red,
                                  self.can_hit_distance(),
                                  self.logic_and([self.has(TMCItem.ROCS_CAPE), self.can_hit_distance()]))
 
@@ -1324,8 +1324,8 @@ class MinishCapRules:
         return self.has(TMCItem.SMALL_KEY_POW, 6)
 
     def dhc_door(self) -> CollectionRule:
-        return self.logic_option(TMCWarps.DHC_BLUE in self.world.options.dungeon_warps.value or
-                                 TMCWarps.DHC_RED in self.world.options.dungeon_warps.value,
+        return self.logic_option(self.world.options.dungeon_warp_dhc.has_blue or
+                                 self.world.options.dungeon_warp_dhc.has_red,
                                  self.has(TMCItem.SMALL_KEY_DHC, 5),
                                  self.has(TMCItem.SMALL_KEY_DHC, 1))
 
@@ -1333,38 +1333,38 @@ class MinishCapRules:
         return self.logic_or([self.has_bow(), self.has_boomerang(), self.can_beam()])
 
     def dhc_south_towers(self) -> CollectionRule:
-        return  self.logic_option(TMCWarps.DHC_BLUE in self.world.options.dungeon_warps.value and
-                                  TMCWarps.DHC_RED in self.world.options.dungeon_warps.value,
-                                  None,
-                                  self.has_any([TMCItem.BOMB_BAG, TMCItem.ROCS_CAPE]))
+        return self.logic_option(self.world.options.dungeon_warp_dhc.has_blue and
+                                 self.world.options.dungeon_warp_dhc.has_red,
+                                 None,
+                                 self.has_any([TMCItem.BOMB_BAG, TMCItem.ROCS_CAPE]))
 
     def crenel_crest(self) -> CollectionRule:
-        return self.logic_option(TMCCrests.CRENEL in self.world.options.wind_crests.value,
+        return self.logic_option(self.world.options.wind_crest_crenel.value,
                                  self.has(TMCItem.OCARINA),
                                  self.no_access())
 
     def falls_crest(self) -> CollectionRule:
-        return self.logic_option(TMCCrests.FALLS in self.world.options.wind_crests.value,
+        return self.logic_option(self.world.options.wind_crest_falls.value,
                                  self.has(TMCItem.OCARINA),
                                  self.no_access())
 
     def clouds_crest(self) -> CollectionRule:
-        return self.logic_option(TMCCrests.CLOUDS in self.world.options.wind_crests.value,
+        return self.logic_option(self.world.options.wind_crest_clouds.value,
                                  self.has(TMCItem.OCARINA),
                                  self.no_access())
 
     def swamp_crest(self) -> CollectionRule:
-        return self.logic_option(TMCCrests.SWAMP in self.world.options.wind_crests.value,
+        return self.logic_option(self.world.options.wind_crest_castor.value,
                                  self.has(TMCItem.OCARINA),
                                  self.no_access())
 
     def smith_crest(self) -> CollectionRule:
-        return self.logic_option(TMCCrests.SMITH in self.world.options.wind_crests.value,
+        return self.logic_option(self.world.options.wind_crest_south_field.value,
                                  self.logic_or([self.can_pass_trees(), self.has(TMCItem.OCARINA)]),
                                  self.can_pass_trees())
 
     def minish_crest(self) -> CollectionRule:
-        return self.logic_option(TMCCrests.MINISH in self.world.options.wind_crests.value,
+        return self.logic_option(self.world.options.wind_crest_minish_woods.value,
                                  self.has(TMCItem.OCARINA),
                                  self.no_access())
 

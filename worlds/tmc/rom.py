@@ -120,8 +120,9 @@ def write_tokens(world: "MinishCapWorld", patch: MinishCapProcedurePatch) -> Non
 
     # Wind Crests
     crest_value = 0x0
-    enabled_crests = [WIND_CRESTS[crest] for crest in world.options.wind_crests.value]
-    enabled_crests.append(0x10)  # Lake Hylia wind crest
+    crest_settings = world.options.as_dict(*WIND_CRESTS.keys())
+    enabled_crests = [WIND_CRESTS[crest] for (crest, enabled) in crest_settings.items() if enabled]
+    enabled_crests.extend([0x08, 0x10])  # Hyrule Town & Lake Hylia wind crest
     for crest in enabled_crests:
         crest_value |= crest
     patch.write_token(APTokenTypes.WRITE, flag_table_by_name[TMCEvent.MINISH_CREST].offset, bytes([crest_value]))
@@ -167,20 +168,21 @@ def write_tokens(world: "MinishCapWorld", patch: MinishCapProcedurePatch) -> Non
     #     if flag is not "None":
     #         logging.debug(f'Name: {flag}, Address: {hex(address.offset)}, Flag: {hex(address.data)}')
 
-    for dungeon in DUNGEON_ABBR:
-        if dungeon == "RC":
-            continue
-        warp_bits = world.options.dungeon_warps.get_warps(dungeon, world.options.dungeon_warps.value)
-        offset = flag_table_by_name.get(dungeon_offset[dungeon]).offset
+    # Get dungeon warp settings from the 6 dungeon abbreviations
+    warp_setting_keys = [f"dungeon_warp_{key.lower()}" for key in dungeon_offset]
+    warp_settings = world.options.as_dict(*warp_setting_keys)
+    for dungeon_abbr, event in dungeon_offset.items():
+        warp_bits = warp_settings[f"dungeon_warp_{dungeon_abbr.lower()}"]
+        offset = flag_table_by_name.get(dungeon_offset[dungeon_abbr]).offset
         # logging.debug(f'Write Warps: {dungeon}, Address: {hex(offset)}, bits: {bytes([warp_bits])}')
         patch.write_token(APTokenTypes.WRITE, offset, bytes([warp_bits]))
         if warp_bits & 1:
-            for flag in extra_flags[dungeon]["Blue"]:
+            for flag in extra_flags[dungeon_abbr]["Blue"]:
                 romdata = flag_table_by_name.get(flag)
                 offset_extra, bit = romdata.offset, romdata.data
                 patch.write_token(APTokenTypes.OR_8, offset_extra, bit)
         if warp_bits & 2:
-            for flag in extra_flags[dungeon]["Red"]:
+            for flag in extra_flags[dungeon_abbr]["Red"]:
                 romdata = flag_table_by_name.get(flag)
                 offset_extra, bit = romdata.offset, romdata.data
                 patch.write_token(APTokenTypes.OR_8, offset_extra, bit)
@@ -188,7 +190,7 @@ def write_tokens(world: "MinishCapWorld", patch: MinishCapProcedurePatch) -> Non
     # Cucco/Goron Rounds
     cucco_complete = int(world.options.cucco_rounds.value == 0)
     cucco_skipped = 10 - world.options.cucco_rounds.value if world.options.cucco_rounds.value > 0 else 9
-    flags_2ca5 = 0b0000_0010  # Exited Link's House
+    flags_2ca5 = 0b0000_0110  # Exited Link's House / Spoke to Minish to get to fountain
     patch.write_token(APTokenTypes.WRITE, 0xFF1265, bytes([cucco_complete << 7 | cucco_skipped << 3 | flags_2ca5]))
     patch.write_token(APTokenTypes.WRITE, 0xFF00F6, bytes([world.options.goron_sets.value]))
 
