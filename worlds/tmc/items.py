@@ -9,6 +9,14 @@ if TYPE_CHECKING:
     from . import MinishCapWorld
 
 
+DEPRIORITIZED_FALLBACK = 0
+"""backwards-compatible fallback for AP v0.6.2 and prior"""
+try:
+    DEPRIORITIZED_FALLBACK = ItemClassification.progression_deprioritized_skip_balancing
+except AttributeError as e:
+    DEPRIORITIZED_FALLBACK = ItemClassification.progression_skip_balancing
+
+
 @dataclass
 class ItemData:
     classification: ItemClassification
@@ -364,8 +372,8 @@ item_table: dict[str, ItemData] = {
     TMCItem.HEART_REFILL: ItemData(ItemClassification.filler, (0x5F, 0x00)),
     TMCItem.FAIRY_REFILL: ItemData(ItemClassification.filler, (0x60, 0x00)),
     TMCItem.SHELLS_30: ItemData(ItemClassification.progression, (0x61, 0x00)),
-    TMCItem.HEART_CONTAINER: ItemData(ItemClassification.progression_deprioritized_skip_balancing, (0x62, 0x00)),
-    TMCItem.HEART_PIECE: ItemData(ItemClassification.progression_deprioritized_skip_balancing, (0x63, 0x00)),
+    TMCItem.HEART_CONTAINER: ItemData(DEPRIORITIZED_FALLBACK, (0x62, 0x00)),
+    TMCItem.HEART_PIECE: ItemData(DEPRIORITIZED_FALLBACK, (0x63, 0x00)),
     TMCItem.BIG_WALLET: ItemData(ItemClassification.progression, (0x64, 0x00)),
     TMCItem.BOMB_BAG: ItemData(ItemClassification.progression, (0x65, 0x00)),
     TMCItem.QUIVER: ItemData(ItemClassification.useful, (0x66, 0x00)),
