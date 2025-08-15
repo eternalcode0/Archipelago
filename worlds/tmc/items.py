@@ -2,7 +2,7 @@ from dataclasses import dataclass
 from typing import TYPE_CHECKING
 
 from BaseClasses import ItemClassification
-from .options import DHCAccess, DungeonItem, GoalVaati, ShuffleElements
+from .options import DHCAccess, DungeonItem, Goal, ShuffleElements
 from .constants import TMCItem, TMCLocation, MinishCapItem
 
 if TYPE_CHECKING:
@@ -148,7 +148,7 @@ def pool_compass(world: "MinishCapWorld") -> list[str]:
 
 def pool_bigkeys(world: "MinishCapWorld") -> list[str]:
     keys = [TMCItem.BIG_KEY_DWS, TMCItem.BIG_KEY_COF, TMCItem.BIG_KEY_FOW, TMCItem.BIG_KEY_POW]
-    if world.options.dhc_access != DHCAccess.option_closed and world.options.goal_vaati == GoalVaati.option_true:
+    if world.options.dhc_access != DHCAccess.option_closed and world.options.goal == Goal.option_vaati:
         keys.append(TMCItem.BIG_KEY_DHC)
     return keys
 
@@ -323,10 +323,10 @@ item_table: dict[str, ItemData] = {
     TMCItem.TINGLE_TROPHY: ItemData(ItemClassification.progression, (0x3D, 0x00)),
     TMCItem.CARLOV_MEDAL: ItemData(ItemClassification.progression, (0x3E, 0x00)),
     TMCItem.SHELLS: ItemData(ItemClassification.progression, (0x3F, 0x00)),
-    TMCItem.EARTH_ELEMENT: ItemData(ItemClassification.progression, (0x40, 0x00)),
-    TMCItem.FIRE_ELEMENT: ItemData(ItemClassification.progression, (0x41, 0x00)),
-    TMCItem.WATER_ELEMENT: ItemData(ItemClassification.progression, (0x42, 0x00)),
-    TMCItem.WIND_ELEMENT: ItemData(ItemClassification.progression, (0x43, 0x00)),
+    TMCItem.EARTH_ELEMENT: ItemData(ItemClassification.progression_skip_balancing, (0x40, 0x00)),
+    TMCItem.FIRE_ELEMENT: ItemData(ItemClassification.progression_skip_balancing, (0x41, 0x00)),
+    TMCItem.WATER_ELEMENT: ItemData(ItemClassification.progression_skip_balancing, (0x42, 0x00)),
+    TMCItem.WIND_ELEMENT: ItemData(ItemClassification.progression_skip_balancing, (0x43, 0x00)),
     TMCItem.GRIP_RING: ItemData(ItemClassification.progression, (0x44, 0x00)),
     TMCItem.POWER_BRACELETS: ItemData(ItemClassification.progression, (0x45, 0x00)),
     TMCItem.FLIPPERS: ItemData(ItemClassification.progression, (0x46, 0x00)),
@@ -364,8 +364,8 @@ item_table: dict[str, ItemData] = {
     TMCItem.HEART_REFILL: ItemData(ItemClassification.filler, (0x5F, 0x00)),
     TMCItem.FAIRY_REFILL: ItemData(ItemClassification.filler, (0x60, 0x00)),
     TMCItem.SHELLS_30: ItemData(ItemClassification.progression, (0x61, 0x00)),
-    TMCItem.HEART_CONTAINER: ItemData(ItemClassification.progression, (0x62, 0x00)),
-    TMCItem.HEART_PIECE: ItemData(ItemClassification.progression, (0x63, 0x00)),
+    TMCItem.HEART_CONTAINER: ItemData(ItemClassification.progression_deprioritized_skip_balancing, (0x62, 0x00)),
+    TMCItem.HEART_PIECE: ItemData(ItemClassification.progression_deprioritized_skip_balancing, (0x63, 0x00)),
     TMCItem.BIG_WALLET: ItemData(ItemClassification.progression, (0x64, 0x00)),
     TMCItem.BOMB_BAG: ItemData(ItemClassification.progression, (0x65, 0x00)),
     TMCItem.QUIVER: ItemData(ItemClassification.useful, (0x66, 0x00)),

@@ -1,7 +1,6 @@
 from dataclasses import dataclass
 
-from Options import (Choice, DeathLink, DefaultOnToggle, OptionGroup, OptionSet, PerGameCommonOptions, Range,
-                     StartInventoryPool, Toggle)
+from Options import Choice, DeathLink, OptionGroup, OptionSet, PerGameCommonOptions, Range, StartInventoryPool, Toggle
 from .constants import ALL_TRICKS, TMCTricks
 
 
@@ -200,35 +199,24 @@ class Traps(Toggle):
     display_name = "Traps Enabled"
 
 
-class GoalVaati(DefaultOnToggle):
+class Goal(Choice):
     """
-    If enabled, you'll need to kill Vaati after completing pedestal to goal.
-    If disabled, complete Pedestal to goal. DHC is unnecessary, Big Key (DHC) is removed from the pool.
-    Use dhc_access to change access to DHC/Vaati.
+    'Vaati' (default): Kill Vaati to goal. dhc_access and the ped requirements change how soon you can reach Vaati.
+    'Pedestal': Complete Pedestal to goal. The ped requirements change what's needed.
     """
-    display_name = "Vaati Goal"
-
-
-# Future Goal setting to replace GoalVaati:
-# class Goal(Choice):
-#     """
-#     Vaati (default): Kill Vaati to goal. dhc_access and the ped requirements change how soon you can reach Vaati.
-#     Pedestal: Complete Pedestal to goal. The ped requirements change what's needed.
-#     Requirements: Goal the moment each ped requirement is met. Activating pedestal is unnecessary.
-#     """
-#     display_name = "Goal"
-#     option_vaati = 0
-#     option_pedestal = 1
-#     option_requirements = 2
+    display_name = "Goal"
+    option_vaati = 0
+    option_pedestal = 1
+    # option_requirements = 2  'Requirements': Goal the moment each ped requirement is met. No need to enter sanctuary.
 
 
 class DHCAccess(Choice):
     """
     When should DHC be accessible?
-    If goal_vaati is disabled, dhc_access can only be open/closed, "pedestal" will default to closed instead.
-    'Closed' (false): DHC is never accessible. If goal_vaati is enabled, the room after pedestal goes straight to Vaati.
+    If your goal is Vaati, dhc_access can only be open/closed, "pedestal" will default to closed instead.
+    'Closed' (false): DHC is never accessible. If your goal is Vaati, the room after pedestal goes straight to Vaati.
     'Pedestal' (default): DHC is locked until pedestal is completed.
-    'Open' (true): DHC is accessible from the beginning. Pedestal Requirements don't do anything with this setting.
+    'Open' (true): DHC is accessible from the beginning. If your goal is Pedestal, activate pedestal from within DHC.
     """
     display_name = "DHC Access"
     option_closed = 0
@@ -496,7 +484,7 @@ class MinishCapOptions(PerGameCommonOptions):
     death_link: DeathLink
     death_link_gameover: DeathLinkGameover
     # Goal Settings
-    goal_vaati: GoalVaati
+    goal: Goal
     dhc_access: DHCAccess
     ped_elements: PedElements
     ped_swords: PedSword
@@ -550,19 +538,20 @@ def get_option_data(options: MinishCapOptions):
     Intended for trackers to properly match the logic between the standalone randomizer (TMCR) and AP
     """
     vaati_dhc_map = {
-        (GoalVaati.option_true, DHCAccess.option_closed): 0,
-        (GoalVaati.option_true, DHCAccess.option_pedestal): 1,
-        (GoalVaati.option_true, DHCAccess.option_open): 2,
-        (GoalVaati.option_false, DHCAccess.option_closed): 3,
-        (GoalVaati.option_false, DHCAccess.option_open): 5}
+        (Goal.option_vaati, DHCAccess.option_closed): 0,
+        (Goal.option_vaati, DHCAccess.option_pedestal): 1,
+        (Goal.option_vaati, DHCAccess.option_open): 2,
+        (Goal.option_pedestal, DHCAccess.option_closed): 3,
+        (Goal.option_pedestal, DHCAccess.option_open): 5}
 
     return {
         "version": "0.2.0",
+        "goal_vaati": int(options.goal.value == Goal.option_vaati),
         "goal_dungeons": options.ped_dungeons.value,  # 0-6
         "goal_swords": options.ped_swords.value,  # 0-5
         "goal_elements": options.ped_elements.value,  # 0-4
         "goal_figurines": 0,  # 0-136
-        "goal_vaati_dhc": vaati_dhc_map[(options.goal_vaati.value, options.dhc_access.value)],
+        "goal_vaati_dhc": vaati_dhc_map[(options.goal.value, options.dhc_access.value)],
         "shuffle_heart_pieces": 1,
         "shuffle_rupees": options.rupeesanity.value,
         "shuffle_pedestal": 0,
@@ -612,7 +601,7 @@ def get_option_data(options: MinishCapOptions):
 
 SLOT_DATA_OPTIONS = [
     "death_link", "death_link_gameover",
-    "goal_vaati", "dhc_access", "ped_elements", "ped_swords", "ped_dungeons",
+    "goal", "dhc_access", "ped_elements", "ped_swords", "ped_dungeons",
     "shuffle_elements", "dungeon_small_keys", "dungeon_big_keys", "dungeon_maps", "dungeon_compasses",
     "rupeesanity", "shuffle_pots", "shuffle_digging", "shuffle_underwater", "shuffle_gold_enemies",
     "cucco_rounds", "goron_sets", "goron_jp_prices",
@@ -628,7 +617,7 @@ SLOT_DATA_OPTIONS = [
 
 
 OPTION_GROUPS = [
-    OptionGroup("Goal", [GoalVaati, DHCAccess, PedElements, PedSword, PedDungeons]),
+    OptionGroup("Goal", [Goal, DHCAccess, PedElements, PedSword, PedDungeons]),
     OptionGroup("Dungeon Shuffle", [ShuffleElements, SmallKeys, BigKeys, DungeonMaps, DungeonCompasses,
                                     NonElementDungeons]),
     OptionGroup("Location Shuffle", [Rupeesanity, ShufflePots, ShuffleDigging, ShuffleUnderwater, ShuffleGoldEnemies,
