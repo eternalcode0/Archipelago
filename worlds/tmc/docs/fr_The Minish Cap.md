@@ -2,12 +2,15 @@
 
 ## Où se trouve la page des options ?
  
- La [page des options du joueur pour ce jeu](../player-options) contient tous les paramètres dont vous avez besoin pour configurer et exporter le fichier.
+Il s'agit actuellement d'un monde personnalisé, il n'y a donc pas encore de page d'options. Pour
+créer vos options, vous devrez télécharger l'un des fichiers YAML de démarrage sur la page des versions GitHub. Vous pouvez également créer le fichier YAML par défaut en suivant le guide Archipelago `&template` :
+
+Comment générer un modèle YAML :  Pour les apworld vérifié, votre dossier \Players\Templates contient déjà des modèles YAML par défaut. Pour les apworlds personnalisés, installez d'abord l'apworld en double-cliquant dessus, puis ouvrez ArchipelagoLauncher.exe pour lancer le Launcher, et cliquez sur Generate Template Options pour créer des modèles YAML pour tous les apworlds de votre dossier \custom_worlds ainsi que de votre dossier \lib\worlds.  Après avoir cliqué sur ce bouton, une fenêtre de l'Explorateur de fichiers s'ouvrira (sous Windows) pointant directement vers votre dossier \Players\Templates, avec tous les nouveaux fichiers de modèles. Utilisez-les pour créer des options de joueur pour tous les mondes apworlds que vous avez installés, qu'ils soient vérifié ou personnalisés.
 
 ## Quel est l'effet de la randomisation sur ce jeu ?
 
 Ce randomiseur ne gère que la randomisation des objets. Les objets d'inventaire, les objets de quête, les éléments, les morceaux de cœur et les conteneurs,
-les parchemins et les roupies peuvent tous être randomisés. Consultez la [page d'options](../player-options) pour une liste plus complète de ce qui peut être modifié.
+les Parchemins et les Rubis peuvent tous être randomisés.
 
 Les kinstones et les fusions ne sont pas *encore* incluses. Le jeu agira comme si toutes les fusions avaient déjà eu lieu et aucune kinstone ne dropera de l'herbe ou des ennemis.
 
