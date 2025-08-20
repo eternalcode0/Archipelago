@@ -213,7 +213,7 @@ class Goal(Choice):
 class DHCAccess(Choice):
     """
     When should DHC be accessible?
-    If your goal is Pedestal, dhc_access can only be open/closed, "pedestal" will default to closed instead.
+    If your goal is Pedestal then dhc_access can't be pedestal and will default to closed instead.
     'Closed' (false): DHC is never accessible. If your goal is Vaati, the room after pedestal goes straight to Vaati.
     'Pedestal' (default): DHC is locked until pedestal is completed.
     'Open' (true): DHC is accessible from the beginning. If your goal is Pedestal, activate pedestal from within DHC.
