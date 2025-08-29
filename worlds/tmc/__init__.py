@@ -168,7 +168,8 @@ class MinishCapWorld(World):
             # Get unfilled prize locations, shuffle, and place each element
             location_names = [TMCLocation.DEEPWOOD_PRIZE, TMCLocation.COF_PRIZE, TMCLocation.FORTRESS_PRIZE,
                               TMCLocation.DROPLETS_PRIZE, TMCLocation.PALACE_PRIZE, TMCLocation.CRYPT_PRIZE]
-            locations = list(self.multiworld.get_unfilled_locations_for_players(location_names, [self.player]))
+            locations = list(loc for loc in self.multiworld.get_unfilled_locations_for_players(location_names, [self.player])
+                             if loc.name not in self.options.exclude_locations.value)
             if len(locations) < 4:
                 raise FillError(f"Slot '{self.player_name}' used 'shuffle_elements: dungeon_prize' but only "
                                 f"{len(locations)}/6 prize locations are available to fill the 4 elements")
