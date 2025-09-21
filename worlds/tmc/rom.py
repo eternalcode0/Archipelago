@@ -4,11 +4,11 @@ from typing import TYPE_CHECKING
 from BaseClasses import Item, ItemClassification
 from settings import get_settings
 from worlds.Files import APProcedurePatch, APTokenMixin, APTokenTypes
-from .constants import DUNGEON_ABBR, EXTERNAL_ITEM_MAP, TMCEvent, TMCItem, TMCLocation, WIND_CRESTS
+from .constants import EXTERNAL_ITEM_MAP, TMCEvent, TMCItem, TMCLocation, WIND_CRESTS
 from .flags import flag_table_by_name
 from .items import item_table
 from .locations import location_table_by_name, LocationData
-from .options import DHCAccess, Goal, ShuffleElements
+from .options import DHCAccess, DungeonItem, Goal, ShuffleElements
 
 
 if TYPE_CHECKING:
@@ -203,6 +203,55 @@ def write_tokens(world: "MinishCapWorld", patch: MinishCapProcedurePatch) -> Non
     if world.options.goron_jp_prices.value:
         patch.write_token(APTokenTypes.WRITE, 0x1112F0, struct.pack(
             "<HHHHHHHHHHHHHHH", *[x for _ in range(0, 5) for x in [300, 200, 50]]))
+
+    # Open Keys
+    if world.options.dungeon_small_keys.value == DungeonItem.option_open:
+        open_flags = [
+            TMCEvent.DWS_1F_BLUE_WARP_LEFT_DOOR,
+            TMCEvent.DWS_BARREL_EAST_DOOR_OPEN,
+            TMCEvent.DWS_1F_SLUG_DOOR,
+            TMCEvent.DWS_ROOM_14_DOOR_OPEN,
+
+            TMCEvent.COF_B1_BLUE_WARP_DOOR,
+            TMCEvent.COF_OPENED_DOORS_TO_SWITCH,
+
+            TMCEvent.FOW_RIGHT_SIDE_KEY_BOSS_KEY_SIDE_DOOR_OPEN,
+            TMCEvent.FOW_CENTER_DOOR_2F_DOOR_OPEN,
+            TMCEvent.FOW_CENTER_DOOR_2F_LEFT_DOOR_OPEN,
+            TMCEvent.FOW_CENTER_DOOR_2F_RIGHT_DOOR_OPEN,
+
+            TMCEvent.TOD_ENTRANCE_WEST_DOOR,
+            TMCEvent.TOD_OPENED_DOOR_TO_LILYPAD,
+            TMCEvent.TOD_BLUE_CHU_DOOR_OPEN,
+            TMCEvent.TOD_DARK_MAZE_DOOR_OPEN,
+
+            TMCEvent.RC_SECOND_KEY_BLOCK_OPEN,
+            TMCEvent.RC_FIRST_KEY_BLOCK_OPEN,
+            TMCEvent.RC_MUSHROOM_DOOR_OPEN,
+
+            TMCEvent.POW_5F_KEY_CHEST_BLOCKS_DOOR_OPEN,
+            TMCEvent.POW_5F_BOSS_DOOR_HALL_DOOR_OPEN,
+            TMCEvent.POW_2ND_HALF_4F_FINAL_DOOR,
+            TMCEvent.POW_2ND_HALF_4F_MIDDLE_DOOR,
+            TMCEvent.POW_3F_SPIKE_BAR_DOOR_OPEN,
+            TMCEvent.POW_PEAHAT_LOCKED_DOOR_OPEN
+        ]
+        for flag in open_flags:
+            rom_data = flag_table_by_name[flag]
+            patch.write_token(APTokenTypes.OR_8, rom_data.offset, rom_data.data)
+
+    if world.options.dungeon_big_keys.value == DungeonItem.option_open:
+        open_flags = [
+            TMCEvent.DWS_BOSS_DOOR_OPEN,
+            TMCEvent.COF_B2_BOSS_DOOR,
+            TMCEvent.FOW_BOSS_DOOR,
+            TMCEvent.TOD_BOSS_DOOR,
+            TMCEvent.POW_BOSS_DOOR_OPEN,
+            TMCEvent.POW_BOSS_HALL_DOOR_OPEN,
+        ]
+        for flag in open_flags:
+            rom_data = flag_table_by_name[flag]
+            patch.write_token(APTokenTypes.OR_8, rom_data.offset, rom_data.data)
 
     # Patch Items into Locations
     for location_name, loc in location_table_by_name.items():

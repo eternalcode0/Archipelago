@@ -148,7 +148,8 @@ class MinishCapRules:
                 self.logic_and([self.has_all([TMCItem.GRAVEYARD_KEY, TMCItem.PEGASUS_BOOTS]), self.dark_room()]),
             (TMCRegion.GRAVEYARD, TMCRegion.DUNGEON_RC): self.split_rule(3),
             (TMCRegion.DUNGEON_RC, TMCRegion.DUNGEON_RC_CLEAR):
-                self.logic_and([self.has_weapon(), self.has(TMCItem.SMALL_KEY_RC, 3), self.has(TMCItem.LANTERN)]),
+                self.logic_and([self.has_weapon(), self.small_keys(
+                    TMCItem.SMALL_KEY_RC, 3), self.has(TMCItem.LANTERN)]),
 
             (TMCRegion.FALLS_ENTRANCE, TMCRegion.MIDDLE_FALLS):
                 self.logic_and([self.has(TMCItem.KINSTONE_GOLD_FALLS), self.dark_room()]),
@@ -167,15 +168,15 @@ class MinishCapRules:
             (TMCRegion.DUNGEON_DWS_ENTRANCE, TMCRegion.DUNGEON_DWS_BLUE_WARP): self.dws_blue_warp(),
             (TMCRegion.DUNGEON_DWS_BLUE_WARP, TMCRegion.DUNGEON_DWS_BACK_HALF): None,
             (TMCRegion.DUNGEON_DWS_ENTRANCE, TMCRegion.DUNGEON_DWS_RED_WARP): self.dws_red_warp(),
-            (TMCRegion.DUNGEON_DWS_BARREL, TMCRegion.DUNGEON_DWS_MULLDOZER): self.has(TMCItem.SMALL_KEY_DWS, 4),
+            (TMCRegion.DUNGEON_DWS_BARREL, TMCRegion.DUNGEON_DWS_MULLDOZER): self.small_keys(TMCItem.SMALL_KEY_DWS, 4),
             (TMCRegion.DUNGEON_DWS_BARREL, TMCRegion.DUNGEON_DWS_BACK_HALF): self.dws_2nd_half(),
             (TMCRegion.DUNGEON_DWS_BARREL, TMCRegion.DUNGEON_DWS_RED_WARP):
-                self.logic_and([self.has(TMCItem.SMALL_KEY_DWS, 4), self.has(TMCItem.GUST_JAR)]),
+                self.logic_and([self.small_keys(TMCItem.SMALL_KEY_DWS, 4), self.has(TMCItem.GUST_JAR)]),
             (TMCRegion.DUNGEON_DWS_BACK_HALF, TMCRegion.DUNGEON_DWS_BLUE_WARP): self.blow_dust(),
             (TMCRegion.DUNGEON_DWS_BACK_HALF, TMCRegion.DUNGEON_DWS_BARREL): None,
             (TMCRegion.DUNGEON_DWS_MULLDOZER, TMCRegion.DUNGEON_DWS_BACK_HALF): None,
             (TMCRegion.DUNGEON_DWS_ENTRANCE, TMCRegion.DUNGEON_DWS_CLEAR):
-                self.logic_and([self.has_all([TMCItem.BIG_KEY_DWS, TMCItem.GUST_JAR]), self.has_weapon_boss()]),
+                self.logic_and([self.big_key(TMCItem.BIG_KEY_DWS), self.has(TMCItem.GUST_JAR), self.has_weapon_boss()]),
 
             (TMCRegion.DUNGEON_COF_ENTRANCE, TMCRegion.DUNGEON_COF_MAIN):
                 self.logic_and([
@@ -192,31 +193,32 @@ class MinishCapRules:
                 ]),
             (TMCRegion.DUNGEON_COF_MAIN, TMCRegion.DUNGEON_COF_MINECART):
                 self.logic_and([self.logic_option(self.world.options.dungeon_warp_cof.has_blue,
-                                                  self.has(TMCItem.SMALL_KEY_COF, 2),
-                                                  self.has(TMCItem.SMALL_KEY_COF, 1)),
+                                                  self.small_keys(TMCItem.SMALL_KEY_COF, 2),
+                                                  self.small_keys(TMCItem.SMALL_KEY_COF, 1)),
                                 self.has_sword()]),
             (TMCRegion.DUNGEON_COF_MINECART, TMCRegion.DUNGEON_COF_BLUE_WARP):
                 self.logic_and([self.has_weapon(), self.has_any([TMCItem.CANE_OF_PACCI, TMCItem.ROCS_CAPE])]),
             (TMCRegion.DUNGEON_COF_ENTRANCE, TMCRegion.DUNGEON_COF_BLUE_WARP): self.cof_blue_warp(),
             (TMCRegion.DUNGEON_COF_BLUE_WARP, TMCRegion.DUNGEON_COF_MINECART): self.has(TMCItem.CANE_OF_PACCI),
             (TMCRegion.DUNGEON_COF_BLUE_WARP, TMCRegion.DUNGEON_COF_LAVA_BASEMENT):
-                self.logic_and([self.has_sword(), self.has(TMCItem.SMALL_KEY_COF, 2), self.has(TMCItem.CANE_OF_PACCI)]),
+                self.logic_and([self.has_sword(), self.small_keys(
+                    TMCItem.SMALL_KEY_COF, 2), self.has(TMCItem.CANE_OF_PACCI)]),
             (TMCRegion.DUNGEON_COF_ENTRANCE, TMCRegion.DUNGEON_COF_LAVA_BASEMENT): self.cof_red_warp(),
             (TMCRegion.DUNGEON_COF_LAVA_BASEMENT, TMCRegion.DUNGEON_COF_CLEAR):
                 self.logic_and([self.has_sword(), self.has_weapon_gleerok_mazaal(),
-                                self.has_all([TMCItem.CANE_OF_PACCI, TMCItem.BIG_KEY_COF])]),
+                                self.has(TMCItem.CANE_OF_PACCI), self.big_key(TMCItem.BIG_KEY_COF)]),
 
             (TMCRegion.DUNGEON_FOW_ENTRANCE, TMCRegion.DUNGEON_FOW_EYEGORE): self.has_bow(),
             (TMCRegion.DUNGEON_FOW_ENTRANCE, TMCRegion.DUNGEON_FOW_BLUE_WARP): self.fow_blue_warp(),
-            (TMCRegion.DUNGEON_FOW_EYEGORE, TMCRegion.DUNGEON_FOW_BLUE_WARP): self.has(TMCItem.SMALL_KEY_FOW, 4),
+            (TMCRegion.DUNGEON_FOW_EYEGORE, TMCRegion.DUNGEON_FOW_BLUE_WARP): self.small_keys(TMCItem.SMALL_KEY_FOW, 4),
             (TMCRegion.DUNGEON_FOW_BLUE_WARP, TMCRegion.DUNGEON_FOW_EYEGORE): None,
             (TMCRegion.DUNGEON_FOW_ENTRANCE, TMCRegion.DUNGEON_FOW_CLEAR):
                 self.logic_and([self.has(TMCItem.MOLE_MITTS), self.has_bow(),
-                                self.has(TMCItem.BIG_KEY_FOW), self.has_weapon_gleerok_mazaal()]),
+                                self.big_key(TMCItem.BIG_KEY_FOW), self.has_weapon_gleerok_mazaal()]),
 
             (TMCRegion.DUNGEON_TOD_ENTRANCE, TMCRegion.DUNGEON_TOD_LEFT_BASEMENT): self.tod_blue_warp(),
             (TMCRegion.DUNGEON_TOD_ENTRANCE, TMCRegion.DUNGEON_TOD_WEST_SWITCH_LEDGE): self.tod_red_warp(),
-            (TMCRegion.DUNGEON_TOD_ENTRANCE, TMCRegion.DUNGEON_TOD_MAIN): self.has(TMCItem.BIG_KEY_TOD),
+            (TMCRegion.DUNGEON_TOD_ENTRANCE, TMCRegion.DUNGEON_TOD_MAIN): self.big_key(TMCItem.BIG_KEY_TOD),
             (TMCRegion.DUNGEON_TOD_WEST_SWITCH_LEDGE, TMCRegion.DUNGEON_TOD_MAIN): None,
             (TMCRegion.DUNGEON_TOD_LEFT_BASEMENT, TMCRegion.DUNGEON_TOD_MAIN): None,
             (TMCRegion.DUNGEON_TOD_MAIN, TMCRegion.DUNGEON_TOD_LEFT_BASEMENT):
@@ -249,7 +251,7 @@ class MinishCapRules:
                 self.logic_and([self.pow_1st_door(), self.has(TMCItem.ROCS_CAPE)]),
             (TMCRegion.DUNGEON_POW_OUT_4F, TMCRegion.DUNGEON_POW_OUT_5F): self.has(TMCItem.ROCS_CAPE),
             (TMCRegion.DUNGEON_POW_OUT_5F, TMCRegion.DUNGEON_POW_BLUE_WARP):
-                self.logic_and([self.has(TMCItem.BIG_KEY_POW), self.has_weapon_boss()]),
+                self.logic_and([self.big_key(TMCItem.BIG_KEY_POW), self.has_weapon_boss()]),
             (TMCRegion.DUNGEON_POW_BLUE_WARP, TMCRegion.DUNGEON_POW_IN_1F): self.dark_room(),
             (TMCRegion.DUNGEON_POW_IN_1F, TMCRegion.DUNGEON_POW_IN_2F): None,
             (TMCRegion.DUNGEON_POW_IN_2F, TMCRegion.DUNGEON_POW_IN_1F): self.dark_room(),
@@ -272,7 +274,7 @@ class MinishCapRules:
             (TMCRegion.DUNGEON_POW_IN_5F, TMCRegion.DUNGEON_POW_IN_4F_END): self.pow_last_door(),
             (TMCRegion.DUNGEON_POW_IN_4F_END, TMCRegion.DUNGEON_POW_IN_5F_END): self.has(TMCItem.ROCS_CAPE),
             (TMCRegion.DUNGEON_POW_IN_4F_END, TMCRegion.DUNGEON_POW_CLEAR):
-                self.logic_and([self.has(TMCItem.ROCS_CAPE), self.has(TMCItem.BIG_KEY_POW), self.split_rule(3)]),
+                self.logic_and([self.has(TMCItem.ROCS_CAPE), self.big_key(TMCItem.BIG_KEY_POW), self.split_rule(3)]),
 
             (TMCRegion.STAINED_GLASS, TMCRegion.VAATI_FIGHT):
                 self.logic_option(self.world.options.dhc_access.value == DHCAccess.option_closed and
@@ -312,7 +314,8 @@ class MinishCapRules:
                                 self.has_any([TMCItem.BOMB_BAG, TMCItem.GUST_JAR]), self.has_weapon_boss()]),
             (TMCRegion.DUNGEON_DHC_RED_WARP, TMCRegion.VAATI_FIGHT):
                 self.logic_and([
-                    self.has_all([TMCItem.BIG_KEY_DHC, TMCItem.GUST_JAR, TMCItem.CANE_OF_PACCI]),
+                    self.has_all([TMCItem.GUST_JAR, TMCItem.CANE_OF_PACCI]),
+                    self.big_key(TMCItem.BIG_KEY_DHC),
                     self.has_weapon_boss(),  # Darknut
                     self.split_rule(4),
                     self.has_bow(),
@@ -806,8 +809,8 @@ class MinishCapRules:
             # region Dungeon RC
             TMCLocation.CRYPT_GIBDO_LEFT_ITEM: self.logic_or([self.has(TMCItem.LANTERN), self.has_weapon()]),
             TMCLocation.CRYPT_GIBDO_RIGHT_ITEM: self.logic_or([self.has(TMCItem.LANTERN), self.has_weapon()]),
-            TMCLocation.CRYPT_LEFT_ITEM: self.logic_and([self.split_rule(3), self.has(TMCItem.SMALL_KEY_RC, 1)]),
-            TMCLocation.CRYPT_RIGHT_ITEM: self.logic_and([self.split_rule(3), self.has(TMCItem.SMALL_KEY_RC, 1)]),
+            TMCLocation.CRYPT_LEFT_ITEM: self.logic_and([self.split_rule(3), self.small_keys(TMCItem.SMALL_KEY_RC, 1)]),
+            TMCLocation.CRYPT_RIGHT_ITEM: self.logic_and([self.split_rule(3), self.small_keys(TMCItem.SMALL_KEY_RC, 1)]),
             # endregion
 
             # region Upper Falls
@@ -906,9 +909,9 @@ class MinishCapRules:
             TMCLocation.DEEPWOOD_1F_BLUE_WARP_RIGHT_CHEST: self.blow_dust(),
             TMCLocation.DEEPWOOD_1F_MADDERPILLAR_BIG_CHEST:
                 self.logic_and([self.has_weapon_boss(),
-                                self.logic_or([self.has(TMCItem.SMALL_KEY_DWS, 4), self.has(TMCItem.LANTERN)])]),
+                                self.logic_or([self.small_keys(TMCItem.SMALL_KEY_DWS, 4), self.has(TMCItem.LANTERN)])]),
             TMCLocation.DEEPWOOD_1F_MADDERPILLAR_HP:
-                self.logic_or([self.logic_and([self.has(TMCItem.SMALL_KEY_DWS, 4), self.has(TMCItem.GUST_JAR)]),
+                self.logic_or([self.logic_and([self.small_keys(TMCItem.SMALL_KEY_DWS, 4), self.has(TMCItem.GUST_JAR)]),
                                self.has(TMCItem.LANTERN)]),
             # endregion
 
@@ -990,7 +993,7 @@ class MinishCapRules:
             TMCLocation.FORTRESS_ENTRANCE_1F_RIGHT_HP: self.split_rule(2),
             TMCLocation.FORTRESS_BACK_RIGHT_DIG_ROOM_BOTTOM_POT:
                 self.logic_or([self.fow_pot(),
-                               self.logic_and([self.has(TMCItem.SMALL_KEY_FOW, 3), self.has(TMCItem.MOLE_MITTS),
+                               self.logic_and([self.small_keys(TMCItem.SMALL_KEY_FOW, 3), self.has(TMCItem.MOLE_MITTS),
                                                self.logic_or([self.has_bow(), self.fow_blue_warp()])])]),
             # endregion
 
@@ -1002,13 +1005,14 @@ class MinishCapRules:
             # region Dungeon FOW Past Eyegores
             TMCLocation.FORTRESS_MIDDLE_2F_BIG_CHEST: None,
             TMCLocation.FORTRESS_BACK_RIGHT_STATUE_ITEM_DROP:
-                self.logic_and([self.has(TMCItem.SMALL_KEY_FOW, 2), self.split_rule(2)]),
+                self.logic_and([self.small_keys(TMCItem.SMALL_KEY_FOW, 2), self.split_rule(2)]),
             TMCLocation.FORTRESS_BACK_RIGHT_MINISH_ITEM_DROP:
-                self.logic_and([self.has(TMCItem.SMALL_KEY_FOW, 3), self.has_weapon(), self.has(TMCItem.MOLE_MITTS)]),
+                self.logic_and([self.small_keys(TMCItem.SMALL_KEY_FOW, 3),
+                               self.has_weapon(), self.has(TMCItem.MOLE_MITTS)]),
             TMCLocation.FORTRESS_BACK_RIGHT_DIG_ROOM_TOP_POT:
-                self.logic_and([self.has(TMCItem.SMALL_KEY_FOW, 3), self.has(TMCItem.MOLE_MITTS)]),
+                self.logic_and([self.small_keys(TMCItem.SMALL_KEY_FOW, 3), self.has(TMCItem.MOLE_MITTS)]),
             TMCLocation.FORTRESS_BACK_RIGHT_BIG_CHEST:
-                self.logic_and([self.has(TMCItem.SMALL_KEY_FOW, 4), self.has(TMCItem.MOLE_MITTS)]),
+                self.logic_and([self.small_keys(TMCItem.SMALL_KEY_FOW, 4), self.has(TMCItem.MOLE_MITTS)]),
             # endregion
 
             # region Dungeon FOW Boss
@@ -1055,7 +1059,7 @@ class MinishCapRules:
             TMCLocation.DROPLETS_RIGHT_PATH_B1_POT: self.tod_right_ice(),
             TMCLocation.DROPLETS_RIGHT_PATH_B3_FROZEN_CHEST: self.tod_right_ice(),
             TMCLocation.DROPLETS_RIGHT_PATH_B1_BLU_CHU_BIG_CHEST:
-                self.logic_and([self.tod_right_ice(), self.has(TMCItem.SMALL_KEY_TOD, 4), self.has(TMCItem.GUST_JAR),
+                self.logic_and([self.tod_right_ice(), self.small_keys(TMCItem.SMALL_KEY_TOD, 4), self.has(TMCItem.GUST_JAR),
                                 self.has_weapon_boss()]),
             TMCLocation.DROPLETS_RIGHT_PATH_B2_FROZEN_CHEST: self.has(TMCItem.LANTERN),
             TMCLocation.DROPLETS_RIGHT_PATH_B2_DARK_MAZE_BOTTOM_CHEST:
@@ -1122,8 +1126,9 @@ class MinishCapRules:
             # region Dungeon POW 1st Half 5F
             TMCLocation.PALACE_1ST_HALF_5F_BALL_AND_CHAIN_SOLDIERS_ITEM_DROP: self.has_weapon(),
             TMCLocation.PALACE_1ST_HALF_5F_FAN_LOOP_CHEST:
-                self.logic_and([self.has(TMCItem.ROCS_CAPE), self.has(TMCItem.SMALL_KEY_POW, 5), self.has_weapon()]),
-            TMCLocation.PALACE_1ST_HALF_5F_BIG_CHEST: self.has(TMCItem.SMALL_KEY_POW, 6),
+                self.logic_and([self.has(TMCItem.ROCS_CAPE), self.small_keys(
+                    TMCItem.SMALL_KEY_POW, 5), self.has_weapon()]),
+            TMCLocation.PALACE_1ST_HALF_5F_BIG_CHEST: self.small_keys(TMCItem.SMALL_KEY_POW, 6),
             # endregion
 
             # region Dungeon POW 2nd Half 1F
@@ -1186,7 +1191,7 @@ class MinishCapRules:
             TMCLocation.DHC_3F_SOUTH_EAST_CHEST:
                 self.logic_and([self.has_weapon_boss(), self.dhc_south_towers(), self.dhc_spin()]),
             TMCLocation.DHC_2F_BLUE_WARP_BIG_CHEST:
-                self.logic_and([self.has(TMCItem.SMALL_KEY_DHC, 5), self.split_rule(4)]),
+                self.logic_and([self.small_keys(TMCItem.SMALL_KEY_DHC, 5), self.split_rule(4)]),
             # endregion
         }
 
@@ -1211,6 +1216,12 @@ class MinishCapRules:
     def logic_option(option: bool, rule_true: CollectionRule | None = None,
                      rule_false: CollectionRule | None = None) -> CollectionRule | None:
         return rule_true if option else rule_false
+
+    def small_keys(self, key: str, count: int = 1) -> CollectionRule:
+        return self.has(key, count) if self.world.options.dungeon_small_keys.value != DungeonItem.option_open else lambda state: True
+
+    def big_key(self, key: str) -> CollectionRule:
+        return self.has(key) if self.world.options.dungeon_big_keys.value != DungeonItem.option_open else lambda state: True
 
     def dws_blue_warp(self) -> CollectionRule:
         return self.logic_option(self.world.options.dungeon_warp_dws.has_blue,
@@ -1275,13 +1286,13 @@ class MinishCapRules:
 
     def dws_1st_door(self) -> CollectionRule:
         return self.logic_option(self.world.options.dungeon_warp_dws.has_blue,
-                                 self.has(TMCItem.SMALL_KEY_DWS, 4),
-                                 self.has(TMCItem.SMALL_KEY_DWS, 1))
+                                 self.small_keys(TMCItem.SMALL_KEY_DWS, 4),
+                                 self.small_keys(TMCItem.SMALL_KEY_DWS, 1))
 
     def dws_2nd_half(self) -> CollectionRule:
         return self.logic_option(self.world.options.dungeon_warp_dws.has_blue,
                                  self.no_access(),
-                                 self.logic_or([self.has(TMCItem.SMALL_KEY_DWS, 2),
+                                 self.logic_or([self.small_keys(TMCItem.SMALL_KEY_DWS, 2),
                                                 self.has(TMCItem.GUST_JAR)]))
 
     def tod_right_ice(self) -> CollectionRule:
@@ -1290,7 +1301,7 @@ class MinishCapRules:
     def has_tod_4_keys(self) -> CollectionRule:
         return self.logic_option(DungeonItem.option_anywhere == self.world.options.dungeon_small_keys.value,
                                  self.has(TMCItem.SMALL_KEY_TOD, 4),
-                                 self.logic_and([self.has(TMCItem.SMALL_KEY_TOD, 3),
+                                 self.logic_and([self.small_keys(TMCItem.SMALL_KEY_TOD, 3),
                                                  self.has_all([TMCItem.FLIPPERS, TMCItem.GUST_JAR, TMCItem.BOMB_BAG,
                                                                TMCItem.LANTERN, TMCItem.ROCS_CAPE]),
                                                  self.has_weapon_scissor()]))
@@ -1298,19 +1309,19 @@ class MinishCapRules:
     def pow_1st_door(self) -> CollectionRule:
         return self.logic_option(self.world.options.dungeon_warp_pow.has_blue or
                                  self.world.options.dungeon_warp_pow.has_red,
-                                 self.has(TMCItem.SMALL_KEY_POW, 4),
-                                 self.has(TMCItem.SMALL_KEY_POW, 1))
+                                 self.small_keys(TMCItem.SMALL_KEY_POW, 4),
+                                 self.small_keys(TMCItem.SMALL_KEY_POW, 1))
 
     def pow_fan_door(self) -> CollectionRule:
-        return self.has(TMCItem.SMALL_KEY_POW, 5)  # FUTURE: Key settings
+        return self.small_keys(TMCItem.SMALL_KEY_POW, 5)  # FUTURE: Key settings
 
     def pow_big_chest_door(self) -> CollectionRule:
-        return self.has(TMCItem.SMALL_KEY_POW, 6)  # FUTURE: Key settings
+        return self.small_keys(TMCItem.SMALL_KEY_POW, 6)  # FUTURE: Key settings
 
     def pow_2nd_door(self) -> CollectionRule:
         return self.logic_option(self.world.options.dungeon_warp_pow.has_red,
-                                 self.has(TMCItem.SMALL_KEY_POW, 6),
-                                 self.has(TMCItem.SMALL_KEY_POW, 4))
+                                 self.small_keys(TMCItem.SMALL_KEY_POW, 6),
+                                 self.small_keys(TMCItem.SMALL_KEY_POW, 4))
 
     def pow_red_chest(self) -> CollectionRule:
         return self.logic_option(self.world.options.dungeon_warp_pow.has_red,
@@ -1318,16 +1329,16 @@ class MinishCapRules:
                                  self.logic_and([self.has(TMCItem.ROCS_CAPE), self.can_hit_distance()]))
 
     def pow_red_warp_door(self) -> CollectionRule:
-        return self.has(TMCItem.SMALL_KEY_POW, 5)
+        return self.small_keys(TMCItem.SMALL_KEY_POW, 5)
 
     def pow_last_door(self) -> CollectionRule:
-        return self.has(TMCItem.SMALL_KEY_POW, 6)
+        return self.small_keys(TMCItem.SMALL_KEY_POW, 6)
 
     def dhc_door(self) -> CollectionRule:
         return self.logic_option(self.world.options.dungeon_warp_dhc.has_blue or
                                  self.world.options.dungeon_warp_dhc.has_red,
-                                 self.has(TMCItem.SMALL_KEY_DHC, 5),
-                                 self.has(TMCItem.SMALL_KEY_DHC, 1))
+                                 self.small_keys(TMCItem.SMALL_KEY_DHC, 5),
+                                 self.small_keys(TMCItem.SMALL_KEY_DHC, 1))
 
     def dhc_switch_gap(self) -> CollectionRule:
         return self.logic_or([self.has_bow(), self.has_boomerang(), self.can_beam()])
@@ -1638,10 +1649,10 @@ class MinishCapRules:
         """
         west_item = self.world.get_location(TMCLocation.DROPLETS_ENTRANCE_B2_WEST_ICEBLOCK).item
         if west_item is None or west_item.name is not TMCItem.BIG_KEY_TOD:
-            return self.has(TMCItem.SMALL_KEY_TOD, 4)
+            return self.small_keys(TMCItem.SMALL_KEY_TOD, 4)
         if (west_item.name is TMCItem.BIG_KEY_TOD and
                 self.world.options.dungeon_small_keys.value is DungeonItem.option_own_dungeon):
-            return self.has(TMCItem.SMALL_KEY_TOD, 1)
+            return self.small_keys(TMCItem.SMALL_KEY_TOD, 1)
         return None
 
     def has(self, item: str, count: int = 1) -> CollectionRule:

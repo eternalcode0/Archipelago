@@ -1,0 +1,92 @@
+from worlds.tmc.constants import TMCItem, TMCLocation
+from worlds.tmc.test import MinishCapTestBase
+
+
+class TestCrenelCrest(MinishCapTestBase):
+    options = {
+        "wind_crest_crenel": 1,
+    }
+
+    def test_crenel_wind_crest(self):
+        access_list = [
+            [TMCItem.CANE_OF_PACCI, TMCItem.GRIP_RING, TMCItem.BOTTLE, TMCItem.PROGRESSIVE_SWORD, TMCItem.SPIN_ATTACK],
+            [TMCItem.CANE_OF_PACCI, TMCItem.GRIP_RING, TMCItem.BOTTLE, TMCItem.PROGRESSIVE_SWORD,
+             TMCItem.FAST_SPIN_SCROLL],
+            [TMCItem.CANE_OF_PACCI, TMCItem.GRIP_RING, TMCItem.BOTTLE, TMCItem.PROGRESSIVE_SWORD,
+             TMCItem.FAST_SPLIT_SCROLL],
+            [TMCItem.CANE_OF_PACCI, TMCItem.GRIP_RING, TMCItem.BOTTLE, TMCItem.PROGRESSIVE_SWORD, TMCItem.GREATSPIN],
+            [TMCItem.CANE_OF_PACCI, TMCItem.GRIP_RING, TMCItem.BOTTLE, TMCItem.PROGRESSIVE_SWORD, TMCItem.LONG_SPIN],
+            [TMCItem.CANE_OF_PACCI, TMCItem.GRIP_RING, TMCItem.BOTTLE, TMCItem.FLIPPERS],
+            [TMCItem.CANE_OF_PACCI, TMCItem.GRIP_RING, TMCItem.BOTTLE, TMCItem.ROCS_CAPE],
+            [TMCItem.CANE_OF_PACCI, TMCItem.BOMB_BAG, TMCItem.GUST_JAR, TMCItem.BOTTLE, TMCItem.PROGRESSIVE_SWORD,
+             TMCItem.SPIN_ATTACK],
+            [TMCItem.CANE_OF_PACCI, TMCItem.BOMB_BAG, TMCItem.GUST_JAR, TMCItem.BOTTLE, TMCItem.PROGRESSIVE_SWORD,
+             TMCItem.FAST_SPIN_SCROLL],
+            [TMCItem.CANE_OF_PACCI, TMCItem.BOMB_BAG, TMCItem.GUST_JAR, TMCItem.BOTTLE, TMCItem.PROGRESSIVE_SWORD,
+             TMCItem.FAST_SPLIT_SCROLL],
+            [TMCItem.CANE_OF_PACCI, TMCItem.BOMB_BAG, TMCItem.GUST_JAR, TMCItem.BOTTLE, TMCItem.PROGRESSIVE_SWORD,
+             TMCItem.GREATSPIN],
+            [TMCItem.CANE_OF_PACCI, TMCItem.BOMB_BAG, TMCItem.GUST_JAR, TMCItem.BOTTLE, TMCItem.PROGRESSIVE_SWORD,
+             TMCItem.LONG_SPIN],
+            [TMCItem.CANE_OF_PACCI, TMCItem.BOMB_BAG, TMCItem.GUST_JAR, TMCItem.BOTTLE, TMCItem.FLIPPERS],
+            [TMCItem.CANE_OF_PACCI, TMCItem.BOMB_BAG, TMCItem.GUST_JAR, TMCItem.BOTTLE, TMCItem.ROCS_CAPE],
+            [TMCItem.ROCS_CAPE, TMCItem.GRIP_RING, TMCItem.BOTTLE, TMCItem.PROGRESSIVE_SWORD, TMCItem.SPIN_ATTACK],
+            [TMCItem.ROCS_CAPE, TMCItem.GRIP_RING, TMCItem.BOTTLE, TMCItem.PROGRESSIVE_SWORD,
+             TMCItem.FAST_SPIN_SCROLL],
+            [TMCItem.ROCS_CAPE, TMCItem.GRIP_RING, TMCItem.BOTTLE, TMCItem.PROGRESSIVE_SWORD,
+             TMCItem.FAST_SPLIT_SCROLL],
+            [TMCItem.ROCS_CAPE, TMCItem.GRIP_RING, TMCItem.BOTTLE, TMCItem.PROGRESSIVE_SWORD, TMCItem.GREATSPIN],
+            [TMCItem.ROCS_CAPE, TMCItem.GRIP_RING, TMCItem.BOTTLE, TMCItem.PROGRESSIVE_SWORD, TMCItem.LONG_SPIN],
+            [TMCItem.ROCS_CAPE, TMCItem.GRIP_RING, TMCItem.BOTTLE, TMCItem.FLIPPERS],
+            [TMCItem.ROCS_CAPE, TMCItem.GRIP_RING, TMCItem.BOTTLE, TMCItem.ROCS_CAPE],
+            [TMCItem.PROGRESSIVE_BOW, TMCItem.GUST_JAR, TMCItem.GRIP_RING, TMCItem.BOTTLE, TMCItem.PROGRESSIVE_SWORD,
+             TMCItem.SPIN_ATTACK],
+            [TMCItem.PROGRESSIVE_BOW, TMCItem.GUST_JAR, TMCItem.GRIP_RING, TMCItem.BOTTLE, TMCItem.PROGRESSIVE_SWORD,
+             TMCItem.FAST_SPIN_SCROLL],
+            [TMCItem.PROGRESSIVE_BOW, TMCItem.GUST_JAR, TMCItem.GRIP_RING, TMCItem.BOTTLE, TMCItem.PROGRESSIVE_SWORD,
+             TMCItem.FAST_SPLIT_SCROLL],
+            [TMCItem.PROGRESSIVE_BOW, TMCItem.GUST_JAR, TMCItem.GRIP_RING, TMCItem.BOTTLE, TMCItem.PROGRESSIVE_SWORD,
+             TMCItem.GREATSPIN],
+            [TMCItem.PROGRESSIVE_BOW, TMCItem.GUST_JAR, TMCItem.GRIP_RING, TMCItem.BOTTLE, TMCItem.PROGRESSIVE_SWORD,
+             TMCItem.LONG_SPIN],
+            [TMCItem.PROGRESSIVE_BOW, TMCItem.GUST_JAR, TMCItem.GRIP_RING, TMCItem.BOTTLE, TMCItem.FLIPPERS],
+            [TMCItem.PROGRESSIVE_BOW, TMCItem.GUST_JAR, TMCItem.GRIP_RING, TMCItem.BOTTLE, TMCItem.ROCS_CAPE],
+            [TMCItem.PROGRESSIVE_BOOMERANG, TMCItem.GUST_JAR, TMCItem.GRIP_RING, TMCItem.BOTTLE,
+             TMCItem.PROGRESSIVE_SWORD,
+             TMCItem.SPIN_ATTACK],
+            [TMCItem.PROGRESSIVE_BOOMERANG, TMCItem.GUST_JAR, TMCItem.GRIP_RING, TMCItem.BOTTLE,
+             TMCItem.PROGRESSIVE_SWORD,
+             TMCItem.FAST_SPIN_SCROLL],
+            [TMCItem.PROGRESSIVE_BOOMERANG, TMCItem.GUST_JAR, TMCItem.GRIP_RING, TMCItem.BOTTLE,
+             TMCItem.PROGRESSIVE_SWORD,
+             TMCItem.FAST_SPLIT_SCROLL],
+            [TMCItem.PROGRESSIVE_BOOMERANG, TMCItem.GUST_JAR, TMCItem.GRIP_RING, TMCItem.BOTTLE,
+             TMCItem.PROGRESSIVE_SWORD,
+             TMCItem.GREATSPIN],
+            [TMCItem.PROGRESSIVE_BOOMERANG, TMCItem.GUST_JAR, TMCItem.GRIP_RING, TMCItem.BOTTLE,
+             TMCItem.PROGRESSIVE_SWORD,
+             TMCItem.LONG_SPIN],
+            [TMCItem.PROGRESSIVE_BOOMERANG, TMCItem.GUST_JAR, TMCItem.GRIP_RING, TMCItem.BOTTLE, TMCItem.FLIPPERS],
+            [TMCItem.PROGRESSIVE_BOOMERANG, TMCItem.GUST_JAR, TMCItem.GRIP_RING, TMCItem.BOTTLE, TMCItem.ROCS_CAPE],
+            [TMCItem.BOMB_BAG, TMCItem.GUST_JAR, TMCItem.GRIP_RING, TMCItem.BOTTLE, TMCItem.PROGRESSIVE_SWORD,
+             TMCItem.SPIN_ATTACK],
+            [TMCItem.BOMB_BAG, TMCItem.GUST_JAR, TMCItem.GRIP_RING, TMCItem.BOTTLE, TMCItem.PROGRESSIVE_SWORD,
+             TMCItem.FAST_SPIN_SCROLL],
+            [TMCItem.BOMB_BAG, TMCItem.GUST_JAR, TMCItem.GRIP_RING, TMCItem.BOTTLE, TMCItem.PROGRESSIVE_SWORD,
+             TMCItem.FAST_SPLIT_SCROLL],
+            [TMCItem.BOMB_BAG, TMCItem.GUST_JAR, TMCItem.GRIP_RING, TMCItem.BOTTLE, TMCItem.PROGRESSIVE_SWORD,
+             TMCItem.GREATSPIN],
+            [TMCItem.BOMB_BAG, TMCItem.GUST_JAR, TMCItem.GRIP_RING, TMCItem.BOTTLE, TMCItem.PROGRESSIVE_SWORD,
+             TMCItem.LONG_SPIN],
+            [TMCItem.BOMB_BAG, TMCItem.GUST_JAR, TMCItem.GRIP_RING, TMCItem.BOTTLE, TMCItem.FLIPPERS],
+            [TMCItem.BOMB_BAG, TMCItem.GUST_JAR, TMCItem.GRIP_RING, TMCItem.BOTTLE, TMCItem.ROCS_CAPE],
+        ]
+        add_ocarina(access_list)
+        location = [TMCLocation.CRENEL_UPPER_BLOCK_CHEST]
+        self.assertAccessDependency(location, access_list, True)
+
+
+def add_ocarina(access_list: list[list[str]]):
+    """Mutably update the access_list with ocarina inside each access combination"""
+    for group in access_list:
+        group.append(TMCItem.OCARINA)

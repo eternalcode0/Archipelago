@@ -11,7 +11,7 @@ class DungeonItem(Choice):
     # Elements would need to be forced to be anywhere under this setting.
     # option_closed = 0 # New compared to TMCR (compass/map removed from pool, locations behind keys inaccessible,
     #   I doubt many would use this but it'd be relatively simple to implement)
-    # option_open = 1 # TMCR Removed (compass/map start_inventory, keys removed from pool, doors are open at the
+    option_open = 1  # TMCR Removed (compass/map start_inventory, keys removed from pool, doors are open at the
     #   start of the save)
     # option_vanilla = 2
     option_own_dungeon = 3
@@ -92,50 +92,49 @@ class ShuffleElements(Choice):
 
 class SmallKeys(DungeonItem):
     """
+    'Open': Small Keys are removed from the pool and their doors are open from the beginning.
     'Own Dungeon' (false/default): Randomized within the dungeon they're normally found in
     'Anywhere' (true): Items are in completely random locations
-    *Note*: If using anything other than "anywhere" and you include small keys in start_inventory_from_pool,
-        you may get the warning "tried to remove items from their pool that don't exist". This is expected, the keys
-        have safely been added to your inventory from the pool.
     """
     display_name = "Small Key Shuffle"
     rich_text_doc = True
+    option_open = 1
     default = DungeonItem.option_own_dungeon
 
 
 class BigKeys(DungeonItem):
     """
+    'Open': Big Keys are removed from the pool and their doors are open from the beginning. Includes the DHC door.
     'Own Dungeon' (false/default): Randomized within the dungeon they're normally found in
-    'Anywhere' (true): Items are in completely random locations
-    *Note: If using anything other than "anywhere" and you include big keys in start_inventory_from_pool,
-        you may get the warning "tried to remove items from their pool that don't exist". This is expected, the keys
-        have safely been added to your inventory from the pool.
+    'Anywhere' (true): Big Keys are in completely random locations
     """
     display_name = "Big Key Shuffle"
+    rich_text_doc = True
+    option_open = 1
     default = DungeonItem.option_own_dungeon
 
 
 class DungeonMaps(DungeonItem):
     """
+    'Start With': Maps are added to your start_inventory
     'Own Dungeon' (false/default): Randomized within the dungeon they're normally found in
-    'Anywhere' (true): Items are in completely random locations
-    *Note: If using anything other than "anywhere" and you include dungeon maps in start_inventory_from_pool,
-        you may get the warning "tried to remove items from their pool that don't exist". This is expected, the maps
-        have safely been added to your inventory from the pool.
+    'Anywhere' (true): Maps are in completely random locations
     """
     display_name = "Dungeon Maps Shuffle"
+    rich_text_doc = True
+    option_start_with = 1
     default = DungeonItem.option_own_dungeon
 
 
 class DungeonCompasses(DungeonItem):
     """
+    'Start With': Compasses are added to your start_inventory
     'Own Dungeon' (false/default): Randomized within the dungeon they're normally found in
-    'Anywhere' (true): Items are in completely random locations
-    *Note: If using anything other than "anywhere" and you include dungeon compasses in start_inventory_from_pool,
-        you may get the warning "tried to remove items from their pool that don't exist". This is expected, the compass
-        has safely been added to your inventory from the pool.
+    'Anywhere' (true): Compasses are in completely random locations
     """
     display_name = "Dungeon Compasses Shuffle"
+    rich_text_doc = True
+    option_start_with = 1
     default = DungeonItem.option_own_dungeon
 
 

@@ -373,6 +373,7 @@ flag_group_by_name: dict[str, int] = {
     TMCFlagGroup.REPEATING_SIMON_SIMULATION_FLAG: 0xFF1274,  # 0x2002CB4, 0x01
     TMCFlagGroup.OVERWORLD_FLAGS: 0xFF127C,  # 0x2002CBC, 0x59
     TMCFlagGroup.OVERWORLD_CAVE_FLAGS: 0xFF12DC,  # 0x2002D1C, 0x11
+    TMCFlagGroup.RC_FLAGS: 0xFF12BF,  # 0x2002CFF, 0x03 + 0x2002D12, 0x01
     TMCFlagGroup.DWS_FLAGS: 0xFF12FC,  # 0x2002D3C, 0x0B
     TMCFlagGroup.COF_FLAGS: 0xFF1314,  # 0x2002D54, 0x09
     TMCFlagGroup.FOW_FLAGS: 0xFF132C,  # 0x2002D6C, 0x0A
@@ -815,6 +816,18 @@ OVERWORLD_FLAGS: dict[str, ROMData] = {
         ROMData(flag_group_by_name[TMCFlagGroup.OVERWORLD_FLAGS] + 0x1F, 0x08),
 }
 
+RC_FLAGS: dict[str, ROMData] = {
+    # 0x2CFF
+    TMCEvent.RC_DEFEATED_GIBDOS: ROMData(flag_group_by_name[TMCFlagGroup.RC_FLAGS], 0x02),
+    # 0x2D00
+    TMCEvent.RC_SECOND_KEY_BLOCK_OPEN: ROMData(flag_group_by_name[TMCFlagGroup.RC_FLAGS] + 1, 0x80),
+    # 0x2D01
+    TMCEvent.RC_FIRST_KEY_BLOCK_OPEN: ROMData(flag_group_by_name[TMCFlagGroup.RC_FLAGS] + 2, 0x01),
+
+    # 0x2D12
+    TMCEvent.RC_MUSHROOM_DOOR_OPEN: ROMData(flag_group_by_name[TMCFlagGroup.RC_FLAGS] + 19, 0x01),
+}
+
 DWS_FLAGS: dict[str, ROMData] = {
     # 0x2D3C
     TMCEvent.UNUSED_DWS_DOOR: ROMData(flag_group_by_name[TMCFlagGroup.DWS_FLAGS], 0x01),
@@ -837,6 +850,12 @@ DWS_FLAGS: dict[str, ROMData] = {
     TMCEvent.DWS_1F_BLUE_WARP_LEFT_CHEST_SWITCH: ROMData(flag_group_by_name[TMCFlagGroup.DWS_FLAGS] + 3, 0x80),
     # 0x2D40
     # 0x2D41
+    TMCEvent.DWS_MAP_CHEST_OPEN: ROMData(flag_group_by_name[TMCFlagGroup.DWS_FLAGS] + 5, 0x02),
+    TMCEvent.DWS_BARREL_EAST_DOOR_OPEN: ROMData(flag_group_by_name[TMCFlagGroup.DWS_FLAGS] + 5, 0x04),
+    TMCEvent.DWS_BARREL_NORTH_WEST_CHEST_OPEN: ROMData(flag_group_by_name[TMCFlagGroup.DWS_FLAGS] + 5, 0x08),
+    TMCEvent.DWS_EZLO_TALKS_ABOUT_BARREL: ROMData(flag_group_by_name[TMCFlagGroup.DWS_FLAGS] + 5, 0x10),
+    TMCEvent.DWS_BRIDGE_BUTTON_HIT: ROMData(flag_group_by_name[TMCFlagGroup.DWS_FLAGS] + 5, 0x20),
+    TMCEvent.DWS_MULLDOZERS_DEFEATED: ROMData(flag_group_by_name[TMCFlagGroup.DWS_FLAGS] + 5, 0x80),
     # 0x2D42
     # 0x2D43
     TMCEvent.DWS_1F_SLUG_TOP_LEFT: ROMData(flag_group_by_name[TMCFlagGroup.DWS_FLAGS] + 7, 0x01),
@@ -847,7 +866,24 @@ DWS_FLAGS: dict[str, ROMData] = {
     TMCEvent.DWS_1F_SLUG_CHEST: ROMData(flag_group_by_name[TMCFlagGroup.DWS_FLAGS] + 7, 0x20),
     TMCEvent.DWS_B1_RED_WARP_SWITCH: ROMData(flag_group_by_name[TMCFlagGroup.DWS_FLAGS] + 7, 0x40),
     TMCEvent.DWS_B1_RED_WARP_BIG_CHEST: ROMData(flag_group_by_name[TMCFlagGroup.DWS_FLAGS] + 7, 0x80),
-
+    # 0x2D44
+    TMCEvent.DWS_LILY_PAD_IN_ROOM_16: ROMData(flag_group_by_name[TMCFlagGroup.DWS_FLAGS] + 8, 0x01),
+    TMCEvent.DWS_ROOM_16_SMALL_KEY_CHEST_OPEN: ROMData(flag_group_by_name[TMCFlagGroup.DWS_FLAGS] + 8, 0x02),
+    TMCEvent.DWS_COMPASS_CHEST_OPEN: ROMData(flag_group_by_name[TMCFlagGroup.DWS_FLAGS] + 8, 0x04),
+    TMCEvent.DWS_POT_SET_ON_CHEST_BUTTON: ROMData(flag_group_by_name[TMCFlagGroup.DWS_FLAGS] + 8, 0x08),
+    TMCEvent.DWS_POT_SET_ON_ROOM_15_BUTTON: ROMData(flag_group_by_name[TMCFlagGroup.DWS_FLAGS] + 8, 0x10),
+    TMCEvent.DWS_ROOM_14_DOOR_OPEN: ROMData(flag_group_by_name[TMCFlagGroup.DWS_FLAGS] + 8, 0x20),
+    TMCEvent.DWS_EZLO_TALKS_ABOUT_LILYPAD: ROMData(flag_group_by_name[TMCFlagGroup.DWS_FLAGS] + 8, 0x40),
+    TMCEvent.DWS_OBTAINED_HEART_CONTAINER: ROMData(flag_group_by_name[TMCFlagGroup.DWS_FLAGS] + 8, 0x80),
+    # 0x2D45
+    TMCEvent.DWS_SEEN_GREEN_CHUCHU_CUTSCENE: ROMData(flag_group_by_name[TMCFlagGroup.DWS_FLAGS] + 9, 0x01),
+    TMCEvent.DWS_BOSS_DOOR_OPEN: ROMData(flag_group_by_name[TMCFlagGroup.DWS_FLAGS] + 9, 0x02),
+    TMCEvent.DWS_RED_RUPEE_CHEST_OPEN: ROMData(flag_group_by_name[TMCFlagGroup.DWS_FLAGS] + 9, 0x04),
+    TMCEvent.DWS_REVEALED_CHEST_BUTTON: ROMData(flag_group_by_name[TMCFlagGroup.DWS_FLAGS] + 9, 0x08),
+    TMCEvent.DWS_HIT_CHEST_BUTTON: ROMData(flag_group_by_name[TMCFlagGroup.DWS_FLAGS] + 9, 0x10),
+    TMCEvent.DWS_SMALL_KEY_CHEST_SPAWNED: ROMData(flag_group_by_name[TMCFlagGroup.DWS_FLAGS] + 9, 0x20),
+    TMCEvent.DWS_EZLO_TALKS_ABOUT_MOVING_BARREL: ROMData(flag_group_by_name[TMCFlagGroup.DWS_FLAGS] + 9, 0x40),
+    TMCEvent.DWS_OBTAINED_HEART_PIECE: ROMData(flag_group_by_name[TMCFlagGroup.DWS_FLAGS] + 9, 0x80),
 }
 COF_FLAGS: dict[str, ROMData] = {
     # 0x2D54
@@ -877,6 +913,14 @@ COF_FLAGS: dict[str, ROMData] = {
     TMCEvent.COF_B1_SPINY_CHU_DEFEATED: ROMData(flag_group_by_name[TMCFlagGroup.COF_FLAGS] + 2, 0x40),
     TMCEvent.COF_B1_SPINY_CHU_PILLAR: ROMData(flag_group_by_name[TMCFlagGroup.COF_FLAGS] + 2, 0x80),
     # 0x2D57
+    TMCEvent.COF_ROOM_11_SMALL_KEY_CHEST_OPEN: ROMData(flag_group_by_name[TMCFlagGroup.COF_FLAGS] + 3, 0x01),
+    TMCEvent.COF_CANE_OF_PACCI_CHEST_OPEN: ROMData(flag_group_by_name[TMCFlagGroup.COF_FLAGS] + 3, 0x02),
+    TMCEvent.COF_BLEW_UP_WALL_TO_HEART_PIECE: ROMData(flag_group_by_name[TMCFlagGroup.COF_FLAGS] + 3, 0x04),
+    TMCEvent.COF_EZLO_TALKS_ABOUT_CAVE_OF_FLAMES: ROMData(flag_group_by_name[TMCFlagGroup.COF_FLAGS] + 3, 0x08),
+    TMCEvent.COF_MINECART_SWITCH_FLIPPED: ROMData(flag_group_by_name[TMCFlagGroup.COF_FLAGS] + 3, 0x10),
+    TMCEvent.COF_OPENED_DOORS_TO_SWITCH: ROMData(flag_group_by_name[TMCFlagGroup.COF_FLAGS] + 3, 0x20),
+    TMCEvent.COF_EZLO_TALKS_ABOUT_MINECART: ROMData(flag_group_by_name[TMCFlagGroup.COF_FLAGS] + 3, 0x40),
+    TMCEvent.COF_BLEW_UP_WALL: ROMData(flag_group_by_name[TMCFlagGroup.COF_FLAGS] + 3, 0x80),
     # 0x2D58
     # 0x2D59
     # 0x2D5A
@@ -898,8 +942,32 @@ FOW_FLAGS: dict[str, ROMData] = {
     TMCEvent.FOW_VISIT_03: ROMData(flag_group_by_name[TMCFlagGroup.FOW_FLAGS], 0x10),
     TMCEvent.FOW_VISIT_04: ROMData(flag_group_by_name[TMCFlagGroup.FOW_FLAGS], 0x20),
     # 0x2D6D
+    TMCEvent.FOW_VISIT_05: ROMData(flag_group_by_name[TMCFlagGroup.FOW_FLAGS] + 1, 0x01),
+    TMCEvent.FOW_VISIT_06: ROMData(flag_group_by_name[TMCFlagGroup.FOW_FLAGS] + 1, 0x02),
+    TMCEvent.FOW_VISIT_07: ROMData(flag_group_by_name[TMCFlagGroup.FOW_FLAGS] + 1, 0x04),
+    TMCEvent.FOW_VISIT_08: ROMData(flag_group_by_name[TMCFlagGroup.FOW_FLAGS] + 1, 0x08),
+    TMCEvent.FOW_VISIT_09: ROMData(flag_group_by_name[TMCFlagGroup.FOW_FLAGS] + 1, 0x10),
+    TMCEvent.FOW_VISIT_10: ROMData(flag_group_by_name[TMCFlagGroup.FOW_FLAGS] + 1, 0x20),
+    TMCEvent.FOW_VISIT_11: ROMData(flag_group_by_name[TMCFlagGroup.FOW_FLAGS] + 1, 0x40),
+    TMCEvent.FOW_VISIT_12: ROMData(flag_group_by_name[TMCFlagGroup.FOW_FLAGS] + 1, 0x80),
     # 0x2D6E
+    TMCEvent.FOW_VISIT_13: ROMData(flag_group_by_name[TMCFlagGroup.FOW_FLAGS] + 2, 0x01),
+    TMCEvent.FOW_VISIT_14: ROMData(flag_group_by_name[TMCFlagGroup.FOW_FLAGS] + 2, 0x02),
+    TMCEvent.FOW_VISIT_15: ROMData(flag_group_by_name[TMCFlagGroup.FOW_FLAGS] + 2, 0x04),
+    TMCEvent.FOW_VISIT_16: ROMData(flag_group_by_name[TMCFlagGroup.FOW_FLAGS] + 2, 0x08),
+    TMCEvent.FOW_VISIT_17: ROMData(flag_group_by_name[TMCFlagGroup.FOW_FLAGS] + 2, 0x10),
+    TMCEvent.FOW_VISIT_18: ROMData(flag_group_by_name[TMCFlagGroup.FOW_FLAGS] + 2, 0x20),
+    TMCEvent.FOW_VISIT_19: ROMData(flag_group_by_name[TMCFlagGroup.FOW_FLAGS] + 2, 0x40),
+    TMCEvent.FOW_VISIT_20: ROMData(flag_group_by_name[TMCFlagGroup.FOW_FLAGS] + 2, 0x80),
     # 0x2D6F
+    TMCEvent.FOW_VISIT_21: ROMData(flag_group_by_name[TMCFlagGroup.FOW_FLAGS] + 3, 0x01),
+    TMCEvent.FOW_VISIT_22: ROMData(flag_group_by_name[TMCFlagGroup.FOW_FLAGS] + 3, 0x02),
+    TMCEvent.FOW_VISIT_23: ROMData(flag_group_by_name[TMCFlagGroup.FOW_FLAGS] + 3, 0x04),
+    TMCEvent.FOW_DEFEATED_EYEGORES: ROMData(flag_group_by_name[TMCFlagGroup.FOW_FLAGS] + 3, 0x08),
+    TMCEvent.FOW_COMPASS_CHEST_OPEN: ROMData(flag_group_by_name[TMCFlagGroup.FOW_FLAGS] + 3, 0x10),
+    TMCEvent.FOW_RIGHT_SIDE_KEY_BOSS_KEY_SIDE_DOOR_OPEN: ROMData(flag_group_by_name[TMCFlagGroup.FOW_FLAGS] + 3, 0x20),
+    TMCEvent.FOW_RIGHT_SIDE_3F_DOOR_OPEN: ROMData(flag_group_by_name[TMCFlagGroup.FOW_FLAGS] + 3, 0x40),
+    TMCEvent.FOW_RIGHT_KEY_DROP_ANIMATION_FINISHED: ROMData(flag_group_by_name[TMCFlagGroup.FOW_FLAGS] + 3, 0x80),
     # 0x2D70
     TMCEvent.FOW_3F_RIGHT_LEVER: ROMData(flag_group_by_name[TMCFlagGroup.FOW_FLAGS] + 4, 0x01),
     TMCEvent.FOW_3F_TOP_EYES: ROMData(flag_group_by_name[TMCFlagGroup.FOW_FLAGS] + 4, 0x02),
@@ -909,6 +977,24 @@ FOW_FLAGS: dict[str, ROMData] = {
     TMCEvent.FOW_RED_WARP_SWITCH: ROMData(flag_group_by_name[TMCFlagGroup.FOW_FLAGS] + 4, 0x20),
     TMCEvent.FOW_BOSS_DOOR: ROMData(flag_group_by_name[TMCFlagGroup.FOW_FLAGS] + 4, 0x40),
     TMCEvent.FOW_DEFEAT_DARKNUT: ROMData(flag_group_by_name[TMCFlagGroup.FOW_FLAGS] + 4, 0x80),
+    # 0x2D71
+    TMCEvent.FOW_CENTER_DOOR_2F_SHOT_ARROWS_AT_EYES: ROMData(flag_group_by_name[TMCFlagGroup.FOW_FLAGS] + 5, 0x01),
+    TMCEvent.FOW_CENTER_DOOR_2F_EZLO_TALKS_ABOUT_BRIDGE: ROMData(flag_group_by_name[TMCFlagGroup.FOW_FLAGS] + 5, 0x02),
+    TMCEvent.FOW_CENTER_DOOR_2F_DEFEATED_WALLMASTERS: ROMData(flag_group_by_name[TMCFlagGroup.FOW_FLAGS] + 5, 0x04),
+    TMCEvent.FOW_CENTER_DOOR_2F_BUTTONS_HIT: ROMData(flag_group_by_name[TMCFlagGroup.FOW_FLAGS] + 5, 0x08),
+    TMCEvent.FOW_CENTER_DOOR_2F_DOOR_OPEN: ROMData(flag_group_by_name[TMCFlagGroup.FOW_FLAGS] + 5, 0x10),
+    TMCEvent.FOW_CENTER_DOOR_2F_KEY_FALLEN: ROMData(flag_group_by_name[TMCFlagGroup.FOW_FLAGS] + 5, 0x20),
+    TMCEvent.FOW_CENTER_DOOR_2F_OBTAINED_KEY: ROMData(flag_group_by_name[TMCFlagGroup.FOW_FLAGS] + 5, 0x40),
+    TMCEvent.FOW_CENTER_DOOR_2F_HIT_BUTTON: ROMData(flag_group_by_name[TMCFlagGroup.FOW_FLAGS] + 5, 0x80),
+    # 0x2D72
+    TMCEvent.FOW_LEFT_SIDE_2F_DEFEATED_STALFOS: ROMData(flag_group_by_name[TMCFlagGroup.FOW_FLAGS] + 6, 0x01),
+    TMCEvent.FOW_DEFEATED_MAZAAL: ROMData(flag_group_by_name[TMCFlagGroup.FOW_FLAGS] + 6, 0x02),
+    TMCEvent.FOW_OBTAINED_HEART_CONTAINER: ROMData(flag_group_by_name[TMCFlagGroup.FOW_FLAGS] + 6, 0x04),
+    TMCEvent.FOW_LEFT_SIDE_2F_SHOT_ARROW_AT_EYE: ROMData(flag_group_by_name[TMCFlagGroup.FOW_FLAGS] + 6, 0x08),
+    TMCEvent.FOW_LEFT_SIDE_2F_BLEW_UP_WALL: ROMData(flag_group_by_name[TMCFlagGroup.FOW_FLAGS] + 6, 0x10),
+    TMCEvent.FOW_CENTER_ROOM_2F_LEFT_EYEGORE_DEFEATED: ROMData(flag_group_by_name[TMCFlagGroup.FOW_FLAGS] + 6, 0x20),
+    TMCEvent.FOW_CENTER_DOOR_2F_LEFT_DOOR_OPEN: ROMData(flag_group_by_name[TMCFlagGroup.FOW_FLAGS] + 6, 0x40),
+    TMCEvent.FOW_CENTER_DOOR_2F_RIGHT_DOOR_OPEN: ROMData(flag_group_by_name[TMCFlagGroup.FOW_FLAGS] + 6, 0x80),
 }
 
 TOD_FLAGS: dict[str, ROMData] = {
@@ -964,12 +1050,34 @@ TOD_FLAGS: dict[str, ROMData] = {
     TMCEvent.TOD_BOSS_DOOR: ROMData(flag_group_by_name[TMCFlagGroup.TOD_FLAGS] + 5, 0x10),
     TMCEvent.TOD_DEFEAT_SCISSOR_BLUE: ROMData(flag_group_by_name[TMCFlagGroup.TOD_FLAGS] + 5, 0x40),
     # 0x2D8A
+    TMCEvent.TOD_OPENED_DOOR_TO_LILYPAD: ROMData(flag_group_by_name[TMCFlagGroup.TOD_FLAGS] + 6, 0x01),
+    TMCEvent.TOD_ICE_BLOCK_MELTED: ROMData(flag_group_by_name[TMCFlagGroup.TOD_FLAGS] + 6, 0x02),
+    TMCEvent.TOD_EAST_LEVER_PUSHED: ROMData(flag_group_by_name[TMCFlagGroup.TOD_FLAGS] + 6, 0x10),
+    TMCEvent.TOD_EAST_ICE_BLOCK_THAWING_ZONE_ACTIVE: ROMData(flag_group_by_name[TMCFlagGroup.TOD_FLAGS] + 6, 0x20),
+    TMCEvent.TOD_WEST_LEVER_PUSHED: ROMData(flag_group_by_name[TMCFlagGroup.TOD_FLAGS] + 6, 0x40),
+    TMCEvent.TOD_WATER_ELEMENT_ICE_MELTS: ROMData(flag_group_by_name[TMCFlagGroup.TOD_FLAGS] + 6, 0x80),
     # 0x2D8B
     # 0x2D8C
+    TMCEvent.TOD_OBTAINED_HEART_CONTAINER: ROMData(flag_group_by_name[TMCFlagGroup.TOD_FLAGS] + 8, 0x01),
+    TMCEvent.TOD_BLUE_CHU_DOOR_OPEN: ROMData(flag_group_by_name[TMCFlagGroup.TOD_FLAGS] + 8, 0x02),
+    TMCEvent.TOD_MELTED_TOP_LEFT_ICE_BLOCK: ROMData(flag_group_by_name[TMCFlagGroup.TOD_FLAGS] + 8, 0x04),
+    TMCEvent.TOD_MELTED_BOTTOM_LEFT_ICE_BLOCK: ROMData(flag_group_by_name[TMCFlagGroup.TOD_FLAGS] + 8, 0x08),
+    TMCEvent.TOD_MELTED_TOP_RIGHT_ICE_BLOCK: ROMData(flag_group_by_name[TMCFlagGroup.TOD_FLAGS] + 8, 0x10),
+    TMCEvent.TOD_MELTED_BOTTOM_RIGHT_ICE_BLOCK: ROMData(flag_group_by_name[TMCFlagGroup.TOD_FLAGS] + 8, 0x20),
+    TMCEvent.TOD_LEVER_PUSHED: ROMData(flag_group_by_name[TMCFlagGroup.TOD_FLAGS] + 8, 0x40),
+    TMCEvent.TOD_LANTERN_CHEST_OPEN: ROMData(flag_group_by_name[TMCFlagGroup.TOD_FLAGS] + 8, 0x80),
     # 0x2D8D
     # 0x2D8E
     # 0x2D8F
     # 0x2D90
+    TMCEvent.TOD_BLEW_UP_WALL_TO_MULLDOZER_KEY_ROOM: ROMData(flag_group_by_name[TMCFlagGroup.TOD_FLAGS] + 12, 0x01),
+    TMCEvent.TOD_LIT_TOP_LEFT_TORCH: ROMData(flag_group_by_name[TMCFlagGroup.TOD_FLAGS] + 12, 0x02),
+    TMCEvent.TOD_LIT_TOP_RIGHT_TORCH: ROMData(flag_group_by_name[TMCFlagGroup.TOD_FLAGS] + 12, 0x04),
+    TMCEvent.TOD_DARK_MAZE_DOOR_OPEN: ROMData(flag_group_by_name[TMCFlagGroup.TOD_FLAGS] + 12, 0x08),
+    TMCEvent.TOD_LIT_MIDDLE_RIGHT_TORCH: ROMData(flag_group_by_name[TMCFlagGroup.TOD_FLAGS] + 12, 0x10),
+    TMCEvent.TOD_LIT_BOTTOM_RIGHT_TORCH: ROMData(flag_group_by_name[TMCFlagGroup.TOD_FLAGS] + 12, 0x20),
+    TMCEvent.TOD_DEFEATED_TWIN_MADDERPILLARS: ROMData(flag_group_by_name[TMCFlagGroup.TOD_FLAGS] + 12, 0x40),
+    TMCEvent.TOD_BURNT_ENTRANCE_WEB: ROMData(flag_group_by_name[TMCFlagGroup.TOD_FLAGS] + 12, 0x80),
     # 0x2D91
     # 0x2D92
     TMCEvent.TOD_RED_WARP_SWITCH: ROMData(flag_group_by_name[TMCFlagGroup.TOD_FLAGS] + 0x0E, 0x01),
@@ -992,13 +1100,76 @@ POW_FLAGS: dict[str, ROMData] = {
     TMCEvent.POW_VISIT_05: ROMData(flag_group_by_name[TMCFlagGroup.POW_FLAGS], 0x40),
     TMCEvent.POW_VISIT_06: ROMData(flag_group_by_name[TMCFlagGroup.POW_FLAGS], 0x80),
     # 0x2D9D
+    # TMCEvent.POW_VISIT_07:
+    # TMCEvent.POW_VISIT_08:
+    # TMCEvent.POW_VISIT_09:
+    # TMCEvent.POW_VISIT_10:
+    # TMCEvent.POW_VISIT_11:
+    # TMCEvent.POW_VISIT_12:
+    # TMCEvent.POW_VISIT_13:
+    # TMCEvent.POW_VISIT_14:
     # 0x2D9E
+    # TMCEvent.POW_VISIT_15:
+    # TMCEvent.POW_VISIT_16:
+    # TMCEvent.POW_VISIT_17:
+    # TMCEvent.POW_VISIT_18:
+    # TMCEvent.POW_VISIT_19:
+    # TMCEvent.POW_VISIT_20:
+    # TMCEvent.POW_VISIT_21:
+    # TMCEvent.POW_VISIT_22:
     # 0x2D9F
+    # TMCEvent.POW_VISIT_23:
+    # TMCEvent.POW_VISIT_24:
+    # TMCEvent.POW_VISIT_25:
+    # TMCEvent.POW_VISIT_26:
+    # TMCEvent.POW_VISIT_27:
+    # TMCEvent.POW_VISIT_28:
+    # TMCEvent.POW_VISIT_29:
+    # TMCEvent.POW_VISIT_30:
     # 0x2DA0
+    # TMCEvent.POW_VISIT_31:
+    # TMCEvent.POW_VISIT_32:
+    # TMCEvent.POW_VISIT_33:
+    # TMCEvent.POW_VISIT_34:
+    # TMCEvent.POW_VISIT_35:
+    # TMCEvent.POW_VISIT_36:
+    # TMCEvent.POW_VISIT_37:
+    # TMCEvent.POW_VISIT_38:
     # 0x2DA1
+    # TMCEvent.POW_VISIT_39:
+    # TMCEvent.POW_VISIT_40:
+    # TMCEvent.POW_VISIT_41:
+    # TMCEvent.POW_VISIT_42:
+    # TMCEvent.POW_VISIT_43:
+    # TMCEvent.POW_VISIT_44:
+    # TMCEvent.POW_VISIT_45:
+    # TMCEvent.POW_VISIT_46:
     # 0x2DA2
+    # TMCEvent.POW_VISIT_47:
+    # TMCEvent.POW_VISIT_48:
+    # TMCEvent.POW_VISIT_49:
+    # TMCEvent.POW_VISIT_50:
+    TMCEvent.POW_BOSS_KEY_CHEST_OPEN: ROMData(flag_group_by_name[TMCFlagGroup.POW_FLAGS] + 6, 0x10),
+    TMCEvent.POW_SMALL_KEY_CHEST_OPEN_WEST_BOSS: ROMData(flag_group_by_name[TMCFlagGroup.POW_FLAGS] + 6, 0x20),
+    TMCEvent.POW_BOSS_DOOR_OPEN: ROMData(flag_group_by_name[TMCFlagGroup.POW_FLAGS] + 6, 0x40),
+    TMCEvent.POW_RED_W_KINSTONE_CHEST_OPEN: ROMData(flag_group_by_name[TMCFlagGroup.POW_FLAGS] + 6, 0x80),
     # 0x2DA3
+    TMCEvent.POW_HIT_FAN_FLOOR_BUTTON_5F_MOBLIN_WIZZROBE: ROMData(flag_group_by_name[TMCFlagGroup.POW_FLAGS] + 7, 0x01),
+    TMCEvent.POW_DEFEATED_MOBLINS_WIZZROBES: ROMData(flag_group_by_name[TMCFlagGroup.POW_FLAGS] + 7, 0x04),
+    TMCEvent.POW_5F_STALFOS_CLONE_DOOR_OPEN: ROMData(flag_group_by_name[TMCFlagGroup.POW_FLAGS] + 7, 0x08),
+    TMCEvent.POW_5F_KEY_CHEST_BLOCKS_DOOR_OPEN: ROMData(flag_group_by_name[TMCFlagGroup.POW_FLAGS] + 7, 0x10),
+    TMCEvent.POW_HIT_FAN_FLOOR_BUTTON_5F_KEY_CHEST: ROMData(flag_group_by_name[TMCFlagGroup.POW_FLAGS] + 7, 0x20),
+    TMCEvent.POW_SMALL_KEY_CHEST_OPEN_5F_KEY_CHEST: ROMData(flag_group_by_name[TMCFlagGroup.POW_FLAGS] + 7, 0x40),
+    TMCEvent.POW_5F_BOSS_DOOR_HALL_DOOR_OPEN: ROMData(flag_group_by_name[TMCFlagGroup.POW_FLAGS] + 7, 0x80),
     # 0x2DA4
+    TMCEvent.POW_DEFEATED_BALL_CHAIN_SOLDIERS: ROMData(flag_group_by_name[TMCFlagGroup.POW_FLAGS] + 8, 0x01),
+    TMCEvent.POW_OBTAINED_KEY: ROMData(flag_group_by_name[TMCFlagGroup.POW_FLAGS] + 8, 0x02),
+    TMCEvent.POW_BOSS_HALL_DOOR_OPEN: ROMData(flag_group_by_name[TMCFlagGroup.POW_FLAGS] + 8, 0x04),
+    TMCEvent.POW_TOP_BLOCK_DESTROYED_5F_NORTH_CORNER: ROMData(flag_group_by_name[TMCFlagGroup.POW_FLAGS] + 8, 0x08),
+    TMCEvent.POW_BOTTOM_BLOCK_DESTROYED_5F_NORTH_CORNER: ROMData(flag_group_by_name[TMCFlagGroup.POW_FLAGS] + 8, 0x10),
+    TMCEvent.POW_BLEW_UP_WALL_5F_GIBDO_CORNER: ROMData(flag_group_by_name[TMCFlagGroup.POW_FLAGS] + 8, 0x20),
+    TMCEvent.POW_BLEW_UP_WALL_5F_OUTSIDE_WALL: ROMData(flag_group_by_name[TMCFlagGroup.POW_FLAGS] + 8, 0x40),
+    TMCEvent.POW_BLUE_L_KINSTONE_CHEST_OPEN: ROMData(flag_group_by_name[TMCFlagGroup.POW_FLAGS] + 8, 0x80),
     # 0x2DA5
     TMCEvent.POW_2ND_HALF_4F_BLOCK_MAZE_CHEST: ROMData(flag_group_by_name[TMCFlagGroup.POW_FLAGS] + 9, 0x02),
     TMCEvent.POW_2ND_HALF_4F_FINAL_DOOR: ROMData(flag_group_by_name[TMCFlagGroup.POW_FLAGS] + 9, 0x04),
@@ -1008,9 +1179,23 @@ POW_FLAGS: dict[str, ROMData] = {
     TMCEvent.POW_2ND_HALF_4F_RIGHT_TORCH: ROMData(flag_group_by_name[TMCFlagGroup.POW_FLAGS] + 9, 0x40),
     TMCEvent.POW_2ND_HALF_4F_SWITCH_HIT_CHEST: ROMData(flag_group_by_name[TMCFlagGroup.POW_FLAGS] + 9, 0x80),
     # 0x2DA6
+    TMCEvent.POW_TOP_BLOCK_DESTROYED_4F_BOMBAROSSA: ROMData(flag_group_by_name[TMCFlagGroup.POW_FLAGS] + 10, 0x01),
+    TMCEvent.POW_BOTTOM_BLOCK_DESTROYED: ROMData(flag_group_by_name[TMCFlagGroup.POW_FLAGS] + 10, 0x02),
+    TMCEvent.POW_HIT_3_SWITCHES: ROMData(flag_group_by_name[TMCFlagGroup.POW_FLAGS] + 10, 0x04),
+    TMCEvent.POW_3F_SPIKE_BAR_DOOR_OPEN: ROMData(flag_group_by_name[TMCFlagGroup.POW_FLAGS] + 10, 0x08),
+    TMCEvent.POW_2F_FLOORMASTER_DOOR_OPEN: ROMData(flag_group_by_name[TMCFlagGroup.POW_FLAGS] + 10, 0x10),
+    TMCEvent.POW_DEFEATED_FIRE_WIZZROBES: ROMData(flag_group_by_name[TMCFlagGroup.POW_FLAGS] + 10, 0x40),
+    TMCEvent.POW_MAP_CHEST_OPEN: ROMData(flag_group_by_name[TMCFlagGroup.POW_FLAGS] + 10, 0x80),
     # 0x2DA7
     # 0x2DA8
     # 0x2DA9
+    TMCEvent.POW_EZLO_TALKS_ABOUT_FANS: ROMData(flag_group_by_name[TMCFlagGroup.POW_FLAGS] + 13, 0x01),
+    TMCEvent.POW_HIT_PEAHAT_SWITCHES: ROMData(flag_group_by_name[TMCFlagGroup.POW_FLAGS] + 13, 0x02),
+    TMCEvent.POW_PEAHAT_LOCKED_DOOR_OPEN: ROMData(flag_group_by_name[TMCFlagGroup.POW_FLAGS] + 13, 0x04),
+    TMCEvent.POW_2F_SHORTCUT_HIT_SWITCHES: ROMData(flag_group_by_name[TMCFlagGroup.POW_FLAGS] + 13, 0x08),
+    TMCEvent.POW_KINSTONE_DEFEATED_WIZZROBES: ROMData(flag_group_by_name[TMCFlagGroup.POW_FLAGS] + 13, 0x20),
+    TMCEvent.POW_RED_KINSTONE_CHEST_OPEN: ROMData(flag_group_by_name[TMCFlagGroup.POW_FLAGS] + 13, 0x40),
+    TMCEvent.POW_SMALL_KEY_SPIKEBAR_CHEST_OPEN: ROMData(flag_group_by_name[TMCFlagGroup.POW_FLAGS] + 13, 0x80),
     # 0x2DAA
     # 0x2DAB
     # 0x2DAC
@@ -1101,21 +1286,22 @@ DHC_WARPS: dict[str, ROMData] = {
 }
 
 flag_table_by_name: dict[str, ROMData] = (
-        WIND_CRESTS |
-        GLOBAL_FLAGS |
-        UNUSED_DUNGEON_FLAGS |
-        REPEATING_SIMON_SIMULATION_FLAG |
-        OVERWORLD_FLAGS |
-        DWS_FLAGS |
-        COF_FLAGS |
-        FOW_FLAGS |
-        TOD_FLAGS |
-        POW_FLAGS |
-        DHC_FLAGS |
-        DWS_WARPS |
-        COF_WARPS |
-        FOW_WARPS |
-        TOD_WARPS |
-        POW_WARPS |
-        DHC_WARPS
+    WIND_CRESTS |
+    GLOBAL_FLAGS |
+    UNUSED_DUNGEON_FLAGS |
+    REPEATING_SIMON_SIMULATION_FLAG |
+    OVERWORLD_FLAGS |
+    DWS_FLAGS |
+    COF_FLAGS |
+    FOW_FLAGS |
+    RC_FLAGS |
+    TOD_FLAGS |
+    POW_FLAGS |
+    DHC_FLAGS |
+    DWS_WARPS |
+    COF_WARPS |
+    FOW_WARPS |
+    TOD_WARPS |
+    POW_WARPS |
+    DHC_WARPS
 )

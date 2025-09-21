@@ -143,6 +143,9 @@ def pool_dungeonmaps(world: "MinishCapWorld") -> list[str]:
             TMCItem.DUNGEON_MAP_POW]
     if world.options.dhc_access != DHCAccess.option_closed:
         maps.append(TMCItem.DUNGEON_MAP_DHC)
+    if world.options.dungeon_maps.value == DungeonItem.option_open:
+        world.options.start_inventory.value |= {map_name: 1 for map_name in maps}
+        return []
     return maps
 
 
@@ -151,10 +154,15 @@ def pool_compass(world: "MinishCapWorld") -> list[str]:
                  TMCItem.DUNGEON_COMPASS_TOD, TMCItem.DUNGEON_COMPASS_POW]
     if world.options.dhc_access != DHCAccess.option_closed:
         compasses.append(TMCItem.DUNGEON_COMPASS_DHC)
+    if world.options.dungeon_compasses.value == DungeonItem.option_open:
+        world.options.start_inventory.value |= {compass: 1 for compass in compasses}
+        return []
     return compasses
 
 
 def pool_bigkeys(world: "MinishCapWorld") -> list[str]:
+    if world.options.dungeon_big_keys.value == DungeonItem.option_open:
+        return []
     keys = [TMCItem.BIG_KEY_DWS, TMCItem.BIG_KEY_COF, TMCItem.BIG_KEY_FOW, TMCItem.BIG_KEY_POW]
     if world.options.dhc_access != DHCAccess.option_closed and world.options.goal == Goal.option_vaati:
         keys.append(TMCItem.BIG_KEY_DHC)
@@ -162,6 +170,8 @@ def pool_bigkeys(world: "MinishCapWorld") -> list[str]:
 
 
 def pool_smallkeys(world: "MinishCapWorld") -> list[str]:
+    if world.options.dungeon_small_keys.value == DungeonItem.option_open:
+        return []
     keys = [
         *[TMCItem.SMALL_KEY_DWS] * 4,
         *[TMCItem.SMALL_KEY_COF] * 2,
