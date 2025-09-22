@@ -1945,3 +1945,16 @@ ALL_REGIONS = [
     TMCRegion.DUNGEON_DHC_BLUE_WARP,
     TMCRegion.VAATI_FIGHT,
 ]
+
+TRAPS = [
+    TMCItem.TRAP_ICE,
+    TMCItem.TRAP_FIRE,
+    TMCItem.TRAP_ZAP,
+    TMCItem.TRAP_BOMB,
+    TMCItem.TRAP_MONEY,
+    TMCItem.TRAP_STINK,
+    TMCItem.TRAP_ROPE,
+    TMCItem.TRAP_BAT,
+    TMCItem.TRAP_LIKE,
+    TMCItem.TRAP_CURSE,
+]

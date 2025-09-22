@@ -2,7 +2,7 @@ from typing import Callable, TYPE_CHECKING
 
 from BaseClasses import CollectionState
 from worlds.generic.Rules import add_rule, CollectionRule
-from .constants import TMCEvent, TMCItem, TMCLocation, TMCRegion, TMCTricks, TMCWarps
+from .constants import TMCEvent, TMCItem, TMCLocation, TMCRegion, TMCTricks
 from .options import DHCAccess, DungeonItem, Goal, MinishCapOptions
 
 if TYPE_CHECKING:

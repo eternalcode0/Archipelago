@@ -432,16 +432,16 @@ item_table: dict[str, ItemData] = {
 }
 
 item_frequencies: dict[str, int] = {
-    TMCItem.RUPEES_1: 36, TMCItem.RUPEES_5: 49, TMCItem.RUPEES_20: 53,
-    TMCItem.RUPEES_50: 25, TMCItem.RUPEES_100: 18, TMCItem.RUPEES_200: 15,
+    TMCItem.RUPEES_1: 49, TMCItem.RUPEES_5: 66, TMCItem.RUPEES_20: 72,
+    TMCItem.RUPEES_50: 34, TMCItem.RUPEES_100: 24, TMCItem.RUPEES_200: 20,
 
-    TMCItem.HEART_REFILL: 29,
+    TMCItem.HEART_REFILL: 39,
 
-    TMCItem.BOMB_REFILL_5: 34, TMCItem.BOMB_REFILL_10: 22,
-    TMCItem.BOMB_REFILL_30: 16,
+    TMCItem.BOMB_REFILL_5: 46, TMCItem.BOMB_REFILL_10: 30,
+    TMCItem.BOMB_REFILL_30: 22,
 
-    TMCItem.ARROW_REFILL_5: 34, TMCItem.ARROW_REFILL_10: 22,
-    TMCItem.ARROW_REFILL_30: 16,
+    TMCItem.ARROW_REFILL_5: 46, TMCItem.ARROW_REFILL_10: 30,
+    TMCItem.ARROW_REFILL_30: 22,
 }
 
 trap_frequencies: dict[str, int] = {
@@ -461,7 +461,7 @@ trap_frequencies: dict[str, int] = {
 def get_filler_item_selection(world: "MinishCapWorld"):
     frequencies = item_frequencies.copy()
     if world.options.traps_enabled:
-        traps = trap_frequencies.copy()
+        traps = world.options.trap_weights.value.copy()
         frequencies.update(traps)
     return [name for name, count in frequencies.items() for _ in range(count)]
 

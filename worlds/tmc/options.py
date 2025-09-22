@@ -1,7 +1,8 @@
 from dataclasses import dataclass
 
-from Options import Choice, DeathLink, OptionGroup, OptionSet, PerGameCommonOptions, Range, StartInventoryPool, Toggle
-from .constants import ALL_TRICKS, TMCTricks
+from Options import (Choice, DeathLink, ItemDict, OptionGroup, OptionSet, PerGameCommonOptions, Range,
+                     StartInventoryPool, Toggle)
+from .constants import ALL_TRICKS, TMCItem, TMCTricks, TRAPS
 
 
 class DungeonItem(Choice):
@@ -197,6 +198,32 @@ class Traps(Toggle):
     enemies, setting you on fire, freezing you, etc.
     """
     display_name = "Traps Enabled"
+
+
+class TrapWeights(ItemDict):
+    """What weight should each trap have when placing filler items?
+
+    Weight is a number that decides how common one item is compared to another.
+    Example: If Freeze Trap has a weight of 4 and Burn Trap has a weight of 6
+    then Burn traps are 50% more common than Freeze Traps.
+
+    All weights are used in the same pool as regular fillers which have a
+    cumaltive weight of 500. If all weights here total 100 than traps will
+    take up approximately 1/6 of the filler pool."""
+    display_name = "Trap Weights"
+    valid_keys = TRAPS
+    default = {
+        TMCItem.TRAP_ICE: 10,
+        TMCItem.TRAP_FIRE: 10,
+        TMCItem.TRAP_ZAP: 10,
+        TMCItem.TRAP_BOMB: 10,
+        TMCItem.TRAP_MONEY: 10,
+        TMCItem.TRAP_STINK: 10,
+        TMCItem.TRAP_ROPE: 10,
+        TMCItem.TRAP_BAT: 10,
+        TMCItem.TRAP_LIKE: 10,
+        TMCItem.TRAP_CURSE: 10,
+    }
 
 
 class Goal(Choice):
@@ -508,6 +535,7 @@ class MinishCapOptions(PerGameCommonOptions):
     goron_sets: GoronSets
     goron_jp_prices: GoronJPPrices
     traps_enabled: Traps
+    trap_weights: TrapWeights
     random_bottle_contents: RandomBottleContents
     # Weapon Settings
     early_weapon: EarlyWeapon
@@ -625,6 +653,6 @@ OPTION_GROUPS = [
     OptionGroup("Weapons", [EarlyWeapon, WeaponBomb, WeaponBow, WeaponGust, WeaponLantern]),
     OptionGroup("Fast Travel", [WarpDWS, WarpCoF, WarpFoW, WarpToD, WarpPoW, WarpDHC, WindCrestCrenel, WindCrestFalls,
                                 WindCrestClouds, WindCrestSwamp, WindCrestSmith, WindCrestMinish]),
-    OptionGroup("Misc", [RandomBottleContents, Traps, GoronJPPrices]),
+    OptionGroup("Misc", [RandomBottleContents, Traps, TrapWeights, GoronJPPrices]),
     OptionGroup("Advanced", [Tricks])
 ]
