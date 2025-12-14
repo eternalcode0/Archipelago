@@ -185,6 +185,7 @@ _speedups.html
 
 # pyenv
 .python-version
+.direnv/
 
 #undertale stuff
 /Undertale/
