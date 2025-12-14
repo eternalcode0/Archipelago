@@ -1,6 +1,17 @@
 from dataclasses import dataclass
 
-from Options import Choice, DeathLink, OptionGroup, OptionSet, PerGameCommonOptions, Range, StartInventoryPool, Toggle
+from Options import (
+    Choice,
+    DeathLink,
+    OptionGroup,
+    OptionSet,
+    PerGameCommonOptions,
+    Range,
+    StartInventoryPool,
+    Toggle,
+    DefaultOnToggle,
+    Visibility
+)
 from .constants import ALL_TRICKS, TMCTricks
 
 
@@ -24,37 +35,103 @@ class DungeonItem(Choice):
     alias_false = 3
 
 
+class FusionAccess(Choice):
+    visibility = Visibility.none  # Temporary until fusion logic is written
+    value: int
+    option_closed = 0
+    option_vanilla = 1
+    option_combined = 2
+    option_open = 3
+
+
+class RedFusionAccess(FusionAccess):
+    default = FusionAccess.option_open
+
+
+class BlueFusionAccess(FusionAccess):
+    default = FusionAccess.option_open
+
+
+class GreenFusionAccess(FusionAccess):
+    default = FusionAccess.option_open
+
+
+class GoldFusionAccess(FusionAccess):
+    default = FusionAccess.option_vanilla
+
+
+class ProgressiveSword(DefaultOnToggle):
+    """Should swords be given progressively? You'll pick up the swords in the following order:
+    - Smith's Sword
+    - White Sword (Green)
+    - White Sword (Red)
+    - White Sword (Blue)
+    - Four Sword
+
+    When disabled you'll need the exact sword to create its dedicated number of clones.
+    E.g. You'll need White Sword (Red) to only create 2 clones even if already have White Sword (Blue).
+    """
+
+
+class ProgressiveBow(DefaultOnToggle):
+    """Should bows be given progressively?"""
+
+
+class ProgressiveBoomerang(DefaultOnToggle):
+    """Should boomerangs be given progressively?"""
+
+
+class ProgressiveShield(DefaultOnToggle):
+    """Should shields be given progressively?"""
+
+
+class ProgressiveScroll(DefaultOnToggle):
+    """Should spin scrolls be given progressively? You'll pick up the spin scrolls in the following order:
+    - Spin Attack
+    - Fast Spin
+    - Fast Split
+    - Great Spin
+    - Long Spin
+    """
+
+
 class Rupeesanity(Toggle):
     """Add all rupees locations to the pool to be randomized.
     This setting will not shuffle Rupees that also belong to another pool.
         Ex: An underwater rupee will instead be randomized by shuffle_underwater
     """
+
     display_name = "Rupee-sanity"
     rich_text_doc = True
 
 
 class ShufflePots(Toggle):
     """Add all special pots that drop a unique item to the pool. Includes the LonLon Ranch Pot."""
+
     display_name = "Shuffle Pots"
 
 
 class ShuffleDigging(Toggle):
     """Add all dig spots that drop a unique item to the pool."""
+
     display_name = "Shuffle Digging"
 
 
 class ShuffleUnderwater(Toggle):
     """Add all underwater items to the pool. Includes the ToD underwater pot"""
+
     display_name = "Shuffle Underwater"
 
 
 class ShuffleGoldEnemies(Toggle):
     """Add the drops from the 9 golden enemies to the pool."""
+
     display_name = "Shuffle Gold Enemy Drops"
 
 
 class ObscureSpots(Toggle):
     """Add all special pots, dig spots, etc. that drop a unique item to the pool."""
+
     display_name = "Obscure Spots"
 
 
@@ -76,6 +153,7 @@ class ShuffleElements(Choice):
     'Dungeon Prize' (false/default): Elements are shuffled between the 6 dungeon prizes
     'Anywhere' (true): Elements are in completely random locations
     """
+
     display_name = "Element Shuffle"
     rich_text_doc = True
     default = 7
@@ -98,6 +176,7 @@ class SmallKeys(DungeonItem):
         you may get the warning "tried to remove items from their pool that don't exist". This is expected, the keys
         have safely been added to your inventory from the pool.
     """
+
     display_name = "Small Key Shuffle"
     rich_text_doc = True
     default = DungeonItem.option_own_dungeon
@@ -111,6 +190,7 @@ class BigKeys(DungeonItem):
         you may get the warning "tried to remove items from their pool that don't exist". This is expected, the keys
         have safely been added to your inventory from the pool.
     """
+
     display_name = "Big Key Shuffle"
     default = DungeonItem.option_own_dungeon
 
@@ -123,6 +203,7 @@ class DungeonMaps(DungeonItem):
         you may get the warning "tried to remove items from their pool that don't exist". This is expected, the maps
         have safely been added to your inventory from the pool.
     """
+
     display_name = "Dungeon Maps Shuffle"
     default = DungeonItem.option_own_dungeon
 
@@ -135,6 +216,7 @@ class DungeonCompasses(DungeonItem):
         you may get the warning "tried to remove items from their pool that don't exist". This is expected, the compass
         has safely been added to your inventory from the pool.
     """
+
     display_name = "Dungeon Compasses Shuffle"
     default = DungeonItem.option_own_dungeon
 
@@ -156,36 +238,42 @@ class DungeonWarp(Choice):
 
 class WarpDWS(DungeonWarp):
     """Whether you should start with the Blue/Red warps for DeepWood Shrine"""
+
     display_name = "DeepWood Shrine Warps"
     internal_abbr = "DWS"
 
 
 class WarpCoF(DungeonWarp):
     """Whether you should start with the Blue/Red warps for Cave of Flames"""
+
     display_name = "Cave of Flames"
     internal_abbr = "CoF"
 
 
 class WarpFoW(DungeonWarp):
     """Whether you should start with the Blue/Red warps for Fortress of Winds"""
+
     display_name = "Fortress of Winds"
     internal_abbr = "FoW"
 
 
 class WarpToD(DungeonWarp):
     """Whether you should start with the Blue/Red warps for Temple of Droplets"""
+
     display_name = "Temple of Droplets"
     internal_abbr = "ToD"
 
 
 class WarpPoW(DungeonWarp):
     """Whether you should start with the Blue/Red warps for Palace of Winds"""
+
     display_name = "Palace of Winds"
     internal_abbr = "PoW"
 
 
 class WarpDHC(DungeonWarp):
     """Whether you should start with the Blue/Red warps for Dark Hyrule Castle"""
+
     display_name = "Dark Hyrule Castle"
     internal_abbr = "DHC"
 
@@ -196,6 +284,7 @@ class Traps(Toggle):
     into an exclamation mark (!) and activate a specific trap such as spawning
     enemies, setting you on fire, freezing you, etc.
     """
+
     display_name = "Traps Enabled"
 
 
@@ -204,6 +293,7 @@ class Goal(Choice):
     'Vaati' (default): Kill Vaati to goal. dhc_access and the ped requirements change how soon you can reach Vaati.
     'Pedestal': Complete Pedestal to goal. The ped requirements change what's needed.
     """
+
     display_name = "Goal"
     option_vaati = 0
     option_pedestal = 1
@@ -218,6 +308,7 @@ class DHCAccess(Choice):
     'Pedestal' (default): DHC is locked until pedestal is completed.
     'Open' (true): DHC is accessible from the beginning. If your goal is Pedestal, activate pedestal from within DHC.
     """
+
     display_name = "DHC Access"
     option_closed = 0
     option_pedestal = 1
@@ -229,6 +320,7 @@ class DHCAccess(Choice):
 
 class PedDungeons(Range):
     """How many dungeons are required to activate Pedestal?"""
+
     display_name = "Required Dungeons to Pedestal"
     default = 0
     range_start = 0
@@ -237,6 +329,7 @@ class PedDungeons(Range):
 
 class PedElements(Range):
     """How many elements are required to activate Pedestal?"""
+
     display_name = "Required Elements to Pedestal"
     default = 4
     range_start = 0
@@ -245,6 +338,7 @@ class PedElements(Range):
 
 class PedSword(Range):
     """How many progressive swords are required to activate Pedestal?"""
+
     display_name = "Required Swords to Pedestal"
     default = 5
     range_start = 0
@@ -253,6 +347,7 @@ class PedSword(Range):
 
 class PedFigurines(Range):
     """How many figurines are required to activate Pedestal?"""
+
     display_name = "Required Figurines to Pedestal"
     default = 0
     range_start = 0
@@ -263,6 +358,7 @@ class FigurineAmount(Range):
     """How many figurines are added to the pool?
     Should not be lower than ped_figurines, otherwise it will be overridden to match ped_figurines.
     """
+
     display_name = "Figurines in Pool"
     default = 0
     range_start = 0
@@ -274,11 +370,13 @@ class EarlyWeapon(Toggle):
     The weapon placed will be random based off the enabled `weapon` options.
     Swords will always be one of the possible weapons placed.
     """
+
     display_name = "Early Weapon"
 
 
 class RandomBottleContents(Toggle):
     """Put random contents into the shuffled bottles, these contents are never considered in logic"""
+
     display_name = "Random Bottles Contents"
 
 
@@ -288,6 +386,7 @@ class DeathLinkGameover(Toggle):
     If enabled, deathlinks are only sent when reaching the gameover screen. Received deathlinks will also send you
     straight to a gameover, fairy or not.
     """
+
     display_name = "Deathlink is Gameover"
 
 
@@ -299,6 +398,7 @@ class WeaponBomb(Choice):
     and Darknuts require only 10 bomb bag. Gleerok, Mazaal and Scissor Beetles require at least 30 bomb bag.
     Octo and Gyorg cannot be defeated with bombs.
     """
+
     display_name = "Bombs are considered Weapons"
     default = 0
     option_no = 0
@@ -315,6 +415,7 @@ class WeaponBow(Toggle):
     Bows are never considered for Chu Bossfights, Darknuts, Scissor Beetles, Madderpillar, Wizzrobes, Simon Simulations,
     and Golden Enemies.
     """
+
     display_name = "Bows are considered Weapons"
 
 
@@ -326,6 +427,7 @@ class WeaponGust(Toggle):
     'true': Gust Jar is considered as weapons for all enemies that get sucked up by it, you are never expected to use
         objects as projectiles to kill enemies.
     """
+
     display_name = "Gust jar is considered a Weapon"
 
 
@@ -334,6 +436,7 @@ class WeaponLantern(Toggle):
     'false': Lantern is not considered as a Weapon.
     'true': Lantern is considered as a weapon for fighting Wizzrobes.
     """
+
     display_name = "Lantern is considered a Weapon"
 
 
@@ -371,52 +474,62 @@ class Tricks(OptionSet):
     dhc_switches_no_four_sword: The clone puzzle that slashes 4 switches in DHC can be completed with a well placed spin
         attack
     """
+
     display_name = "Tricks"
     valid_keys = ALL_TRICKS
 
 
 class WindCrestCrenel(Toggle):
     """Whether you should start with the Mount Crenel Wind Crest"""
+
     display_name = "Mount Crenel Wind Crest"
 
 
 class WindCrestFalls(Toggle):
     """Whether you should start with the Veil Falls Wind Crest"""
+
     display_name = "Veil Falls Wind Crest"
 
 
 class WindCrestClouds(Toggle):
     """Whether you should start with the Cloud Tops Wind Crest"""
+
     display_name = "Cloud Tops Wind Crest"
 
 
 class WindCrestSwamp(Toggle):
     """Whether you should start with the Castor Wilds Wind Crest"""
+
     display_name = "Castor Wilds Wind Crest"
 
 
 class WindCrestTown(Toggle):
     """Whether you should start with the Hyrule Town Wind Crest"""
+
     display_name = "Hyrule Town Wind Crest"
 
 
 class WindCrestLake(Toggle):
     """Whether you should start with the Hylia Lake Wind Crest"""
+
     display_name = "Hylia Lake Wind Crest"
 
 
 class WindCrestSmith(Toggle):
     """Whether you should start with the South Field Wind Crest"""
+
     display_name = "South Field Wind Crest"
 
 
 class WindCrestMinish(Toggle):
     """Whether you should start with the Minish Woods Wind Crest"""
+
     display_name = "Minish Woods Wind Crest"
 
 
 class PedReward(Choice):
     """What item should you get as soon as you complete the pedestal requirements?"""
+
     display_name = "Pedestal Requirement Reward"
     option_none = 0
     option_dhc_big_key = 1
@@ -429,6 +542,7 @@ class CuccoRounds(Range):
     Rounds are always included from the end to ensure the Round 10 reward is always accessible.
     Ex, if you play with 3 rounds, Rounds 8-10 are playable.
     """
+
     display_name = "# of Cucco Rounds"
     range_start = 0
     range_end = 10
@@ -440,6 +554,7 @@ class GoronSets(Range):
     How many sets of items do you want to purchase from the Goron Shop in town?
     There are 5 total sets with 3 items each.
     """
+
     display_name = "# of Goron Merchant Sets"
     range_start = 0
     range_end = 5
@@ -455,6 +570,7 @@ class GoronJPPrices(Toggle):
     EU 5th set: 600/500/400
     JP all sets: 300/200/50
     """
+
     display_name = "Goron Merchant JP/US Prices"
 
 
@@ -465,6 +581,7 @@ class NonElementDungeons(Choice):
     Standard: Non-Element dungeons are filled just like any other location with no restrictions.
     Excluded: Non-Element dungeons are automatically added to the excluded_locations list, only placing filler inside.
     """
+
     display_name = "Non-Element Dungeons"
 
     option_standard = 0
@@ -491,6 +608,11 @@ class MinishCapOptions(PerGameCommonOptions):
     ped_dungeons: PedDungeons
     # ped_figurines: GoalFigurines
     # figurine_amount: FigurineAmount
+    # Fusion Settings
+    gold_fusion_access: GoldFusionAccess
+    red_fusion_access: RedFusionAccess
+    green_fusion_access: GreenFusionAccess
+    blue_fusion_access: BlueFusionAccess
     # Pool Settings
     dungeon_small_keys: SmallKeys
     dungeon_big_keys: BigKeys
@@ -515,6 +637,11 @@ class MinishCapOptions(PerGameCommonOptions):
     weapon_bow: WeaponBow
     weapon_gust: WeaponGust
     weapon_lantern: WeaponLantern
+    progressive_sword: ProgressiveSword
+    progressive_bow: ProgressiveBow
+    progressive_boomerang: ProgressiveBoomerang
+    progressive_shield: ProgressiveShield
+    progressive_scroll: ProgressiveScroll
     # Logic Settings
     dungeon_warp_dws: WarpDWS
     dungeon_warp_cof: WarpCoF
@@ -542,7 +669,8 @@ def get_option_data(options: MinishCapOptions):
         (Goal.option_vaati, DHCAccess.option_pedestal): 1,
         (Goal.option_vaati, DHCAccess.option_open): 2,
         (Goal.option_pedestal, DHCAccess.option_closed): 3,
-        (Goal.option_pedestal, DHCAccess.option_open): 5}
+        (Goal.option_pedestal, DHCAccess.option_open): 5,
+    }
 
     return {
         "version": "0.2.0",
@@ -577,17 +705,25 @@ def get_option_data(options: MinishCapOptions):
         "trick_mitts_farm_rupees": 0,  # No, Yes
         "trick_bombable_dust": int(TMCTricks.BOMB_DUST in options.tricks),
         "trick_crenel_mushroom_gust_jar": int(TMCTricks.MUSHROOM in options.tricks),
-        "trick_light_arrows_break_objects": int(TMCTricks.ARROWS_BREAK in options.tricks),
+        "trick_light_arrows_break_objects": int(
+            TMCTricks.ARROWS_BREAK in options.tricks
+        ),
         "trick_bobombs_destroy_walls": int(TMCTricks.BOBOMB_WALLS in options.tricks),
-        "trick_like_like_cave_no_sword": int(TMCTricks.LIKELIKE_SWORDLESS in options.tricks),
+        "trick_like_like_cave_no_sword": int(
+            TMCTricks.LIKELIKE_SWORDLESS in options.tricks
+        ),
         "trick_boots_skip_town_guard": int(TMCTricks.BOOTS_GUARDS in options.tricks),
         "trick_beam_crenel_switch": int(TMCTricks.BEAM_CRENEL_SWITCH in options.tricks),
-        "trick_down_thrust_spikey_beetle": int(TMCTricks.DOWNTHRUST_BEETLE in options.tricks),
+        "trick_down_thrust_spikey_beetle": int(
+            TMCTricks.DOWNTHRUST_BEETLE in options.tricks
+        ),
         "trick_dark_rooms_no_lantern": int(TMCTricks.DARK_ROOMS in options.tricks),
         "trick_cape_extensions": int(TMCTricks.CAPE_EXTENSIONS in options.tricks),
         "trick_lake_minish_no_boots": int(TMCTricks.LAKE_MINISH in options.tricks),
         "trick_cabin_swim_no_lilypad": int(TMCTricks.CABIN_SWIM in options.tricks),
-        "trick_cloud_sharks_no_weapons": int(TMCTricks.SHARKS_SWORDLESS in options.tricks),
+        "trick_cloud_sharks_no_weapons": int(
+            TMCTricks.SHARKS_SWORDLESS in options.tricks
+        ),
         "trick_pow_2f_no_cane": int(TMCTricks.POW_NOCANE in options.tricks),
         "trick_pot_puzzle_no_bracelets": int(TMCTricks.POT_PUZZLE in options.tricks),
         "trick_fow_pot_gust_jar": int(TMCTricks.FOW_POT in options.tricks),
@@ -600,16 +736,44 @@ def get_option_data(options: MinishCapOptions):
 
 
 SLOT_DATA_OPTIONS = [
-    "death_link", "death_link_gameover",
-    "goal", "dhc_access", "ped_elements", "ped_swords", "ped_dungeons",
-    "shuffle_elements", "dungeon_small_keys", "dungeon_big_keys", "dungeon_maps", "dungeon_compasses",
-    "rupeesanity", "shuffle_pots", "shuffle_digging", "shuffle_underwater", "shuffle_gold_enemies",
-    "cucco_rounds", "goron_sets", "goron_jp_prices",
-    "random_bottle_contents", "traps_enabled",
-    "early_weapon", "weapon_bomb", "weapon_bow", "weapon_gust", "weapon_lantern",
-    "dungeon_warp_dws", "dungeon_warp_cof", "dungeon_warp_fow", "dungeon_warp_tod", "dungeon_warp_pow",
+    "death_link",
+    "death_link_gameover",
+    "goal",
+    "dhc_access",
+    "ped_elements",
+    "ped_swords",
+    "ped_dungeons",
+    "shuffle_elements",
+    "dungeon_small_keys",
+    "dungeon_big_keys",
+    "dungeon_maps",
+    "dungeon_compasses",
+    "rupeesanity",
+    "shuffle_pots",
+    "shuffle_digging",
+    "shuffle_underwater",
+    "shuffle_gold_enemies",
+    "cucco_rounds",
+    "goron_sets",
+    "goron_jp_prices",
+    "random_bottle_contents",
+    "traps_enabled",
+    "early_weapon",
+    "weapon_bomb",
+    "weapon_bow",
+    "weapon_gust",
+    "weapon_lantern",
+    "dungeon_warp_dws",
+    "dungeon_warp_cof",
+    "dungeon_warp_fow",
+    "dungeon_warp_tod",
+    "dungeon_warp_pow",
     "dungeon_warp_dhc",
-    "wind_crest_crenel", "wind_crest_falls", "wind_crest_clouds", "wind_crest_castor", "wind_crest_south_field",
+    "wind_crest_crenel",
+    "wind_crest_falls",
+    "wind_crest_clouds",
+    "wind_crest_castor",
+    "wind_crest_south_field",
     "wind_crest_minish_woods",
     "tricks",
 ]
@@ -618,13 +782,53 @@ SLOT_DATA_OPTIONS = [
 
 OPTION_GROUPS = [
     OptionGroup("Goal", [Goal, DHCAccess, PedElements, PedSword, PedDungeons]),
-    OptionGroup("Dungeon Shuffle", [ShuffleElements, SmallKeys, BigKeys, DungeonMaps, DungeonCompasses,
-                                    NonElementDungeons]),
-    OptionGroup("Location Shuffle", [Rupeesanity, ShufflePots, ShuffleDigging, ShuffleUnderwater, ShuffleGoldEnemies,
-                                     CuccoRounds, GoronSets]),
-    OptionGroup("Weapons", [EarlyWeapon, WeaponBomb, WeaponBow, WeaponGust, WeaponLantern]),
-    OptionGroup("Fast Travel", [WarpDWS, WarpCoF, WarpFoW, WarpToD, WarpPoW, WarpDHC, WindCrestCrenel, WindCrestFalls,
-                                WindCrestClouds, WindCrestSwamp, WindCrestSmith, WindCrestMinish]),
+    OptionGroup(
+        "Fusions",
+        [GoldFusionAccess, RedFusionAccess, GreenFusionAccess, BlueFusionAccess],
+    ),
+    OptionGroup(
+        "Dungeon Shuffle",
+        [
+            ShuffleElements,
+            SmallKeys,
+            BigKeys,
+            DungeonMaps,
+            DungeonCompasses,
+            NonElementDungeons,
+        ],
+    ),
+    OptionGroup(
+        "Location Shuffle",
+        [
+            Rupeesanity,
+            ShufflePots,
+            ShuffleDigging,
+            ShuffleUnderwater,
+            ShuffleGoldEnemies,
+            CuccoRounds,
+            GoronSets,
+        ],
+    ),
+    OptionGroup(
+        "Weapons", [EarlyWeapon, WeaponBomb, WeaponBow, WeaponGust, WeaponLantern]
+    ),
+    OptionGroup(
+        "Fast Travel",
+        [
+            WarpDWS,
+            WarpCoF,
+            WarpFoW,
+            WarpToD,
+            WarpPoW,
+            WarpDHC,
+            WindCrestCrenel,
+            WindCrestFalls,
+            WindCrestClouds,
+            WindCrestSwamp,
+            WindCrestSmith,
+            WindCrestMinish,
+        ],
+    ),
     OptionGroup("Misc", [RandomBottleContents, Traps, GoronJPPrices]),
-    OptionGroup("Advanced", [Tricks])
+    OptionGroup("Advanced", [Tricks]),
 ]

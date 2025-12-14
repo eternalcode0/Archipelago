@@ -131,10 +131,10 @@ all_locations: list[LocationData] = [
     LocationData(
         6029025, TMCLocation.TOWN_SHOP_600_ITEM, TMCRegion.HYRULE_TOWN, TMCItem.QUIVER,
         (0xFF0093, None), (0x2EA7, 0x04), 0x0023, scoutable=True, pools={POOL_SHOP}),
-    # LocationData(
-    #    6029026, TMCLocation.TOWN_SHOP_EXTRA_600_ITEM, TMCRegion.HYRULE_TOWN,
-    #    TMCItem.BOMB_BAG, (0xFF00D3, None), (0x2EA7, 0x08), 0x0023, scoutable=True, pools={POOL_SHOP},
-    # ),  # EU version was missing this item, added back for rando
+    LocationData(
+       6029026, TMCLocation.TOWN_SHOP_EXTRA_600_ITEM, TMCRegion.HYRULE_TOWN,
+       TMCItem.BOMB_BAG, (0xFF00D3, None), (0x2EA7, 0x08), 0x0023, scoutable=True, pools={POOL_SHOP},
+    ),  # EU version was missing this item, added back for rando
     LocationData(
         6029027, TMCLocation.TOWN_SHOP_BEHIND_COUNTER_ITEM, TMCRegion.HYRULE_TOWN, TMCItem.DOG_FOOD,
         (0xFF00B3, None), (0x2CE6, 0x08), 0x0023, scoutable=True),
@@ -158,63 +158,63 @@ all_locations: list[LocationData] = [
         (0x0EFBDE, None), (0x2CFD, 0x01), 0x0041),
     LocationData(
         6029034, TMCLocation.TOWN_GORON_MERCHANT_1_LEFT, TMCRegion.HYRULE_TOWN,
-        TMCItem.KINSTONE, (0xFF00D0, None), None, 0x0002, pools={f"{POOL_GORON}1"}
+        TMCItem.KINSTONE, (0xFF00E0, None), None, 0x0002, pools={f"{POOL_GORON}1"}
     ),  # Goron merchant stores the individual item *positions*
     LocationData(
         6029035, TMCLocation.TOWN_GORON_MERCHANT_1_MIDDLE, TMCRegion.HYRULE_TOWN,
-        TMCItem.KINSTONE, (0xFF00D2, None), None, 0x0002, pools={f"{POOL_GORON}1"}
+        TMCItem.KINSTONE, (0xFF00E2, None), None, 0x0002, pools={f"{POOL_GORON}1"}
     ),  # inside 0x2CA4 from left-right in bits 0x04-0x10
     LocationData(
         6029036, TMCLocation.TOWN_GORON_MERCHANT_1_RIGHT, TMCRegion.HYRULE_TOWN,
-        TMCItem.KINSTONE, (0xFF00D4, None), None, 0x0002, pools={f"{POOL_GORON}1"}
+        TMCItem.KINSTONE, (0xFF00E4, None), None, 0x0002, pools={f"{POOL_GORON}1"}
     ),
     LocationData(
         6029037, TMCLocation.TOWN_GORON_MERCHANT_2_LEFT, TMCRegion.HYRULE_TOWN,
-        TMCItem.KINSTONE, (0xFF00D8, None), None, 0x0002, pools={f"{POOL_GORON}2"}
+        TMCItem.KINSTONE, (0xFF00E8, None), None, 0x0002, pools={f"{POOL_GORON}2"}
     ),  # There is a separate bit that stores how many times
     LocationData(
         6029038, TMCLocation.TOWN_GORON_MERCHANT_2_MIDDLE, TMCRegion.HYRULE_TOWN,
-        TMCItem.KINSTONE, (0xFF00DA, None), None, 0x0002, pools={f"{POOL_GORON}2"}
+        TMCItem.KINSTONE, (0xFF00EA, None), None, 0x0002, pools={f"{POOL_GORON}2"}
     ),  # there's been a restock across 0x2CA3 0x40 - 0x2CA4 0x02
     LocationData(
         6029039, TMCLocation.TOWN_GORON_MERCHANT_2_RIGHT, TMCRegion.HYRULE_TOWN,
-        TMCItem.KINSTONE, (0xFF00DC, None), None, 0x0002, pools={f"{POOL_GORON}2"}
+        TMCItem.KINSTONE, (0xFF00EC, None), None, 0x0002, pools={f"{POOL_GORON}2"}
     ),
     LocationData(
         6029040, TMCLocation.TOWN_GORON_MERCHANT_3_LEFT, TMCRegion.HYRULE_TOWN,
-        TMCItem.KINSTONE, (0xFF00E0, None), None, 0x0002, pools={f"{POOL_GORON}3"}
+        TMCItem.KINSTONE, (0xFF00F0, None), None, 0x0002, pools={f"{POOL_GORON}3"}
     ),
     LocationData(
         6029041, TMCLocation.TOWN_GORON_MERCHANT_3_MIDDLE, TMCRegion.HYRULE_TOWN,
-        TMCItem.KINSTONE, (0xFF00E2, None), None, 0x0002, pools={f"{POOL_GORON}3"}
+        TMCItem.KINSTONE, (0xFF00F2, None), None, 0x0002, pools={f"{POOL_GORON}3"}
     ),
     LocationData(
         6029042, TMCLocation.TOWN_GORON_MERCHANT_3_RIGHT, TMCRegion.HYRULE_TOWN,
-        TMCItem.KINSTONE, (0xFF00E4, None), None, 0x0002, pools={f"{POOL_GORON}3"}
+        TMCItem.KINSTONE, (0xFF00F4, None), None, 0x0002, pools={f"{POOL_GORON}3"}
     ),
     LocationData(
         6029043, TMCLocation.TOWN_GORON_MERCHANT_4_LEFT, TMCRegion.HYRULE_TOWN,
-        TMCItem.KINSTONE, (0xFF00E8, None), None, 0x0002, pools={f"{POOL_GORON}4"}
+        TMCItem.KINSTONE, (0xFF00F8, None), None, 0x0002, pools={f"{POOL_GORON}4"}
     ),
     LocationData(
         6029044, TMCLocation.TOWN_GORON_MERCHANT_4_MIDDLE, TMCRegion.HYRULE_TOWN,
-        TMCItem.KINSTONE, (0xFF00EA, None), None, 0x0002, pools={f"{POOL_GORON}4"}
+        TMCItem.KINSTONE, (0xFF00FA, None), None, 0x0002, pools={f"{POOL_GORON}4"}
     ),
     LocationData(
         6029045, TMCLocation.TOWN_GORON_MERCHANT_4_RIGHT, TMCRegion.HYRULE_TOWN,
-        TMCItem.KINSTONE, (0xFF00EC, None), None, 0x0002, pools={f"{POOL_GORON}4"}
+        TMCItem.KINSTONE, (0xFF00FC, None), None, 0x0002, pools={f"{POOL_GORON}4"}
     ),
     LocationData(
         6029046, TMCLocation.TOWN_GORON_MERCHANT_5_LEFT, TMCRegion.HYRULE_TOWN,
-        TMCItem.KINSTONE, (0xFF00F0, None), None, 0x0002, pools={f"{POOL_GORON}5"}
+        TMCItem.KINSTONE, (0xFF0100, None), None, 0x0002, pools={f"{POOL_GORON}5"}
     ),
     LocationData(
         6029047, TMCLocation.TOWN_GORON_MERCHANT_5_MIDDLE, TMCRegion.HYRULE_TOWN,
-        TMCItem.KINSTONE, (0xFF00F2, None), None, 0x0002, pools={f"{POOL_GORON}5"}
+        TMCItem.KINSTONE, (0xFF0102, None), None, 0x0002, pools={f"{POOL_GORON}5"}
     ),
     LocationData(
         6029048, TMCLocation.TOWN_GORON_MERCHANT_5_RIGHT, TMCRegion.HYRULE_TOWN,
-        TMCItem.KINSTONE, (0xFF00F4, None), None, 0x0002, pools={f"{POOL_GORON}5"}
+        TMCItem.KINSTONE, (0xFF0104, None), None, 0x0002, pools={f"{POOL_GORON}5"}
     ),
     LocationData(
         6029049, TMCLocation.TOWN_DOJO_NPC_1, TMCRegion.HYRULE_TOWN,
@@ -442,7 +442,7 @@ all_locations: list[LocationData] = [
     ),
     LocationData(
         6029104, TMCLocation.CASTLE_GOLDEN_ROPE, TMCRegion.CASTLE_EXTERIOR,
-        TMCItem.RUPEES_100, (0xFF011A, None), (0x2CA2, 0x20), 0x0007, pools={POOL_ENEMY}
+        TMCItem.RUPEES_100, (0xFF012A, None), (0x2CA2, 0x20), 0x0007, pools={POOL_ENEMY}
     ),
     LocationData(
         6029105, TMCLocation.CASTLE_RIGHT_FOUNTAIN_FUSION_HP, TMCRegion.CASTLE_EXTERIOR,
@@ -473,7 +473,7 @@ all_locations: list[LocationData] = [
     # region Eastern Hills
     LocationData(
         6029112, TMCLocation.HILLS_GOLDEN_ROPE, TMCRegion.EASTERN_HILLS,
-        TMCItem.RUPEES_100, (0xFF0114, None), (0x2CA2, 0x10), 0x0403, pools={POOL_ENEMY}
+        TMCItem.RUPEES_100, (0xFF0124, None), (0x2CA2, 0x10), 0x0403, pools={POOL_ENEMY}
     ),
     LocationData(
         6029113, TMCLocation.HILLS_FUSION_CHEST, TMCRegion.EASTERN_HILLS,
@@ -678,7 +678,7 @@ all_locations: list[LocationData] = [
     # region Minish Woods
     LocationData(
         6029162, TMCLocation.MINISH_WOODS_GOLDEN_OCTO, TMCRegion.MINISH_WOODS,
-        TMCItem.RUPEES_100, (0xFF012C, None), (0x2CA3, 0x01), 0x0000, pools={POOL_ENEMY}
+        TMCItem.RUPEES_100, (0xFF013C, None), (0x2CA3, 0x01), 0x0000, pools={POOL_ENEMY}
     ),
     LocationData(
         6029163, TMCLocation.MINISH_WOODS_WITCH_HUT_ITEM, TMCRegion.MINISH_WOODS,
@@ -909,7 +909,7 @@ all_locations: list[LocationData] = [
     ),
     LocationData(
         6029219, TMCLocation.WESTERN_WOODS_GOLDEN_OCTO, TMCRegion.WESTERN_WOODS,
-        TMCItem.RUPEES_100, (0xFF0132, None), (0x2CA3, 0x02), 0x0903, pools={POOL_ENEMY}
+        TMCItem.RUPEES_100, (0xFF0142, None), (0x2CA3, 0x02), 0x0903, pools={POOL_ENEMY}
     ),
     LocationData(
         6029220, TMCLocation.WESTERN_WOODS_BEANSTALK_FUSION_CHEST, TMCRegion.WESTERN_WOODS,
@@ -1027,7 +1027,7 @@ all_locations: list[LocationData] = [
     ),
     LocationData(
         6029248, TMCLocation.CRENEL_VINE_TOP_GOLDEN_TEKTITE, TMCRegion.CRENEL,
-        TMCItem.RUPEES_100, (0xFF0108, None), (0x2CA2, 0x04), 0x0306, pools={POOL_ENEMY}
+        TMCItem.RUPEES_100, (0xFF0118, None), (0x2CA2, 0x04), 0x0306, pools={POOL_ENEMY}
     ),
     LocationData(
         6029249, TMCLocation.CRENEL_BRIDGE_CAVE_CHEST, TMCRegion.CRENEL,
@@ -1039,7 +1039,7 @@ all_locations: list[LocationData] = [
     ),
     LocationData(
         6029251, TMCLocation.CRENEL_BELOW_COF_GOLDEN_TEKTITE, TMCRegion.CRENEL,
-        TMCItem.RUPEES_100, (0xFF0126, None), (0x2CA2, 0x80), 0x0206, pools={POOL_ENEMY}
+        TMCItem.RUPEES_100, (0xFF0136, None), (0x2CA2, 0x80), 0x0206, pools={POOL_ENEMY}
     ),
     LocationData(
         6029252, TMCLocation.CRENEL_SCRUB_NPC, TMCRegion.CRENEL,
@@ -1170,7 +1170,7 @@ all_locations: list[LocationData] = [
     ),
     LocationData(
         6029284, TMCLocation.SWAMP_GOLDEN_ROPE, TMCRegion.CASTOR_WILDS,
-        TMCItem.RUPEES_100, (0xFF010E, None), (0x2CA2, 0x08), 0x0004, pools={POOL_ENEMY}
+        TMCItem.RUPEES_100, (0xFF011E, None), (0x2CA2, 0x08), 0x0004, pools={POOL_ENEMY}
     ),
     LocationData(
         6029285, TMCLocation.SWAMP_NEAR_WATERFALL_CAVE_HP, TMCRegion.CASTOR_WILDS,
@@ -1284,7 +1284,7 @@ all_locations: list[LocationData] = [
     ),
     LocationData(
         6029312, TMCLocation.RUINS_GOLDEN_OCTO, TMCRegion.WIND_RUINS,
-        TMCItem.RUPEES_100, (0xFF0102, None), (0x2CA2, 0x02), 0x0505, pools={POOL_ENEMY}
+        TMCItem.RUPEES_100, (0xFF0112, None), (0x2CA2, 0x02), 0x0505, pools={POOL_ENEMY}
     ),
     LocationData(
         6029313, TMCLocation.RUINS_NEAR_FOW_FUSION_CHEST, TMCRegion.WIND_RUINS,
@@ -1380,7 +1380,7 @@ all_locations: list[LocationData] = [
     ),
     LocationData(
         6029336, TMCLocation.FALLS_GOLDEN_TEKTITE, TMCRegion.UPPER_FALLS,
-        TMCItem.RUPEES_100, (0xFF0120, None), (0x2CA2, 0x40), 0x000A, pools={POOL_ENEMY}
+        TMCItem.RUPEES_100, (0xFF0130, None), (0x2CA2, 0x40), 0x000A, pools={POOL_ENEMY}
     ),
     LocationData(
         6029337, TMCLocation.FALLS_NORTH_DIG_SPOT, TMCRegion.UPPER_FALLS,

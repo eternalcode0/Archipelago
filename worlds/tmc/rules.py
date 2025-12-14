@@ -62,7 +62,10 @@ class MinishCapRules:
             (TMCRegion.SANCTUARY, TMCRegion.STAINED_GLASS):
                 self.logic_and([
                     self.has_group("Elements", self.world.options.ped_elements.value),
-                    self.has(TMCItem.PROGRESSIVE_SWORD, self.world.options.ped_swords.value),
+                    self.logic_or([
+                        self.has_prog_sword(self.world.options.ped_swords.value),
+                        self.has_sword_level(self.world.options.ped_swords.value),
+                    ]),
                     self.has_from_list([
                         TMCEvent.CLEAR_DWS,
                         TMCEvent.CLEAR_COF,
@@ -354,6 +357,7 @@ class MinishCapRules:
             TMCLocation.TOWN_SHOP_80_ITEM: self.cost(80),
             TMCLocation.TOWN_SHOP_300_ITEM: self.cost(300),
             TMCLocation.TOWN_SHOP_600_ITEM: self.cost(600),
+            TMCLocation.TOWN_SHOP_EXTRA_600_ITEM: self.cost(600),
             TMCLocation.TOWN_SHOP_BEHIND_COUNTER_ITEM: self.access_town_left(),
             TMCLocation.TOWN_SHOP_ATTIC_CHEST: self.access_town_left(),
             TMCLocation.TOWN_BAKERY_ATTIC_CHEST: self.access_town_left(),
@@ -1386,8 +1390,7 @@ class MinishCapRules:
 
     def can_spin(self) -> CollectionRule:
         return self.logic_and([self.has_sword(),
-                               self.has_any([TMCItem.SPIN_ATTACK, TMCItem.FAST_SPIN_SCROLL,
-                                             TMCItem.FAST_SPLIT_SCROLL, TMCItem.GREATSPIN, TMCItem.LONG_SPIN]),
+                               self.has([TMCItem.PROGRESSIVE_SCROLL, TMCItem.SPIN_ATTACK]),
                                ])
 
     def split_rule(self, link_count: int = 2) -> CollectionRule:
@@ -1439,6 +1442,19 @@ class MinishCapRules:
             TMCItem.FOUR_SWORD,
             TMCItem.PROGRESSIVE_SWORD,
         ])
+
+    def has_prog_sword(self, count: int = 1):
+        return self.has(TMCItem.PROGRESSIVE_SWORD, count)
+
+    def has_sword_level(self, level: int = 1):
+        if level == 0:
+            return lambda state: True
+        swords = [TMCItem.SMITHS_SWORD,
+            TMCItem.WHITE_SWORD_GREEN,
+            TMCItem.WHITE_SWORD_RED,
+            TMCItem.WHITE_SWORD_BLUE,
+            TMCItem.FOUR_SWORD]
+        return self.has(swords[level - 1])
 
     def has_bow(self) -> CollectionRule:
         return self.has_any([TMCItem.BOW, TMCItem.LIGHT_ARROW, TMCItem.PROGRESSIVE_BOW])

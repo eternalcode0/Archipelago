@@ -4,11 +4,11 @@ from typing import TYPE_CHECKING
 from BaseClasses import Item, ItemClassification
 from settings import get_settings
 from worlds.Files import APProcedurePatch, APTokenMixin, APTokenTypes
-from .constants import DUNGEON_ABBR, EXTERNAL_ITEM_MAP, TMCEvent, TMCItem, TMCLocation, WIND_CRESTS
-from .flags import flag_table_by_name
+from .constants import DUNGEON_ABBR, EXTERNAL_ITEM_MAP, TMCEvent, TMCItem, TMCLocation, WIND_CRESTS, TMCFlagGroup
+from .flags import flag_group_by_name, flag_table_by_name, OVERWORLD_FLAGS, GLOBAL_FLAGS
 from .items import item_table
 from .locations import location_table_by_name, LocationData
-from .options import DHCAccess, Goal, ShuffleElements
+from .options import DHCAccess, Goal, ShuffleElements, FusionAccess
 
 
 if TYPE_CHECKING:
@@ -53,6 +53,8 @@ class Transition:
 
 
 def write_tokens(world: "MinishCapWorld", patch: MinishCapProcedurePatch) -> None:
+    options = world.options
+
     # Bake player name into ROM
     patch.write_token(APTokenTypes.WRITE, 0x000600, world.multiworld.player_name[world.player].encode("UTF-8"))
 
@@ -192,6 +194,60 @@ def write_tokens(world: "MinishCapWorld", patch: MinishCapProcedurePatch) -> Non
                 romdata = flag_table_by_name.get(flag)
                 offset_extra, bit = romdata.offset, romdata.data
                 patch.write_token(APTokenTypes.OR_8, offset_extra, bit)
+
+    # Write Fusion flags
+    fusions = flag_group_by_name[TMCFlagGroup.COMPLETED_FUSIONS]
+    no_fusions_requests = []
+    if (options.gold_fusion_access.value == FusionAccess.option_open):
+        tornado = GLOBAL_FLAGS[TMCEvent.CLOUD_TOPS_TORNADO]
+        patch.write_token(APTokenTypes.OR_8, tornado.offset, tornado.data)
+        patch.write_token(APTokenTypes.OR_8, fusions, 0xFE)
+        patch.write_token(APTokenTypes.OR_8, fusions + 1, 0x03)
+        patch.write_token(APTokenTypes.WRITE, 0x07E4AE, bytes([0xBD, 0x00]))
+    elif (options.gold_fusion_access.value == FusionAccess.option_closed):
+        patch.write_token(APTokenTypes.OR_8, fusions, 0x3E)
+        patch.write_token(APTokenTypes.WRITE, 0x07E4AE, bytes([0xBD, 0x00]))
+    else:
+        patch.write_token(APTokenTypes.WRITE, fusions, bytes([0x00]))
+
+    red_fusion_requests = [0x2061, 0x2077, 0x2085, 0x208C, 0x2093, 0x215A, 0x21B6, 0x21BD, 0x2208, 0x2238, 0x2240, 0x2241, 0x2248, 0x2249, 0x2250, 0x2251, 0x2270, 0x2296, 0x2297, 0x229E, 0x22C8, 0x22E6, 0x22ED, 0x2310, 0x238B]
+    if (options.red_fusion_access.value == FusionAccess.option_open):
+        crenel_beanstalk = OVERWORLD_FLAGS[TMCEvent.CRENEL_BEANSTALK]
+        ruins_beanstalk = OVERWORLD_FLAGS[TMCEvent.RUINS_BEANSTALK]
+        patch.write_token(APTokenTypes.OR_8, crenel_beanstalk.offset, crenel_beanstalk.data)
+        patch.write_token(APTokenTypes.OR_8, ruins_beanstalk.offset, ruins_beanstalk.data)
+        patch.write_token(APTokenTypes.OR_8, fusions + 1, 0xFC)
+        patch.write_token(APTokenTypes.WRITE, fusions + 2, bytes([0xFF, 0xFF]))
+        patch.write_token(APTokenTypes.OR_8, fusions + 4, 0x03)
+    if (options.red_fusion_access.value == FusionAccess.option_closed or options.red_fusion_access.value == FusionAccess.option_open):
+        no_fusions_requests.extend(red_fusion_requests)
+
+    blue_fusion_requests = [0x2127, 0x213E, 0x2199, 0x21FF, 0x2225, 0x2226, 0x2227, 0x2228, 0x2229, 0x222A, 0x2258, 0x2259, 0x22C1, 0x22D6, 0x22F4, 0x2348, 0x2349, 0x234A, 0x234B, 0x234C, 0x234D, 0x2354, 0x2355, 0x2356, 0x2357, 0x2358, 0x2359, 0x2360, 0x2361, 0x2362, 0x2363, 0x2364, 0x2365, 0x236C, 0x236D, 0x236E, 0x236F, 0x23F0, 0x23F1, 0x2378, 0x2379, 0x237A, 0x237B, 0x237C, 0x237D, 0x2384, 0x2399]
+    if (options.green_fusion_access.value == FusionAccess.option_open):
+        hylia_beanstalk = OVERWORLD_FLAGS[TMCEvent.LAKE_BEANSTALK]
+        hills_beanstalk = OVERWORLD_FLAGS[TMCEvent.HILLS_BEANSTALK]
+        woods_beanstalk = OVERWORLD_FLAGS[TMCEvent.WESTERN_BEANSTALK]
+        gina_grave = OVERWORLD_FLAGS[TMCEvent.VALLEY_GRAVE_RIGHT]
+        patch.write_token(APTokenTypes.OR_8, hylia_beanstalk.offset, hylia_beanstalk.data)
+        patch.write_token(APTokenTypes.OR_8, hills_beanstalk.offset, hills_beanstalk.data)
+        patch.write_token(APTokenTypes.OR_8, woods_beanstalk.offset, woods_beanstalk.data)
+        patch.write_token(APTokenTypes.OR_8, gina_grave.offset, gina_grave.data)
+        patch.write_token(APTokenTypes.OR_8, fusions + 4, 0xFC)
+        patch.write_token(APTokenTypes.WRITE, fusions + 5, bytes([0xFF]))
+        patch.write_token(APTokenTypes.OR_8, fusions + 6, 0x0F)
+    if (options.blue_fusion_access.value == FusionAccess.option_closed or options.blue_fusion_access.value == FusionAccess.option_open):
+        no_fusions_requests.extend(blue_fusion_requests)
+
+    green_fusion_requests = [0x2062, 0x20AC, 0x20DD, 0x212E, 0x212F, 0x2130, 0x21C4, 0x21CB, 0x21D2, 0x21D3, 0x21DA, 0x21DB, 0x2200, 0x2207, 0x220F, 0x2216, 0x221D, 0x221E, 0x2231, 0x2260, 0x2261, 0x2285, 0x2286, 0x2287, 0x22A5, 0x22AC, 0x22B3, 0x22BA, 0x22CF, 0x22DD, 0x22DE, 0x22DF, 0x22FB, 0x2302, 0x2309, 0x233A, 0x23A0, 0x23A1, 0x23A8]
+    if (options.green_fusion_access.value == FusionAccess.option_open):
+        patch.write_token(APTokenTypes.OR_8, fusions + 6, 0xF0)
+        patch.write_token(APTokenTypes.WRITE, fusions + 7, bytes([0xFF, 0xFF, 0xFF, 0xFF, 0xFF]))
+        patch.write_token(APTokenTypes.OR_8, fusions + 0xC, 0x1F)
+    if (options.green_fusion_access.value == FusionAccess.option_closed or options.green_fusion_access.value == FusionAccess.option_open):
+        no_fusions_requests.extend(green_fusion_requests)
+
+    for request in no_fusions_requests:
+        patch.write_token(APTokenTypes.WRITE, request, bytes([0xF2]))
 
     # Cucco/Goron Rounds
     cucco_complete = int(world.options.cucco_rounds.value == 0)
