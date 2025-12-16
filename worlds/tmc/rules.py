@@ -2,8 +2,8 @@ from typing import Callable, TYPE_CHECKING
 
 from BaseClasses import CollectionState
 from worlds.generic.Rules import add_rule, CollectionRule
-from .constants import TMCEvent, TMCItem, TMCLocation, TMCRegion, TMCTricks, TMCWarps
-from .options import DHCAccess, DungeonItem, Goal, MinishCapOptions
+from .constants import TMCEvent, TMCItem, TMCLocation, TMCRegion, TMCTricks
+from .options import DHCAccess, DungeonItem, Goal, MinishCapOptions, DungeonWarp
 
 if TYPE_CHECKING:
     from . import MinishCapWorld
@@ -59,22 +59,7 @@ class MinishCapRules:
             (TMCRegion.CASTLE_EXTERIOR, TMCRegion.SANCTUARY): None,
 
             (TMCRegion.SANCTUARY, TMCRegion.CASTLE_EXTERIOR): None,  # redundant
-            (TMCRegion.SANCTUARY, TMCRegion.STAINED_GLASS):
-                self.logic_and([
-                    self.has_group("Elements", self.world.options.ped_elements.value),
-                    self.logic_or([
-                        self.has_prog_sword(self.world.options.ped_swords.value),
-                        self.has_sword_level(self.world.options.ped_swords.value),
-                    ]),
-                    self.has_from_list([
-                        TMCEvent.CLEAR_DWS,
-                        TMCEvent.CLEAR_COF,
-                        TMCEvent.CLEAR_FOW,
-                        TMCEvent.CLEAR_TOD,
-                        TMCEvent.CLEAR_RC,
-                        TMCEvent.CLEAR_POW,
-                    ], self.world.options.ped_dungeons.value)
-                ]),
+            (TMCRegion.SANCTUARY, TMCRegion.STAINED_GLASS): self.pedestal_requirements(),
 
             (TMCRegion.LONLON, TMCRegion.HYRULE_TOWN): self.has(TMCItem.BOMB_BAG),  # redundant
             (TMCRegion.LONLON, TMCRegion.NORTH_FIELD): self.can_pass_trees(),  # redundant
@@ -1162,6 +1147,7 @@ class MinishCapRules:
             # endregion
 
             # region Sanctuary
+            TMCLocation.PEDESTAL_REQUIREMENT_REWARD: self.pedestal_requirements(),
             TMCLocation.SANCTUARY_PEDESTAL_ITEM1: self.has_group("Elements", 2),
             TMCLocation.SANCTUARY_PEDESTAL_ITEM2: self.has_group("Elements", 3),
             TMCLocation.SANCTUARY_PEDESTAL_ITEM3: self.has_group("Elements", 4),
@@ -1390,7 +1376,7 @@ class MinishCapRules:
 
     def can_spin(self) -> CollectionRule:
         return self.logic_and([self.has_sword(),
-                               self.has([TMCItem.PROGRESSIVE_SCROLL, TMCItem.SPIN_ATTACK]),
+                               self.has_any([TMCItem.PROGRESSIVE_SCROLL, TMCItem.SPIN_ATTACK]),
                                ])
 
     def split_rule(self, link_count: int = 2) -> CollectionRule:
@@ -1432,6 +1418,24 @@ class MinishCapRules:
 
     def can_shield(self) -> CollectionRule:
         return self.has_any([TMCItem.SHIELD, TMCItem.MIRROR_SHIELD, TMCItem.PROGRESSIVE_SHIELD])
+
+    def pedestal_requirements(self) -> CollectionRule:
+        return self.logic_and([
+            self.has_group("Elements", self.world.options.ped_elements.value),
+            self.logic_or([
+                self.has_prog_sword(self.world.options.ped_swords.value),
+                self.has_sword_level(self.world.options.ped_swords.value),
+            ]),
+            self.has_from_list([
+                TMCEvent.CLEAR_DWS,
+                TMCEvent.CLEAR_COF,
+                TMCEvent.CLEAR_FOW,
+                TMCEvent.CLEAR_TOD,
+                TMCEvent.CLEAR_RC,
+                TMCEvent.CLEAR_POW,
+            ], self.world.options.ped_dungeons.value),
+            self.has(TMCItem.FIGURINE, self.world.options.ped_figurines.value)
+        ])
 
     def has_sword(self) -> CollectionRule:
         return self.has_any([

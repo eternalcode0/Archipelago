@@ -13,15 +13,15 @@ from BaseClasses import Item, ItemClassification, Tutorial
 from worlds.AutoWorld import WebWorld, World
 from Fill import FillError
 from Options import OptionError
-from .client import MinishCapClient
+from .client import MinishCapClient  # noqa: F401
 from .constants import MinishCapEvent, MinishCapItem, MinishCapLocation, TMCEvent, TMCItem, TMCLocation, TMCRegion
 from .dungeons import fill_dungeons
-from .items import (get_filler_item_selection, get_item_pool, get_pre_fill_pool, item_frequencies, item_groups,
-                    item_table, ItemData)
-from .locations import (all_locations, DEFAULT_SET, GOAL_PED, GOAL_VAATI, location_groups, OBSCURE_SET, POOL_DIG,
+from .items import (get_filler_item_selection, get_item_pool, get_pre_fill_pool, item_groups,
+                    item_table)
+from .locations import (all_locations, DEFAULT_SET, GOAL_PED, GOAL_VAATI, location_groups, POOL_DIG,
                         POOL_ENEMY, POOL_POT, POOL_RUPEE, POOL_WATER)
-from .options import (DHCAccess, DungeonItem, get_option_data, Goal, MinishCapOptions, NonElementDungeons,
-                      OPTION_GROUPS, ShuffleElements, SLOT_DATA_OPTIONS)
+from .options import (DHCAccess, get_option_data, Goal, MinishCapOptions, NonElementDungeons,
+                      OPTION_GROUPS, ShuffleElements, SLOT_DATA_OPTIONS, PedReward)
 from .regions import create_regions
 from .rom import MinishCapProcedurePatch, write_tokens
 from .rules import MinishCapRules
@@ -82,6 +82,7 @@ class MinishCapWorld(World):
     filler_items = []
     disabled_locations: set[str]
     disabled_dungeons: set[str]
+    figurines_placed = 0
 
     # region APWorld Generation
     # sorted in execution order
@@ -98,6 +99,9 @@ class MinishCapWorld(World):
             enabled_pools.add(POOL_WATER)
         if self.options.shuffle_gold_enemies.value:
             enabled_pools.add(POOL_ENEMY)
+
+        if self.options.figurine_amount < self.options.ped_figurines:
+            self.options.figurine_amount = self.options.ped_figurines
 
         enabled_pools.update([f"cucco:{round_num}" for round_num in range(
             10, 10 - self.options.cucco_rounds.value, -1)])
@@ -120,6 +124,9 @@ class MinishCapWorld(World):
 
         if self.options.dhc_access.value == DHCAccess.option_closed:
             self.disabled_locations.update(loc for loc in location_groups["DHC"])
+
+        if self.options.ped_reward.value == PedReward.option_none:
+            self.disabled_locations.add(TMCLocation.PEDESTAL_REQUIREMENT_REWARD)
 
         # Check if the settings require more dungeons than are included
         self.disabled_dungeons = set(dungeon for dungeon in ["DWS", "CoF", "FoW", "ToD", "RC", "PoW"]

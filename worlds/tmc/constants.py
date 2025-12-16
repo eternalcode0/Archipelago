@@ -118,6 +118,7 @@ class TMCItem:
     BIG_WALLET = "Big Wallet"
     BOMB_BAG = "Bomb Bag"
     QUIVER = "Quiver"
+    FIGURINE = "Figurine"
     KINSTONE_BAG = "Kinstone Bag"
     BRIOCHE = "Brioche"
     CROISSANT = "Croissant"
