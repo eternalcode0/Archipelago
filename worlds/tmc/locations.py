@@ -465,10 +465,10 @@ all_locations: list[LocationData] = [
         None, (0x0DBD8E, None), (0x2D28, 0x20), 0x0136
     ),
     # endregion
-    # LocationData(
-    #     6029110, TMCLocation.PEDESTAL_REQUIREMENT_REWARD, TMCRegion.SANCTUARY,
-    #     None, (0xFF002C, None), (0x2C9E, 0x01), None,
-    # ),
+    LocationData(
+        6029110, TMCLocation.PEDESTAL_REQUIREMENT_REWARD, TMCRegion.SANCTUARY,
+        None, (0xFF002C, None), (0x2C9E, 0x40), None,
+    ),
     # 6029111
     # region Eastern Hills
     LocationData(

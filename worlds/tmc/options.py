@@ -349,6 +349,7 @@ class PedFigurines(Range):
     """How many figurines are required to activate Pedestal?"""
 
     display_name = "Required Figurines to Pedestal"
+    visibility = Visibility.none
     default = 0
     range_start = 0
     range_end = 136
@@ -360,6 +361,7 @@ class FigurineAmount(Range):
     """
 
     display_name = "Figurines in Pool"
+    visibility = Visibility.none
     default = 0
     range_start = 0
     range_end = 136
@@ -606,8 +608,8 @@ class MinishCapOptions(PerGameCommonOptions):
     ped_elements: PedElements
     ped_swords: PedSword
     ped_dungeons: PedDungeons
-    # ped_figurines: GoalFigurines
-    # figurine_amount: FigurineAmount
+    ped_figurines: PedFigurines
+    figurine_amount: FigurineAmount
     # Fusion Settings
     gold_fusion_access: GoldFusionAccess
     red_fusion_access: RedFusionAccess
@@ -618,7 +620,7 @@ class MinishCapOptions(PerGameCommonOptions):
     dungeon_big_keys: BigKeys
     dungeon_maps: DungeonMaps
     dungeon_compasses: DungeonCompasses
-    # ped_reward: PedReward
+    ped_reward: PedReward
     shuffle_elements: ShuffleElements
     non_element_dungeons: NonElementDungeons
     rupeesanity: Rupeesanity

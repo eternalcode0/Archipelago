@@ -2,7 +2,7 @@ from dataclasses import dataclass
 from typing import TYPE_CHECKING
 
 from BaseClasses import ItemClassification
-from .options import DHCAccess, DungeonItem, Goal, ShuffleElements
+from .options import DHCAccess, DungeonItem, Goal, ShuffleElements, DungeonWarp, PedReward
 from .constants import TMCItem, TMCLocation, MinishCapItem
 
 if TYPE_CHECKING:
@@ -242,6 +242,12 @@ def get_item_pool(world: "MinishCapWorld") -> list[MinishCapItem]:
     if world.options.dungeon_maps.value == DungeonItem.option_anywhere:
         item_pool.extend(pool_dungeonmaps(world))
 
+    if world.options.figurine_amount > 0:
+        item_pool.extend([TMCItem.FIGURINE] * world.options.figurine_amount.value)
+
+    if world.options.ped_reward == PedReward.option_dhc_big_key:
+        world.get_location(TMCLocation.PEDESTAL_REQUIREMENT_REWARD).place_locked_item(world.create_item(TMCItem.BIG_KEY_DHC))
+
     # ToD is stupid, need to place the big key manually
     if world.options.dungeon_big_keys.value == DungeonItem.option_own_dungeon and \
        TMCItem.BIG_KEY_TOD not in world.options.start_inventory_from_pool.value.keys():
@@ -404,7 +410,7 @@ item_table: dict[str, ItemData] = {
     TMCItem.BIG_WALLET: ItemData(ItemClassification.progression, (0x64, 0x00)),
     TMCItem.BOMB_BAG: ItemData(ItemClassification.progression, (0x65, 0x00)),
     TMCItem.QUIVER: ItemData(ItemClassification.useful, (0x66, 0x00)),
-    TMCItem.KINSTONE_BAG: ItemData(ItemClassification.progression, (0x67, 0x00)),
+    TMCItem.FIGURINE: ItemData(ItemClassification.progression, (0x67, 0x00)),
     TMCItem.BRIOCHE: ItemData(ItemClassification.filler, (0x68, 0x00)),
     TMCItem.CROISSANT: ItemData(ItemClassification.filler, (0x69, 0x00)),
     TMCItem.PIE: ItemData(ItemClassification.filler, (0x6A, 0x00)),

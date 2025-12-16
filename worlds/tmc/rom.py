@@ -8,7 +8,7 @@ from .constants import DUNGEON_ABBR, EXTERNAL_ITEM_MAP, TMCEvent, TMCItem, TMCLo
 from .flags import flag_group_by_name, flag_table_by_name, OVERWORLD_FLAGS, GLOBAL_FLAGS
 from .items import item_table
 from .locations import location_table_by_name, LocationData
-from .options import DHCAccess, Goal, ShuffleElements, FusionAccess
+from .options import DHCAccess, Goal, ShuffleElements, FusionAccess, PedReward
 
 
 if TYPE_CHECKING:
@@ -92,8 +92,8 @@ def write_tokens(world: "MinishCapWorld", patch: MinishCapProcedurePatch) -> Non
         patch.write_token(APTokenTypes.WRITE, 0xFE0002, bytes([world.options.ped_swords.value]))
     if 0 <= world.options.ped_dungeons.value <= 6:
         patch.write_token(APTokenTypes.WRITE, 0xFE0003, bytes([world.options.ped_dungeons.value]))
-    # if 0 <= world.options.ped_figurines.value <= 136:
-    #     patch.write_token(APTokenTypes.WRITE, 0xFE0004, bytes([world.options.ped_figurines.value]))
+    if 0 <= world.options.ped_figurines.value <= 136:
+        patch.write_token(APTokenTypes.WRITE, 0xFE0004, bytes([world.options.ped_figurines.value]))
 
     # Element map update
     if world.options.shuffle_elements.value == ShuffleElements.option_dungeon_prize:
@@ -194,6 +194,13 @@ def write_tokens(world: "MinishCapWorld", patch: MinishCapProcedurePatch) -> Non
                 romdata = flag_table_by_name.get(flag)
                 offset_extra, bit = romdata.offset, romdata.data
                 patch.write_token(APTokenTypes.OR_8, offset_extra, bit)
+
+    # Figurines
+    if options.ped_figurines.value > 0:
+        patch.write_token(APTokenTypes.WRITE, flag_group_by_name[TMCFlagGroup.FIGURINE_COLLECTED_FLAGS], bytes([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]))
+
+    if options.ped_reward.value == PedReward.option_none:
+        patch.write_token(APTokenTypes.WRITE, 0xFF002C, bytes([0, 0]))
 
     # Write Fusion flags
     fusions = flag_group_by_name[TMCFlagGroup.COMPLETED_FUSIONS]
@@ -301,11 +308,19 @@ def item_inject(world: "MinishCapWorld", patch: MinishCapProcedurePatch, locatio
     if hasattr(location.rom_addr[0], "__iter__") and hasattr(location.rom_addr[1], "__iter__"):
         for loc1, loc2 in zip(location.rom_addr[0], location.rom_addr[1]):
             write_single_byte(patch, loc1, item_byte_first)
-            write_single_byte(patch, loc2 or loc1 + 1, item_byte_second)
+            if item_byte_first == 0x67:
+                write_single_byte(patch, loc2 or loc1 + 1, world.figurines_placed)
+                world.figurines_placed = world.figurines_placed + 1
+            else:
+                write_single_byte(patch, loc2 or loc1 + 1, item_byte_second)
     else:
         loc2 = location.rom_addr[1] or location.rom_addr[0] + 1
         write_single_byte(patch, location.rom_addr[0], item_byte_first)
-        write_single_byte(patch, loc2, item_byte_second)
+        if item_byte_first == 0x67:
+            write_single_byte(patch, loc2, world.figurines_placed)
+            world.figurines_placed = world.figurines_placed + 1
+        else:
+            write_single_byte(patch, loc2, item_byte_second)
 
 
 def write_single_byte(patch: MinishCapProcedurePatch, address: int, byte: int):
