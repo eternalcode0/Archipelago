@@ -128,6 +128,9 @@ class MinishCapWorld(World):
         if self.options.ped_reward.value == PedReward.option_none:
             self.disabled_locations.add(TMCLocation.PEDESTAL_REQUIREMENT_REWARD)
 
+        if not self.options.extra_shop_item.value:
+            self.disabled_locations.add(TMCLocation.TOWN_SHOP_EXTRA_600_ITEM)
+
         # Check if the settings require more dungeons than are included
         self.disabled_dungeons = set(dungeon for dungeon in ["DWS", "CoF", "FoW", "ToD", "RC", "PoW"]
                                      if location_groups[dungeon].issubset(self.options.exclude_locations.value))

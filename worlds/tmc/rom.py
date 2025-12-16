@@ -261,7 +261,7 @@ def write_tokens(world: "MinishCapWorld", patch: MinishCapProcedurePatch) -> Non
     cucco_skipped = 10 - world.options.cucco_rounds.value if world.options.cucco_rounds.value > 0 else 9
     flags_2ca5 = 0b0000_0110  # Exited Link's House / Spoke to Minish to get to fountain
     patch.write_token(APTokenTypes.WRITE, 0xFF1265, bytes([cucco_complete << 7 | cucco_skipped << 3 | flags_2ca5]))
-    patch.write_token(APTokenTypes.WRITE, 0xFF00F6, bytes([world.options.goron_sets.value]))
+    patch.write_token(APTokenTypes.WRITE, 0xFF0116, bytes([world.options.goron_sets.value]))
 
     if world.options.goron_jp_prices.value:
         patch.write_token(APTokenTypes.WRITE, 0x1112F0, struct.pack(
@@ -275,6 +275,11 @@ def write_tokens(world: "MinishCapWorld", patch: MinishCapProcedurePatch) -> Non
                 loc.vanilla_item is None or loc.vanilla_item in item_table and
                 item_table[loc.vanilla_item].classification != ItemClassification.filler):
             if loc.rom_addr[0] is None:
+                continue
+            if location_name == TMCLocation.PEDESTAL_REQUIREMENT_REWARD:
+                continue
+            if location_name == TMCLocation.TOWN_SHOP_EXTRA_600_ITEM and not world.options.extra_shop_item:
+                patch.write_token(APTokenTypes.WRITE, 0xFF00D0, bytes([0] * 0x20))
                 continue
             item_inject(world, patch, location_table_by_name[location_name], world.create_item(TMCItem.RUPEES_1))
             continue
