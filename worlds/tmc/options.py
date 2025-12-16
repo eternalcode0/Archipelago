@@ -576,6 +576,9 @@ class GoronJPPrices(Toggle):
     display_name = "Goron Merchant JP/US Prices"
 
 
+class ExtraShopItem(Toggle):
+    """Should Stockwell sell an extra item (same as the extra bomb bag from US/JP versions) for 600 rupees?"""
+
 class NonElementDungeons(Choice):
     """Should dungeons that don't have elements restrict the items that can be placed in them?
     Only takes effect when shuffle_elements is dungeon_prize or vanilla and ped_dungeons is 4 or less.
@@ -631,6 +634,7 @@ class MinishCapOptions(PerGameCommonOptions):
     cucco_rounds: CuccoRounds
     goron_sets: GoronSets
     goron_jp_prices: GoronJPPrices
+    extra_shop_item: ExtraShopItem
     traps_enabled: Traps
     random_bottle_contents: RandomBottleContents
     # Weapon Settings
@@ -680,22 +684,22 @@ def get_option_data(options: MinishCapOptions):
         "goal_dungeons": options.ped_dungeons.value,  # 0-6
         "goal_swords": options.ped_swords.value,  # 0-5
         "goal_elements": options.ped_elements.value,  # 0-4
-        "goal_figurines": 0,  # 0-136
+        "goal_figurines": options.ped_figurines.value,  # 0-136
         "goal_vaati_dhc": vaati_dhc_map[(options.goal.value, options.dhc_access.value)],
         "shuffle_heart_pieces": 1,
         "shuffle_rupees": options.rupeesanity.value,
         "shuffle_pedestal": 0,
         "shuffle_biggoron": 0,  # 0 = Disabled, 1 = Requires Shield, 2 = Requires Mirror Shield
-        "kinstones_gold": 1,  # 0 = Closed, 1 = Vanilla, 2 = Combined, 3 = Open
-        "kinstones_red": 3,  # 0 = Closed, 1 = Vanilla, 2 = Combined, 3 = Open
-        "kinstones_blue": 3,  # 0 = Closed, 1 = Vanilla, 2 = Combined, 3 = Open
-        "kinstones_green": 3,  # 0 = Closed, 1 = Vanilla, 2 = Combined, 3 = Open
+        "kinstones_gold": options.gold_fusion_access.value,  # 0 = Closed, 1 = Vanilla, 2 = Combined, 3 = Open
+        "kinstones_red": options.red_fusion_access.value,  # 0 = Closed, 1 = Vanilla, 2 = Combined, 3 = Open
+        "kinstones_blue": options.blue_fusion_access.value,  # 0 = Closed, 1 = Vanilla, 2 = Combined, 3 = Open
+        "kinstones_green": options.green_fusion_access.value,  # 0 = Closed, 1 = Vanilla, 2 = Combined, 3 = Open
         "grabbables": 0,  # 0 = Not Allowed, 1 = Allowed, 2 = Required, 3 = Required (Hard)
         "open_world": 0,  # No, Yes
         "open_wind_tribe": 0,
         "open_tingle_brothers": 0,
         "open_library": 0,
-        "extra_shop_item": 0,
+        "extra_shop_item": options.extra_shop_item.value,
         "wind_crest_town": 1,
         "wind_crest_lake": 1,
         "weapon_bombs": options.weapon_bomb.value,  # No, Yes, Yes + Bosses
@@ -765,6 +769,11 @@ SLOT_DATA_OPTIONS = [
     "weapon_bow",
     "weapon_gust",
     "weapon_lantern",
+    "progressive_sword",
+    "progressive_bow",
+    "progressive_boomerang",
+    "progressive_shield",
+    "progressive_scroll",
     "dungeon_warp_dws",
     "dungeon_warp_cof",
     "dungeon_warp_fow",
@@ -802,6 +811,7 @@ OPTION_GROUPS = [
     OptionGroup(
         "Location Shuffle",
         [
+            PedReward,
             Rupeesanity,
             ShufflePots,
             ShuffleDigging,
@@ -809,10 +819,14 @@ OPTION_GROUPS = [
             ShuffleGoldEnemies,
             CuccoRounds,
             GoronSets,
+            ExtraShopItem,
         ],
     ),
     OptionGroup(
         "Weapons", [EarlyWeapon, WeaponBomb, WeaponBow, WeaponGust, WeaponLantern]
+    ),
+    OptionGroup(
+        "Progressives", [ProgressiveSword, ProgressiveBow, ProgressiveBoomerang, ProgressiveShield, ProgressiveScroll]
     ),
     OptionGroup(
         "Fast Travel",
