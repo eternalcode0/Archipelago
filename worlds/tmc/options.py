@@ -349,7 +349,6 @@ class PedFigurines(Range):
     """How many figurines are required to activate Pedestal?"""
 
     display_name = "Required Figurines to Pedestal"
-    visibility = Visibility.none
     default = 0
     range_start = 0
     range_end = 136
@@ -361,7 +360,6 @@ class FigurineAmount(Range):
     """
 
     display_name = "Figurines in Pool"
-    visibility = Visibility.none
     default = 0
     range_start = 0
     range_end = 136
@@ -792,7 +790,7 @@ SLOT_DATA_OPTIONS = [
 
 
 OPTION_GROUPS = [
-    OptionGroup("Goal", [Goal, DHCAccess, PedElements, PedSword, PedDungeons]),
+    OptionGroup("Goal", [Goal, DHCAccess, PedElements, PedSword, PedDungeons, PedFigurines, FigurineAmount]),
     OptionGroup(
         "Fusions",
         [GoldFusionAccess, RedFusionAccess, GreenFusionAccess, BlueFusionAccess],
