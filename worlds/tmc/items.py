@@ -83,23 +83,9 @@ def pool_baseitems() -> list[str]:
         *[TMCItem.HEART_PIECE] * 44,
         *[TMCItem.HEART_CONTAINER] * 6,
 
-        TMCItem.RUPEES_1,
-        TMCItem.RUPEES_5,
-        TMCItem.RUPEES_20,
-        TMCItem.RUPEES_50,
-        TMCItem.RUPEES_100,
-        TMCItem.RUPEES_200,
         TMCItem.BIG_WALLET,
         TMCItem.BIG_WALLET,
         TMCItem.BIG_WALLET,
-
-        TMCItem.HEART_REFILL,
-        TMCItem.BOMB_REFILL_5,
-        TMCItem.BOMB_REFILL_10,
-        TMCItem.BOMB_REFILL_30,
-        TMCItem.ARROW_REFILL_5,
-        TMCItem.ARROW_REFILL_10,
-        TMCItem.ARROW_REFILL_30,
 
         TMCItem.ROLL_ATTACK,
         TMCItem.DASH_ATTACK,

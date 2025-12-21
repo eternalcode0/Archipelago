@@ -21,7 +21,7 @@ from .items import (get_filler_item_selection, get_item_pool, get_pre_fill_pool,
 from .locations import (all_locations, DEFAULT_SET, GOAL_PED, GOAL_VAATI, location_groups, POOL_DIG,
                         POOL_ENEMY, POOL_POT, POOL_RUPEE, POOL_WATER)
 from .options import (DHCAccess, get_option_data, Goal, MinishCapOptions, NonElementDungeons,
-                      OPTION_GROUPS, ShuffleElements, SLOT_DATA_OPTIONS, PedReward)
+                      OPTION_GROUPS, ShuffleElements, SLOT_DATA_OPTIONS, PedReward, FillerItemsDistribution)
 from .regions import create_regions
 from .rom import MinishCapProcedurePatch, write_tokens
 from .rules import MinishCapRules
@@ -113,6 +113,13 @@ class MinishCapWorld(World):
             self.options.dhc_access.value = DHCAccess.option_closed
 
         self.filler_items = get_filler_item_selection(self)
+        self.filler_items_distribution = self.options.filler_items_distribution.value
+        if all(val <= 0 for val in self.filler_items_distribution.values()):
+            self.filler_items_distribution = FillerItemsDistribution.default
+        if not self.options.traps_enabled:
+            traps = self.item_name_groups["Traps"]
+            for trap in traps:
+                self.filler_items_distribution.pop(trap)
 
         if self.options.shuffle_elements.value == ShuffleElements.option_dungeon_prize:
             self.options.start_hints.value.add(TMCItem.EARTH_ELEMENT)
@@ -309,9 +316,7 @@ class MinishCapWorld(World):
         return MinishCapEvent(name, ItemClassification.progression, None, self.player)
 
     def get_filler_item_name(self) -> str:
-        if len(self.filler_items) == 0:
-            self.filler_items = get_filler_item_selection(self)
-        return self.random.choice(self.filler_items)
+        return self.random.choices(tuple(self.filler_items_distribution), weights=self.filler_items_distribution.values())[0]
 
     def get_pre_fill_items(self) -> list[Item]:
         return self.pre_fill_pool
