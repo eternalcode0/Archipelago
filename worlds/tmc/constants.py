@@ -114,7 +114,7 @@ class TMCItem:
     KINSTONE_GREEN_P = "Kinstone Green P"
     SHELLS_30 = "30 Shells"
     HEART_CONTAINER = "Heart Container"
-    HEART_PIECE = "Heart Piece"
+    HEART_PIECE = "Piece of Heart"
     BIG_WALLET = "Big Wallet"
     BOMB_BAG = "Bomb Bag"
     QUIVER = "Quiver"

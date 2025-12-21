@@ -577,6 +577,7 @@ class GoronJPPrices(Toggle):
 class ExtraShopItem(Toggle):
     """Should Stockwell sell an extra item (same as the extra bomb bag from US/JP versions) for 600 rupees?"""
 
+
 class NonElementDungeons(Choice):
     """Should dungeons that don't have elements restrict the items that can be placed in them?
     Only takes effect when shuffle_elements is dungeon_prize or vanilla and ped_dungeons is 4 or less.
@@ -595,6 +596,32 @@ class NonElementDungeons(Choice):
     alias_true = option_standard
     alias_false = option_excluded
     default = option_standard
+
+
+class StartingHearts(Range):
+    """How much health should you start with?"""
+    range_start = 1
+    range_end = 20
+    default = 3
+
+
+class HeartContainerAmount(Range):
+    """How many Heart Containers should be placed in the world?
+    If there are enough Heart Containers to reach 10 Hearts without any Piece of Hearts,
+    then Piece of Hearts will be marked Useful instead of Progression"""
+    range_start = 0
+    range_end = 20
+    default = 6
+
+
+class PieceOfHeartAmount(Range):
+    """How many hearts worth of Piece of Hearts should be placed in the world?
+    If there isn't enough Starting HP, Heart Containers & Piece of Hearts to reach 10 Hearts for the Lake Hylia Dojo,
+    then Lake Hylia Dojo will be disabled.
+    """
+    range_start = 0
+    range_end = 20
+    default = 11
 
 
 @dataclass
@@ -646,6 +673,10 @@ class MinishCapOptions(PerGameCommonOptions):
     progressive_boomerang: ProgressiveBoomerang
     progressive_shield: ProgressiveShield
     progressive_scroll: ProgressiveScroll
+    # Difficulty
+    starting_hearts: StartingHearts
+    heart_containers: HeartContainerAmount
+    piece_of_hearts: PieceOfHeartAmount
     # Logic Settings
     dungeon_warp_dws: WarpDWS
     dungeon_warp_cof: WarpCoF

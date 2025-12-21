@@ -80,9 +80,6 @@ def pool_baseitems() -> list[str]:
 
         TMCItem.DOG_FOOD,
 
-        *[TMCItem.HEART_PIECE] * 44,
-        *[TMCItem.HEART_CONTAINER] * 6,
-
         TMCItem.RUPEES_1,
         TMCItem.RUPEES_5,
         TMCItem.RUPEES_20,
@@ -182,6 +179,11 @@ def pool_scroll(world: "MinishCapWorld") -> list[str]:
     return [TMCItem.SPIN_ATTACK, TMCItem.GREATSPIN, TMCItem.FAST_SPIN_SCROLL, TMCItem.FAST_SPLIT_SCROLL, TMCItem.LONG_SPIN]
 
 
+def pool_health(world: "MinishCapWorld") -> list[str]:
+    return ([TMCItem.HEART_CONTAINER] * world.options.heart_containers.value +
+            [TMCItem.HEART_PIECE] * (world.options.piece_of_hearts.value * 4))
+
+
 def pool_smallkeys(world: "MinishCapWorld") -> list[str]:
     keys = [
         *[TMCItem.SMALL_KEY_DWS] * 4,
@@ -231,6 +233,7 @@ def get_item_pool(world: "MinishCapWorld") -> list[MinishCapItem]:
     item_pool.extend(pool_boomerang(world))
     item_pool.extend(pool_shield(world))
     item_pool.extend(pool_scroll(world))
+    item_pool.extend(pool_health(world))
 
     if world.options.dungeon_big_keys.value == DungeonItem.option_anywhere:
         item_pool.extend(pool_bigkeys(world))
@@ -500,11 +503,11 @@ def get_filler_item_selection(world: "MinishCapWorld"):
 
 
 item_groups: dict[str, set[str]] = {
-    "Spin Scrolls": {TMCItem.PROGRESSIVE_SCROLL, TMCItem.SPIN_ATTACK, TMCItem.GREATSPIN, TMCItem.FAST_SPIN_SCROLL, TMCItem.FAST_SPLIT_SCROLL,
-                     TMCItem.LONG_SPIN},
-    "Scrolls": {TMCItem.PROGRESSIVE_SCROLL, TMCItem.SPIN_ATTACK, TMCItem.ROLL_ATTACK, TMCItem.DASH_ATTACK, TMCItem.ROCK_BREAKER, TMCItem.SWORD_BEAM,
-                TMCItem.GREATSPIN, TMCItem.DOWNTHRUST, TMCItem.PERIL_BEAM, TMCItem.FAST_SPIN_SCROLL,
-                TMCItem.FAST_SPLIT_SCROLL, TMCItem.LONG_SPIN},
+    "Spin Scrolls": {TMCItem.PROGRESSIVE_SCROLL, TMCItem.SPIN_ATTACK, TMCItem.GREATSPIN, TMCItem.FAST_SPIN_SCROLL,
+                     TMCItem.FAST_SPLIT_SCROLL, TMCItem.LONG_SPIN},
+    "Scrolls": {TMCItem.PROGRESSIVE_SCROLL, TMCItem.SPIN_ATTACK, TMCItem.ROLL_ATTACK, TMCItem.DASH_ATTACK,
+                TMCItem.ROCK_BREAKER, TMCItem.SWORD_BEAM, TMCItem.GREATSPIN, TMCItem.DOWNTHRUST, TMCItem.PERIL_BEAM,
+                TMCItem.FAST_SPIN_SCROLL, TMCItem.FAST_SPLIT_SCROLL, TMCItem.LONG_SPIN},
     "Elements": {TMCItem.EARTH_ELEMENT, TMCItem.FIRE_ELEMENT, TMCItem.WATER_ELEMENT, TMCItem.WIND_ELEMENT},
     "Health": {TMCItem.HEART_CONTAINER, TMCItem.HEART_PIECE},
     "Bottle": {TMCItem.EMPTY_BOTTLE, TMCItem.LON_LON_BUTTER, TMCItem.LON_LON_MILK, TMCItem.LON_LON_MILK_HALF,
@@ -524,6 +527,7 @@ item_groups: dict[str, set[str]] = {
     "Cape": {TMCItem.ROCS_CAPE},
     "Cane": {TMCItem.CANE_OF_PACCI},
     "Boots": {TMCItem.PEGASUS_BOOTS},
+    "Heart Piece": {TMCItem.HEART_PIECE},
     "Rupees": {TMCItem.RUPEES_1, TMCItem.RUPEES_5, TMCItem.RUPEES_20, TMCItem.RUPEES_50, TMCItem.RUPEES_100,
                TMCItem.RUPEES_200},
     "Traps": {TMCItem.TRAP_ICE, TMCItem.TRAP_FIRE, TMCItem.TRAP_ZAP, TMCItem.TRAP_BOMB, TMCItem.TRAP_MONEY,
