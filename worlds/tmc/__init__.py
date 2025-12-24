@@ -32,6 +32,7 @@ from .locations import (
 )
 from .options import (
     OPTION_GROUPS,
+    PRESETS,
     SLOT_DATA_OPTIONS,
     DHCAccess,
     FillerItemsDistribution,
@@ -55,6 +56,7 @@ class MinishCapWebWorld(WebWorld):
     theme = "grassFlowers"
     bug_report_page = "https://github.com/eternalcode0/Archipelago/issues"
     option_groups = OPTION_GROUPS
+    options_presets = PRESETS
     tutorials = [
         Tutorial(tutorial_name="Setup Guide",
                  description="A guide to setting up The Legend of Zelda: The Minish Cap for Archipelago.",

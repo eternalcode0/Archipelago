@@ -4,6 +4,7 @@ from typing import TYPE_CHECKING
 
 from NetUtils import ClientStatus
 from Utils import async_start
+from Options import Toggle
 from .._bizhawk import guarded_write, RequestFailedError, read, ConnectorError, write
 from .._bizhawk.client import BizHawkClient
 from .locations import all_locations, events, LocationData

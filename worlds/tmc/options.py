@@ -11,7 +11,7 @@ from Options import (
     Range,
     StartInventoryPool,
     Toggle,
-    Visibility
+    Visibility,
 )
 
 from .constants import ALL_TRICKS, TMCItem, TMCTricks
@@ -201,12 +201,14 @@ class DungeonMaps(DungeonItem):
     """
     'Own Dungeon' (false/default): Randomized within the dungeon they're normally found in
     'Anywhere' (true): Items are in completely random locations
+    'Start With': Items are automatically added to the start_inventory_from_pool
     *Note: If using anything other than "anywhere" and you include dungeon maps in start_inventory_from_pool,
         you may get the warning "tried to remove items from their pool that don't exist". This is expected, the maps
         have safely been added to your inventory from the pool.
     """
 
     display_name = "Dungeon Maps Shuffle"
+    option_start_with = 1
     default = DungeonItem.option_own_dungeon
 
 
@@ -214,12 +216,14 @@ class DungeonCompasses(DungeonItem):
     """
     'Own Dungeon' (false/default): Randomized within the dungeon they're normally found in
     'Anywhere' (true): Items are in completely random locations
+    'Start With': Items are automatically added to the start_inventory_from_pool
     *Note: If using anything other than "anywhere" and you include dungeon compasses in start_inventory_from_pool,
         you may get the warning "tried to remove items from their pool that don't exist". This is expected, the compass
         has safely been added to your inventory from the pool.
     """
 
     display_name = "Dungeon Compasses Shuffle"
+    option_start_with = 1
     default = DungeonItem.option_own_dungeon
 
 
@@ -887,10 +891,20 @@ OPTION_GROUPS = [
         ],
     ),
     OptionGroup(
-        "Weapons", [EarlyWeapon, WeaponBomb, WeaponBow, WeaponGust, WeaponLantern]
+        "Difficulty", [StartingHearts, EarlyWeapon, WeaponBomb, WeaponBow, WeaponGust, WeaponLantern]
     ),
     OptionGroup(
-        "Progressives", [ProgressiveSword, ProgressiveBow, ProgressiveBoomerang, ProgressiveShield, ProgressiveScroll]
+        "Item Pool", [
+            ProgressiveSword,
+            ProgressiveBow,
+            ProgressiveBoomerang,
+            ProgressiveShield,
+            ProgressiveScroll,
+            HeartContainerAmount,
+            PieceOfHeartAmount,
+            RandomBottleContents,
+            Traps,
+        ]
     ),
     OptionGroup(
         "Fast Travel",
@@ -909,6 +923,69 @@ OPTION_GROUPS = [
             WindCrestMinish,
         ],
     ),
-    OptionGroup("Misc", [RandomBottleContents, Traps, GoronJPPrices]),
-    OptionGroup("Advanced", [Tricks]),
+    OptionGroup("Misc", [GoronJPPrices, RemoteItems]),
+    OptionGroup("Advanced", [Tricks, FillerItemsDistribution]),
 ]
+
+PRESETS: dict[str, dict[str, any]] = {
+    "Expert": {
+        "goal": Goal.option_vaati,
+        "dhc_access": DHCAccess.option_open,
+        "ped_elements": 4,
+        "ped_swords": 5,
+        "ped_dungeons": 6,
+        "ped_figurines": 1,
+        "figurine_amount": 1,
+        # "gold_fusion_access": GoldFusionAccess,
+        # "red_fusion_access": RedFusionAccess,
+        # "green_fusion_access": GreenFusionAccess,
+        # "blue_fusion_access": BlueFusionAccess,
+        "dungeon_small_keys": SmallKeys.option_anywhere,
+        "dungeon_big_keys": BigKeys.option_anywhere,
+        "dungeon_maps": DungeonMaps.option_start_with,
+        "dungeon_compasses": DungeonCompasses.option_start_with,
+        "ped_reward": PedReward.option_dhc_big_key,
+        "shuffle_elements": ShuffleElements.option_dungeon_prize,
+        "non_element_dungeons": NonElementDungeons.option_excluded,
+        "rupeesanity": Rupeesanity.option_true,
+        "shuffle_pots": ShufflePots.option_true,
+        "shuffle_digging": ShuffleDigging.option_true,
+        "shuffle_underwater": ShuffleUnderwater.option_true,
+        "shuffle_gold_enemies": ShuffleGoldEnemies.option_true,
+        "cucco_rounds": 10,
+        "goron_sets": 5,
+        "goron_jp_prices": False,
+        "extra_shop_item": True,
+        "traps_enabled": True,
+        "random_bottle_contents": True,
+        "early_weapon": False,
+        "weapon_bomb": WeaponBomb.option_yes_boss,
+        "weapon_bow": WeaponBow.option_true,
+        "weapon_gust": WeaponGust.option_true,
+        "weapon_lantern": WeaponLantern.option_true,
+        "progressive_sword": True,
+        "progressive_bow": False,
+        "progressive_boomerang": False,
+        "progressive_shield": False,
+        "progressive_scroll": False,
+        "starting_hearts": 3,
+        "heart_containers": 0,
+        "piece_of_hearts": 11,
+        "dungeon_warp_dws": WarpDWS.option_red,
+        "dungeon_warp_cof": WarpCoF.option_blue,
+        "dungeon_warp_fow": WarpFoW.option_red,
+        "dungeon_warp_tod": WarpToD.option_none,
+        "dungeon_warp_pow": WarpPoW.option_none,
+        "dungeon_warp_dhc": WarpDHC.option_blue,
+        "wind_crest_crenel": False,
+        "wind_crest_falls": False,
+        "wind_crest_clouds": False,
+        "wind_crest_castor": False,
+        "wind_crest_south_field": False,
+        "wind_crest_minish_woods": False,
+        # wind_crest_town: False
+        # wind_crest_lake: True
+        "tricks": ALL_TRICKS,
+        "remote_items": True,
+    }
+}
