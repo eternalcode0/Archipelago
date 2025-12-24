@@ -34,6 +34,7 @@ from .options import (
     OPTION_GROUPS,
     SLOT_DATA_OPTIONS,
     DHCAccess,
+    FillerItemsDistribution,
     Goal,
     MinishCapOptions,
     NonElementDungeons,
@@ -134,6 +135,13 @@ class MinishCapWorld(World):
             options.dhc_access.value = DHCAccess.option_closed
 
         self.filler_items = get_filler_item_selection(self)
+        self.filler_items_distribution = self.options.filler_items_distribution.value
+        if all(val <= 0 for val in self.filler_items_distribution.values()):
+            self.filler_items_distribution = FillerItemsDistribution.default
+        if not self.options.traps_enabled:
+            traps = self.item_name_groups["Traps"]
+            for trap in traps:
+                self.filler_items_distribution.pop(trap)
 
         if options.shuffle_elements.value == ShuffleElements.option_dungeon_prize:
             options.start_hints.value.add(TMCItem.EARTH_ELEMENT)
@@ -336,9 +344,7 @@ class MinishCapWorld(World):
         return MinishCapEvent(name, ItemClassification.progression, None, self.player)
 
     def get_filler_item_name(self) -> str:
-        if len(self.filler_items) == 0:
-            self.filler_items = get_filler_item_selection(self)
-        return self.random.choice(self.filler_items)
+        return self.random.choices(tuple(self.filler_items_distribution), weights=self.filler_items_distribution.values())[0]
 
     def get_pre_fill_items(self) -> list[Item]:
         return self.pre_fill_pool

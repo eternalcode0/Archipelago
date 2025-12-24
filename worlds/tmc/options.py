@@ -3,16 +3,18 @@ from dataclasses import dataclass
 from Options import (
     Choice,
     DeathLink,
+    DefaultOnToggle,
+    ItemDict,
     OptionGroup,
     OptionSet,
     PerGameCommonOptions,
     Range,
     StartInventoryPool,
     Toggle,
-    DefaultOnToggle,
     Visibility
 )
-from .constants import ALL_TRICKS, TMCTricks
+
+from .constants import ALL_TRICKS, TMCItem, TMCTricks
 
 
 class DungeonItem(Choice):
@@ -624,6 +626,27 @@ class PieceOfHeartAmount(Range):
     default = 11
 
 
+class FillerItemsDistribution(ItemDict):
+    """How frequently should each filler item appear? Traps will be removed automatically if they're disabled."""
+    visibility = Visibility.complex_ui | Visibility.template
+    default = {
+        TMCItem.RUPEES_1: 36, TMCItem.RUPEES_5: 49, TMCItem.RUPEES_20: 53,
+        TMCItem.RUPEES_50: 25, TMCItem.RUPEES_100: 18, TMCItem.RUPEES_200: 15,
+
+        TMCItem.HEART_REFILL: 29,
+
+        TMCItem.BOMB_REFILL_5: 34, TMCItem.BOMB_REFILL_10: 22,
+        TMCItem.BOMB_REFILL_30: 16,
+
+        TMCItem.ARROW_REFILL_5: 34, TMCItem.ARROW_REFILL_10: 22,
+        TMCItem.ARROW_REFILL_30: 16,
+
+        TMCItem.TRAP_ICE: 8, TMCItem.TRAP_FIRE: 8, TMCItem.TRAP_ZAP: 8, TMCItem.TRAP_BOMB: 8,
+        TMCItem.TRAP_MONEY: 5, TMCItem.TRAP_STINK: 8, TMCItem.TRAP_ROPE: 8, TMCItem.TRAP_BAT: 8,
+        TMCItem.TRAP_LIKE: 8, TMCItem.TRAP_CURSE: 5,
+    }
+
+
 @dataclass
 class MinishCapOptions(PerGameCommonOptions):
     # AP settings / DL settings
@@ -662,6 +685,7 @@ class MinishCapOptions(PerGameCommonOptions):
     extra_shop_item: ExtraShopItem
     traps_enabled: Traps
     random_bottle_contents: RandomBottleContents
+    filler_items_distribution: FillerItemsDistribution
     # Weapon Settings
     early_weapon: EarlyWeapon
     weapon_bomb: WeaponBomb
