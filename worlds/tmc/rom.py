@@ -61,6 +61,14 @@ def write_tokens(world: "MinishCapWorld", patch: MinishCapProcedurePatch) -> Non
     # Bake seed name into ROM
     patch.write_token(APTokenTypes.WRITE, 0x000620, world.multiworld.seed_name.encode("UTF-8"))
 
+    if world.options.remote_items.value:
+        # Write remote items flag, causes the remote item pickup to be skipped.
+        # Otherwise it would cause the pickup animation will play twice, once for the remote item, then the actual item.
+        patch.write_token(APTokenTypes.WRITE, 0x000710, bytes([0x01]))
+        # Skip chest opening delay, required otherwise the player's input is awkwardly locked in front of chests with
+        # remote items in them... all of them
+        patch.write_token(APTokenTypes.WRITE, 0x0A74E2, bytes([0x00, 0x20, 0x00, 0x20]))
+
     # Sanctuary fix
     if world.options.goal.value == Goal.option_vaati:
         # Skip stained-glass scene

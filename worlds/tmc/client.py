@@ -149,6 +149,20 @@ class MinishCapClient(BizHawkClient):
         if ctx.server is None or ctx.server.socket.closed or ctx.slot_data is None:
             return
 
+        if ctx.slot_data["remote_items"] == Toggle.option_true and not ctx.items_handling & 0b010:
+            ctx.items_handling = 0b011
+            Utils.async_start(ctx.send_msgs([{
+                "cmd": "ConnectUpdate",
+                "items_handling": ctx.items_handling
+            }]))
+
+            # Need to make sure items handling updates and we get the correct list of received items
+            # before continuing. Otherwise we might give some duplicate items and skip others.
+            # Should patch remote_items option value into the ROM in the future to guarantee we get the
+            # right item list before entering this part of the code
+            await asyncio.sleep(0.75)
+            return
+
         try:
             if ctx.server_seed_name is None:
                 return
