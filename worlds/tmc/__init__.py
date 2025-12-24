@@ -10,18 +10,37 @@ from typing import ClassVar, TextIO
 
 import settings
 from BaseClasses import Item, ItemClassification, Tutorial
-from worlds.AutoWorld import WebWorld, World
 from Fill import FillError
 from Options import OptionError
+from worlds.AutoWorld import WebWorld, World
+
 from .client import MinishCapClient  # noqa: F401
 from .constants import MinishCapEvent, MinishCapItem, MinishCapLocation, TMCEvent, TMCItem, TMCLocation, TMCRegion
 from .dungeons import fill_dungeons
-from .items import (get_filler_item_selection, get_item_pool, get_pre_fill_pool, item_groups,
-                    item_table)
-from .locations import (all_locations, DEFAULT_SET, GOAL_PED, GOAL_VAATI, location_groups, POOL_DIG,
-                        POOL_ENEMY, POOL_POT, POOL_RUPEE, POOL_WATER)
-from .options import (DHCAccess, get_option_data, Goal, MinishCapOptions, NonElementDungeons,
-                      OPTION_GROUPS, ShuffleElements, SLOT_DATA_OPTIONS, PedReward)
+from .items import get_filler_item_selection, get_item_pool, get_pre_fill_pool, item_groups, item_table
+from .locations import (
+    DEFAULT_SET,
+    GOAL_PED,
+    GOAL_VAATI,
+    POOL_DIG,
+    POOL_ENEMY,
+    POOL_POT,
+    POOL_RUPEE,
+    POOL_WATER,
+    all_locations,
+    location_groups,
+)
+from .options import (
+    OPTION_GROUPS,
+    SLOT_DATA_OPTIONS,
+    DHCAccess,
+    Goal,
+    MinishCapOptions,
+    NonElementDungeons,
+    PedReward,
+    ShuffleElements,
+    get_option_data,
+)
 from .regions import create_regions
 from .rom import MinishCapProcedurePatch, write_tokens
 from .rules import MinishCapRules
@@ -88,58 +107,63 @@ class MinishCapWorld(World):
     # sorted in execution order
 
     def generate_early(self) -> None:
+        options = self.options
+
         enabled_pools = set(DEFAULT_SET)
-        if self.options.rupeesanity.value:
+        if options.rupeesanity.value:
             enabled_pools.add(POOL_RUPEE)
-        if self.options.shuffle_pots.value:
+        if options.shuffle_pots.value:
             enabled_pools.add(POOL_POT)
-        if self.options.shuffle_digging.value:
+        if options.shuffle_digging.value:
             enabled_pools.add(POOL_DIG)
-        if self.options.shuffle_underwater.value:
+        if options.shuffle_underwater.value:
             enabled_pools.add(POOL_WATER)
-        if self.options.shuffle_gold_enemies.value:
+        if options.shuffle_gold_enemies.value:
             enabled_pools.add(POOL_ENEMY)
 
-        if self.options.figurine_amount < self.options.ped_figurines:
-            self.options.figurine_amount = self.options.ped_figurines
+        if options.figurine_amount < options.ped_figurines:
+            options.figurine_amount = options.ped_figurines
 
         enabled_pools.update([f"cucco:{round_num}" for round_num in range(
-            10, 10 - self.options.cucco_rounds.value, -1)])
-        enabled_pools.update([f"goron:{round_num}" for round_num in range(1, self.options.goron_sets.value + 1)])
+            10, 10 - options.cucco_rounds.value, -1)])
+        enabled_pools.update([f"goron:{round_num}" for round_num in range(1, options.goron_sets.value + 1)])
 
         # Default dhc_access to closed when it's been set to ped with goal vaati disabled.
         # There's too many flags to manage to allow DHC to open after ped completes and vaati is slain.
-        if self.options.goal.value == Goal.option_pedestal and self.options.dhc_access.value == DHCAccess.option_pedestal:
-            self.options.dhc_access.value = DHCAccess.option_closed
+        if options.goal.value == Goal.option_pedestal and options.dhc_access.value == DHCAccess.option_pedestal:
+            options.dhc_access.value = DHCAccess.option_closed
 
         self.filler_items = get_filler_item_selection(self)
 
-        if self.options.shuffle_elements.value == ShuffleElements.option_dungeon_prize:
-            self.options.start_hints.value.add(TMCItem.EARTH_ELEMENT)
-            self.options.start_hints.value.add(TMCItem.FIRE_ELEMENT)
-            self.options.start_hints.value.add(TMCItem.WATER_ELEMENT)
-            self.options.start_hints.value.add(TMCItem.WIND_ELEMENT)
+        if options.shuffle_elements.value == ShuffleElements.option_dungeon_prize:
+            options.start_hints.value.add(TMCItem.EARTH_ELEMENT)
+            options.start_hints.value.add(TMCItem.FIRE_ELEMENT)
+            options.start_hints.value.add(TMCItem.WATER_ELEMENT)
+            options.start_hints.value.add(TMCItem.WIND_ELEMENT)
 
         self.disabled_locations = set(loc.name for loc in all_locations if not loc.pools.issubset(enabled_pools))
 
-        if self.options.dhc_access.value == DHCAccess.option_closed:
+        if options.dhc_access.value == DHCAccess.option_closed:
             self.disabled_locations.update(loc for loc in location_groups["DHC"])
 
-        if self.options.ped_reward.value == PedReward.option_none:
+        if options.ped_reward.value == PedReward.option_none:
             self.disabled_locations.add(TMCLocation.PEDESTAL_REQUIREMENT_REWARD)
 
-        if not self.options.extra_shop_item.value:
+        if not options.extra_shop_item.value:
             self.disabled_locations.add(TMCLocation.TOWN_SHOP_EXTRA_600_ITEM)
+
+        if options.starting_hearts + options.heart_containers + options.piece_of_hearts * 4 < 10:
+            self.disabled_locations.add(TMCLocation.HYLIA_DOJO_NPC)
 
         # Check if the settings require more dungeons than are included
         self.disabled_dungeons = set(dungeon for dungeon in ["DWS", "CoF", "FoW", "ToD", "RC", "PoW"]
-                                     if location_groups[dungeon].issubset(self.options.exclude_locations.value))
+                                     if location_groups[dungeon].issubset(options.exclude_locations.value))
 
-        if self.options.ped_dungeons > 6 - len(self.disabled_dungeons):
+        if options.ped_dungeons > 6 - len(self.disabled_dungeons):
             error_message = "Slot '%s' has required %d/6 dungeons to goal but found %d excluded. "
             raise OptionError(error_message % (
                 self.player_name,
-                self.options.ped_dungeons,
+                options.ped_dungeons,
                 len(self.disabled_dungeons)))
 
     # push start_inventory and start_inventory_from_pool into precollected_items
@@ -303,7 +327,10 @@ class MinishCapWorld(World):
 
     def create_item(self, name: str) -> MinishCapItem:
         item = item_table[name]
-        return MinishCapItem(name, item.classification, self.item_name_to_id[name], self.player)
+        classification = item.classification
+        if name == TMCItem.HEART_PIECE and (self.options.starting_hearts + self.options.heart_containers) >= 10:
+            classification = ItemClassification.useful
+        return MinishCapItem(name, classification, self.item_name_to_id[name], self.player)
 
     def create_event(self, name: str) -> MinishCapEvent:
         return MinishCapEvent(name, ItemClassification.progression, None, self.player)

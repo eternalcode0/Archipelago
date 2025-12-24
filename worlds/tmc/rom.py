@@ -267,6 +267,11 @@ def write_tokens(world: "MinishCapWorld", patch: MinishCapProcedurePatch) -> Non
         patch.write_token(APTokenTypes.WRITE, 0x1112F0, struct.pack(
             "<HHHHHHHHHHHHHHH", *[x for _ in range(0, 5) for x in [300, 200, 50]]))
 
+    # Health
+    starting_hp = world.options.starting_hearts * 8
+    patch.write_token(APTokenTypes.WRITE, flag_group_by_name[TMCFlagGroup.LINKS_CURRENT_HEALTH], bytes([starting_hp]))
+    patch.write_token(APTokenTypes.WRITE, flag_group_by_name[TMCFlagGroup.LINKS_MAX_HEALTH], bytes([starting_hp]))
+
     # Patch Items into Locations
     for location_name, loc in location_table_by_name.items():
         if loc.rom_addr is None:
