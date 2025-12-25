@@ -34,6 +34,7 @@ from .options import (
     OPTION_GROUPS,
     PRESETS,
     SLOT_DATA_OPTIONS,
+    Biggoron,
     DHCAccess,
     FillerItemsDistribution,
     Goal,
@@ -161,6 +162,9 @@ class MinishCapWorld(World):
 
         if not options.extra_shop_item.value:
             self.disabled_locations.add(TMCLocation.TOWN_SHOP_EXTRA_600_ITEM)
+
+        if options.shuffle_biggoron.value == Biggoron.option_disabled:
+            self.disabled_locations.add(TMCLocation.FALLS_BIGGORON)
 
         if options.starting_hearts + options.heart_containers + options.piece_of_hearts * 4 < 10:
             self.disabled_locations.add(TMCLocation.HYLIA_DOJO_NPC)

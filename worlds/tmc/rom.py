@@ -8,7 +8,7 @@ from .constants import DUNGEON_ABBR, EXTERNAL_ITEM_MAP, TMCEvent, TMCItem, TMCLo
 from .flags import flag_group_by_name, flag_table_by_name, OVERWORLD_FLAGS, GLOBAL_FLAGS
 from .items import item_table
 from .locations import location_table_by_name, LocationData
-from .options import DHCAccess, Goal, ShuffleElements, FusionAccess, PedReward
+from .options import DHCAccess, Goal, ShuffleElements, FusionAccess, PedReward, Biggoron
 
 
 if TYPE_CHECKING:
@@ -209,6 +209,14 @@ def write_tokens(world: "MinishCapWorld", patch: MinishCapProcedurePatch) -> Non
 
     if options.ped_reward.value == PedReward.option_none:
         patch.write_token(APTokenTypes.WRITE, 0xFF002C, bytes([0, 0]))
+
+    # Biggoron
+    if options.shuffle_biggoron.value == Biggoron.option_disabled:
+        biggoron_flag = OVERWORLD_FLAGS[TMCEvent.BIGGORON_EATING]
+        patch.write_token(APTokenTypes.OR_8, biggoron_flag.offset, biggoron_flag.data)
+    elif options.shuffle_biggoron.value == Biggoron.option_mirror_shield:
+        # Normal shield doesn't matter
+        patch.write_token(APTokenTypes.WRITE, 0x943E, bytes([0x00, 0x04, 0x00, 0x04]))
 
     # Write Fusion flags
     fusions = flag_group_by_name[TMCFlagGroup.COMPLETED_FUSIONS]

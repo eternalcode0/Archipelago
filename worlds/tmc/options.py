@@ -630,6 +630,16 @@ class PieceOfHeartAmount(Range):
     default = 11
 
 
+class Biggoron(Choice):
+    """Should the biggoron location be enabled and if so what should the requirement be?"""
+    option_disabled = 0
+    option_shield = 1
+    option_mirror_shield = 2
+    default = 0
+    alias_false = option_disabled
+    alias_true = option_shield
+
+
 class FillerItemsDistribution(ItemDict):
     """How frequently should each filler item appear? Traps will be removed automatically if they're disabled."""
     visibility = Visibility.complex_ui | Visibility.template
@@ -692,6 +702,7 @@ class MinishCapOptions(PerGameCommonOptions):
     shuffle_digging: ShuffleDigging
     shuffle_underwater: ShuffleUnderwater
     shuffle_gold_enemies: ShuffleGoldEnemies
+    shuffle_biggoron: Biggoron
     cucco_rounds: CuccoRounds
     goron_sets: GoronSets
     goron_jp_prices: GoronJPPrices
@@ -756,7 +767,7 @@ def get_option_data(options: MinishCapOptions):
         "shuffle_heart_pieces": 1,
         "shuffle_rupees": options.rupeesanity.value,
         "shuffle_pedestal": 0,
-        "shuffle_biggoron": 0,  # 0 = Disabled, 1 = Requires Shield, 2 = Requires Mirror Shield
+        "shuffle_biggoron": options.shuffle_biggoron.value,  # 0 = Disabled, 1 = Requires Shield, 2 = Requires Mirror Shield
         "kinstones_gold": options.gold_fusion_access.value,  # 0 = Closed, 1 = Vanilla, 2 = Combined, 3 = Open
         "kinstones_red": options.red_fusion_access.value,  # 0 = Closed, 1 = Vanilla, 2 = Combined, 3 = Open
         "kinstones_blue": options.blue_fusion_access.value,  # 0 = Closed, 1 = Vanilla, 2 = Combined, 3 = Open
@@ -888,6 +899,7 @@ OPTION_GROUPS = [
             CuccoRounds,
             GoronSets,
             ExtraShopItem,
+            Biggoron,
         ],
     ),
     OptionGroup(
@@ -952,6 +964,7 @@ PRESETS: dict[str, dict[str, any]] = {
         "shuffle_digging": ShuffleDigging.option_true,
         "shuffle_underwater": ShuffleUnderwater.option_true,
         "shuffle_gold_enemies": ShuffleGoldEnemies.option_true,
+        "shuffle_biggoron": Biggoron.option_shield,
         "cucco_rounds": 10,
         "goron_sets": 5,
         "goron_jp_prices": False,

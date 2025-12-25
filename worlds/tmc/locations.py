@@ -1466,10 +1466,10 @@ all_locations: list[LocationData] = [
         6029356, TMCLocation.FALLS_TOP_CAVE_CHEST, TMCRegion.UPPER_FALLS,
         TMCItem.RUPEES_100, (0x0F8ADE, None), (0x2D25, 0x01), 0x0033
     ),
-    # LocationData(
-    #    6029357, TMCLocation.FALLS_BIGGORON, TMCRegion.CLOUDS,
-    #    TMCItem.PROGRESSIVE_SHIELD, (None, None), (None, None), None,
-    # ),
+    LocationData(
+        6029357, TMCLocation.FALLS_BIGGORON, TMCRegion.CLOUDS,
+        TMCItem.PROGRESSIVE_SHIELD, (0x06D0A2, 0x06D0A4), (0x2CD1, 0x10), 0x001A,
+    ),
     # endregion
     # region Cloudtops
     LocationData(
