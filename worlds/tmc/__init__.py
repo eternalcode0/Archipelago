@@ -305,7 +305,7 @@ class MinishCapWorld(World):
                 "GoalVaati": int(self.options.goal.value == Goal.option_vaati)}
 
         data |= self.options.as_dict(*SLOT_DATA_OPTIONS, casing="snake")
-        data |= get_option_data(self.options)
+        data |= get_option_data(self)
 
         # Setup prize location data for tracker to show element hints
         prizes = {TMCLocation.COF_PRIZE: "prize_cof", TMCLocation.CRYPT_PRIZE: "prize_rc",

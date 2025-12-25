@@ -1,4 +1,5 @@
 from dataclasses import dataclass
+from typing import TYPE_CHECKING
 
 from Options import (
     Choice,
@@ -15,6 +16,9 @@ from Options import (
 )
 
 from .constants import ALL_TRICKS, TMCItem, TMCTricks
+
+if TYPE_CHECKING:
+    from . import MinishCapWorld
 
 
 class DungeonItem(Choice):
@@ -744,7 +748,8 @@ class MinishCapOptions(PerGameCommonOptions):
     remote_items: RemoteItems
 
 
-def get_option_data(options: MinishCapOptions):
+def get_option_data(world: "MinishCapWorld"):
+    options = world.options
     """Template for the options that will likely be added in the future.
     Intended for trackers to properly match the logic between the standalone randomizer (TMCR) and AP
     """
@@ -757,7 +762,7 @@ def get_option_data(options: MinishCapOptions):
     }
 
     return {
-        "version": "0.2.0",
+        "version": world.world_version.as_simple_string(),
         "goal_vaati": int(options.goal.value == Goal.option_vaati),
         "goal_dungeons": options.ped_dungeons.value,  # 0-6
         "goal_swords": options.ped_swords.value,  # 0-5
