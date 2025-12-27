@@ -166,7 +166,7 @@ class MinishCapWorld(World):
         if options.shuffle_biggoron.value == Biggoron.option_disabled:
             self.disabled_locations.add(TMCLocation.FALLS_BIGGORON)
 
-        if options.starting_hearts + options.heart_containers + options.piece_of_hearts * 4 < 10:
+        if options.starting_hearts.value + options.heart_containers.value + options.piece_of_hearts.value < 10:
             self.disabled_locations.add(TMCLocation.HYLIA_DOJO_NPC)
 
         # Check if the settings require more dungeons than are included

@@ -1367,10 +1367,11 @@ class MinishCapRules:
 
     def has_max_health(self, hearts=3) -> Callable[[CollectionState], bool]:
         def heart_count(state: CollectionState) -> bool:
+            starting_hearts = self.options.starting_hearts.value
             heart_containers = state.count(TMCItem.HEART_CONTAINER, self.player)
             heart_pieces = state.count(TMCItem.HEART_PIECE, self.player)
 
-            max_health = heart_containers + (heart_pieces // 4) + 3
+            max_health = starting_hearts + heart_containers + (heart_pieces // 4)
             return max_health >= hearts
 
         return heart_count
