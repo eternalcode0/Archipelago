@@ -3,7 +3,7 @@ from typing import Callable, TYPE_CHECKING
 from BaseClasses import CollectionState
 from worlds.generic.Rules import add_rule, CollectionRule
 from .constants import TMCEvent, TMCItem, TMCLocation, TMCRegion, TMCTricks
-from .options import DHCAccess, DungeonItem, Goal, MinishCapOptions, DungeonWarp
+from .options import DHCAccess, DungeonItem, Goal, MinishCapOptions, DungeonWarp, Biggoron
 
 if TYPE_CHECKING:
     from . import MinishCapWorld
@@ -834,6 +834,7 @@ class MinishCapRules:
             # endregion
 
             # region Cloud Tops
+            TMCLocation.FALLS_BIGGORON: self.can_shield(self.options.shuffle_biggoron.value == Biggoron.option_mirror_shield),
             TMCLocation.CLOUDS_FREE_CHEST: None,
             TMCLocation.CLOUDS_NORTH_EAST_DIG_SPOT: self.has(TMCItem.MOLE_MITTS),
             TMCLocation.CLOUDS_NORTH_KILL:
@@ -1416,8 +1417,11 @@ class MinishCapRules:
             self.has_all([TMCItem.ROCS_CAPE, TMCItem.DOWNTHRUST]),
         ])
 
-    def can_shield(self) -> CollectionRule:
-        return self.has_any([TMCItem.SHIELD, TMCItem.MIRROR_SHIELD, TMCItem.PROGRESSIVE_SHIELD])
+    def can_shield(self, mirror: bool = False) -> CollectionRule:
+        return self.logic_or([
+            self.has(TMCItem.PROGRESSIVE_SHIELD, 2 if mirror else 1),
+            self.has(TMCItem.MIRROR_SHIELD if mirror else TMCItem.SHIELD)
+        ])
 
     def pedestal_requirements(self) -> CollectionRule:
         return self.logic_and([

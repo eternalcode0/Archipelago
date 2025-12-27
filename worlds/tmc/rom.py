@@ -319,7 +319,7 @@ def item_inject(world: "MinishCapWorld", patch: MinishCapProcedurePatch, locatio
     # item_byte_first = 0x00
     item_byte_second = 0x00
 
-    if item.player == world.player:
+    if item.player == world.player and not world.options.remote_items.value:
         # The item belongs to this player's world, it should use local item ids
         item_byte_first = item_table[item.name].byte_ids[0]
         item_byte_second = item_table[item.name].byte_ids[1]
