@@ -137,7 +137,7 @@ all_locations: list[LocationData] = [
         (0xFF0093, None), (0x2EA7, 0x04), 0x0023, scoutable=True, pools={POOL_SHOP}),
     LocationData(
        6029026, TMCLocation.TOWN_SHOP_EXTRA_600_ITEM, TMCRegion.HYRULE_TOWN,
-       TMCItem.BOMB_BAG, (0xFF00D3, None), (0x2EA7, 0x08), 0x0023, scoutable=True, pools={POOL_SHOP},
+       TMCItem.BOMB_BAG, (0xFF00D3, None), (0x2EA8, 0x04), 0x0023, scoutable=True, pools={POOL_SHOP},
     ),  # EU version was missing this item, added back for rando
     LocationData(
         6029027, TMCLocation.TOWN_SHOP_BEHIND_COUNTER_ITEM, TMCRegion.HYRULE_TOWN, TMCItem.DOG_FOOD,

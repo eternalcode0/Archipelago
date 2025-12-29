@@ -668,10 +668,11 @@ class FillerItemsDistribution(ItemDict):
 class RemoteItems(Toggle):
     """
     Should all randomized items be handled through AP? This will require a connection to a server during all gameplay.
-    If you crash or lose your savefile, all items should be sent back to you.
+    If you crash or lose your savefile, all items should be sent back to you. (Dungeons still have to re-cleared)
     When finding items placed in world, your items will use the remote item sprite instead of their usual sprite.
     """
     display_name = "Remote Items"
+    rich_text_doc = True
 
 
 @dataclass
@@ -749,6 +750,7 @@ class MinishCapOptions(PerGameCommonOptions):
 
 
 def get_option_data(world: "MinishCapWorld"):
+    world_version = None
     options = world.options
     """Template for the options that will likely be added in the future.
     Intended for trackers to properly match the logic between the standalone randomizer (TMCR) and AP
@@ -761,8 +763,13 @@ def get_option_data(world: "MinishCapWorld"):
         (Goal.option_pedestal, DHCAccess.option_open): 5,
     }
 
+    try:
+        world_version = world.world_version.as_simple_string()
+    except AttributeError:
+        world_version = "0.3.0"
+
     return {
-        "version": world.world_version.as_simple_string(),
+        "version": world_version,
         "goal_vaati": int(options.goal.value == Goal.option_vaati),
         "goal_dungeons": options.ped_dungeons.value,  # 0-6
         "goal_swords": options.ped_swords.value,  # 0-5
@@ -849,6 +856,7 @@ SLOT_DATA_OPTIONS = [
     "random_bottle_contents",
     "traps_enabled",
     "early_weapon",
+    "starting_hearts",
     "weapon_bomb",
     "weapon_bow",
     "weapon_gust",
@@ -877,10 +885,10 @@ SLOT_DATA_OPTIONS = [
 
 OPTION_GROUPS = [
     OptionGroup("Goal", [Goal, DHCAccess, PedElements, PedSword, PedDungeons, PedFigurines, FigurineAmount]),
-    OptionGroup(
-        "Fusions",
-        [GoldFusionAccess, RedFusionAccess, GreenFusionAccess, BlueFusionAccess],
-    ),
+    # OptionGroup(
+    #     "Fusions",
+    #     [GoldFusionAccess, RedFusionAccess, GreenFusionAccess, BlueFusionAccess],
+    # ),
     OptionGroup(
         "Dungeon Shuffle",
         [
