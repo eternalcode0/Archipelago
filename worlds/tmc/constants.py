@@ -1837,6 +1837,7 @@ class TMCEvent:
     DHC_2F_SW_GHINI_DOOR = "DHC: South West: Doors opened from defeating ghini's"
     DHC_1F_THRONE_DOOR = "DHC: Throne: Doors opened from defeating Darknut"
     DHC_B2_CAMERA = "DHC: Basement: Camera pans after opening the jail doors"
+    DHC_BOSS_DOOR_OPEN = "DHC: 2F Center South: Boss Door Opens"
 
     DWS_BLUE_WARP = "DWS: Blue Warp active"
     DWS_RED_WARP = "DWS: Red Warp active"

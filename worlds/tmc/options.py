@@ -665,6 +665,37 @@ class FillerItemsDistribution(ItemDict):
     }
 
 
+class OcarinaOnSelect(Toggle):
+    """Should your Select button be bound to use the Ocarina? Prevents Ezlo Buffering glitches"""
+    display_name = "Ocarina on Select"
+    rich_text_doc = True
+    default = True
+
+
+class BootsOnL(Toggle):
+    """Should your L button be bound to use the Pegasus Boots?"""
+    display_name = "Boots on L"
+    rich_text_doc = True
+    default = True
+
+
+class BootsAsMinish(Toggle):
+    """Should the Pegasus Boots still work while you're minish size?"""
+    display_name = "Boots as Minish"
+    rich_text_doc = True
+    default = False
+
+
+class BigOctorokManipulation(Toggle):
+    """Should Big Octorok automatically skip the Ink & Charge phases.
+    This is meant to produce a similar result to the speedrunning RNG manipulation.
+    Performing the RNG manipulation trick may be more difficult while receiving items from other worlds.
+    """
+    display_name = "Big Octorok Manipulation"
+    rich_text_doc = True
+    default = True
+
+
 class RemoteItems(Toggle):
     """
     Should all randomized items be handled through AP? This will require a connection to a server during all gameplay.
@@ -747,6 +778,10 @@ class MinishCapOptions(PerGameCommonOptions):
     # wind_crest_lake: WindCrestLake
     tricks: Tricks
     remote_items: RemoteItems
+    ocarina_on_select: OcarinaOnSelect
+    boots_on_l: BootsOnL
+    boots_as_minish: BootsAsMinish
+    big_octo_manipulation: BigOctorokManipulation
 
 
 def get_option_data(world: "MinishCapWorld"):
@@ -784,7 +819,7 @@ def get_option_data(world: "MinishCapWorld"):
         "kinstones_red": options.red_fusion_access.value,  # 0 = Closed, 1 = Vanilla, 2 = Combined, 3 = Open
         "kinstones_blue": options.blue_fusion_access.value,  # 0 = Closed, 1 = Vanilla, 2 = Combined, 3 = Open
         "kinstones_green": options.green_fusion_access.value,  # 0 = Closed, 1 = Vanilla, 2 = Combined, 3 = Open
-        "grabbables": 0,  # 0 = Not Allowed, 1 = Allowed, 2 = Required, 3 = Required (Hard)
+        "grabbables": 1,  # 0 = Not Allowed, 1 = Allowed, 2 = Required, 3 = Required (Hard)
         "open_world": 0,  # No, Yes
         "open_wind_tribe": 0,
         "open_tingle_brothers": 0,
@@ -948,7 +983,7 @@ OPTION_GROUPS = [
             WindCrestMinish,
         ],
     ),
-    OptionGroup("Misc", [GoronJPPrices, RemoteItems]),
+    OptionGroup("Quality of Life", [GoronJPPrices, OcarinaOnSelect, BootsOnL, BootsAsMinish, BigOctorokManipulation]),
     OptionGroup("Advanced", [Tricks, FillerItemsDistribution]),
 ]
 
@@ -1013,5 +1048,8 @@ PRESETS: dict[str, dict[str, any]] = {
         # wind_crest_lake: True
         "tricks": ALL_TRICKS,
         "remote_items": True,
+        "boots_on_l": True,
+        "ocarina_on_select": False,
+        "big_octo_manipulation": False,
     }
 }

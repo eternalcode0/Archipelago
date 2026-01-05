@@ -1,15 +1,16 @@
-from dataclasses import dataclass
 import struct
+from dataclasses import dataclass
 from typing import TYPE_CHECKING
+
 from BaseClasses import Item, ItemClassification
 from settings import get_settings
 from worlds.Files import APProcedurePatch, APTokenMixin, APTokenTypes
-from .constants import DUNGEON_ABBR, EXTERNAL_ITEM_MAP, TMCEvent, TMCItem, TMCLocation, WIND_CRESTS, TMCFlagGroup
-from .flags import flag_group_by_name, flag_table_by_name, OVERWORLD_FLAGS, GLOBAL_FLAGS
-from .items import item_table
-from .locations import location_table_by_name, LocationData
-from .options import DHCAccess, Goal, ShuffleElements, FusionAccess, PedReward, Biggoron
 
+from .constants import EXTERNAL_ITEM_MAP, WIND_CRESTS, TMCEvent, TMCFlagGroup, TMCItem, TMCLocation
+from .flags import GLOBAL_FLAGS, OVERWORLD_FLAGS, flag_group_by_name, flag_table_by_name
+from .items import item_table
+from .locations import LocationData, location_table_by_name
+from .options import Biggoron, DHCAccess, FusionAccess, Goal, PedReward, ShuffleElements
 
 if TYPE_CHECKING:
     from . import MinishCapWorld
@@ -84,14 +85,12 @@ def write_tokens(world: "MinishCapWorld", patch: MinishCapProcedurePatch) -> Non
         if world.options.dhc_access.value == DHCAccess.option_open:
             visit_move_guards = flag_table_by_name[TMCEvent.DWS_VISIT_00]
             patch.write_token(APTokenTypes.WRITE, visit_move_guards.offset, bytes([visit_move_guards.data]))
+        # Remove DHC Boss Door in favor of DHC Blocker
+        boss_door = flag_table_by_name[TMCEvent.DHC_BOSS_DOOR_OPEN]
+        patch.write_token(APTokenTypes.OR_8, boss_door.offset, boss_door.data)
 
     # Goal Settings
-    setting_bits = [world.options.goal.value == Goal.option_vaati, world.options.dhc_access == DHCAccess.option_open]
-    setting_value = 0
-    for setting, i in enumerate(setting_bits, 0):
-        if setting:
-            setting_value |= 2 ** i
-    patch.write_token(APTokenTypes.WRITE, 0xFE0000, bytes([setting_value]))
+    write_bits(patch, 0xFE0000, [world.options.goal.value == Goal.option_vaati, world.options.dhc_access == DHCAccess.option_open])
 
     # Pedestal Settings
     if 0 <= world.options.ped_elements.value <= 4:
@@ -102,6 +101,26 @@ def write_tokens(world: "MinishCapWorld", patch: MinishCapProcedurePatch) -> Non
         patch.write_token(APTokenTypes.WRITE, 0xFE0003, bytes([world.options.ped_dungeons.value]))
     if 0 <= world.options.ped_figurines.value <= 136:
         patch.write_token(APTokenTypes.WRITE, 0xFE0004, bytes([world.options.ped_figurines.value]))
+
+    # Other Toggles
+    write_bits(patch, 0xFE0005, [bool(options.boots_on_l.value), bool(options.ocarina_on_select.value)])
+
+    # Disable ezlo for Ocarina on Select
+    if options.ocarina_on_select.value:
+        patch.write_token(APTokenTypes.WRITE, 0x05270A, bytes([0x80, 0x42]))
+
+    # Big Octorok Manip
+    if options.big_octo_manipulation.value:
+        # Disable Ink
+        patch.write_token(APTokenTypes.WRITE, 0x0CE850, bytes([0x4a, 0xe8, 0x0c, 0x08, 0x4a, 0xe8, 0x0c, 0x08, 0x4a,
+                                                               0xe8, 0x0c, 0x08, 0x4a, 0xe8, 0x0c, 0x08]))
+        # Disable Charge
+        patch.write_token(APTokenTypes.WRITE, 0x036DD2, bytes([0xc0, 0x46]))
+
+    # Boots As Minish
+    if options.boots_as_minish.value:
+        # Enable
+        patch.write_token(APTokenTypes.WRITE, 0x11B694, bytes([1]))
 
     # Element map update
     if world.options.shuffle_elements.value == ShuffleElements.option_dungeon_prize:
@@ -355,3 +374,10 @@ def write_single_byte(patch: MinishCapProcedurePatch, address: int, byte: int):
     if byte is None:
         byte = 0x00
     patch.write_token(APTokenTypes.WRITE, address, bytes([byte]))
+
+def write_bits(patch: MinishCapProcedurePatch, address: int, setting_bits: list[bool]):
+    setting_value = 0
+    for i, setting in enumerate(setting_bits, 0):
+        if setting:
+            setting_value |= 2 ** i
+    patch.write_token(APTokenTypes.WRITE, address, bytes([setting_value]))

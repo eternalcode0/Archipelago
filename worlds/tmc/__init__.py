@@ -342,6 +342,8 @@ class MinishCapWorld(World):
     def create_item(self, name: str) -> MinishCapItem:
         item = item_table[name]
         classification = item.classification
+        if name == TMCItem.HEART_CONTAINER and self.options.starting_hearts >= 10:
+            classification = ItemClassification.useful
         if name == TMCItem.HEART_PIECE and (self.options.starting_hearts + self.options.heart_containers) >= 10:
             classification = ItemClassification.useful
         return MinishCapItem(name, classification, self.item_name_to_id[name], self.player)
