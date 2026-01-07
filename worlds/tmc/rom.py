@@ -122,6 +122,10 @@ def write_tokens(world: "MinishCapWorld", patch: MinishCapProcedurePatch) -> Non
         # Enable
         patch.write_token(APTokenTypes.WRITE, 0x11B694, bytes([1]))
 
+    # Replica Boss Door
+    if options.replica_tod_boss_door.value:
+        patch.write_token(APTokenTypes.WRITE, 0x0E3950, bytes([0x06, 0x0F, 0x39, 0, 0, 0, 0, 0, 0x08, 0x01, 0x28, 0x00, 0xFF, 0xFF, 0x2C, 0x00]))
+
     # Element map update
     if world.options.shuffle_elements.value == ShuffleElements.option_dungeon_prize:
         # Pack 1 = world map x pos: u8, world map y pos: u8,

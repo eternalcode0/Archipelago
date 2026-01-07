@@ -665,6 +665,16 @@ class FillerItemsDistribution(ItemDict):
     }
 
 
+class ReplicaToDBossDoor(Toggle):
+    """Add a replica Boss Door to the Temple of Droplets Main Hall.
+    This only makes a difference if you have at least one ToD warp enabled or are using glitches.
+    Disabling allows the Boss Door Clip and Octo Clip (if the Boss Door has not been opened) glitches to behave like they do in the vanilla game.
+    """
+    display_name = "Replica ToD Boss Door"
+    rich_text_doc = True
+    default = True
+
+
 class OcarinaOnSelect(Toggle):
     """Should your Select button be bound to use the Ocarina? Prevents Ezlo Buffering glitches"""
     display_name = "Ocarina on Select"
@@ -782,6 +792,7 @@ class MinishCapOptions(PerGameCommonOptions):
     boots_on_l: BootsOnL
     boots_as_minish: BootsAsMinish
     big_octo_manipulation: BigOctorokManipulation
+    replica_tod_boss_door: ReplicaToDBossDoor
 
 
 def get_option_data(world: "MinishCapWorld"):
@@ -983,7 +994,17 @@ OPTION_GROUPS = [
             WindCrestMinish,
         ],
     ),
-    OptionGroup("Quality of Life", [GoronJPPrices, OcarinaOnSelect, BootsOnL, BootsAsMinish, BigOctorokManipulation]),
+    OptionGroup(
+        "Quality of Life",
+        [
+            GoronJPPrices,
+            OcarinaOnSelect,
+            BootsOnL,
+            BootsAsMinish,
+            BigOctorokManipulation,
+            ReplicaToDBossDoor
+        ]
+    ),
     OptionGroup("Advanced", [Tricks, FillerItemsDistribution]),
 ]
 
@@ -1051,5 +1072,6 @@ PRESETS: dict[str, dict[str, any]] = {
         "boots_on_l": True,
         "ocarina_on_select": False,
         "big_octo_manipulation": False,
+        "replica_tod_boss_door": False,
     }
 }
