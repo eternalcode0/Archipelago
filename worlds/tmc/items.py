@@ -248,7 +248,8 @@ def get_item_pool(world: "MinishCapWorld") -> list[MinishCapItem]:
 
     # ToD is stupid, need to place the big key manually
     if world.options.dungeon_big_keys.value == DungeonItem.option_own_dungeon and \
-       TMCItem.BIG_KEY_TOD not in world.options.start_inventory_from_pool.value.keys():
+       TMCItem.BIG_KEY_TOD not in world.options.start_inventory_from_pool.value.keys() and \
+        world.options.dungeon_warp_tod.value == DungeonWarp.option_none:
         location = world.random.choice([TMCLocation.DROPLETS_ENTRANCE_B2_EAST_ICEBLOCK,
                                         TMCLocation.DROPLETS_ENTRANCE_B2_WEST_ICEBLOCK])
         world.get_location(location).place_locked_item(world.create_item(TMCItem.BIG_KEY_TOD))
@@ -272,16 +273,18 @@ def get_item_pool(world: "MinishCapWorld") -> list[MinishCapItem]:
 
 def get_pre_fill_pool(world: "MinishCapWorld") -> list[MinishCapItem]:
     start_inv = world.options.start_inventory_from_pool.value
+    options = world.options
     pre_fill_pool = []
 
-    if not world.options.dungeon_big_keys.value == DungeonItem.option_anywhere:
+    if not options.dungeon_big_keys.value == DungeonItem.option_anywhere:
         pre_fill_pool.extend(pool_bigkeys(world))
-        # ToD big key never added to pre_fill pool, always placed by get_item_pool
-    if not world.options.dungeon_small_keys.value == DungeonItem.option_anywhere:
+        if options.dungeon_warp_tod.value != DungeonWarp.option_none:
+            pre_fill_pool.append(TMCItem.BIG_KEY_TOD)
+    if not options.dungeon_small_keys.value == DungeonItem.option_anywhere:
         pre_fill_pool.extend(pool_smallkeys(world))
-    if not world.options.dungeon_compasses.value == DungeonItem.option_anywhere:
+    if not options.dungeon_compasses.value == DungeonItem.option_anywhere:
         pre_fill_pool.extend(pool_compass(world))
-    if not world.options.dungeon_maps.value == DungeonItem.option_anywhere:
+    if not options.dungeon_maps.value == DungeonItem.option_anywhere:
         pre_fill_pool.extend(pool_dungeonmaps(world))
 
     # Keep track of items that need to be removed due to start_inv
@@ -517,6 +520,7 @@ item_groups: dict[str, set[str]] = {
     "Cape": {TMCItem.ROCS_CAPE},
     "Cane": {TMCItem.CANE_OF_PACCI},
     "Boots": {TMCItem.PEGASUS_BOOTS},
+    "Mitts": {TMCItem.MOLE_MITTS},
     "Green Sword": {TMCItem.WHITE_SWORD_GREEN},
     "Red Sword": {TMCItem.WHITE_SWORD_RED},
     "Blue Sword": {TMCItem.WHITE_SWORD_BLUE},

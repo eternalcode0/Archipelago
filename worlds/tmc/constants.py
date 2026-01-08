@@ -22,9 +22,9 @@ class MinishCapRegion(Region):
 class TMCItem:
     INACCESSIBLE = "Inaccessible"
     SMITHS_SWORD = "Smith's Sword"
-    WHITE_SWORD_GREEN = "White Sword (Green)"
-    WHITE_SWORD_RED = "White Sword (Red)"
-    WHITE_SWORD_BLUE = "White Sword (Blue)"
+    WHITE_SWORD_GREEN = "White Sword"
+    WHITE_SWORD_RED = "White Sword (Two Elements)"
+    WHITE_SWORD_BLUE = "White Sword (Three Elements)"
     FOUR_SWORD = "Four Sword"
     BOMB = "Bomb"
     REMOTE_BOMB = "Remote Bomb"

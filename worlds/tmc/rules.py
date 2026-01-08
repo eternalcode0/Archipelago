@@ -5,7 +5,7 @@ from BaseClasses import CollectionState
 from worlds.generic.Rules import CollectionRule, add_rule
 
 from .constants import TMCEvent, TMCItem, TMCLocation, TMCRegion, TMCTricks
-from .options import Biggoron, DHCAccess, DungeonItem, Goal, MinishCapOptions
+from .options import Biggoron, DHCAccess, DungeonItem, DungeonWarp, Goal, MinishCapOptions
 
 if TYPE_CHECKING:
     from . import MinishCapWorld
@@ -1663,7 +1663,7 @@ class MinishCapRules:
         Item placement for this location only occurs in create_items stage.
         """
         west_item = self.world.get_location(TMCLocation.DROPLETS_ENTRANCE_B2_WEST_ICEBLOCK).item
-        if west_item is None or west_item.name is not TMCItem.BIG_KEY_TOD:
+        if west_item is None or west_item.name is not TMCItem.BIG_KEY_TOD or self.options.dungeon_warp_tod.value != DungeonWarp.option_none:
             return self.has(TMCItem.SMALL_KEY_TOD, 4)
         if (west_item.name is TMCItem.BIG_KEY_TOD and
                 self.world.options.dungeon_small_keys.value is DungeonItem.option_own_dungeon):
