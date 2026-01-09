@@ -50,20 +50,69 @@ class FusionAccess(Choice):
     option_open = 3
 
 
-class RedFusionAccess(FusionAccess):
-    default = FusionAccess.option_open
+class RedFusionAccess(Choice):
+    """How/when are the Red Kinstone Fusions accessible?
+    - Closed: Red Kinstones aren't in the item pool and none of their fusions are accessible
+    - Vanilla: Red Kinstones are added to the item pool and their fusions must be completed as normal
+    - Combined: Same as Vanilla except all Red Fusions are changed to request only 'Kinstone Red W'
+    - Open: Red Kinstones aren't in the item pool and all of their fusions are accessible
+    """
+    visibility = Visibility.none
+    rich_text_doc = True
+    value: int
+    # option_closed = 0
+    # option_vanilla = 1
+    # option_combined = 2
+    option_open = 3
+    default = option_open
 
 
-class BlueFusionAccess(FusionAccess):
-    default = FusionAccess.option_open
+class BlueFusionAccess(Choice):
+    """How/when are the Blue Kinstone Fusions accessible?
+    - Closed: Blue Kinstones aren't in the item pool and none of their fusions are accessible
+    - Vanilla: Blue Kinstones are added to the item pool and their fusions must be completed as normal
+    - Combined: Same as Vanilla except all Blue Fusions are changed to request only 'Kinstone Blue L'
+    - Open: Blue Kinstones aren't in the item pool and all of their fusions are accessible
+    """
+    visibility = Visibility.none
+    value: int
+    # option_closed = 0
+    # option_vanilla = 1
+    # option_combined = 2
+    option_open = 3
+    default = option_open
 
 
-class GreenFusionAccess(FusionAccess):
-    default = FusionAccess.option_open
+class GreenFusionAccess(Choice):
+    """How/when are the Green Kinstone Fusions accessible?
+    - Closed: Green Kinstones aren't in the item pool and none of their fusions are accessible
+    - Vanilla: Green Kinstones are added to the item pool and their fusions must be completed as normal
+    - Combined: Same as Vanilla except all Green Fusions are changed to request only 'Green Kinstone ['
+    - Open: Green Kinstones aren't in the item pool and all of their fusions are accessible
+    """
+    visibility = Visibility.none
+    value: int
+    # option_closed = 0
+    # option_vanilla = 1
+    # option_combined = 2
+    option_open = 3
+    default = option_open
 
 
-class GoldFusionAccess(FusionAccess):
-    default = FusionAccess.option_vanilla
+class GoldFusionAccess(Choice):
+    """How/when are the Gold Kinstone Fusions accessible?
+    - Closed: Gold Kinstones aren't in the item pool and none of their fusions are accessible
+    - Vanilla: Gold Kinstones are added to the item pool and their fusions must be completed as normal
+    - Combined: Same as Vanilla except all Gold Fusions are changed to request only 'Kinstone Cloud Tops'
+    - Open: Gold Kinstones aren't in the item pool and all of their fusions are accessible
+    """
+    visibility = Visibility.none
+    value: int
+    # option_closed = 0
+    option_vanilla = 1
+    # option_combined = 2
+    # option_open = 3
+    default = option_vanilla
 
 
 class ProgressiveSword(DefaultOnToggle):
