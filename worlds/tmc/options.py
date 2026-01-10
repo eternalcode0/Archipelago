@@ -52,11 +52,13 @@ class FusionAccess(Choice):
 
 class RedFusionAccess(Choice):
     """How/when are the Red Kinstone Fusions accessible?
+
     - Closed: Red Kinstones aren't in the item pool and none of their fusions are accessible
     - Vanilla: Red Kinstones are added to the item pool and their fusions must be completed as normal
     - Combined: Same as Vanilla except all Red Fusions are changed to request only 'Kinstone Red W'
     - Open: Red Kinstones aren't in the item pool and all of their fusions are accessible
     """
+
     visibility = Visibility.none
     rich_text_doc = True
     value: int
@@ -69,12 +71,15 @@ class RedFusionAccess(Choice):
 
 class BlueFusionAccess(Choice):
     """How/when are the Blue Kinstone Fusions accessible?
+
     - Closed: Blue Kinstones aren't in the item pool and none of their fusions are accessible
     - Vanilla: Blue Kinstones are added to the item pool and their fusions must be completed as normal
     - Combined: Same as Vanilla except all Blue Fusions are changed to request only 'Kinstone Blue L'
     - Open: Blue Kinstones aren't in the item pool and all of their fusions are accessible
     """
+
     visibility = Visibility.none
+    rich_text_doc = True
     value: int
     # option_closed = 0
     # option_vanilla = 1
@@ -85,12 +90,15 @@ class BlueFusionAccess(Choice):
 
 class GreenFusionAccess(Choice):
     """How/when are the Green Kinstone Fusions accessible?
+
     - Closed: Green Kinstones aren't in the item pool and none of their fusions are accessible
     - Vanilla: Green Kinstones are added to the item pool and their fusions must be completed as normal
     - Combined: Same as Vanilla except all Green Fusions are changed to request only 'Green Kinstone ['
     - Open: Green Kinstones aren't in the item pool and all of their fusions are accessible
     """
+
     visibility = Visibility.none
+    rich_text_doc = True
     value: int
     # option_closed = 0
     # option_vanilla = 1
@@ -101,12 +109,15 @@ class GreenFusionAccess(Choice):
 
 class GoldFusionAccess(Choice):
     """How/when are the Gold Kinstone Fusions accessible?
+
     - Closed: Gold Kinstones aren't in the item pool and none of their fusions are accessible
     - Vanilla: Gold Kinstones are added to the item pool and their fusions must be completed as normal
     - Combined: Same as Vanilla except all Gold Fusions are changed to request only 'Kinstone Cloud Tops'
     - Open: Gold Kinstones aren't in the item pool and all of their fusions are accessible
     """
+
     visibility = Visibility.none
+    rich_text_doc = True
     value: int
     # option_closed = 0
     option_vanilla = 1
@@ -117,31 +128,42 @@ class GoldFusionAccess(Choice):
 
 class ProgressiveSword(DefaultOnToggle):
     """Should swords be given progressively? You'll pick up the swords in the following order:
+
     - Smith's Sword
-    - White Sword (Green)
-    - White Sword (Red)
-    - White Sword (Blue)
+    - White Sword
+    - White Sword (Two Elements)
+    - White Sword (Three Elements)
     - Four Sword
 
     When disabled you'll need the exact sword to create its dedicated number of clones.
-    E.g. You'll need White Sword (Red) to only create 2 clones even if already have White Sword (Blue).
+    E.g. You'll need White Sword (Two Elements) to only create 2 clones even if already have Four Sword.
     """
+
+    display_name = "Progressive Sword"
+    rich_text_doc = True
 
 
 class ProgressiveBow(DefaultOnToggle):
     """Should bows be given progressively?"""
 
+    display_name = "Progressive Bow"
+
 
 class ProgressiveBoomerang(DefaultOnToggle):
     """Should boomerangs be given progressively?"""
+
+    display_name = "Progressive Boomerang"
 
 
 class ProgressiveShield(DefaultOnToggle):
     """Should shields be given progressively?"""
 
+    display_name = "Progressive Shield"
+
 
 class ProgressiveScroll(DefaultOnToggle):
     """Should spin scrolls be given progressively? You'll pick up the spin scrolls in the following order:
+
     - Spin Attack
     - Fast Spin
     - Fast Split
@@ -149,11 +171,13 @@ class ProgressiveScroll(DefaultOnToggle):
     - Long Spin
     """
 
+    display_name = "Progressive Scroll"
+    rich_text_doc = True
+
 
 class Rupeesanity(Toggle):
     """Add all rupees locations to the pool to be randomized.
-    This setting will not shuffle Rupees that also belong to another pool.
-        Ex: An underwater rupee will instead be randomized by shuffle_underwater
+    This setting will not shuffle Rupees that also belong to another pool such as underwater rupees.
     """
 
     display_name = "Rupee-sanity"
@@ -204,9 +228,9 @@ class ShuffleElements(Choice):
     # `anywhere`: full random
     """Lock elements to specific locations.
 
-    'Vanilla': Elements are in the same dungeons as vanilla
-    'Dungeon Prize' (false/default): Elements are shuffled between the 6 dungeon prizes
-    'Anywhere' (true): Elements are in completely random locations
+    - 'Vanilla': Elements are in the same dungeons as vanilla
+    - 'Dungeon Prize' (false/default): Elements are shuffled between the 6 dungeon prizes
+    - 'Anywhere' (true): Elements are in completely random locations
     """
 
     display_name = "Element Shuffle"
@@ -225,11 +249,12 @@ class ShuffleElements(Choice):
 
 class SmallKeys(DungeonItem):
     """
-    'Own Dungeon' (false/default): Randomized within the dungeon they're normally found in
-    'Anywhere' (true): Items are in completely random locations
+    - 'Own Dungeon' (false/default): Randomized within the dungeon they're normally found in
+    - 'Anywhere' (true): Items are in completely random locations
+
     *Note*: If using anything other than "anywhere" and you include small keys in start_inventory_from_pool,
-        you may get the warning "tried to remove items from their pool that don't exist". This is expected, the keys
-        have safely been added to your inventory from the pool.
+    you may get the warning "tried to remove items from their pool that don't exist". This is expected, the keys
+    have safely been added to your inventory from the pool.
     """
 
     display_name = "Small Key Shuffle"
@@ -239,43 +264,49 @@ class SmallKeys(DungeonItem):
 
 class BigKeys(DungeonItem):
     """
-    'Own Dungeon' (false/default): Randomized within the dungeon they're normally found in
-    'Anywhere' (true): Items are in completely random locations
-    *Note: If using anything other than "anywhere" and you include big keys in start_inventory_from_pool,
-        you may get the warning "tried to remove items from their pool that don't exist". This is expected, the keys
-        have safely been added to your inventory from the pool.
+    - 'Own Dungeon' (false/default): Randomized within the dungeon they're normally found in
+    - 'Anywhere' (true): Items are in completely random locations
+
+    *Note*: If using anything other than "anywhere" and you include big keys in start_inventory_from_pool,
+    you may get the warning "tried to remove items from their pool that don't exist". This is expected, the keys
+    have safely been added to your inventory from the pool.
     """
 
     display_name = "Big Key Shuffle"
+    rich_text_doc = True
     default = DungeonItem.option_own_dungeon
 
 
 class DungeonMaps(DungeonItem):
     """
-    'Own Dungeon' (false/default): Randomized within the dungeon they're normally found in
-    'Anywhere' (true): Items are in completely random locations
-    'Start With': Items are automatically added to the start_inventory_from_pool
-    *Note: If using anything other than "anywhere" and you include dungeon maps in start_inventory_from_pool,
-        you may get the warning "tried to remove items from their pool that don't exist". This is expected, the maps
-        have safely been added to your inventory from the pool.
+    - 'Own Dungeon' (false/default): Randomized within the dungeon they're normally found in
+    - 'Anywhere' (true): Items are in completely random locations
+    - 'Start With': Items are automatically added to the start_inventory_from_pool
+
+    *Note*: If using anything other than "anywhere" and you include dungeon maps in start_inventory_from_pool,
+    you may get the warning "tried to remove items from their pool that don't exist". This is expected, the maps
+    have safely been added to your inventory from the pool.
     """
 
     display_name = "Dungeon Maps Shuffle"
+    rich_text_doc = True
     option_start_with = 1
     default = DungeonItem.option_own_dungeon
 
 
 class DungeonCompasses(DungeonItem):
     """
-    'Own Dungeon' (false/default): Randomized within the dungeon they're normally found in
-    'Anywhere' (true): Items are in completely random locations
-    'Start With': Items are automatically added to the start_inventory_from_pool
-    *Note: If using anything other than "anywhere" and you include dungeon compasses in start_inventory_from_pool,
-        you may get the warning "tried to remove items from their pool that don't exist". This is expected, the compass
-        has safely been added to your inventory from the pool.
+    - 'Own Dungeon' (false/default): Randomized within the dungeon they're normally found in
+    - 'Anywhere' (true): Items are in completely random locations
+    - 'Start With': Items are automatically added to the start_inventory_from_pool
+
+    *Note*: If using anything other than "anywhere" and you include dungeon compasses in start_inventory_from_pool,
+    you may get the warning "tried to remove items from their pool that don't exist". This is expected, the compass
+    has safely been added to your inventory from the pool.
     """
 
     display_name = "Dungeon Compasses Shuffle"
+    rich_text_doc = True
     option_start_with = 1
     default = DungeonItem.option_own_dungeon
 
@@ -349,11 +380,12 @@ class Traps(Toggle):
 
 class Goal(Choice):
     """
-    'Vaati' (default): Kill Vaati to goal. dhc_access and the ped requirements change how soon you can reach Vaati.
-    'Pedestal': Complete Pedestal to goal. The ped requirements change what's needed.
+    - 'Vaati' (default): Kill Vaati to goal. dhc_access and the ped requirements change how soon you can reach Vaati.
+    - 'Pedestal': Complete Pedestal to goal. The ped requirements change what's needed.
     """
 
     display_name = "Goal"
+    rich_text_doc = True
     option_vaati = 0
     option_pedestal = 1
     # option_requirements = 2  'Requirements': Goal the moment each ped requirement is met. No need to enter sanctuary.
@@ -363,12 +395,14 @@ class DHCAccess(Choice):
     """
     When should DHC be accessible?
     If your goal is Pedestal then dhc_access can't be pedestal and will default to closed instead.
-    'Closed' (false): DHC is never accessible. If your goal is Vaati, the room after pedestal goes straight to Vaati.
-    'Pedestal' (default): DHC is locked until pedestal is completed.
-    'Open' (true): DHC is accessible from the beginning. If your goal is Pedestal, activate pedestal from within DHC.
+
+    - 'Closed' (false): DHC is never accessible. If your goal is Vaati, the room after pedestal goes straight to Vaati.
+    - 'Pedestal' (default): DHC is locked until pedestal is completed.
+    - 'Open' (true): DHC is accessible from the beginning. If your goal is Pedestal, activate pedestal from within DHC.
     """
 
     display_name = "DHC Access"
+    rich_text_doc = True
     option_closed = 0
     option_pedestal = 1
     option_open = 2
@@ -381,6 +415,7 @@ class PedDungeons(Range):
     """How many dungeons are required to activate Pedestal?"""
 
     display_name = "Required Dungeons to Pedestal"
+    rich_text_doc = True
     default = 0
     range_start = 0
     range_end = 6
@@ -390,15 +425,21 @@ class PedElements(Range):
     """How many elements are required to activate Pedestal?"""
 
     display_name = "Required Elements to Pedestal"
+    rich_text_doc = True
     default = 4
     range_start = 0
     range_end = 4
 
 
 class PedSword(Range):
-    """How many progressive swords are required to activate Pedestal?"""
+    """Which sword tier is required to activate Pedestal?
+    When Progressive Sword is disabled, requires the exact tier listed here.
+
+    Ex. If set to 3, pedestal would specifically require 'White Sword (Two Elements)',
+    neither 'White Sword (Three Elements)' nor 'Four Sword' would count towards the pedestal."""
 
     display_name = "Required Swords to Pedestal"
+    rich_text_doc = True
     default = 5
     range_start = 0
     range_end = 5
@@ -442,6 +483,7 @@ class RandomBottleContents(Toggle):
 class DeathLinkGameover(Toggle):
     """If disabled, deathlinks are sent when reaching 0HP, before a fairy is used. Received deathlinks will drop you to
     0HP, using a fairy if you have one.
+
     If enabled, deathlinks are only sent when reaching the gameover screen. Received deathlinks will also send you
     straight to a gameover, fairy or not.
     """
@@ -451,14 +493,16 @@ class DeathLinkGameover(Toggle):
 
 class WeaponBomb(Choice):
     """Bombs can damage nearly every enemy, Bombs are never considered for Simon Simulations, and Golden Enemies.
-    'No': Bombs are not considered as Weapons.
-    'Yes': Bombs are considered as weapons for most regular enemy fights.
-    'Yes + Bosses': Bombs are considered as weapons for most enemy fights. Fighting Green/Blu Chu, Madderpillars
-    and Darknuts require only 10 bomb bag. Gleerok, Mazaal and Scissor Beetles require at least 30 bomb bag.
-    Octo and Gyorg cannot be defeated with bombs.
+
+    - 'No': Bombs are not considered as Weapons.
+    - 'Yes': Bombs are considered as weapons for most regular enemy fights.
+    - 'Yes + Bosses': Bombs are considered as weapons for most enemy fights. Fighting Green/Blu Chu, Madderpillars
+      and Darknuts require only 10 bomb bag. Gleerok, Mazaal and Scissor Beetles require at least 30 bomb bag.
+      Octo and Gyorg cannot be defeated with bombs.
     """
 
     display_name = "Bombs are considered Weapons"
+    rich_text_doc = True
     default = 0
     option_no = 0
     option_yes = 1
@@ -469,8 +513,10 @@ class WeaponBomb(Choice):
 
 class WeaponBow(Toggle):
     """Bow can damage most enemies, many enemies are very resilient to damage. Chu Bosses and Darknuts are Immune.
-    'false': Bows are not considered as Weapons.
-    'true': Bows are considered as weapons for most enemy fights.
+
+    - 'false': Bows are not considered as Weapons.
+    - 'true': Bows are considered as weapons for most enemy fights.
+
     Bows are never considered for Chu Bossfights, Darknuts, Scissor Beetles, Madderpillar, Wizzrobes, Simon Simulations,
     and Golden Enemies.
     """
@@ -482,9 +528,10 @@ class WeaponGust(Toggle):
     """Gust Jar can suck up various enemies like Ghini(Ghosts) and Beetles (The things that grab onto link).
     It can also grab objects and fire them like projectiles to kill enemies, some enemies or parts of enemies can be
     used as projectiles such as Helmasaurs and Stalfos.
-    'false': Gust Jar is never considered for killing enemies.
-    'true': Gust Jar is considered as weapons for all enemies that get sucked up by it, you are never expected to use
-        objects as projectiles to kill enemies.
+
+    - 'false': Gust Jar is never considered for killing enemies.
+    - 'true': Gust Jar is considered as weapons for all enemies that get sucked up by it, you are never expected to use
+      objects as projectiles to kill enemies.
     """
 
     display_name = "Gust jar is considered a Weapon"
@@ -492,8 +539,9 @@ class WeaponGust(Toggle):
 
 class WeaponLantern(Toggle):
     """The lit Lantern can instantly kill Wizzrobes by walking through them.
-    'false': Lantern is not considered as a Weapon.
-    'true': Lantern is considered as a weapon for fighting Wizzrobes.
+
+    - 'false': Lantern is not considered as a Weapon.
+    - 'true': Lantern is considered as a weapon for fighting Wizzrobes.
     """
 
     display_name = "Lantern is considered a Weapon"
@@ -501,40 +549,44 @@ class WeaponLantern(Toggle):
 
 class Tricks(OptionSet):
     """
-    bombable_dust: Bombs may be required to blow away dust instead of Gust Jar
-    crenel_mushroom_gust_jar: The mushroom near the edge of a cliff on Mt Crenel may be required to be grabbed with the
-        gust jar to climb higher
-    light_arrows_break_objects: A charged light arrow shot may be required to destroy obstacles like pots or small trees
-    bobombs_destroy_walls: Either a Sword or the Gust Jar may be required to blow up walls near Bobombs
-    like_like_cave_no_sword: Opening the chests in the digging cave in Minish Woods, guarded by a pair of LikeLikes,
-        may be required without a weapon
-    boots_skip_town_guard: A very precise boot dash may be required to skip the guard blocking the west exit of town
-    beam_crenel_switch: A switch across a gap on Mt Crenel must be hit to extend a bridge to reach cave of flames,
-        hitting it with a sword beam may be required
-    down_thrust_spikey_beetle: Spikey Beetles can be flipped over with a down thrust, which may be required to kill them
-    dark_rooms_no_lantern: Dark rooms may require being traversed without the lantern. Link always has a small light
-        source revealing his surroundings
-    cape_extensions: Some larger gaps across water can be crossed by extending the distance you can jump (Release cape
-        after the hop, then press and hold the glide)
-    lake_minish_no_boots: Lake hylia can be explored as minish without using the boots to bonk a tree by jumping down
-        from the middle island
-    cabin_swim_no_lilypad: Lake Cabin has a path used to enter as minish, the screen transition can be touched by
-        swimming into it
-    cloud_sharks_no_weapons: The Sharks in cloud tops can be killed by standing near the edge and watching them jump off
-    fow_pot_gust_jar: A pot near the end of Fortress can be grabbed with the gust jar through a wall from near the
-        beginning of the dungeon
-    pow_2f_no_cane: After climbing the first clouds of Palace, a moving platform can be reached with a precise jump
-    pot_puzzle_no_bracelets: The Minish sized pot puzzle in Palace can be avoided by hitting the switch that drops the
-        item at a later point in the dungeon
-    dhc_cannons_no_four_sword: The Cannon puzzle rooms of DHC can be completed without the four sword by using a well
-        timed bomb strat and sword slash
-    dhc_pads_no_four_sword: The clone puzzles that press down four pads in DHC can be completed with less clones by
-        shuffling across the pads
-    dhc_switches_no_four_sword: The clone puzzle that slashes 4 switches in DHC can be completed with a well placed spin
-        attack
+    - bombable_dust: Bombs may be required to blow away dust instead of Gust Jar
+    - crenel_mushroom_gust_jar: The mushroom near the edge of a cliff on Mt Crenel may be required to be grabbed with
+      the gust jar to climb higher
+    - light_arrows_break_objects: A charged light arrow shot may be required to destroy obstacles like pots or small
+      trees
+    - bobombs_destroy_walls: Either a Sword or the Gust Jar may be required to blow up walls near Bobombs
+    - like_like_cave_no_sword: Opening the chests in the digging cave in Minish Woods, guarded by a pair of LikeLikes,
+      may be required without a weapon
+    - boots_skip_town_guard: A very precise boot dash may be required to skip the guard blocking the west exit of town
+    - beam_crenel_switch: A switch across a gap on Mt Crenel must be hit to extend a bridge to reach cave of flames,
+      hitting it with a sword beam may be required
+    - down_thrust_spikey_beetle: Spikey Beetles can be flipped over with a down thrust, which may be required to kill
+      them
+    - dark_rooms_no_lantern: Dark rooms may require being traversed without the lantern. Link always has a small light
+      source revealing his surroundings
+    - cape_extensions: Some larger gaps across water can be crossed by extending the distance you can jump (Release cape
+      after the hop, then press and hold the glide)
+    - lake_minish_no_boots: Lake hylia can be explored as minish without using the boots to bonk a tree by jumping down
+      from the middle island
+    - cabin_swim_no_lilypad: Lake Cabin has a path used to enter as minish, the screen transition can be touched by
+      swimming into it
+    - cloud_sharks_no_weapons: The Sharks in cloud tops can be killed by standing near the edge and watching them jump
+      off
+    - fow_pot_gust_jar: A pot near the end of Fortress can be grabbed with the gust jar through a wall from near the
+      beginning of the dungeon
+    - pow_2f_no_cane: After climbing the first clouds of Palace, a moving platform can be reached with a precise jump
+    - pot_puzzle_no_bracelets: The Minish sized pot puzzle in Palace can be avoided by hitting the switch that drops the
+      item at a later point in the dungeon
+    - dhc_cannons_no_four_sword: The Cannon puzzle rooms of DHC can be completed without the four sword by using a well
+      timed bomb strat and sword slash
+    - dhc_pads_no_four_sword: The clone puzzles that press down four pads in DHC can be completed with less clones by
+      shuffling across the pads
+    - dhc_switches_no_four_sword: The clone puzzle that slashes 4 switches in DHC can be completed with a well placed
+      spin attack
     """
 
     display_name = "Tricks"
+    rich_text_doc = True
     valid_keys = ALL_TRICKS
 
 
@@ -636,6 +688,8 @@ class GoronJPPrices(Toggle):
 class ExtraShopItem(Toggle):
     """Should Stockwell sell an extra item (same as the extra bomb bag from US/JP versions) for 600 rupees?"""
 
+    display_name = "Extra Shop Item"
+
 
 class NonElementDungeons(Choice):
     """Should dungeons that don't have elements restrict the items that can be placed in them?
@@ -659,6 +713,8 @@ class NonElementDungeons(Choice):
 
 class StartingHearts(Range):
     """How much health should you start with?"""
+
+    display_name = "Starting Hearts"
     range_start = 1
     range_end = 20
     default = 3
@@ -668,6 +724,8 @@ class HeartContainerAmount(Range):
     """How many Heart Containers should be placed in the world?
     If there are enough Heart Containers to reach 10 Hearts without any Piece of Hearts,
     then Piece of Hearts will be marked Useful instead of Progression"""
+
+    display_name = "Heart Containers"
     range_start = 0
     range_end = 20
     default = 6
@@ -678,6 +736,8 @@ class PieceOfHeartAmount(Range):
     If there isn't enough Starting HP, Heart Containers & Piece of Hearts to reach 10 Hearts for the Lake Hylia Dojo,
     then Lake Hylia Dojo will be disabled.
     """
+
+    display_name = "Piece of Hearts"
     range_start = 0
     range_end = 20
     default = 11
@@ -685,6 +745,8 @@ class PieceOfHeartAmount(Range):
 
 class Biggoron(Choice):
     """Should the biggoron location be enabled and if so what should the requirement be?"""
+
+    display_name = "Shuffle Biggoron"
     option_disabled = 0
     option_shield = 1
     option_mirror_shield = 2
@@ -695,22 +757,33 @@ class Biggoron(Choice):
 
 class FillerItemsDistribution(ItemDict):
     """How frequently should each filler item appear? Traps will be removed automatically if they're disabled."""
+
     visibility = Visibility.complex_ui | Visibility.template
+    display_name = "Filler Items Distribution"
     default = {
-        TMCItem.RUPEES_1: 36, TMCItem.RUPEES_5: 49, TMCItem.RUPEES_20: 53,
-        TMCItem.RUPEES_50: 25, TMCItem.RUPEES_100: 18, TMCItem.RUPEES_200: 15,
-
+        TMCItem.RUPEES_1: 36,
+        TMCItem.RUPEES_5: 49,
+        TMCItem.RUPEES_20: 53,
+        TMCItem.RUPEES_50: 25,
+        TMCItem.RUPEES_100: 18,
+        TMCItem.RUPEES_200: 15,
         TMCItem.HEART_REFILL: 29,
-
-        TMCItem.BOMB_REFILL_5: 34, TMCItem.BOMB_REFILL_10: 22,
+        TMCItem.BOMB_REFILL_5: 34,
+        TMCItem.BOMB_REFILL_10: 22,
         TMCItem.BOMB_REFILL_30: 16,
-
-        TMCItem.ARROW_REFILL_5: 34, TMCItem.ARROW_REFILL_10: 22,
+        TMCItem.ARROW_REFILL_5: 34,
+        TMCItem.ARROW_REFILL_10: 22,
         TMCItem.ARROW_REFILL_30: 16,
-
-        TMCItem.TRAP_ICE: 8, TMCItem.TRAP_FIRE: 8, TMCItem.TRAP_ZAP: 8, TMCItem.TRAP_BOMB: 8,
-        TMCItem.TRAP_MONEY: 5, TMCItem.TRAP_STINK: 8, TMCItem.TRAP_ROPE: 8, TMCItem.TRAP_BAT: 8,
-        TMCItem.TRAP_LIKE: 8, TMCItem.TRAP_CURSE: 5,
+        TMCItem.TRAP_ICE: 8,
+        TMCItem.TRAP_FIRE: 8,
+        TMCItem.TRAP_ZAP: 8,
+        TMCItem.TRAP_BOMB: 8,
+        TMCItem.TRAP_MONEY: 5,
+        TMCItem.TRAP_STINK: 8,
+        TMCItem.TRAP_ROPE: 8,
+        TMCItem.TRAP_BAT: 8,
+        TMCItem.TRAP_LIKE: 8,
+        TMCItem.TRAP_CURSE: 5,
     }
 
 
@@ -719,6 +792,7 @@ class ReplicaToDBossDoor(Toggle):
     This only makes a difference if you have at least one ToD warp enabled or are using glitches.
     Disabling allows the Boss Door Clip and Octo Clip (if the Boss Door has not been opened) glitches to behave like they do in the vanilla game.
     """
+
     display_name = "Replica ToD Boss Door"
     rich_text_doc = True
     default = True
@@ -726,6 +800,7 @@ class ReplicaToDBossDoor(Toggle):
 
 class OcarinaOnSelect(Toggle):
     """Should your Select button be bound to use the Ocarina? Prevents Ezlo Buffering glitches"""
+
     display_name = "Ocarina on Select"
     rich_text_doc = True
     default = True
@@ -733,6 +808,7 @@ class OcarinaOnSelect(Toggle):
 
 class BootsOnL(Toggle):
     """Should your L button be bound to use the Pegasus Boots?"""
+
     display_name = "Boots on L"
     rich_text_doc = True
     default = True
@@ -740,6 +816,7 @@ class BootsOnL(Toggle):
 
 class BootsAsMinish(Toggle):
     """Should the Pegasus Boots still work while you're minish size?"""
+
     display_name = "Boots as Minish"
     rich_text_doc = True
     default = False
@@ -750,6 +827,7 @@ class BigOctorokManipulation(Toggle):
     This is meant to produce a similar result to the speedrunning RNG manipulation.
     Performing the RNG manipulation trick may be more difficult while receiving items from other worlds.
     """
+
     display_name = "Big Octorok Manipulation"
     rich_text_doc = True
     default = True
@@ -761,6 +839,7 @@ class RemoteItems(Toggle):
     If you crash or lose your savefile, all items should be sent back to you. (Dungeons still have to re-cleared)
     When finding items placed in world, your items will use the remote item sprite instead of their usual sprite.
     """
+
     display_name = "Remote Items"
     rich_text_doc = True
 
@@ -896,25 +975,17 @@ def get_option_data(world: "MinishCapWorld"):
         "trick_mitts_farm_rupees": 0,  # No, Yes
         "trick_bombable_dust": int(TMCTricks.BOMB_DUST in options.tricks),
         "trick_crenel_mushroom_gust_jar": int(TMCTricks.MUSHROOM in options.tricks),
-        "trick_light_arrows_break_objects": int(
-            TMCTricks.ARROWS_BREAK in options.tricks
-        ),
+        "trick_light_arrows_break_objects": int(TMCTricks.ARROWS_BREAK in options.tricks),
         "trick_bobombs_destroy_walls": int(TMCTricks.BOBOMB_WALLS in options.tricks),
-        "trick_like_like_cave_no_sword": int(
-            TMCTricks.LIKELIKE_SWORDLESS in options.tricks
-        ),
+        "trick_like_like_cave_no_sword": int(TMCTricks.LIKELIKE_SWORDLESS in options.tricks),
         "trick_boots_skip_town_guard": int(TMCTricks.BOOTS_GUARDS in options.tricks),
         "trick_beam_crenel_switch": int(TMCTricks.BEAM_CRENEL_SWITCH in options.tricks),
-        "trick_down_thrust_spikey_beetle": int(
-            TMCTricks.DOWNTHRUST_BEETLE in options.tricks
-        ),
+        "trick_down_thrust_spikey_beetle": int(TMCTricks.DOWNTHRUST_BEETLE in options.tricks),
         "trick_dark_rooms_no_lantern": int(TMCTricks.DARK_ROOMS in options.tricks),
         "trick_cape_extensions": int(TMCTricks.CAPE_EXTENSIONS in options.tricks),
         "trick_lake_minish_no_boots": int(TMCTricks.LAKE_MINISH in options.tricks),
         "trick_cabin_swim_no_lilypad": int(TMCTricks.CABIN_SWIM in options.tricks),
-        "trick_cloud_sharks_no_weapons": int(
-            TMCTricks.SHARKS_SWORDLESS in options.tricks
-        ),
+        "trick_cloud_sharks_no_weapons": int(TMCTricks.SHARKS_SWORDLESS in options.tricks),
         "trick_pow_2f_no_cane": int(TMCTricks.POW_NOCANE in options.tricks),
         "trick_pot_puzzle_no_bracelets": int(TMCTricks.POT_PUZZLE in options.tricks),
         "trick_fow_pot_gust_jar": int(TMCTricks.FOW_POT in options.tricks),
@@ -1010,11 +1081,10 @@ OPTION_GROUPS = [
             Biggoron,
         ],
     ),
+    OptionGroup("Difficulty", [StartingHearts, EarlyWeapon, WeaponBomb, WeaponBow, WeaponGust, WeaponLantern]),
     OptionGroup(
-        "Difficulty", [StartingHearts, EarlyWeapon, WeaponBomb, WeaponBow, WeaponGust, WeaponLantern]
-    ),
-    OptionGroup(
-        "Item Pool", [
+        "Item Pool",
+        [
             ProgressiveSword,
             ProgressiveBow,
             ProgressiveBoomerang,
@@ -1024,7 +1094,7 @@ OPTION_GROUPS = [
             PieceOfHeartAmount,
             RandomBottleContents,
             Traps,
-        ]
+        ],
     ),
     OptionGroup(
         "Fast Travel",
@@ -1045,14 +1115,7 @@ OPTION_GROUPS = [
     ),
     OptionGroup(
         "Quality of Life",
-        [
-            GoronJPPrices,
-            OcarinaOnSelect,
-            BootsOnL,
-            BootsAsMinish,
-            BigOctorokManipulation,
-            ReplicaToDBossDoor
-        ]
+        [GoronJPPrices, OcarinaOnSelect, BootsOnL, BootsAsMinish, BigOctorokManipulation, ReplicaToDBossDoor],
     ),
     OptionGroup("Advanced", [Tricks, FillerItemsDistribution]),
 ]
