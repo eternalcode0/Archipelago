@@ -235,9 +235,14 @@ def write_tokens(world: "MinishCapWorld", patch: MinishCapProcedurePatch) -> Non
 
     # Biggoron
     if options.shuffle_biggoron.value == Biggoron.option_disabled:
-        biggoron_flag = OVERWORLD_FLAGS[TMCEvent.BIGGORON_EATING]
-        patch.write_token(APTokenTypes.OR_8, biggoron_flag.offset, biggoron_flag.data)
-    elif options.shuffle_biggoron.value == Biggoron.option_mirror_shield:
+        patch.write_token(APTokenTypes.WRITE, 0x9404, bytes([0x00, 0x04, 0x00, 0x04]))
+    else:
+        patch.write_token(APTokenTypes.WRITE, 0x9404, bytes([0x03, 0x08]))
+        biggoron_item = world.get_location(TMCLocation.FALLS_BIGGORON).item
+        biggoron_item_byte, _ = get_item_bytes(world, biggoron_item)
+        patch.write_token(APTokenTypes.WRITE, 0x095b26, bytes([biggoron_item_byte, 0x21]))
+
+    if options.shuffle_biggoron.value == Biggoron.option_mirror_shield:
         # Normal shield doesn't matter
         patch.write_token(APTokenTypes.WRITE, 0x943E, bytes([0x00, 0x04, 0x00, 0x04]))
 
@@ -339,20 +344,7 @@ def write_tokens(world: "MinishCapWorld", patch: MinishCapProcedurePatch) -> Non
 
 
 def item_inject(world: "MinishCapWorld", patch: MinishCapProcedurePatch, location: LocationData, item: Item):
-    # item_byte_first = 0x00
-    item_byte_second = 0x00
-
-    if item.player == world.player and not world.options.remote_items.value:
-        # The item belongs to this player's world, it should use local item ids
-        item_byte_first = item_table[item.name].byte_ids[0]
-        item_byte_second = item_table[item.name].byte_ids[1]
-    elif item.classification not in EXTERNAL_ITEM_MAP:
-        # The item belongs to an external player's world but we don't recognize the classification
-        # default to green clock sprite, also used for progression item
-        item_byte_first = 0x18
-    else:
-        # The item belongs to an external player's world, use the given classification to choose the item sprite
-        item_byte_first = EXTERNAL_ITEM_MAP[item.classification](world.random)
+    item_byte_first, item_byte_second = get_item_bytes(world, item)
 
     if hasattr(location.rom_addr[0], "__iter__") and hasattr(location.rom_addr[1], "__iter__"):
         for loc1, loc2 in zip(location.rom_addr[0], location.rom_addr[1]):
@@ -370,6 +362,22 @@ def item_inject(world: "MinishCapWorld", patch: MinishCapProcedurePatch, locatio
             world.figurines_placed = world.figurines_placed + 1
         else:
             write_single_byte(patch, loc2, item_byte_second)
+
+
+def get_item_bytes(world: "MinishCapWorld", item: Item) -> (int, int):
+    if item.player == world.player and not world.options.remote_items.value:
+        # The item belongs to this player's world, it should use local item ids
+        item_byte_first = item_table[item.name].byte_ids[0]
+        item_byte_second = item_table[item.name].byte_ids[1]
+    elif item.classification not in EXTERNAL_ITEM_MAP:
+        # The item belongs to an external player's world but we don't recognize the classification
+        # default to green clock sprite, also used for progression item
+        item_byte_first = 0x18
+    else:
+        # The item belongs to an external player's world, use the given classification to choose the item sprite
+        item_byte_first = EXTERNAL_ITEM_MAP[item.classification](world.random)
+
+    return (item_byte_first, item_byte_second)
 
 
 def write_single_byte(patch: MinishCapProcedurePatch, address: int, byte: int):
