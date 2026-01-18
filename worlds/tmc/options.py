@@ -127,7 +127,7 @@ class GoldFusionAccess(Choice):
 
 
 class ProgressiveSword(DefaultOnToggle):
-    """Should swords be given progressively? You'll pick up the swords in the following order:
+    """Should swords be given progressively? You'll receive the swords in the following order:
 
     - Smith's Sword
     - White Sword
@@ -135,7 +135,7 @@ class ProgressiveSword(DefaultOnToggle):
     - White Sword (Three Elements)
     - Four Sword
 
-    When disabled you'll need the exact sword to create its dedicated number of clones.
+    When disabled you'll need the exact sword to create its normal number of clones.
     E.g. You'll need White Sword (Two Elements) to only create 2 clones even if already have Four Sword.
     """
 
@@ -171,7 +171,7 @@ class ProgressiveScroll(DefaultOnToggle):
     - Long Spin
     """
 
-    display_name = "Progressive Scroll"
+    display_name = "Progressive Spin Scroll"
     rich_text_doc = True
 
 
@@ -645,6 +645,8 @@ class PedReward(Choice):
     option_none = 0
     option_dhc_big_key = 1
     option_random_item = 2
+    alias_false = option_none
+    alias_true = option_dhc_big_key
 
 
 class CuccoRounds(Range):
@@ -712,7 +714,8 @@ class NonElementDungeons(Choice):
 
 
 class StartingHearts(Range):
-    """How much health should you start with?"""
+    """How much health should you start with?
+    If you start with 10 hearts or more, Heart Containers & Piece of Hearts will be Useful instead of Progression."""
 
     display_name = "Starting Hearts"
     range_start = 1
