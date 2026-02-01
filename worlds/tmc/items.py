@@ -525,10 +525,49 @@ item_groups: dict[str, set[str]] = {
     "Red Sword": {TMCItem.WHITE_SWORD_RED},
     "Blue Sword": {TMCItem.WHITE_SWORD_BLUE},
     "Heart Piece": {TMCItem.HEART_PIECE},
+    "Active Equipment": {
+        # Swords
+        TMCItem.PROGRESSIVE_SWORD, TMCItem.SMITHS_SWORD, TMCItem.WHITE_SWORD_GREEN, TMCItem.WHITE_SWORD_RED,
+        TMCItem.WHITE_SWORD_BLUE, TMCItem.FOUR_SWORD,
+        # Bows
+        TMCItem.PROGRESSIVE_BOW, TMCItem.BOW, TMCItem.LIGHT_ARROW,
+        # Boomerangs
+        TMCItem.PROGRESSIVE_BOOMERANG, TMCItem.BOOMERANG, TMCItem.MAGIC_BOOMERANG,
+        # Shields
+        TMCItem.PROGRESSIVE_SHIELD, TMCItem.SHIELD, TMCItem.MIRROR_SHIELD,
+        # Misc
+        TMCItem.GUST_JAR, TMCItem.CANE_OF_PACCI, TMCItem.MOLE_MITTS, TMCItem.LANTERN, TMCItem.BOMB_BAG,
+        TMCItem.REMOTE_BOMB, TMCItem.PEGASUS_BOOTS, TMCItem.ROCS_CAPE, TMCItem.OCARINA,
+    },
+    "Passive Equipment": {TMCItem.QUIVER, TMCItem.GRIP_RING, TMCItem.POWER_BRACELETS, TMCItem.FLIPPERS,
+                          TMCItem.BOW_BUTTERFLY, TMCItem.DIG_BUTTERFLY, TMCItem.SWIM_BUTTERFLY},
+    "Equipment": {
+        # Swords
+        TMCItem.PROGRESSIVE_SWORD, TMCItem.SMITHS_SWORD, TMCItem.WHITE_SWORD_GREEN, TMCItem.WHITE_SWORD_RED,
+        TMCItem.WHITE_SWORD_BLUE, TMCItem.FOUR_SWORD,
+        # Bows
+        TMCItem.PROGRESSIVE_BOW, TMCItem.BOW, TMCItem.LIGHT_ARROW,
+        # Boomerangs
+        TMCItem.PROGRESSIVE_BOOMERANG, TMCItem.BOOMERANG, TMCItem.MAGIC_BOOMERANG,
+        # Shields
+        TMCItem.PROGRESSIVE_SHIELD, TMCItem.SHIELD, TMCItem.MIRROR_SHIELD,
+        # Misc
+        TMCItem.GUST_JAR, TMCItem.CANE_OF_PACCI, TMCItem.MOLE_MITTS, TMCItem.LANTERN, TMCItem.BOMB_BAG,
+        TMCItem.REMOTE_BOMB, TMCItem.PEGASUS_BOOTS, TMCItem.ROCS_CAPE, TMCItem.OCARINA,
+        # Passive
+        TMCItem.QUIVER, TMCItem.GRIP_RING, TMCItem.POWER_BRACELETS, TMCItem.FLIPPERS, TMCItem.BOW_BUTTERFLY,
+        TMCItem.DIG_BUTTERFLY, TMCItem.SWIM_BUTTERFLY
+    },
+    "Butterflies": {TMCItem.BOW_BUTTERFLY, TMCItem.DIG_BUTTERFLY, TMCItem.SWIM_BUTTERFLY},
+    "Books": {TMCItem.RED_BOOK, TMCItem.BLUE_BOOK, TMCItem.GREEN_BOOK},
+    "Red Book": {TMCItem.RED_BOOK},
+    "Blue Book": {TMCItem.BLUE_BOOK},
+    "Green Book": {TMCItem.GREEN_BOOK},
+    "Quest": {TMCItem.JABBER_NUT, TMCItem.LONLON_KEY, TMCItem.GRAVEYARD_KEY, TMCItem.WAKEUP_MUSHROOM,
+              TMCItem.DOG_FOOD, TMCItem.CARLOV_MEDAL, TMCItem.TINGLE_TROPHY, TMCItem.RED_BOOK, TMCItem.BLUE_BOOK,
+              TMCItem.GREEN_BOOK},
     "Rupees": {TMCItem.RUPEES_1, TMCItem.RUPEES_5, TMCItem.RUPEES_20, TMCItem.RUPEES_50, TMCItem.RUPEES_100,
                TMCItem.RUPEES_200},
-    "Traps": {TMCItem.TRAP_ICE, TMCItem.TRAP_FIRE, TMCItem.TRAP_ZAP, TMCItem.TRAP_BOMB, TMCItem.TRAP_MONEY,
-              TMCItem.TRAP_STINK, TMCItem.TRAP_ROPE, TMCItem.TRAP_BAT, TMCItem.TRAP_LIKE, TMCItem.TRAP_CURSE},
     "Kinstones": {TMCItem.KINSTONE_GOLD_CLOUD, TMCItem.KINSTONE_GOLD_SWAMP, TMCItem.KINSTONE_GOLD_FALLS,
                   TMCItem.KINSTONE_RED_W, TMCItem.KINSTONE_RED_ANGLE, TMCItem.KINSTONE_RED_E,
                   TMCItem.KINSTONE_BLUE_L, TMCItem.KINSTONE_BLUE_6,
@@ -569,4 +608,8 @@ item_groups: dict[str, set[str]] = {
     "PoW Keys": {TMCItem.BIG_KEY_POW, TMCItem.SMALL_KEY_POW},
     "DHC Items": {TMCItem.DUNGEON_MAP_DHC, TMCItem.DUNGEON_COMPASS_DHC, TMCItem.BIG_KEY_DHC, TMCItem.SMALL_KEY_DHC},
     "DHC Keys": {TMCItem.BIG_KEY_DHC, TMCItem.SMALL_KEY_DHC},
+    "Progression": {name for name, data in item_table.items() if data.classification == ItemClassification.progression},
+    "Useful": {name for name, data in item_table.items() if data.classification == ItemClassification.useful},
+    "Filler": {name for name, data in item_table.items() if data.classification == ItemClassification.filler},
+    "Traps": {name for name, data in item_table.items() if data.classification == ItemClassification.trap},
 }

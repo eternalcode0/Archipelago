@@ -243,6 +243,14 @@ class MinishCapWorld(World):
 
         self.multiworld.itempool.extend(self.item_pool)
         filler = [self.create_filler() for _ in range(total_locations - len(self.item_pool) - len(self.pre_fill_pool))]
+        # Check for restrictive settings (usually caused by non_element_dungeons: excluded)
+        if self.multiworld.players == 1 and len(self.options.exclude_locations.value) > len(filler):
+            error_message = ("Restrictive settings for slot '%s'! Not enough filler for excluded locations. "
+            "Geneartion *may* work with more attempts but for better odds try adding more locations to shuffle, "
+            "removing extra items such as figurines & heart containers/pieces, "
+            "or setting non_element_dungeons to standard. "
+            "This error won't show for multiworlds with more than one slot but may still cause rare generation issues.")
+            raise OptionError(error_message % self.player_name)
         self.multiworld.itempool.extend(filler)
 
     # local_items overrides non_local_items
