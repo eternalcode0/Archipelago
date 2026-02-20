@@ -300,6 +300,17 @@ def write_tokens(world: "MinishCapWorld", patch: MinishCapProcedurePatch) -> Non
     for request in no_fusions_requests:
         patch.write_token(APTokenTypes.WRITE, request, bytes([0xF2]))
 
+    # Combined Kinstones
+    if options.gold_fusion_access.value == FusionAccess.option_combined:
+        patch.write_token(APTokenTypes.WRITE, 0x0C9415, bytes([8]))
+        patch.write_token(APTokenTypes.WRITE, 0x0C9419, bytes([1]))
+        patch.write_token(APTokenTypes.WRITE, 0x0C941D, bytes([8]))
+        patch.write_token(APTokenTypes.WRITE, 0x0C9421, bytes([1]))
+        patch.write_token(APTokenTypes.WRITE, 0x0C9425, bytes([8]))
+        patch.write_token(APTokenTypes.WRITE, 0x0C9429, bytes([1]))
+        patch.write_token(APTokenTypes.WRITE, 0x0C942D, bytes([8]))
+        patch.write_token(APTokenTypes.WRITE, 0x0C9431, bytes([1]))
+
     # Cucco/Goron Rounds
     cucco_complete = int(world.options.cucco_rounds.value == 0)
     cucco_skipped = 10 - world.options.cucco_rounds.value if world.options.cucco_rounds.value > 0 else 9
@@ -315,6 +326,38 @@ def write_tokens(world: "MinishCapWorld", patch: MinishCapProcedurePatch) -> Non
     starting_hp = world.options.starting_hearts * 8
     patch.write_token(APTokenTypes.WRITE, flag_group_by_name[TMCFlagGroup.LINKS_CURRENT_HEALTH], bytes([starting_hp]))
     patch.write_token(APTokenTypes.WRITE, flag_group_by_name[TMCFlagGroup.LINKS_MAX_HEALTH], bytes([starting_hp]))
+
+    # Multipliers
+    patch.write_token(APTokenTypes.WRITE, 0xFF0530, bytes([
+        options.clouds_kinstone_multiplier.value,
+        options.clouds_kinstone_multiplier.value,
+        options.clouds_kinstone_multiplier.value,
+        options.clouds_kinstone_multiplier.value,
+        options.clouds_kinstone_multiplier.value,
+        options.swamp_kinstone_multiplier.value,
+        options.swamp_kinstone_multiplier.value,
+        options.swamp_kinstone_multiplier.value,
+        options.falls_kinstone_multiplier.value,
+        0, # Red W
+        0, # Red V
+        0, # Red E
+        0, # Blue L
+        0, # Blue S
+        0, # Green C
+        0, # Green G
+        0, # Green P
+        0xFF,  # spacers for an ALIGN 4
+        0xFF,  # spacers for an ALIGN 4
+        0xFF,  # spacers for an ALIGN 4
+        1, # universal key
+        options.dws_key_multiplier.value,
+        options.cof_key_multiplier.value,
+        options.fow_key_multiplier.value,
+        options.tod_key_multiplier.value,
+        options.pow_key_multiplier.value,
+        options.dhc_key_multiplier.value,
+        options.rc_key_multiplier.value,
+    ]))
 
     # Patch Items into Locations
     for location_name, loc in location_table_by_name.items():

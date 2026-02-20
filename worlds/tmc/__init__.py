@@ -41,6 +41,7 @@ from .options import (
     MinishCapOptions,
     NonElementDungeons,
     PedReward,
+    FusionAccess,
     ShuffleElements,
     get_option_data,
 )
@@ -132,6 +133,16 @@ class MinishCapWorld(World):
         enabled_pools.update([f"cucco:{round_num}" for round_num in range(
             10, 10 - options.cucco_rounds.value, -1)])
         enabled_pools.update([f"goron:{round_num}" for round_num in range(1, options.goron_sets.value + 1)])
+
+        # Option correction for fusions:
+        if options.gold_fusion_access.value in {FusionAccess.option_open, FusionAccess.option_closed}:
+            options.clouds_kinstone_multiplier.value = 0
+            options.swamp_kinstone_multiplier.value = 0
+            options.falls_kinstone_multiplier.value = 0
+        elif options.gold_fusion_access == FusionAccess.option_combined:
+            options.swamp_kinstone_multiplier.value = 0
+            options.falls_kinstone_multiplier.value = 0
+
 
         # Default dhc_access to closed when it's been set to ped with goal vaati disabled.
         # There's too many flags to manage to allow DHC to open after ped completes and vaati is slain.

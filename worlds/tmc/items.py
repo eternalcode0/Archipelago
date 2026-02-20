@@ -1,8 +1,9 @@
 from dataclasses import dataclass
+import math
 from typing import TYPE_CHECKING
 
 from BaseClasses import ItemClassification
-from .options import DHCAccess, DungeonItem, Goal, ShuffleElements, DungeonWarp, PedReward, DungeonCompasses, DungeonMaps
+from .options import DHCAccess, DungeonItem, Goal, ShuffleElements, DungeonWarp, PedReward, DungeonCompasses, DungeonMaps, FusionAccess, MinishCapOptions
 from .constants import TMCItem, TMCLocation, MinishCapItem
 
 if TYPE_CHECKING:
@@ -58,7 +59,7 @@ def pool_bottles() -> list[str]:
     return [TMCItem.EMPTY_BOTTLE] * 4
 
 
-def pool_baseitems() -> list[str]:
+def pool_baseitems(world: "MinishCapWorld") -> list[str]:
     return [
         *[TMCItem.BOMB_BAG] * 4,
         TMCItem.REMOTE_BOMB,
@@ -103,7 +104,7 @@ def pool_baseitems() -> list[str]:
         TMCItem.GREEN_BOOK,
         TMCItem.BLUE_BOOK,
 
-        *(pool_kinstone_gold()),
+        *(pool_kinstone_gold(world)),
     ]
 
 
@@ -193,33 +194,49 @@ def pool_smallkeys(world: "MinishCapWorld") -> list[str]:
     return keys
 
 
-def pool_kinstone_gold() -> list[str]:
-    return [*[TMCItem.KINSTONE_GOLD_CLOUD] * 5, *[TMCItem.KINSTONE_GOLD_SWAMP] * 3, TMCItem.KINSTONE_GOLD_FALLS]
+def pool_kinstone_gold(world: "MinishCapWorld") -> list[str]:
+    options = world.options
+    kinstones = []
+    if options.gold_fusion_access.value == FusionAccess.option_combined:
+        return [TMCItem.KINSTONE_GOLD_CLOUD] * math.ceil(9 / options.clouds_kinstone_multiplier)
+    # assuming FusionAccess.option_vanilla
+    kinstones.extend([TMCItem.KINSTONE_GOLD_CLOUD] * math.ceil(5 / options.clouds_kinstone_multiplier))
+    kinstones.extend([TMCItem.KINSTONE_GOLD_SWAMP] * math.ceil(3 / options.swamp_kinstone_multiplier))
+    kinstones.append(TMCItem.KINSTONE_GOLD_FALLS)
+    return kinstones
 
 
-def pool_kinstone_red() -> list[str]:
+def pool_kinstone_red(options: MinishCapOptions) -> list[str]:
     return [*[TMCItem.KINSTONE_RED_W] * 9, *[TMCItem.KINSTONE_RED_ANGLE] * 7, *[TMCItem.KINSTONE_RED_E] * 8]
 
 
-def pool_kinstone_blue() -> list[str]:
+def pool_kinstone_blue(options: MinishCapOptions) -> list[str]:
     return [*[TMCItem.KINSTONE_BLUE_L] * 9, *[TMCItem.KINSTONE_BLUE_6] * 9]
 
 
-def pool_kinstone_green() -> list[str]:
+def pool_kinstone_green(options: MinishCapOptions) -> list[str]:
     return [*[TMCItem.KINSTONE_GREEN_ANGLE] * 17, *[TMCItem.KINSTONE_GREEN_SQUARE] * 16, *[TMCItem.KINSTONE_GREEN_P] * 16]
 
 
 def get_item_pool(world: "MinishCapWorld") -> list[MinishCapItem]:
     player = world.player
     multiworld = world.multiworld
-    item_pool = pool_baseitems()
+    options = world.options
+    item_pool = pool_baseitems(world)
 
-    if world.options.early_weapon.value:
-        weapon_pool = [TMCItem.PROGRESSIVE_SWORD, TMCItem.SMITHS_SWORD]
-        if world.options.weapon_bomb.value in {1, 2}:
-            weapon_pool.extend([TMCItem.BOMB_BAG])
-        if world.options.weapon_bow.value:
-            weapon_pool.extend([TMCItem.PROGRESSIVE_BOW, TMCItem.BOW])
+    if options.early_weapon.value:
+        weapon_pool = []
+        if options.progressive_sword.value:
+            weapon_pool.append(TMCItem.PROGRESSIVE_SWORD)
+        else:
+            weapon_pool.append(TMCItem.SMITHS_SWORD)
+        if options.weapon_bomb.value in {1, 2}:
+            weapon_pool.append(TMCItem.BOMB_BAG)
+        if options.weapon_bow.value:
+            if options.progressive_bow.value:
+                weapon_pool.append(TMCItem.PROGRESSIVE_BOW)
+            else:
+                weapon_pool.append(TMCItem.BOW)
         weapon_choice = world.random.choice(weapon_pool)
         multiworld.local_early_items[player][weapon_choice] = 1
 
@@ -230,31 +247,31 @@ def get_item_pool(world: "MinishCapWorld") -> list[MinishCapItem]:
     item_pool.extend(pool_scroll(world))
     item_pool.extend(pool_health(world))
 
-    if world.options.dungeon_big_keys.value == DungeonItem.option_anywhere:
+    if options.dungeon_big_keys.value == DungeonItem.option_anywhere:
         item_pool.extend(pool_bigkeys(world))
         item_pool.append(TMCItem.BIG_KEY_TOD)
-    if world.options.dungeon_small_keys.value == DungeonItem.option_anywhere:
+    if options.dungeon_small_keys.value == DungeonItem.option_anywhere:
         item_pool.extend(pool_smallkeys(world))
-    if world.options.dungeon_compasses.value == DungeonItem.option_anywhere:
+    if options.dungeon_compasses.value == DungeonItem.option_anywhere:
         item_pool.extend(pool_compass(world))
-    if world.options.dungeon_maps.value == DungeonItem.option_anywhere:
+    if options.dungeon_maps.value == DungeonItem.option_anywhere:
         item_pool.extend(pool_dungeonmaps(world))
 
-    if world.options.figurine_amount > 0:
-        item_pool.extend([TMCItem.FIGURINE] * world.options.figurine_amount.value)
+    if options.figurine_amount > 0:
+        item_pool.extend([TMCItem.FIGURINE] * options.figurine_amount.value)
 
-    if world.options.ped_reward == PedReward.option_dhc_big_key:
+    if options.ped_reward == PedReward.option_dhc_big_key:
         world.get_location(TMCLocation.PEDESTAL_REQUIREMENT_REWARD).place_locked_item(world.create_item(TMCItem.BIG_KEY_DHC))
 
     # ToD is stupid, need to place the big key manually
-    if world.options.dungeon_big_keys.value == DungeonItem.option_own_dungeon and \
-       TMCItem.BIG_KEY_TOD not in world.options.start_inventory_from_pool.value.keys() and \
-        world.options.dungeon_warp_tod.value == DungeonWarp.option_none:
+    if options.dungeon_big_keys.value == DungeonItem.option_own_dungeon and \
+       TMCItem.BIG_KEY_TOD not in options.start_inventory_from_pool.value.keys() and \
+        options.dungeon_warp_tod.value == DungeonWarp.option_none:
         location = world.random.choice([TMCLocation.DROPLETS_ENTRANCE_B2_EAST_ICEBLOCK,
                                         TMCLocation.DROPLETS_ENTRANCE_B2_WEST_ICEBLOCK])
         world.get_location(location).place_locked_item(world.create_item(TMCItem.BIG_KEY_TOD))
 
-    if not world.options.random_bottle_contents.value:
+    if not options.random_bottle_contents.value:
         item_pool.extend(pool_bottles())
     else:
         selected_bottles = []
@@ -265,7 +282,7 @@ def get_item_pool(world: "MinishCapWorld") -> list[MinishCapItem]:
 
         item_pool.extend(selected_bottles)
 
-    if world.options.shuffle_elements.value is ShuffleElements.option_anywhere:
+    if options.shuffle_elements.value is ShuffleElements.option_anywhere:
         item_pool.extend(pool_elements())
 
     return [world.create_item(item) for item in item_pool]
