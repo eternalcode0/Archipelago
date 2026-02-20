@@ -110,18 +110,19 @@ class GreenFusionAccess(Choice):
 class GoldFusionAccess(Choice):
     """How/when are the Gold Kinstone Fusions accessible?
 
-    - Closed: Gold Kinstones aren't in the item pool and none of their fusions are accessible
     - Vanilla: Gold Kinstones are added to the item pool and their fusions must be completed as normal
     - Combined: Same as Vanilla except all Gold Fusions are changed to request only 'Kinstone Cloud Tops'
-    - Open: Gold Kinstones aren't in the item pool and all of their fusions are accessible
     """
+    # - Closed: Gold Kinstones aren't in the item pool and none of their fusions are accessible
+    # - Open: Gold Kinstones aren't in the item pool and all of their fusions are accessible
 
-    visibility = Visibility.none
+    display_name = "Gold Fusion Access"
     rich_text_doc = True
+
     value: int
     # option_closed = 0
     option_vanilla = 1
-    # option_combined = 2
+    option_combined = 2
     # option_open = 3
     default = option_vanilla
 
@@ -847,6 +848,106 @@ class RemoteItems(Toggle):
     rich_text_doc = True
 
 
+class CloudKinstoneMultiplier(Range):
+    """How many Cloud Kinstones should be added to your bag each time you get 1?
+    If gold combined kinstones are enabled, this setting will be used for the all gold kinstones.
+    This also reduces the number of kinstones in the pool to match the amount required rounded up.
+        Ex, When set to 2 without combined kinstones, there will be 3 Clouds Kinstones in the pool that each give you 2 Clouds Kinstones."""
+    display_name = "Cloud Kinstone Multiplier"
+    rich_text_doc = True
+
+    default = 1
+    range_start = 1
+    range_end = 9
+
+
+class SwampKinstoneMultiplier(Range):
+    """How many Swamp Kinstones should be added to your bag each time you get 1?
+    This setting is ignored if using combined gold kinstones"""
+    display_name = "Swamp Kinstone Multiplier"
+    rich_text_doc = True
+
+    default = 1
+    range_start = 1
+    range_end = 3
+
+
+class FallsKinstoneMultiplier(Range):
+    """How many Falls Kinstones should be added to your bag each time you get 1?
+    This setting is ignored if using combined gold kinstones"""
+    # This is only here for easy access when writing overriding for open/closed fusions and writing to the rom
+    visibility = Visibility.none
+    display_name = "Falls Kinstone Multiplier"
+    rich_text_doc = True
+
+    default = 1
+    range_start = 1
+    range_end = 1
+
+
+class DWSKeyMultiplier(Range):
+    """How many Small Keys (DWS) should be added to your inventory each time you get 1?"""
+    display_name = "DWS Key Multiplier"
+
+    default = 1
+    range_start = 1
+    range_end = 4
+
+
+class CoFKeyMultiplier(Range):
+    """How many Small Keys (CoF) should be added to your inventory each time you get 1?"""
+    display_name = "CoF Key Multiplier"
+
+    default = 1
+    range_start = 1
+    range_end = 2
+
+
+class FoWKeyMultiplier(Range):
+    """How many Small Keys (FoW) should be added to your inventory each time you get 1?"""
+    display_name = "FoW Key Multiplier"
+
+    default = 1
+    range_start = 1
+    range_end = 4
+
+
+class ToDKeyMultiplier(Range):
+    """How many Small Keys (ToD) should be added to your inventory each time you get 1?"""
+    display_name = "ToD Key Multiplier"
+
+    default = 1
+    range_start = 1
+    range_end = 4
+
+
+class RCKeyMultiplier(Range):
+    """How many Small Keys (RC) should be added to your inventory each time you get 1?"""
+    display_name = "RC Key Multiplier"
+
+    default = 1
+    range_start = 1
+    range_end = 3
+
+
+class PoWKeyMultiplier(Range):
+    """How many Small Keys (PoW) should be added to your inventory each time you get 1?"""
+    display_name = "PoW Key Multiplier"
+
+    default = 1
+    range_start = 1
+    range_end = 6
+
+
+class DHCKeyMultiplier(Range):
+    """How many Small Keys (DHC) should be added to your inventory each time you get 1?"""
+    display_name = "DHC Key Multiplier"
+
+    default = 1
+    range_start = 1
+    range_end = 5
+
+
 @dataclass
 class MinishCapOptions(PerGameCommonOptions):
     # AP settings / DL settings
@@ -902,6 +1003,17 @@ class MinishCapOptions(PerGameCommonOptions):
     starting_hearts: StartingHearts
     heart_containers: HeartContainerAmount
     piece_of_hearts: PieceOfHeartAmount
+    # Multipliers
+    clouds_kinstone_multiplier: CloudKinstoneMultiplier
+    swamp_kinstone_multiplier: SwampKinstoneMultiplier
+    falls_kinstone_multiplier: FallsKinstoneMultiplier
+    dws_key_multiplier: DWSKeyMultiplier
+    cof_key_multiplier: CoFKeyMultiplier
+    fow_key_multiplier: FoWKeyMultiplier
+    tod_key_multiplier: ToDKeyMultiplier
+    rc_key_multiplier: RCKeyMultiplier
+    pow_key_multiplier: PoWKeyMultiplier
+    dhc_key_multiplier: DHCKeyMultiplier
     # Logic Settings
     dungeon_warp_dws: WarpDWS
     dungeon_warp_cof: WarpCoF
@@ -1047,6 +1159,16 @@ SLOT_DATA_OPTIONS = [
     "wind_crest_castor",
     "wind_crest_south_field",
     "wind_crest_minish_woods",
+    "clouds_kinstone_multiplier",
+    "swamp_kinstone_multiplier",
+    "falls_kinstone_multiplier",
+    "dws_key_multiplier",
+    "cof_key_multiplier",
+    "fow_key_multiplier",
+    "tod_key_multiplier",
+    "rc_key_multiplier",
+    "pow_key_multiplier",
+    "dhc_key_multiplier",
     "tricks",
 ]
 """The yaml options that'll be transfered into slot_data for the tracker"""
@@ -1054,10 +1176,10 @@ SLOT_DATA_OPTIONS = [
 
 OPTION_GROUPS = [
     OptionGroup("Goal", [Goal, DHCAccess, PedElements, PedSword, PedDungeons, PedFigurines, FigurineAmount]),
-    # OptionGroup(
-    #     "Fusions",
-    #     [GoldFusionAccess, RedFusionAccess, GreenFusionAccess, BlueFusionAccess],
-    # ),
+    OptionGroup(
+        "Fusions",
+        [GoldFusionAccess] # , RedFusionAccess, GreenFusionAccess, BlueFusionAccess],
+    ),
     OptionGroup(
         "Dungeon Shuffle",
         [
@@ -1115,6 +1237,21 @@ OPTION_GROUPS = [
             WindCrestSmith,
             WindCrestMinish,
         ],
+    ),
+    OptionGroup(
+        "Item Multipliers",
+        [
+            CloudKinstoneMultiplier,
+            SwampKinstoneMultiplier,
+
+            DWSKeyMultiplier,
+            CoFKeyMultiplier,
+            FoWKeyMultiplier,
+            ToDKeyMultiplier,
+            RCKeyMultiplier,
+            PoWKeyMultiplier,
+            DHCKeyMultiplier
+        ]
     ),
     OptionGroup(
         "Quality of Life",

@@ -1,3 +1,4 @@
+import math
 from collections.abc import Callable
 from typing import TYPE_CHECKING
 
@@ -5,7 +6,7 @@ from BaseClasses import CollectionState
 from worlds.generic.Rules import CollectionRule, add_rule
 
 from .constants import TMCEvent, TMCItem, TMCLocation, TMCRegion, TMCTricks
-from .options import Biggoron, DHCAccess, DungeonItem, DungeonWarp, Goal, MinishCapOptions
+from .options import Biggoron, DHCAccess, DungeonItem, DungeonWarp, Goal, MinishCapOptions, FusionAccess
 
 if TYPE_CHECKING:
     from . import MinishCapWorld
@@ -124,7 +125,7 @@ class MinishCapRules:
             (TMCRegion.CASTOR_WILDS, TMCRegion.WESTERN_WOODS):
                 self.logic_or([self.has_any([TMCItem.PEGASUS_BOOTS, TMCItem.ROCS_CAPE]), self.has_bow()]),
             (TMCRegion.CASTOR_WILDS, TMCRegion.WIND_RUINS):
-                self.logic_and([self.has(TMCItem.KINSTONE_GOLD_SWAMP, 3),
+                self.logic_and([self.swamp_fusion_cost(),
                                 self.logic_or([self.has(TMCItem.ROCS_CAPE),
                                                self.logic_and([self.has(TMCItem.PEGASUS_BOOTS),
                                                                self.logic_or([self.swamp_crest(), self.has_bow(),
@@ -141,14 +142,14 @@ class MinishCapRules:
                 self.logic_and([self.has_weapon(), self.has(TMCItem.SMALL_KEY_RC, 3), self.has(TMCItem.LANTERN)]),
 
             (TMCRegion.FALLS_ENTRANCE, TMCRegion.MIDDLE_FALLS):
-                self.logic_and([self.has(TMCItem.KINSTONE_GOLD_FALLS), self.dark_room()]),
+                self.logic_and([self.falls_fusion_cost(), self.dark_room()]),
             (TMCRegion.MIDDLE_FALLS, TMCRegion.FALLS_ENTRANCE): self.has(TMCItem.FLIPPERS),
             (TMCRegion.MIDDLE_FALLS, TMCRegion.UPPER_FALLS): self.has(TMCItem.GRIP_RING),
             (TMCRegion.UPPER_FALLS, TMCRegion.MIDDLE_FALLS): self.has(TMCItem.GRIP_RING),
             (TMCRegion.UPPER_FALLS, TMCRegion.CLOUDS): self.has(TMCItem.GRIP_RING),
             (TMCRegion.CLOUDS, TMCRegion.UPPER_FALLS): self.has(TMCItem.GRIP_RING),
             (TMCRegion.CLOUDS, TMCRegion.WIND_TRIBE):
-                self.logic_and([self.has(TMCItem.KINSTONE_GOLD_CLOUD, 5),
+                self.logic_and([self.cloud_fusion_cost(),
                                 self.has_any([TMCItem.MOLE_MITTS, TMCItem.ROCS_CAPE])]),
             (TMCRegion.WIND_TRIBE, TMCRegion.CLOUDS): None,
             (TMCRegion.WIND_TRIBE, TMCRegion.DUNGEON_POW_ENTRANCE): None,
@@ -1553,6 +1554,23 @@ class MinishCapRules:
         if needed_wallets is None:
             return self.no_access()
         return self.has(TMCItem.BIG_WALLET, needed_wallets)
+
+    def cloud_fusion_cost(self) -> CollectionRule:
+        return self.logic_option(self.options.gold_fusion_access.value == FusionAccess.option_combined,
+                                 self.has(TMCItem.KINSTONE_GOLD_CLOUD, math.ceil(9 / self.options.clouds_kinstone_multiplier)),
+                                 self.has(TMCItem.KINSTONE_GOLD_CLOUD, math.ceil(5 / self.options.clouds_kinstone_multiplier)))
+
+    def swamp_fusion_cost(self) -> CollectionRule:
+        if self.options.gold_fusion_access.value == FusionAccess.option_combined:
+            return self.has(TMCItem.KINSTONE_GOLD_CLOUD, math.ceil(9 / self.options.clouds_kinstone_multiplier))
+        return self.has(TMCItem.KINSTONE_GOLD_SWAMP, math.ceil(3 / self.options.swamp_kinstone_multiplier))
+
+    def falls_fusion_cost(self) -> CollectionRule:
+        if self.options.gold_fusion_access.value == FusionAccess.option_combined:
+            if self.options.wind_crest_clouds.value:
+                return self.has(TMCItem.KINSTONE_GOLD_CLOUD, math.ceil(9 / self.options.clouds_kinstone_multiplier))
+            return self.has(TMCItem.KINSTONE_GOLD_CLOUD, math.ceil(4 / self.options.clouds_kinstone_multiplier))
+        return self.has(TMCItem.KINSTONE_GOLD_FALLS, 1)
 
     def blow_dust(self) -> CollectionRule:
         return self.logic_option(TMCTricks.BOMB_DUST in self.world.options.tricks,
