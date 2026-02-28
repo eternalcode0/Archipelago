@@ -595,7 +595,7 @@ class TMCLocation:
     RUINS_BOMB_CAVE_CHEST = "Ruins Bomb Cave Chest"
     RUINS_MINISH_HOME_CHEST = "Ruins Minish Home Chest"
     RUINS_PILLARS_FUSION_CHEST = "Ruins Pillars Fusion Chest"
-    RUINS_BEAN_STALK_FUSION_BIG_CHEST = "Ruins Bean Stalk Fusion Big Chest"
+    RUINS_BEAN_STALK_FUSION_BIG_CHEST = "Ruins Beanstalk Fusion Big Chest"
     RUINS_CRACK_FUSION_CHEST = "Ruins Crack Fusion Chest"
     RUINS_MINISH_CAVE_HP = "Ruins Minish Cave HP"
     RUINS_ARMOS_KILL_LEFT_CHEST = "Ruins Armos Kill Left Chest"
