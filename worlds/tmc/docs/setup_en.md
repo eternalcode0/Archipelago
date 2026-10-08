@@ -5,6 +5,9 @@
 - [Archipelago](https://github.com/ArchipelagoMW/Archipelago/releases)
 - An EU copy of The Legend of Zelda: The Minish Cap. The Archipelago community cannot provide this.
 - [BizHawk](https://tasvideos.org/BizHawk/ReleaseHistory) 2.7 or later
+  - Detailed installation instructions for BizHawk can be found at the above link.
+    - Windows users must run the prereq installer first, which can also be found at the above link.
+    - Linux users download a separate archive. Any time you need to run or locate `EmuHawk.exe` in this guide, run the provided `EmuHawkMono.sh` shell script instead.
 
 ## Optional Software
 
@@ -26,20 +29,19 @@ clear it.
 
 ## Installing the apworld
 
-How to use an .apworld:
-Place the .apworld in your Archipelago/custom_worlds folder, or double-click
-the .apworld to do so automatically.
-Use ArchipelagoLauncher.exe to open the Launcher, and click on Generate
-Template Options to create template yamls for your custom .apworlds.
-Place the desired player yamls in the Players folder, and customize them as
+### How to use an .apworld:
+
+1. Download the .apworld from [the GitHub Releases](https://github.com/eternalcode0/Archipelago/releases/latest).
+1. Place the .apworld in your `Archipelago/custom_worlds` folder, or double-click
+the `.apworld` to do so automatically.
+2. Use `ArchipelagoLauncher.exe` to open the Launcher, and click on __Generate
+Template Options__ to create template yamls for your custom .apworlds.
+3. Place the desired player yamls in the `Archipelago/Players` folder, and customize them as
 you see fit.
-Use ArchipelagoGenerate.exe to generate the game.
-Upload the generated game (in the output folder) on the website at
-https://archipelago.gg/uploads and create a new room.
-Refer to the individual game's setup guide for further instruction (usually in
-the pins for the game's ⁠future-game-design⁠ post or its github).
-Patch files can be found inside the zipped file in your output folder instead
-of the room page.
+4. Use `ArchipelagoGenerate.exe` to generate the game.
+5. Find the generated game in `Archipelago/output` (file looks like "AP_{seed number}.zip"), and upload the generated game on the website at
+[archipelago.gg/uploads](https://archipelago.gg/uploads) and create a new room.
+ - This .zip file also contains the patch file, ending in `.aptmc`, you will use in the ArchipelagoLauncher.
 
 ## Generating and Patching a Game
 
@@ -71,7 +73,7 @@ you can re-open it from the launcher.
 5. Navigate to your Archipelago install folder and open `data/lua/connector_bizhawk_generic.lua`.
 6. The emulator and client will eventually connect to each other. The BizHawk Client window should indicate that it
 connected and recognized The Minish Cap.
-7. To connect the client to the server, enter your room's address and port (e.g. `archipelago.gg:38281`) into the
+7. To connect the client to the server, enter your room's __address__ and __port__ (e.g. `archipelago.gg:38281`) into the
 top text field of the client and click Connect.
 
 You should now be able to receive and send items. You'll need to do these steps every time you want to reconnect. It is
